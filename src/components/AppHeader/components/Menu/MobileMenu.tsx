@@ -24,7 +24,6 @@ export default function MobileMenu() {
   const [open, setOpen] = useState(false);
   const [isChildrenOpen, setIsChildrenOpen] = useState(false);
   const { t } = useTranslation();
-  const isMobile = useMediaQuery(`(max-width: 1400px)`);
   return (
     <Drawer
       open={open}
@@ -34,7 +33,7 @@ export default function MobileMenu() {
     >
       <DrawerTrigger asChild>
         <PixelBorderBlock
-          className={classNames("cursor-pointer", isMobile ? "block" : "hidden")}
+          className={classNames("cursor-pointer block xl:hidden")}
           contentClassName="size-[24px] flex flex-col items-center justify-around">
           <div className="flex-none w-4.5 h-0.5 rounded-sm bg-white" />
           <div className="flex-none w-4.5 h-0.5 rounded-sm bg-white" />
