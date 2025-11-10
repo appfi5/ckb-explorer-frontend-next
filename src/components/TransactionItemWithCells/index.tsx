@@ -8,7 +8,6 @@ import { useTranslation } from "react-i18next";
 import HeadIcon from '@/assets/icons/headIcon.svg?component'
 import TimeIcon from '@/assets/icons/time.svg?component'
 import BlockIcon from '@/assets/icons/block.svg?component'
-import { useParsedDate } from "@/hooks";
 import RightArrowIcon from '@/assets/icons/rightArrow.svg?component';
 import Link from "next/link";
 import { IOType } from "@/constants/common";
@@ -16,6 +15,7 @@ import ListCellItem from "./ListCellItem";
 import styles from "./index.module.scss";
 import classNames from "classnames";
 import { useEffect, useRef } from "react";
+import DateTime from "../DateTime";
 
 type TransactionItemWithCellsProps = {
   transaction: Transaction;
@@ -96,7 +96,6 @@ function BlockTime({ tx }: { tx: Transaction }) {
   }
 
   const dateTime = new Date(timestamp).toISOString();
-  const localTime = useParsedDate(timestamp);
 
   if (!tx) {
     return null;
@@ -111,7 +110,9 @@ function BlockTime({ tx }: { tx: Transaction }) {
         </div>
         <div className="flex items-center gap-[4px]">
           <TimeIcon className="flex-none text-[#999] " />
-          <span className="text-[#999] font-menlo">{`${localTime}`}</span>
+          <span className="text-[#999]">
+            <DateTime date={timestamp} showRelative />
+          </span>
         </div>
       </time>
     );
@@ -121,7 +122,9 @@ function BlockTime({ tx }: { tx: Transaction }) {
     return (
       <time dateTime={dateTime} className="transactionItemBlock flex items-center gap-[4px]">
         <TimeIcon className="text-[#484D4E] dark:text-[#d9d9d9]" />
-        <span className="text-[#909399]">{`${localTime}`}</span>
+        <span className="text-[#909399]">
+          <DateTime date={timestamp} showRelative />
+        </span>
       </time>
     );
   }

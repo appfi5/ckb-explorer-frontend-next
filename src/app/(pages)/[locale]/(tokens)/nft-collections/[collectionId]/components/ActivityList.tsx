@@ -1,3 +1,4 @@
+import DateTime from "@/components/DateTime";
 import Filter from "@/components/Filter";
 import Loading from "@/components/Loading";
 import MultiFilterButton from "@/components/MultiFilterButton";
@@ -143,9 +144,9 @@ export default function NFTCollectionActivtyList({ collectionId }: { collectionI
       accessorKey: 'blockTimestamp',
       enablePinning: false,
       cell: ({ row }) => (
-        <div className="font-menlo">{
-          dayjs(+row.original.blockTimestamp).format("YYYY/MM/DD HH:mm:ssZZ")
-        }</div>
+        <div className="font-menlo">
+          <DateTime date={row.original.blockTimestamp} showRelative />
+        </div>
       ),
     },
     {

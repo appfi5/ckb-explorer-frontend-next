@@ -23,6 +23,7 @@ import { type CardCellFactory, CardListWithCellsList } from '@/components/CardLi
 import Link from 'next/link'
 import InteImage from '@/components/InteImage'
 import server from '@/server';
+import DateTime from '@/components/DateTime'
 
 type TxStatus = 'confirmed' | 'pending'
 
@@ -79,7 +80,7 @@ const TransactionCardGroup: FC<{
       content: transaction => {
         return (
           <div>
-            {dayjs(transaction.blockTimestamp).format("YYYY/MM/DD HH:mm:ssZZ")}
+            <DateTime date={transaction.blockTimestamp} showRelative />
           </div>
         )
       },

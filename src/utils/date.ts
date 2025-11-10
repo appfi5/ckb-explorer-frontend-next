@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
+import duration from "dayjs/plugin/duration";
 import utc from "dayjs/plugin/utc";
 import "dayjs/locale/zh-cn";
 import "dayjs/locale/en";
@@ -12,6 +13,7 @@ import { useTranslation } from "react-i18next";
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
 dayjs.extend(utc);
+dayjs.extend(duration);
 
 dayjs.extend(weekday);
 dayjs.extend(localeData);
@@ -25,8 +27,7 @@ export const parseSimpleDate = (timestamp: number | string) => {
   // return `${date.getFullYear()}/${formatData(date.getMonth() + 1)}/${formatData(date.getDate())} ${formatData(
   //   date.getHours(),
   // )}:${formatData(date.getMinutes())}:${formatData(date.getSeconds())}`;
-
-  return dayjs(timestamp).format('YYYY/MM/DD HH:mm:ssZZ');
+  return dayjs(timestamp).format('YYYY/MM/DD HH:mm:ss');
 };
 
 export const parseSimpleDateNoSecond = (
@@ -66,12 +67,22 @@ export const parseTimeNoSecond = (millisecond: number | string) => {
 export const useParseDate = () => {
   const { t } = useTranslation();
   return (timestamp: number | string, now = new Date().getTime()) => {
-    const diff = (now - Number(timestamp)) / 1000;
-    if (diff < 60) {
-      return `${Math.floor(diff)}${t("common.second_ago")}`;
+    // const diff = (now - Number(timestamp)) / 1000;
+    const duration = dayjs.duration(dayjs(now).diff(timestamp))
+    if (duration.asSeconds() < 60) {
+      return `${Math.floor(duration.asSeconds())}${t("common.second_ago")}`;
     }
-    if (diff < 3600) {
-      return `${Math.floor(diff / 60)}${t("common.minute")} ${Math.floor(diff % 60)}${t("common.second_ago")}`;
+    if (duration.asMinutes() < 60) {
+      const min = Math.floor(duration.asMinutes());
+      return `${min}${min === 1 ? t("common.minute_ago") : t("common.minutes_ago")}`;
+    }
+    if (duration.asHours() < 48) {
+      const hour = Math.floor(duration.asHours());
+      return `${hour}${hour === 1 ? t("common.hour_ago") : t("common.hours_ago")}`;
+    }
+    if (duration.asDays() < 30) {
+      const day = Math.floor(duration.asDays());
+      return `${day}${t("common.days_ago")}`;
     }
     return parseSimpleDate(timestamp);
   };

@@ -25,6 +25,7 @@ import { useTheme } from "@/components/Theme";
 import DownloadIcon from '@/components/icons/download'
 import type { TFunction } from 'i18next'
 import { useCurrentLanguage } from '@/utils/i18n'
+import DateTime from '@/components/DateTime';
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
   <div className={styles.highLightValue}>
@@ -87,7 +88,11 @@ const getTableContentDataList = (block: Block, index: number, page: number, isMa
     },
     {
       width: isMaxW ? '19%' : '21%',
-      content: <div className="inline-block max-w-full w-[100%] break-all whitespace-normal">{dayjs(+block.timestamp).format("YYYY/MM/DD HH:mm:ssZZ")}</div>,
+      content: (
+        <div className="inline-block max-w-full w-[100%] break-all whitespace-normal">
+          <DateTime date={block.timestamp} showRelative />
+        </div>
+      ),
       textDirection: 'left',
       textWidth: isMaxW ? '150px' : '300px',
     },

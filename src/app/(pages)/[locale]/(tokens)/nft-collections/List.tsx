@@ -27,6 +27,7 @@ import { TableContentItem, TableMinerContentItem } from '@/components/Table'
 import { useRouter } from "next/navigation";
 import Loading from '@/components/Loading'
 import TokenTag from '@/components/TokenTag'
+import DateTime from '@/components/DateTime'
 
 const primaryColor = getPrimaryColor()
 function useFilterList(): Record<'title' | 'value', string>[] {
@@ -298,7 +299,14 @@ const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: 
     },
     {
       width: '19%',
-      content: (nftItem.blockTimestamp ? <div className="inline-block max-w-full w-[100%] break-all whitespace-normal font-menlo pr-[10px]">{dayjs(+nftItem.blockTimestamp).format("YYYY/MM/DD HH:mm:ssZZ")}</div> : '-'),
+      content: nftItem.blockTimestamp 
+        ? (
+          <div className="inline-block max-w-full w-[100%] break-all whitespace-normal pr-[10px]">
+            <DateTime date={nftItem.blockTimestamp} showRelative />
+          </div>
+        ) 
+        : '-'
+      ,
       textDirection: 'left',
     },
     {

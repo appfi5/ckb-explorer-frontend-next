@@ -26,6 +26,7 @@ import { CellType } from "@/components/Cell/utils"
 import clientDB from "@/database"
 import parseData from "@/components/Cell/dataDecoder"
 import BigNumber from "bignumber.js"
+import DateTime from "@/components/DateTime"
 
 const PAGE_SIZE = 20;
 
@@ -155,9 +156,7 @@ function CellCard({ cell }: { cell: APIExplorer.LiveCellsResponse }) {
       {
         label: t('cell.time'),
         content: (
-          <div className="font-menlo">
-            {dayjs(+cell.blockTimestamp).format("YYYY/MM/DD HH:mm:ssZZ")}
-          </div>
+          <DateTime date={+cell.blockTimestamp} showRelative />
         )
       }
     ]

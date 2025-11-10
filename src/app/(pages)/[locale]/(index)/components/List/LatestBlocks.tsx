@@ -8,9 +8,7 @@ import BlockDarkIcon from "../../assets/block.dark.svg?component"
 import Link from "next/link";
 import classNames from "classnames";
 import styles from './LatestBlocks.module.scss';
-import { useParsedDate } from "@/hooks";
-import { TableMinerContentItem } from "@/components/Table";
-import { deprecatedAddrToNewAddr, shannonToCkb } from "@/utils/util";
+import { shannonToCkb } from "@/utils/util";
 import BigNumber from "bignumber.js";
 import server from "@/server";
 import TextEllipsis from "@/components/TextEllipsis";
@@ -18,6 +16,7 @@ import TwoSizeAmount from "@/components/TwoSizeAmount";
 import { useBlockChainInfo } from "@/store/useBlockChainInfo";
 import { useTheme } from "@/components/Theme";
 import OutLink from "@/components/OutLink";
+import DateTime from "@/components/DateTime";
 export default function LatestBlocks() {
   const { t } = useTranslation();
   const blocksQuery = useQuery({
@@ -54,7 +53,6 @@ export default function LatestBlocks() {
 
 
 function BlockItem({ block }: { block: APIExplorer.BlockListResponse }) {
-  const parsedBlockCreateAt = useParsedDate(block.timestamp);
   const { t } = useTranslation();
   const liveCellChanges = Number(block.liveCellChanges);
   const topBlockNumber = useBlockChainInfo(t => t.blockNumber);
@@ -80,7 +78,9 @@ function BlockItem({ block }: { block: APIExplorer.BlockListResponse }) {
           >
             {block.number}
           </OutLink>
-          <div className="font-medium text-[14px] text-[#999] leading-[1]">{parsedBlockCreateAt}</div>
+          <div className="font-medium text-[14px] text-[#999] leading-[1]">
+            <DateTime date={block.timestamp} showRelative />
+          </div>
         </div>
       </div>
 
