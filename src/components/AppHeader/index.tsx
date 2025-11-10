@@ -41,7 +41,7 @@ export default function AppHeader() {
           <MobileMenu />
         </div>
       </div>
-      {/* <MaintainAlert /> */}
+      <MaintainAlert />
     </div>
   )
 }
