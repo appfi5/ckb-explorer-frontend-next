@@ -128,6 +128,17 @@ const useNervosDaoItemContents = (nervosDao: NervosDaoInfo): NervosDaoItemConten
   ]
 }
 
+// 判断带单位的change是否非零
+const isNonZeroChange = (change: any) => {
+  if (!change) return false;
+  const numberMatch = change.match(/^[-+]?\d+(\.\d+)?/);
+
+  if (!numberMatch) return false;
+
+  const numericValue = parseFloat(numberMatch[0]);
+  return numericValue !== 0;
+};
+
 const NervosDaoLeftItem = ({ item }: { item: NervosDaoItemContent }) => (
   <div className={styles.daoOverviewLeftItemPanel}>
     <div className="daoOverviewItemContainer">
@@ -145,7 +156,7 @@ const NervosDaoLeftItem = ({ item }: { item: NervosDaoItemContent }) => (
       <div className="daoOverviewItemContent">
         <span className={styles.title}>{item.content}</span>
         {
-          item.change && <Tooltip
+          isNonZeroChange(item.change) && <Tooltip
             trigger={
               <div className={styles.subTitle}>
                 {daoIcon(item.changeSymbol)}
