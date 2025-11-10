@@ -13,6 +13,7 @@ import Tooltip from "@/components/Tooltip";
 import { getEnvChainNodes } from "@/utils/envVarHelper";
 import Link from "next/link";
 import FiberNetworkBanner from "./FiberNetworkBanner";
+import KnowledgeSize from "./KnowledgeSize";
 
 // 定义轮播图内容类型
 type BannerItem = {
@@ -49,19 +50,7 @@ export default function Banner() {
     {
       key: "knowledge",
       component: (
-        <div className={styles.root}>
-          <div className={styles.knowledgeBase}>
-            <span>Knowledge Size</span>
-            <br />
-            <div className={styles.ticker}>
-              <NumberTicker value={size ? +size : null} />
-              <span>CKBytes</span>
-              <Link href="/charts/knowledge-size">
-                <BarChartIcon color="white" />
-              </Link>
-            </div>
-          </div>
-        </div>
+        <KnowledgeSize />
       ),
       isHidden: !IS_MAINNET,
     },
@@ -71,7 +60,7 @@ export default function Banner() {
       isHidden: true,
     },
     {
-      key: "fiber-new",
+      key: "fiber",
       component: (
         <FiberNetworkBanner />
       ),
