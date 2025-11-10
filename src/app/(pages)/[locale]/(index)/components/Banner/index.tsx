@@ -12,6 +12,8 @@ import ForceBridge from "./ForceBridge";
 import Tooltip from "@/components/Tooltip";
 import { getEnvChainNodes } from "@/utils/envVarHelper";
 import Link from "next/link";
+import FiberNetworkBanner from "./FiberNetworkBanner";
+import KnowledgeSize from "./KnowledgeSize";
 
 // 定义轮播图内容类型
 type BannerItem = {
@@ -48,19 +50,7 @@ export default function Banner() {
     {
       key: "knowledge",
       component: (
-        <div className={styles.root}>
-          <div className={styles.knowledgeBase}>
-            <span>Knowledge Size</span>
-            <br />
-            <div className={styles.ticker}>
-              <NumberTicker value={size ? +size : null} />
-              <span>CKBytes</span>
-              <Link href="/charts/knowledge-size">
-                <BarChartIcon color="white" />
-              </Link>
-            </div>
-          </div>
-        </div>
+        <KnowledgeSize />
       ),
       isHidden: !IS_MAINNET,
     },
@@ -72,36 +62,7 @@ export default function Banner() {
     {
       key: "fiber",
       component: (
-        <div className={styles.fiberBanner}>
-          <div className={styles.slogan}>
-            <h1>{t(`banner.fiber_title`)}</h1>
-            <h3>{t(`banner.fiber_subtitle`)}</h3>
-          </div>
-          <div className={styles.links}>
-            <Link
-              href="https://www.ckbfiber.net/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span>{t(`banner.learn_more`)}</span>
-            </Link>
-            {/* <Tooltip
-              trigger={
-                <Link
-                  href="/fiber/graph/nodes"
-                  aria-disabled
-                  onClick={(e: React.SyntheticEvent<HTMLAnchorElement>) => {
-                    e.preventDefault();
-                  }}
-                >
-                  <span>{t("banner.find_nodes")}</span>
-                </Link>
-              }
-            >
-              {t("banner.coming_soon")}
-            </Tooltip> */}
-          </div>
-        </div>
+        <FiberNetworkBanner />
       ),
       isHidden: IS_MAINNET,
     },

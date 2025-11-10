@@ -22,8 +22,6 @@ export default function AppHeader() {
   const pathname = usePathname();
   const defaultSearchBarVisible = pathname !== "/" && pathname !== "/zh" && pathname !== "/search/fail";
   const isShowSearchBar = useIsShowSearchBarInHeader();
-  const isMobile = useMediaQuery(`(max-width: 1400px)`);
-
   return (
     <div className="sticky top-0 z-10 bg-[#111]" >
       <div className="flex flex-row container min-h-(--navbar-height) items-center">
@@ -31,11 +29,11 @@ export default function AppHeader() {
           <InteImage src="/assets/ckb_logo.png" alt="" width={114} height={30} />
         </Link>
         <div className="flex-1 basis-0 flex items-center">
-          <WebMenu className={classNames(isMobile ? "hidden" : "flex")} />
+          <WebMenu className="hidden xl:flex" />
         </div>
         <div className="flex flex-row items-center gap-1">
           {(defaultSearchBarVisible || isShowSearchBar) && <AppSearchTrigger />}
-          <div className={classNames(isMobile ? "hidden" : "block")}>
+          <div className="hidden xl:block">
             <BlockchainSwitch />
           </div>
           <ThemeSwitch />
@@ -43,7 +41,7 @@ export default function AppHeader() {
           <MobileMenu />
         </div>
       </div>
-      <MaintainAlert />
+      {/* <MaintainAlert /> */}
     </div>
   )
 }
@@ -51,10 +49,9 @@ export default function AppHeader() {
 function AppSearchTrigger() {
   const { query, options } = useKBar();
   const { t } = useTranslation();
-  const isMobile = useMediaQuery(`(max-width: 1400px)`);
   return (
     <PixelBorderBlock
-      className={classNames("cursor-pointer", isMobile ? "hidden" : "block")}
+      className={classNames("cursor-pointer hidden xl:block")}
       apperanceClassName="*:data-[slot=border]:bg-[#4d4d4d] hover:*:data-[slot=bg]:bg-[#ffffff14]"
       contentClassName="flex items-center justify-between h-[26px] w-[110px] 2xl:w-[234px] px-[6px]"
       onClick={() => {

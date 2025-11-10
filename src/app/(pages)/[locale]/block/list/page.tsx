@@ -23,7 +23,7 @@ import Loading from '@/components/Loading';
 import SortButton from '@/components/SortButton'
 import { useTheme } from "@/components/Theme";
 import DownloadIcon from '@/components/icons/download'
-import type { TFunction } from 'i18next';
+import type { TFunction } from 'i18next'
 import { useCurrentLanguage } from '@/utils/i18n'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
