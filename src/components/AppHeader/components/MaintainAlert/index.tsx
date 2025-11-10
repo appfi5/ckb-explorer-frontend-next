@@ -5,6 +5,7 @@ import { Trans } from "react-i18next";
 import styles from "./styles.module.scss";
 import { getEnvChainNodes } from "@/utils/envVarHelper";
 import { useBlockChainInfo } from "@/store/useBlockChainInfo";
+import InfoIcon from "@/assets/icons/alert.info.svg?component"
 
 const threshold = 20;
 
@@ -63,6 +64,7 @@ const MaintainAlert = () => {
   return lag >= threshold ? (
     <>
       <div className={styles.container}>
+        <InfoIcon />
         <Trans
           i18nKey="error.maintain"
           values={{

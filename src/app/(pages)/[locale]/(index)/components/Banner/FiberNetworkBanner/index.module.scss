@@ -1,0 +1,29 @@
+.banner {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  background: url('./bg.png') no-repeat center, black;
+}
+
+.content {
+  // position: absolute;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    color: #FFFFFF;
+    font-size: 40px;
+  }
+
+  h3 {
+    margin-top: 14px;
+    color: #ccc;
+    font-size: 18px;
+  }
+  .links {
+    margin-top: 25px;  
+  }
+}
