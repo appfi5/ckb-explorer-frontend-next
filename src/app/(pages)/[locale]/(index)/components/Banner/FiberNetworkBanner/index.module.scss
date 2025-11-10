@@ -1,3 +1,5 @@
+@use '@/styles/variables.module';
+
 .banner {
   position: relative;
   width: 100%;
@@ -15,13 +17,13 @@
 
   h1 {
     color: #FFFFFF;
-    font-size: 40px;
+    text-align: center;
   }
 
   h3 {
     margin-top: 14px;
     color: #ccc;
-    font-size: 18px;
+    // font-size: 18px;
   }
   .links {
     margin-top: 25px;  
