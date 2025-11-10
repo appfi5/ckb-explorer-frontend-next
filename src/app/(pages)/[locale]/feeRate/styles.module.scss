@@ -1,0 +1,308 @@
+@use '@/styles/variables.module';
+
+.feeRateTrackerPanel {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  margin-bottom: 40px;
+
+  .title {
+    width: 100%;
+    padding: 20px 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .titleText{
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 28px;
+      color: #232323;
+    }
+    .updatedTime{
+      display: flex;
+      gap: 3px;
+      align-items: center;
+      font-size: 14px;
+      color:#999999;
+      line-height: 22px;
+    }
+    @variant dark {
+      .titleText{
+        color:#fff
+      }
+    }
+  }
+
+  .feeRateItems{
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .feeRateItemContainer{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    
+    @media (width <= variables.$extraLargeBreakPoint) {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .feeRateItem{
+    flex: 1;
+    box-shadow: 0px 2px 8px 0px #2A31561A;
+    border-radius: 8px;
+    background: #fff;
+    height: 200px;
+    padding: 49px 35px 40px 60px;
+    display: flex;
+    gap: 16px;
+    align-items: self-start;
+
+    @media (max-width: variables.$extraLargeBreakPoint + 200px) {
+      padding: 49px 30px 40px;
+    }
+
+    @media (width <= variables.$extraLargeBreakPoint) {
+      padding: 49px 35px 40px 60px;
+    }
+
+    .block{
+      width: 8px;
+      height: 8px;
+      margin-top: 10px;
+    }
+    .feeRateContent{
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      .subTit{
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 28px;
+        color:#232323;
+      }
+      .feeRateCountText{
+        display: flex;
+        align-items: self-end;
+        gap:8px;
+        .feeRateCountTextVal{
+          font-size: 28px;
+          font-weight: bold;
+          line-height: 36px;
+          color: #000;
+          font-family: menlo;
+        }
+        .feeRateCountTextUnit{
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 22px;
+          color: #484D4E;
+          margin-bottom: 4px;
+        }
+      }
+      .feeRateTime{
+        font-size: 14px;
+        color: #999999;
+        line-height: 22px;
+      }
+    }
+  }
+
+  @variant dark {
+    .feeRateItem{
+      box-shadow: 0px 4px 4px 0px #00000040;
+      backdrop-filter: blur(50px);
+      background: #232323E5;
+      border: 2px solid #282B2C;
+      
+      .feeRateContent{
+        .subTit{
+          color: #fff;
+        }
+        .feeRateCountText{
+          .feeRateCountTextVal{
+            color: #fff;
+          }
+          .feeRateCountTextUnit{
+            color: #999999;
+          }
+        }
+        .feeRateTime{
+          color: #999999;
+        }
+      }
+
+      &:nth-of-type(1){
+        .chartIcon{
+          path {
+            &:last-child {
+              fill: #fff;
+            }
+          }
+        }
+      }
+
+      &:nth-of-type(2){
+        .chartIcon{
+          path {
+            &:first-child {
+              fill: #fff;
+            }
+          }
+        }
+      }
+
+      &:nth-of-type(3){
+        .chartIcon{
+          path {
+            &:nth-child(3) {
+              fill: #fff;
+            }
+            &:nth-child(4), &:nth-child(5) {
+              fill: #232323E5;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .charts {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+    .feeRateChart{
+      height: 400px;
+      box-shadow: 0px 2px 8px 0px #2A31561A;
+      border-radius: 8px;
+      background: #fff;
+      flex: 1;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .chartTitle {
+      color: #232323;
+      width: 100%;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .chart{
+      flex: 1;
+    }
+
+    @variant dark {
+      .feeRateChart{
+        box-shadow: 0px 4px 4px 0px #00000040;
+        backdrop-filter: blur(50px);
+        background: #232323E5;
+        border: 2px solid #282B2C;
+        .chartTitle{
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  .scaleSelector {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+  
+    input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+    }
+  
+    .radioLabel {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px; 
+      cursor: pointer; 
+    }
+  
+    .radioItem {
+      width: 16px;
+      height: 16px;
+      border: 1px solid #E9E9E9;
+      border-radius: 50%;
+      position: relative;
+      transition: border-color 0.2s;
+
+      @variant dark {
+        border-color: #4C4C4C;
+      }
+  
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #00CC9B;
+        transform: translate(-50%, -50%) scale(0);
+        transition: transform 0.2s;
+
+        @variant testnet {
+          background: #9672FA;
+        }
+      }
+    }
+  
+    input[type="radio"]:checked + .radioLabel .radioItem {
+      border-color: #00CC9B;
+      @variant testnet {
+        border-color: #9672FA;
+      }
+    }
+    input[type="radio"]:checked + .radioLabel .radioItem::after {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  
+    // input[type="radio"]:not(:checked) + .radioLabel .radioItem:hover {
+    //   border-color: #999;
+    // }
+  }
+
+
+  @media (width <= 1280px) {
+    .charts {
+      flex-direction: column;
+      .feeRateChart{
+        width: 100%;
+        min-height: 400px;
+      }
+    }
+  }
+
+  @media (width <= variables.$mobileBreakPoint) {
+    .title {
+      margin: 20px 0 12px;
+      font-size: 20px;
+      line-height: 23px;
+    }
+
+    .charts {
+      width: 100%;
+      margin: 0;
+      
+      .feeRateChart{
+        width: 100%;
+        min-height: 400px;
+      }
+    }
+  }
+}

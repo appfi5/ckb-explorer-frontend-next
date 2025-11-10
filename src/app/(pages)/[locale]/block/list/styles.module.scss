@@ -1,0 +1,103 @@
+@use '@/styles/variables.module';
+
+.blockCardGroup {
+  margin-top: 10px;
+}
+
+.sortIcon {
+  display: flex;
+  margin-left: 8px;
+  cursor: pointer;
+
+  &[data-order='asc'] {
+    svg > path:last-child {
+      fill: var(--color-primary);
+    }
+  }
+
+  &[data-order='desc'] {
+    svg > path:first-child {
+      fill: var(--color-primary);
+    }
+  }
+}
+
+.loadingSection {
+  height: 3.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4px;
+  background: #fff;
+}
+
+.blockListPanel {
+  padding: 12px 20px;
+  background: #fff;
+  box-shadow: 0px 2px 8px 0px #0000001A;
+  @variant dark {
+    background: #232323E5;
+    border:1px solid #282B2C;
+    box-shadow: 0px 4px 4px 0px #00000040;
+    backdrop-filter: blur(50px)
+  }
+
+  @media (min-width: variables.$mobileBreakPoint) {
+    margin-top: 25px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  @media (max-width: variables.$mobileBreakPoint) {
+    margin-top: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 12px 0;
+    .blockGreenBackground {
+      margin-left: -20px;
+      height: 61px;
+      width: calc(100% + 40px);
+      z-index: 1;
+    }
+  }
+}
+
+.contentTable {
+  @media (max-width: variables.$mobileBreakPoint) {
+    margin-top: -41px;
+    z-index: 2;
+  }
+}
+
+.highLightValue {
+  color: var(--color-primary);
+  font-size: 13px;
+  height: 16px;
+  min-width: 0;
+}
+
+.blockRewardContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  @media (max-width: variables.$mobileBreakPoint) {
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+
+  ::after {
+    display: inline;
+    content: '+';
+    color: #7f7d7d;
+    font-size: 13px;
+  }
+}
+
+.blockRewardPanel {
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
+}

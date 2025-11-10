@@ -1,0 +1,34 @@
+{
+  "please_enter": "Please enter",
+  "copy": "Copy",
+  "copied": "Copied",
+  "address_conversion": {
+    "title": "Address Conversion",
+    "description": "The CKB2021 address format has changed from bech32 to bech32m, we recommend developers to use the new format in your dApps. This tool will help you determine if an address is deprecated or new.",
+    "rfc": "CKB Address Format RFC",
+    "address_to_script": "Address to Script",
+    "script_to_address": "Script to Address"
+  },
+  "hasher": {
+    "title": "Hasher",
+    "script_to_hash": "Script to Hash",
+    "data_to_hash": "Data to Hash",
+    "hash160": "Hash160",
+    "data": "Data"
+  },
+  "snake_case_and_camel_case": {
+    "title": "Snake Case ↔ Camel Case",
+    "tx_in_snake_case": "Transaction in Snake Case",
+    "tx_in_camel_case": "Transaction in Camel Case"
+  },
+  "broadcast_tx": {
+    "title": "Broadcast Tx",
+    "tx_to_broadcast": "Tx to Broadcast",
+    "broadcast": "Broadcast"
+  },
+  "molecule_parser": {
+    "title": "Molecule Parser",
+    "input_tips": "Uint8/16/.../512, Byte32, BytesVec, Bytes, BytesVec, BytesOpt are used as primitive schemas, please do not override.",
+    "description": "<LinkRFC008>Rfc-008</LinkRFC008> has defined the data serialization standard on CKB. This tool provides an online decoder for serialized data with known schemas. Since it is very commonly used on chain, we have added <LinkBlockChainMol>blockchain.mol</LinkBlockChainMol> as built-in schemas to this tool."
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "modal-title": "Cell Info",
+  "state": {
+    "live": "Live",
+    "dead": "Comsumed"
+  },
+  "field": {
+    "outpoint": "Outpoint",
+    "consumed_tx": "Comsumed By",
+    "capacity": "Capacity",
+    "occupied": "Occupied",
+    "lock": "Lock",
+    "type": "Type",
+    "data": "Data",
+    "state": "State",
+    "script": {
+      "code_hash": "codeHash",
+      "hash_type": "hashType",
+      "args": "args"
+    }
+  },
+  "message": {
+    "data_too_large": "Data too large",
+    "get_cell_data_failed": "Get cell data failed"
+  },
+  "action": {
+    "download_source": "Download Source",
+    "parsed": "Parsed",
+    "source": "Source"
+  }
+}

@@ -1,0 +1,28 @@
+.link {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  gap: 8px;
+
+  &:hover {
+    color: var(--color-primary);
+
+    .icon {
+      border-color: currentColor;
+    }
+  }
+
+  @variant dark {
+    .icon {
+      border-color: transparent;
+      background-color: #FFFFFF1A;
+    }
+    &:hover {
+      .icon {
+        background-color: rgb(from var(--color-primary) r g b / 10%);
+        // background-color: var(--primary-hover-bg-color);
+      }
+    }
+  }
+}

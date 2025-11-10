@@ -1,0 +1,13 @@
+{
+  "option": {
+    "base": "Base",
+    "udt": "UDT",
+    "nft": "NFT Collections"
+  },
+  "placeholder": {
+    "input": "Please Enter",
+    "base": "Block / Transaction / Address",
+    "udt": "Name / Symbol / Type Hash",
+    "nft":"Cluster Id / Name / Type Hash / Token Id"
+  }
+}

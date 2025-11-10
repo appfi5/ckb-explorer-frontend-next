@@ -1,0 +1,38 @@
+.tabs {
+  flex-direction: column;
+  gap: 4px;
+  width: 260px;
+  .tab {
+    position: relative;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-inline: 12px;
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+      background-color: var(--card-background);
+      color: var(--color-primary)
+    }
+
+    &.active {
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto 0;
+        width: 2px;
+        height: 24px;
+        background-color: var(--color-primary);
+      }
+
+      box-shadow: 0px 0px 4px 0px #0000000F;
+      font-weight: 500;
+    }
+  }
+}

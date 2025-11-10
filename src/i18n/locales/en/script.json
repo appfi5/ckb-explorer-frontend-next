@@ -1,0 +1,21 @@
+{
+  "title": "Scripts",
+  "fields": {
+    "code_hash": "Code Hash",
+    "data_hash": "Data Hash",
+    "type_hash": "Type Hash",
+    "description": "Description",
+    "type": "Script Type"
+  },
+  "desc": {
+    "lock_script": "Lock Script",
+    "type_script": "Type Script"
+  },
+  "icon": {
+    "rfc": "RFC",
+    "code": "Source Code",
+    "website": "Website",
+    "ownerless_cell": "Ownerless Cell",
+    "verified": "Verified"
+  }
+}

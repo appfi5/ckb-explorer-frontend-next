@@ -1,0 +1,116 @@
+@use '@/styles/variables.module';
+
+.bannerContainer {
+  height: 320px;
+  width: 100%;
+  color: #fff;
+  background: #000;
+  background: 
+  url('./banner_bg.svg') no-repeat right bottom,  /* 右下角背景图 */
+  radial-gradient(
+    circle 500px at 10% 120%, 
+    rgb(from var(--color-primary) r g b/28%), 
+    rgb(from var(--color-primary) r g b/0%)
+  ), 
+  #000;
+  background-size: auto, cover, cover;
+  background-position: right 200px bottom 0px, 0 0, 0 0;
+
+  @variant testnet {
+    background: 
+    url('./banner_bg_testnet.svg') no-repeat right bottom,  /* 右下角背景图 */
+    radial-gradient(
+      circle 500px at 10% 120%, 
+      rgb(from var(--color-primary) r g b/28%), 
+      rgb(from var(--color-primary) r g b/0%)
+    ), 
+    #000;
+    background-size: auto, cover, cover;
+    background-position: right 200px bottom 0px, 0 0, 0 0;
+  }
+
+  .content {
+    padding: 44px 0;
+    p {
+      margin: 0;
+    }
+
+    .title {
+      font-size: 32px;
+      line-height: 40px;
+      font-weight: 500;
+    }
+
+    .description {
+      max-width: 750px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 22px;
+      margin-top: 16px;
+      margin-bottom: 41px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 20px;
+    }
+
+    .btnStyle{
+      .chartDesc{
+        color: #fff;
+        font-weight: 500;
+      }
+      &:hover {
+        // background: #00CC9B33;
+        // border-radius: 12px;
+        
+        .chartDesc{
+          color: var(--color-primary);
+        }
+
+        path {
+          fill: var(--color-primary);
+        }
+
+        // @variant testnet {
+        //   background: #9672FA33;
+        // }
+      }
+    }
+  }
+
+  .bannerRightBg{
+    width: 445px;
+    height: 280px;
+    position: relative;
+    right: 0px;
+    top:35px;
+  }
+}
+
+@media (max-width: variables.$extraLargeBreakPoint) {
+  .bannerContainer {
+    height: auto;
+    background-size: 300px 360px, cover, cover;
+    background-position: right 0px bottom -100px, 0 0, 0 0;
+    .actions {
+      flex-direction: column;
+    }
+  }
+}
+
+@media (width <= variables.$mobileBreakPoint) {
+  .bannerContainer {
+    height: auto;
+    background-size: 180px 300px, cover, cover;
+    background-position: right 20px bottom -60px, 0 0, 0 0;
+
+    .content {
+      max-width: 100%;
+
+      .actions {
+        flex-direction: column;
+      }
+    }
+  }
+}

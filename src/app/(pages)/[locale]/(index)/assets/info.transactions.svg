@@ -1,0 +1,10 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+  xmlns="http://www.w3.org/2000/svg">
+  <path d="M15.0967 12.8848L13.46 14.5215H22.9609V17.1348H10.8467L10.7852 17.1963L8.9375 15.3486L13.249 11.0361L15.0967 12.8848Z" fill="currentColor"/>
+  <path d="M16.8057 23.1885L18.4424 21.5518H8.94141V18.9385H21.0557L21.1172 18.877L22.9648 20.7246L18.6533 25.0361L16.8057 23.1885Z" fill="currentColor"/>
+  <rect width="24" height="3" transform="matrix(1 0 0 -1 4 9)" fill="currentColor"/>
+  <rect width="16" height="3" transform="matrix(1 0 0 -1 8 4)" fill="currentColor"/>
+  <rect width="24" height="3" transform="matrix(1 0 0 -1 4 30)" fill="currentColor"/>
+  <rect width="18" height="3" transform="matrix(-4.1283e-08 1 1 4.62826e-08 1 9)" fill="currentColor"/>
+  <rect width="18" height="3" transform="matrix(-4.1283e-08 1 1 4.62826e-08 28 9)" fill="currentColor"/>
+</svg>

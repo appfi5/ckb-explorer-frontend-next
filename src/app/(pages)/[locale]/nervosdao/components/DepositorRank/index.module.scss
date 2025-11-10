@@ -1,0 +1,135 @@
+@use '@/styles/variables.module';
+
+.depositorCardGroup {
+  margin-top: 4px;
+  gap: 4px;
+}
+
+.addressTextCol {
+  width: 48%;
+  // padding: 0 24px;
+  text-align: center;
+  color: var(--primary-color);
+
+  @media (width <= variables.$mobileBreakPoint) {
+    width: 100%;
+    padding: 0;
+    text-align: start;
+  }
+
+  &:hover {
+    color: var(--primary-color-hover);
+  }
+}
+
+.depositorRankPanel {
+  width: 100%;
+  // padding: 20px 40px;
+  margin-top: 4px;
+  // box-shadow: 2px 2px 6px 0 #dfdfdf;
+
+  @variant dark {
+    // border-radius: 4px;
+    // background: #303030;
+    box-shadow: none;
+    background: transparent;
+  }
+}
+
+.depositorFooterPanel {
+  width: 100%;
+  background: white;
+  padding: 8px 40px;
+  display: flex;
+  margin-top: 4px;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  border-radius: 0 0 6px 6px;
+}
+
+.depositorRankCardPanel {
+  width: 100%;
+}
+
+.depositorRankTitle {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  height: 46px;
+  background: #F5F9FB;;
+
+  > div {
+    text-align: left;
+  }
+
+  > div:nth-child(1) {
+    width: 10%;
+    padding-left: 12px;
+  }
+
+  > div:nth-child(2) {
+    width: 65%;
+  }
+
+  > div:nth-child(3) {
+    width: 25%;
+  }
+
+  > div:nth-child(4) {
+    width: 20%;
+  }
+
+  @variant dark {
+    background: #303030;
+  }
+}
+
+.depositorRankItem {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  height: 62px;
+
+  @media (max-width: variables.$largeBreakPoint) {
+    font-size: 14px;
+  }
+
+  > div {
+    text-align: left;
+  }
+
+  > div:nth-child(1) {
+    width: 10%;
+    padding-left: 12px;
+  }
+
+  > div:nth-child(2) {
+    width: 65%;
+  }
+
+  > div:nth-child(3) {
+    width: 25%;
+  }
+
+  > div:nth-child(4) {
+    width: 20%;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #EEEEEE;
+    @variant dark {
+      border-bottom: 1px solid #4C4C4C;
+    }
+  }
+
+  .address {
+    max-width: 80%;
+    div{
+      font-family: Menlo !important;
+    }
+  
+    &:hover{
+      cursor: pointer;
+      color: var(--color-primary) !important;
+    }
+  }
+}

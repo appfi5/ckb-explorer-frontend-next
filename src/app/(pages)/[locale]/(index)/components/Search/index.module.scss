@@ -1,0 +1,30 @@
+.card {
+  opacity: 1;
+
+  @variant dark {
+    background-image: radial-gradient(circle 130px at -10px -4px, rgb(from var(--color-primary) r g b / 24%), rgb(from var(--color-primary) r g b / 0%));
+  }
+}
+
+.search-panel {
+  [data-role='search-result-list'] {
+    display: none;
+  }
+
+  &:focus-within {
+    [data-role='search-result-list'] {
+      display: flex;
+    }
+  }
+}
+
+.spinning {
+  flex: none;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}

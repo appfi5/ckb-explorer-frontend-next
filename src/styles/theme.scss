@@ -1,0 +1,5 @@
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@custom-variant testnet (&:where([data-chain-type=testnet], [data-chain-type=testnet] *));
+
+._z { color: red; }

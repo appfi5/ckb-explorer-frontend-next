@@ -1,0 +1,20 @@
+
+
+.token-card {
+  width: 288px;
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 11px;
+  border-radius: 16px;
+  @variant dark {
+    background: #363839;
+    border-color: #4c4c4c;
+  }
+  &:hover {
+    border-width: 3px;
+    padding: 9px;
+    border-color: var(--color-primary);
+    // box-shadow: 0px 2px 12px 0px rgba(0, 204, 155, 0.3);
+    box-shadow: 0px 2px 12px 0px rgb(from var(--color-primary) r g b / 0.3);
+  }
+}

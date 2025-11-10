@@ -1,0 +1,111 @@
+@use '@/styles/variables.module';
+@value cardCell from "./CardCell.module.scss";
+
+.cardCellsLayout {
+  display: flex;
+  justify-content: space-between;
+
+  &.borderTop {
+    border-top: 1px solid #e5e5e5;
+  }
+
+  .left,
+  .leftSingle {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    gap: 16px;
+  }
+
+  .leftSingle {
+    align-self: center;
+
+    .cardCell {
+      height: auto;
+    }
+  }
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    margin-left: 20px;
+    padding-left: 20px;
+    gap: 20px;
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .expand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 0 16px;
+    color: var(--color-primary);
+
+    .isExpanded {
+      transform: rotate(180deg);
+    }
+  }
+
+  @media (width <= variables.$extraLargeBreakPoint) {
+    flex-direction: column;
+    gap: 20px;
+
+    .leftSingle {
+      align-self: auto;
+    }
+
+    .right {
+      margin-left: 0;
+      border-left: 0;
+      padding-left: 0;
+    }
+  }
+
+  @media (width <= variables.$mobileBreakPoint) {
+    gap: 0;
+    padding: 0;
+
+    &.borderTop {
+      border-top: 0;
+    }
+
+    .left {
+      gap: 0;
+    }
+
+    .right {
+      gap: 0;
+    }
+
+    .list {
+      gap: 0;
+    }
+
+    .cardCell {
+      border-top: 1px solid #EEEEEE;
+
+      [data-theme='dark'] & {
+        border-top: 1px solid #4C4C4C;
+      }
+    }
+
+    &:not(.borderTop) {
+      .left,
+      .list {
+        .cardCell {
+          &:first-child {
+            border-top: 0;
+          }
+        }
+      }
+    }
+  }
+}

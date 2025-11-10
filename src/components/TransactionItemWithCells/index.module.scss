@@ -1,0 +1,54 @@
+@use '@/styles/variables.module';
+.helpIcon {
+  [data-theme='dark'] & {
+    circle {
+      fill: #FFFFFF1A;
+    }
+  }
+}
+
+.infoIcon {
+  cursor: pointer;
+  @variant dark {
+    rect {
+      stroke: transparent;
+      fill: #FFFFFF1A;
+    }
+    path {
+      fill: #FFFFFF;
+    }
+  }
+  
+  &:hover {
+    rect {
+      stroke: var(--color-primary);
+    }
+
+    path {
+      fill: var(--color-primary);
+    }
+  }
+  
+}
+
+.arrowIcon {
+
+  @variant dark {
+    path {
+      fill: #999;
+    }
+  }
+
+  @media (max-width: variables.$mobileBreakPoint) {
+    height: 25px;
+  }
+}
+
+.transactionBlockTime{
+  display: flex;
+  gap: 8px;
+
+  @media (max-width: variables.$mobileBreakPoint) {
+    flex-direction: column;
+  }
+}

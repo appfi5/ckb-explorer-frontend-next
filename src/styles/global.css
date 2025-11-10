@@ -1,0 +1,167 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  /* --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
+  --container-8xl: 88rem;
+  --spacing-page-height: calc(100vh - 64px - 375px);
+}
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+@custom-variant testnet (&:where([data-chain-type=testnet], [data-chain-type=testnet] *));
+
+@theme inline {
+  /* base */
+  /* --font-menlo: menlo; */
+  --color-primary: var(--color-primary);
+  --color-success: var(--success);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+
+  /* components */
+  
+  --color-card-foreground: var(--color-foreground);
+  --color-card: var(--card-background);
+  
+  --color-popover-foreground: var(--foreground);
+  --color-popover: var(--popover-background);
+  
+  --color-tooltip: var(--tooltip-background);
+  
+  --color-tabs-forground: var(--tabs-foreground);
+  --color-tabs: var(--tabs-background);
+  --color-tab-forground: var(--tab-foreground);
+  --color-tab: var(--tab-background);
+
+  --color-input-border: var(--color-border)
+}
+
+:root {
+  /* base */
+  --default-font-family: 'PingFang SC', -apple-system, Roboto, Lato, sans-serif, Montserrat;
+  --color-primary: #00cc9b;
+  --success: #00cc9b;
+  --foreground: #232323;
+  --popover-background: #fff;
+  --color-border: #d9d9d9;
+
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: #ff4545;
+
+  --btc-color-primary: #F7931A;
+  --navbar-height: 64px;
+  
+  /* components */
+  --card-background: #fff;
+
+  --tooltip-background: #111;
+
+
+
+  --tabs-foreground: var(--foreground);
+  --tabs-background: #F5F9FB;
+  --tab-foreground: var(--foreground);
+  --tab-background: #fff;
+
+
+  scrollbar-color: #d9d9d9 transparent;
+
+  @variant dark {
+    /* base */
+    --color-foreground: #fff;
+    --color-border: #4C4C4C;
+
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    /* --destructive: oklch(0.704 0.191 22.216); */
+
+    /* components */
+
+    --tooltip-background: #F5F9FB;
+
+    --card-background: rgba(35, 35, 35, 0.90);
+
+    --tabs-foreground: #999;
+    --tabs-background: #303030;
+    --tab-foreground: #fff;
+    --tab-background: #444444;
+
+    scrollbar-color: #565656 transparent;
+  }
+
+  @variant testnet {
+    --color-primary: #9672FA;
+  }
+}
+
+
+*[role]:focus {
+  outline: none;
+}
+
+.container {
+  max-width: 100%;
+  width: auto;
+  /* margin: 0 18px; */
+  @apply mx-4.5 md:mx-11 xl:mx-25 2xl:mx-30
+}
+
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+
+
+  background-color: #F5F9FB;
+  color: #232323;
+  font-size: 14px;
+
+  @variant testnet {
+    background-color: #f5f5f5;
+  }
+
+  @variant dark {
+    background-color: #111;
+    color: #fff;
+  }
+}
+
+
+* {
+  /* font-family: Roboto, Lato, sans-serif, Montserrat, 'PingFang SC', -apple-system; */
+  font-family: 'PingFang SC', -apple-system, Roboto, Lato, sans-serif, Montserrat;
+}
+
+
+
+/* stylelint-disable selector-class-pattern */
+@media (width <=750px) {
+  .rc-pagination-options-quick-jumper {
+    display: none;
+  }
+}
+
+
+.font-menlo {
+  font-family: menlo;
+}
+
+
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.pointer-events-auto {
+  pointer-events: auto;
+}

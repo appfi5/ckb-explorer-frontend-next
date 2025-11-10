@@ -1,0 +1,60 @@
+@use '@/styles/variables.module';
+
+.cardCell {
+  display: flex;
+  align-items: center;
+  // justify-content: space-between;
+  height: 20px;
+
+  .left {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    width: 247px;
+    
+    .icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .icon + .title {
+      margin-left: 8px;
+    }
+
+    .title {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: #909399;
+      [data-theme='dark'] & {
+        color: #999999;
+      }
+    }
+  }
+
+  .right {
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #232323;
+    min-width: 0;
+    [data-theme='dark'] & {
+      color: #fff;
+    }
+  }
+
+  @media (width <= variables.$mobileBreakPoint) {
+    flex-direction: column;
+    justify-content: initial;
+    align-items: initial;
+    height: auto;
+    padding: 16px 0;
+
+    .right {
+      margin-left: 0;
+      word-wrap: break-word;
+      word-break: break-all;
+    }
+  }
+}

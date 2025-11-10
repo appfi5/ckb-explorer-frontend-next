@@ -1,0 +1,120 @@
+import classnames from "classnames";
+import { useTranslation } from "react-i18next";
+import styles from "./index.module.scss";
+import halvingBanner from "./halving_banner.png";
+import halvingBannerSuccess from "./halving_banner_success.png";
+import halvingBannerSuccessMobile from "./halving_banner_success_mobile.png";
+import MoveIcon from "./move.svg";
+import LoadingWhiteImage from "@/assets/loading_white.gif";
+import halvingSuccessAni from "./halving_success_ani.gif";
+import SimpleButton from "@/components/SimpleButton";
+import { useCountdown, useHalving, useIsMobile } from "@/hooks";
+import { numberToOrdinal } from "@/utils/number";
+import Link from "next/link";
+import InteImage from "@/components/InteImage";
+
+export const HalvingBanner = () => {
+  const { estimatedDate, halvingCount, inCelebration, isLoading } =
+    useHalving();
+  const [days, hours, minutes, seconds, countdown] =
+    useCountdown(estimatedDate);
+  const isMobile = useIsMobile();
+  const [t, { language }] = useTranslation();
+
+  const shortCountdown = () => {
+    if (isLoading || Number.isNaN(seconds)) {
+      return (
+        <InteImage
+          className={styles.halvingLoading}
+          src={LoadingWhiteImage}
+          alt="loading"
+        />
+      );
+    }
+    if (days > 0) {
+      return `${days}${t("symbol.char_space")}${t("unit.days")}`;
+    }
+    if (hours > 0) {
+      return `${hours}${t("symbol.char_space")}${t("unit.hours")}`;
+    }
+    if (minutes > 0) {
+      return `${minutes}${t("symbol.char_space")}${t("unit.minutes")}`;
+    }
+
+    return `${seconds}${t("symbol.char_space")}${t("unit.seconds")}`;
+  };
+
+  const learnMoreText = () => {
+    if (inCelebration) {
+      return t("halving.learn_more");
+    }
+
+    if (countdown <= 3) {
+      return t("halving.coming_soon");
+    }
+
+    return (
+      <>
+        {t("halving.halving_countdown")} {shortCountdown()}
+      </>
+    );
+  };
+
+  const bgImage = (() => {
+    if (!inCelebration) {
+      return halvingBanner;
+    }
+
+    if (isMobile) {
+      return halvingBannerSuccessMobile;
+    }
+
+    return halvingBannerSuccess;
+  })();
+
+  return (
+    <div
+      className={classnames(styles.halvingBannerWrapper, {
+        [styles.halvingBannerSuccess]: inCelebration,
+      })}
+      style={{
+        backgroundImage: `url(${bgImage.src})`,
+      }}
+    >
+      <div className={styles.halvingBannerShadow}>
+        <div className={classnames(styles.halvingBanner, "container")}>
+          {inCelebration && (
+            <InteImage
+              className={styles.halvingBannerAnimation}
+              src={halvingSuccessAni}
+              alt="animation"
+            />
+          )}
+          {inCelebration ? (
+            <div
+              className={classnames(styles.halvingBannerText, styles.success)}
+            >
+              {t("halving.banner_congratulation", {
+                times: t(`ordinal.${numberToOrdinal(halvingCount)}`),
+              }).toUpperCase()}
+            </div>
+          ) : (
+            <div
+              className={classnames(styles.halvingBannerText, styles.linear)}
+            >
+              {`Nervos CKB ${t(`ordinal.${numberToOrdinal(halvingCount)}`)}${language === "en" ? " " : ""}${t(
+                "halving.halving",
+              )}`}
+            </div>
+          )}
+          <Link href="/halving">
+            <SimpleButton className={styles.learnMoreButton}>
+              {learnMoreText()}
+              <InteImage src={MoveIcon} alt="" style={{ marginTop: 2 }} />
+            </SimpleButton>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -1,0 +1,29 @@
+export function pick<T, K extends keyof T>(
+  obj: T,
+  keys: K[],
+): Pick<T, K> {
+  const newObj: Partial<Pick<T, K>> = {};
+  keys.forEach((key) => {
+    newObj[key] = obj[key];
+  });
+  return newObj as Pick<T, K>;
+}
+
+export function omit<T extends Record<any, any>, U extends keyof T>(
+  obj: T,
+  keys: U[],
+): Omit<T, U> {
+  const newObj = { ...obj };
+  keys.forEach((key) => {
+    delete newObj[key];
+  });
+  return newObj;
+}
+
+export function omitNil<T extends Record<any, any>>(
+  obj: T,
+): { [K in keyof T]: null extends T[K] ? T[K] | undefined : T[K] } {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([, value]) => value != null),
+  ) as any;
+}

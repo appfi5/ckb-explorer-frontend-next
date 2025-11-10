@@ -1,0 +1,20 @@
+.transaction {
+  --icon-bg-start-color: var(--color-primary);
+  --icon-bg-start-opacity: 0.3;
+  --icon-bg-end-color: #00664E;
+  --icon-bg-end-opacity: 0.2;
+
+  --icon-main-start-color: #18EFB1;
+  --icon-main-end-color: var(--color-primary);
+
+  @variant testnet {
+    // --icon-bg-start-color: --color-primary;
+    --icon-bg-start-opacity: 0.2;
+    --icon-bg-end-color: #7B4DF8;
+    --icon-bg-end-opacity: 0.1;
+
+    --icon-main-start-color: var(--color-primary);
+    // --icon-main-end-color: --color-primary;
+
+  }
+}

@@ -1,0 +1,15 @@
+
+.card {
+  background-color: var(--card-background);
+  // background-color: #fff;
+  // border: 2px solid transparent;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.10);
+  border-radius: 8px;
+
+  @variant dark {
+    box-shadow: 0px 4px 4px 0px #00000040;
+    backdrop-filter: blur(50px);
+    border: 2px solid #282B2C;
+    // background-color: rgba(35, 35, 35, 0.90);
+  }
+}

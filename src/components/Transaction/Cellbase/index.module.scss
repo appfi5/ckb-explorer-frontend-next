@@ -1,0 +1,75 @@
+@use '@/styles/variables.module';
+
+// .tooltip {
+//   a {
+//     color: var(--color-primary);
+//   }
+// }
+
+.cellbasePanel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 20px;
+  position: relative;
+  width: 100%;
+  // margin-top: 8px;
+  padding: 21px 12px;
+  border-radius: 2px;
+  background: rgba(217, 217, 217, 0.1);
+
+  [data-theme='dark'] & {
+    background: #363839;
+  }
+
+  &.isDetail {
+    margin-top: 0;
+  }
+
+  @media (max-width: variables.$mobileBreakPoint) {
+    margin-top: 10px;
+    height: 16px;
+  }
+
+  :global(.cellbaseContent) {
+    color: #000;
+    [data-theme='dark'] & {
+      color:#fff;
+    }
+  }
+
+  // a {
+  //   font-weight: 500;
+  //   color: var(--color-primary);
+  // }
+
+  // a:hover {
+  //   color: var(--color-primary);
+  // }
+
+  :global(.cellbaseHelp) {
+    margin-left: 10px;
+    transform: translateY(2px);
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  :global(.cellbaseHelpIcon) {
+    width: 16px;
+    height: 16px;
+    margin: 2px 8px 0;
+  }
+}
+
+.helpIcon{
+  [data-theme='dark'] & {
+    circle{
+      fill:#FFFFFF1A;
+    }
+    path{
+      fill:#999999;
+    }
+  }
+}

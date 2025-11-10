@@ -1,0 +1,68 @@
+$borderWidth: 3px;
+
+.layout-switch {
+  padding: $borderWidth;
+}
+
+.border-line {
+
+  position: absolute;
+  background: #232323;
+
+  @variant dark {
+    background: var(--color-primary);
+  }
+
+  &.top,
+  &.bottom {
+    left: $borderWidth;
+    right: $borderWidth;
+    height: $borderWidth;
+  }
+
+  &.left,
+  &.right {
+    top: $borderWidth;
+    bottom: $borderWidth;
+    width: $borderWidth;
+  }
+
+  &.top {
+    top: 0;
+  }
+
+  &.bottom {
+    bottom: 0;
+  }
+
+  &.left {
+    left: 0;
+  }
+
+  &.right {
+    right: 0;
+  }
+}
+
+.tab {
+  flex: 1 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  @variant dark {
+    color: var(--color-primary);
+  }
+
+  &.active {
+    cursor: default;
+    color: var(--color-primary);
+    background: #232323;
+
+    @variant dark {
+      color: white;
+      background: var(--color-primary);
+    }
+  }
+}

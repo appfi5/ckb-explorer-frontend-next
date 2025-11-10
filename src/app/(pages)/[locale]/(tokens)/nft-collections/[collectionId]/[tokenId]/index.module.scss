@@ -1,0 +1,9 @@
+.overview {
+
+  @media (width >=48rem) {
+    @variant dark {
+      background-image: radial-gradient(circle 376px at 92% 96%, rgb(from var(--color-primary) r g b / 14%), rgb(from var(--color-primary) r g b / 0%));
+    }
+  }
+
+}

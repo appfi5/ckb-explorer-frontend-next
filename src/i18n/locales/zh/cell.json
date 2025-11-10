@@ -1,0 +1,31 @@
+{
+  "modal-title": "Cell详情",
+  "state": {
+    "live": "未使用",
+    "dead": "已使用"
+  },
+  "field": {
+    "outpoint": "Outpoint",
+    "consumed_tx": "消耗于交易",
+    "capacity": "容量",
+    "occupied": "占用CKB",
+    "lock": "Lock",
+    "type": "Type",
+    "data": "Data",
+    "state": "状态",
+    "script": {
+      "code_hash": "codeHash",
+      "hash_type": "hashType",
+      "args": "args"
+    }
+  },
+  "message": {
+    "data_too_large": "Cell Data过大",
+    "get_cell_data_failed": "获取Cell Data失败"
+  },
+  "action": {
+    "download_source": "下载原文",
+    "parsed": "解析结果",
+    "source": "原文"
+  }
+}

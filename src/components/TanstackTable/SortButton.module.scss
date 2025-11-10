@@ -1,0 +1,21 @@
+.container {
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+  display: inline-flex;
+  vertical-align: text-top;
+  cursor: pointer;
+
+  &[data-order='desc'] {
+    svg > path:first-child {
+      fill: var(--color-primary);
+    }
+  }
+
+  &[data-order='asc'] {
+    svg > path:last-child {
+      fill: var(--color-primary);
+    }
+  }
+}

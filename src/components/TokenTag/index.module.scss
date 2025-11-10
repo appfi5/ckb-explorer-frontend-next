@@ -1,0 +1,45 @@
+.tag {
+  appearance: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+  padding-inline: 8px;
+  outline: none;
+
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: default;
+
+  border-radius: 4px;
+  border: 1px solid transparent;
+
+  &[data-type='supply-limited'] {
+    $color: #4D92FF;
+    color: $color;
+    border-color: $color;
+    background: rgb(from $color r g b / 5%);
+  }
+
+  &[data-type='layer-1-asset'] {
+    color: var(--btc-color-primary);
+    border-color: var(--btc-color-primary);
+    background: rgb(from var(--btc-color-primary) r g b / 5%);
+  }
+
+  &[data-type='layer-2-asset'] {
+    border-color: var(--color-primary);
+    background: rgb(from var(--color-primary) r g b / 10%);
+    color: var(--color-primary);
+  }
+  
+  &[data-type='rgbpp-compatible'],
+  &[data-type='rgb++'] {
+    border: none;
+    background: linear-gradient(280.1deg, #9672FA -6.93%, #4DB5FF 52.87%, #32FFCE 107.19%);
+    color: #fff;
+    // color: #333;
+  }
+}

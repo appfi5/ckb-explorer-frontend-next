@@ -1,0 +1,17 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+  xmlns="http://www.w3.org/2000/svg">
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 7 7)" fill="currentColor"/>
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 7 28)" fill="currentColor"/>
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 4 10)" fill="currentColor"/>
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 4 25)" fill="currentColor"/>
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 25 10)" fill="currentColor"/>
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 25 25)" fill="currentColor"/>
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 22 7)" fill="currentColor"/>
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 22 28)" fill="currentColor"/>
+  <rect width="12" height="3" transform="matrix(1 0 0 -1 10 4)" fill="currentColor"/>
+  <rect width="12" height="3" transform="matrix(1 0 0 -1 10 31)" fill="currentColor"/>
+  <rect width="12" height="3" transform="matrix(-4.37114e-08 1 1 4.37114e-08 1 10)" fill="currentColor"/>
+  <rect width="12" height="3" transform="matrix(-4.37114e-08 1 1 4.37114e-08 28 10)" fill="currentColor"/>
+  <path d="M22.4 17.4H24V19H22.4V20.6H20.8V19H16V15.8H17.6V17.4H20.8V14.2H19.2V12.6H20.8V11H22.4V17.4ZM19.2 14.2V15.8H17.6V14.2H19.2Z" fill="currentColor"/>
+  <path d="M12.8 11V12.6H9.6V11H12.8ZM8 14.2V12.6H9.6V14.2H8ZM12.8 12.6H14.4V15.8H12.8V12.6ZM9.6 15.8H12.8V17.4H9.6V15.8ZM8 17.4H9.6V19H14.4V20.6H8V17.4Z" fill="currentColor"/>
+</svg>

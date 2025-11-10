@@ -1,0 +1,8 @@
+.card {
+  
+  opacity: 1;
+
+  @variant dark {
+    background-image: radial-gradient(circle 120px at 98% 110%, rgb(from var(--color-primary) r g b / 24%), rgb(from var(--color-primary) r g b / 0%));
+  }
+}

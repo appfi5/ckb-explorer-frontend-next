@@ -1,0 +1,380 @@
+@use '@/styles/variables.module';
+
+.capacity {
+  display: inline-flex;
+  align-items: flex-end;
+  font-size: 1rem;
+
+  span[data-role='dec'] {
+    font-size: 0.75em;
+    color: var(--decimal-color);
+  }
+
+  @media screen and (width <= variables.$largeBreakPoint) {
+    font-size: 0.75rem;
+
+    span[data-role='dec'] {
+      font-size: 0.9em;
+    }
+
+    .unit {
+      font-size: 1rem;
+    }
+  }
+}
+
+.daoOverviewPanel {
+  width: 100%;
+  margin: 20px 0;
+  display: flex;
+  gap: 20px;
+
+
+  @media (max-width: variables.$extraLargeBreakPoint) {
+    flex-direction: column;
+  }
+
+  @media (max-width: variables.$mobileBreakPoint) {
+    // padding: 5px 0 15px;
+    font-size: 13px;
+    flex-direction: column;
+  }
+}
+
+.daoOverviewLeftPanel {
+  flex: 62;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0px 2px 8px 0px #0000001A;
+  padding: 40px 24px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  column-gap: 60px;
+  row-gap: 44px;
+  
+  @variant dark { 
+    background: #232323E5;
+    border:2px solid #282B2C;
+    box-shadow: 0px 4px 4px 0px #00000040;
+    backdrop-filter: blur(50px)
+  }
+
+  @media (max-width: variables.$mobileBreakPoint) {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: variables.$extraLargeBreakPoint + 300px) {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    @media (max-width: variables.$mobileBreakPoint) {
+      flex-direction: row;
+    }
+  }
+
+  :global(.daoOverviewMiddleSeparate) {
+    width: 1px;
+    height: 130px;
+    background: #eaeaea;
+    margin: 10px 16px;
+
+    @media (max-width: variables.$mobileBreakPoint) {
+      width: 100%;
+      height: 1px;
+      background: #eaeaea;
+      margin: 0;
+    }
+  }
+
+  :global(.daoOverviewLeftColumnSeparate) {
+    width: 1px;
+    height: auto;
+    margin: 3% 0;
+    background: #eaeaea;
+
+    @media (max-width: variables.$mobileBreakPoint) {
+      display: none;
+    }
+  }
+}
+
+.daoOverviewRightPanel {
+  display: flex;
+  flex-direction: row;
+  flex: 38;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0px 2px 8px 0px #0000001A;
+  padding: 40px 24px;
+  gap:40px;
+
+  @variant dark { 
+    background: #232323E5;
+    border:2px solid #282B2C;
+    box-shadow: 0px 4px 4px 0px #00000040;
+    backdrop-filter: blur(50px)
+  }
+
+  @media (max-width: variables.$mobileBreakPoint) {
+    padding: 20px;
+    flex-direction: column;
+    gap:20px;
+  }
+
+  @media (max-width: variables.$extraLargeBreakPoint + 200px) {
+    gap:10px;
+  }
+}
+
+.nervosDaoOverviewPieTitle {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #555;
+
+  @variant dark {
+    color: #fff;
+  }
+
+  @media (max-width: variables.$mobileBreakPoint) {
+    font-size: 12px;
+    margin: 8px 16px;
+  }
+}
+
+.daoOverviewPieChartPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (max-width: variables.$extraLargeBreakPoint) {
+    align-items: flex-start;
+    padding-right: 10px;
+  }
+
+  .daoOverviewPieChartSty{
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: variables.$mobileBreakPoint) {
+    .daoOverviewPieChartSty{
+      margin: 0 auto;
+    }
+  }
+}
+
+.daoOverviewPieItemsPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex: 1;
+
+  > div {
+    width: auto;
+  }
+
+  @media (max-width: variables.$mobileBreakPoint) {
+    justify-content: flex-start;
+  }
+
+  @media (max-width: variables.$extraLargeBreakPoint + 300px) {
+    justify-content: center;
+  }
+}
+
+.daoOverviewLeftItemPanel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  :global(.daoOverviewItemContainer) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .daoOverviewItemIcon{
+    width: 24px;
+    height: 24px;
+  }
+
+  :global(.daoOverviewItemTop) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+
+    :global(.daoOverviewItemTitle) {
+      color: #232323;
+      font-size: 16px;
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 22px;
+
+      @variant dark {
+        color: #999999;
+      }
+
+      @media (max-width: variables.$xxlBreakPoint) {
+        max-width: 200px;
+
+        &:global(.hasChange) {
+          max-width: 130px;
+        }
+      }
+
+      @media (max-width: variables.$extraLargeBreakPoint) {
+        max-width: 200px;
+      }
+
+      @media (max-width: variables.$mobileBreakPoint) {
+        font-size: 12px;
+        max-width: 200px;
+
+        &:global(.hasChange) {
+          max-width: 90px;
+        }
+      }
+    }
+
+    :global(.daoOverviewItemChangeIcon) {
+      margin-left: 5px;
+      margin-right: 3px;
+    }
+
+    :global(.daoOverviewItemChange) {
+      font-size: 12px;
+      font-weight: bold;
+      cursor: default;
+
+      @media (max-width: variables.$mobileBreakPoint) {
+        font-size: 10px;
+      }
+    }
+  }
+
+  :global(.daoOverviewItemContent) {
+    color: #000;
+    display: flex;
+    align-items: center;
+    gap:5px;
+
+    .title{
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 36px;
+      font-family: menlo;
+    }
+    @variant dark {
+      .title{
+        color: #fff;
+      }
+    }
+
+    .subTitle{
+      display: flex;
+      align-items: center;
+      gap:4px;
+      span{
+        font: 12px;
+        font-weight: 500;
+      }
+    }
+
+    // @variant dark {
+    //   .subTitle{
+    //     color: #fff;
+    //   }
+    // }
+
+    .daoBalanceIcon{
+      transform: rotate(270deg);
+      path {
+        fill: var(--color-primary);
+      }
+    }
+
+    .daoDownIcon{
+      path {
+        fill: #FF4545;
+      }
+    }
+
+    .daoUpIcon{
+      transform: rotate(180deg);
+      path {
+        fill: #00CC9B //var(--color-primary);
+      }
+    }
+
+    @media (max-width: variables.$mobileBreakPoint) {
+      font-size: 14px;
+    }
+  }
+}
+
+.nervosDaoOverviewPieIcon {
+  width: 8px;
+  height: 8px;
+  margin-right: 9px;
+  margin-top: 8px;
+}
+
+
+.nervosDaoPieItemPanel {
+  display: flex;
+  flex: 1;
+  margin-bottom: 20px;
+
+  @media (max-width: variables.$extraLargeBreakPoint) {
+    margin: 10px 0;
+  }
+
+  @media (max-width: variables.$mobileBreakPoint) {
+    margin: 5px 0;
+  }
+
+  > div {
+    > span {
+      font-size: 14px;
+      line-height: 22px;
+      color: #909399;
+    }
+
+    > div {
+      font-size: 14px;
+      color: #232323;
+      font-family: menlo;
+      margin-top:3px;
+
+      @variant dark {
+        color: #fff;
+      }
+
+      @media (max-width: variables.$mobileBreakPoint) {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.nervosDaoPieCapacityPanel {
+  width: 180px;
+
+  @media (max-width: variables.$mobileBreakPoint) {
+    width: 130px;
+  }
+}

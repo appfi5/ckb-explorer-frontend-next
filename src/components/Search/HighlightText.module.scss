@@ -1,0 +1,10 @@
+.highlightText {
+  // white-space: nowrap;
+  white-space: pre-wrap;
+  overflow: hidden;
+  display: flex;
+}
+
+.highlight {
+  color: var(--color-primary);
+}

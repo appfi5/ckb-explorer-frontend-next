@@ -1,0 +1,22 @@
+.container {
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+  display: inline-flex;
+  vertical-align: text-top;
+  margin-left: 8px;
+  cursor: pointer;
+
+  &[data-order='desc'] {
+    svg > path:first-child {
+      fill: var(--color-primary);
+    }
+  }
+
+  &[data-order='asc'] {
+    svg > path:last-child {
+      fill: var(--color-primary);
+    }
+  }
+}

@@ -1,0 +1,17 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+  xmlns="http://www.w3.org/2000/svg">
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 7 7)" fill="currentColor"/>
+  <rect width="3" height="9" transform="matrix(1 0 0 -1 14 19)" fill="currentColor"/>
+  <rect width="3" height="7.40979" transform="matrix(-0.0895859 0.995979 0.995979 0.0895859 14.2695 16)" fill="currentColor"/>
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 7 28)" fill="currentColor"/>
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 4 10)" fill="currentColor"/>
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 4 25)" fill="currentColor"/>
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 25 10)" fill="currentColor"/>
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 25 25)" fill="currentColor"/>
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 22 7)" fill="currentColor"/>
+  <rect width="3" height="3" transform="matrix(1 0 0 -1 22 28)" fill="currentColor"/>
+  <rect width="12" height="3" transform="matrix(1 0 0 -1 10 4)" fill="currentColor"/>
+  <rect width="12" height="3" transform="matrix(1 0 0 -1 10 31)" fill="currentColor"/>
+  <rect width="12" height="3" transform="matrix(-4.37114e-08 1 1 4.37114e-08 1 10)" fill="currentColor"/>
+  <rect width="12" height="3" transform="matrix(-4.37114e-08 1 1 4.37114e-08 28 10)" fill="currentColor"/>
+</svg>

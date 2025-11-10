@@ -1,0 +1,16 @@
+.tooltip {
+  a {
+    color: var(--color-primary);
+  }
+}
+
+.icon {
+  width: 12px;
+  height: 12px;
+  margin: 0 4px;
+
+
+  &:last-child {
+    margin-right: 0;
+  }
+}

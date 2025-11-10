@@ -1,0 +1,36 @@
+import Link from "next/link";
+import Tooltip from "../Tooltip";
+import CopyTooltipText from "./CopyTooltipText";
+import { HighLightPanel } from "./HighLightPanel";
+
+export const HighLightLink = ({
+  value,
+  to,
+  tooltip,
+  className,
+}: {
+  value: string;
+  to: string;
+  tooltip?: string;
+  className?: string;
+}) =>
+  tooltip ? (
+    <Tooltip
+      trigger={
+        <HighLightPanel>
+          <Link className={className} href={to}>
+            {value}
+          </Link>
+        </HighLightPanel>
+      }
+      placement="top"
+    >
+      <CopyTooltipText content={tooltip} />
+    </Tooltip>
+  ) : (
+    <HighLightPanel>
+      <Link className={className} href={to}>
+        {value}
+      </Link>
+    </HighLightPanel>
+  );

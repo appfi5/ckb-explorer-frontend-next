@@ -1,0 +1,13 @@
+.card {
+  @variant dark {
+    background-image:
+      /* 左侧径向渐变 */
+      radial-gradient(circle 180px at 30px 160px,
+        rgb(from var(--color-primary) r g b / 25%),
+        rgb(from var(--color-primary) r g b / 0%)),
+      /* 右侧径向渐变 */
+      radial-gradient(circle 180px at calc(100% - 30px) 160px,
+        rgb(from var(--color-primary) r g b / 25%),
+        rgb(from var(--color-primary) r g b / 0%));
+  }
+}

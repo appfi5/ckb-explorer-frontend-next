@@ -1,0 +1,21 @@
+{
+  "title": "脚本列表",
+  "fields": {
+    "code_hash": "Code Hash",
+    "data_hash": "Data Hash",
+    "type_hash": "Type Hash",
+    "description": "描述",
+    "type": "Script Type"
+  },
+  "desc": {
+    "lock_script": "Lock Script",
+    "type_script": "Type Script"
+  },
+  "icon": {
+    "rfc": "RFC",
+    "code": "源码地址",
+    "website": "官网",
+    "ownerless_cell": "无主 Cell",
+    "verified": "已验证"
+  }
+}
