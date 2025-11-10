@@ -20,6 +20,7 @@ import DescPanel from "@/components/Card/DescPanel";
 import { HelpTip } from "@/components/HelpTip";
 import OutLink from "@/components/OutLink";
 import ScriptTag from "@/components/ScriptTag";
+import DateTime from "@/components/DateTime";
 
 export default function TransactionInfo({ transaction: tx }: { transaction: APIExplorer.TransactionResponse }) {
   const { t } = useTranslation();
@@ -84,7 +85,7 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
       key: "block.timestamp",
       // showContent: txLoaded,
       label: t('block.timestamp'),
-      content: blockTimestamp ? <span className="font-menlo">{dayjs(+blockTimestamp).format("YYYY/MM/DD HH:mm:ssZZ")}</span> : "-"
+      content: blockTimestamp ? <DateTime date={blockTimestamp} /> : "-"
     }, {
       key: "size",
       // showContent: txLoaded,

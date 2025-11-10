@@ -21,6 +21,7 @@ import { sleep } from "@ckb-ccc/core";
 import Loading from "@/components/Loading";
 import Empty from "@/components/Empty";
 import server from "@/server";
+import DateTime from "@/components/DateTime";
 
 
 type DataType = any;
@@ -79,9 +80,7 @@ function HisTable({ loading, list }: { loading: boolean, list: DataType[] }) {
       accessorKey: 'blockTimestamp',
       enablePinning: false,
       cell: ({ row }) => (
-        <div className="font-menlo">{
-          dayjs(+row.original.blockTimestamp).format("YYYY/MM/DD HH:mm:ssZZ")
-        }</div>
+        <DateTime date={row.original.blockTimestamp} showRelative />
       ),
     },
     {

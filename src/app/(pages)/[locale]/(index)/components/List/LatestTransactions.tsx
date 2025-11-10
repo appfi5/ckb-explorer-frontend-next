@@ -10,7 +10,6 @@ import styles from './LatestTransactions.module.scss'
 import Link from "next/link";
 import { HighLightLink } from "@/components/Text";
 import { localeNumberString } from "@/utils/number";
-import { useParsedDate } from "@/hooks";
 import { shannonToCkb } from "@/utils/util";
 import BigNumber from "bignumber.js";
 import TextEllipsis from "@/components/TextEllipsis";
@@ -19,6 +18,7 @@ import server from "@/server";
 import { useBlockChainInfo } from "@/store/useBlockChainInfo";
 import { useTheme } from "@/components/Theme";
 import OutLink from "@/components/OutLink";
+import DateTime from "@/components/DateTime";
 
 export default function LatestTransactions() {
   const { t } = useTranslation();
@@ -55,7 +55,6 @@ export default function LatestTransactions() {
 
 
 function TranactionItem({ tx }: { tx: APIExplorer.TransactionPageResponse }) {
-  const parsedBlockCreateAt = useParsedDate(tx.blockTimestamp);
   const { t } = useTranslation();
   const [theme] = useTheme();
   const isDarkTheme = theme === 'dark';
@@ -94,7 +93,7 @@ function TranactionItem({ tx }: { tx: APIExplorer.TransactionPageResponse }) {
           </Link>
         </div>
         <div className="font-medium text-[#999] leading-[1]">
-          {parsedBlockCreateAt}
+          <DateTime date={tx.blockTimestamp} showRelative />
         </div>
       </div>
       <div className="sm:basis-[158px] flex flex-row sm:flex-col justify-between text-right">

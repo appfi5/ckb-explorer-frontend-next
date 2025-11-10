@@ -29,6 +29,7 @@ import MinerRewardIcon from '@/components/icons/MinerRewardIcon'
 
 import QuestionIcon from "@/assets/icons/question.svg?component";
 import CopyTooltipText from '@/components/Text/CopyTooltipText'
+import DateTime from '@/components/DateTime'
 
 const CELL_BASE_ANCHOR = 'cellbase'
 
@@ -388,7 +389,7 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
             key: 'timestamp',
             label: t('block.timestamp'),
             // tooltip: t('glossary.timestamp'),
-            content: <span className="font-menlo">{dayjs(+block.timestamp).format("YYYY/MM/DD HH:mm:ssZZ")}</span>,
+            content: <DateTime date={block.timestamp} />,
         },
     ]
 

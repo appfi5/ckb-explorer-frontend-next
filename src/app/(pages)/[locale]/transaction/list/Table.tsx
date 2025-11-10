@@ -10,6 +10,7 @@ import { shannonToCkb } from '@/utils/util'
 import { localeNumberString } from '@/utils/number'
 import { parseSimpleDate, dayjs } from '@/utils/date'
 import { useMediaQuery } from "@/hooks";
+import DateTime from '@/components/DateTime'
 
 export interface Column<T> {
   title: ReactElement
@@ -56,13 +57,13 @@ export function Table<T>({
       !!isTransactionFree && {
         width: '25%',
         textDirection: 'left',
-        content: <div className="inline-block max-w-full w-[100%] break-all whitespace-normal font-menlo"> {dayjs(+transaction.blockTimestamp).format("YYYY/MM/DD HH:mm:ssZZ")}</div>,
+        content: <div className="inline-block max-w-full w-[100%] break-all whitespace-normal font-menlo"><DateTime date={transaction.blockTimestamp} showRelative /></div>,
       },
       !isTransactionFree && {
         width: '25%',
         to: `/block/${transaction.createTimestamp}`,
         textDirection: 'left',
-        content: <div className="inline-block max-w-full w-[100%] break-all whitespace-normal font-menlo">{dayjs(+transaction.createTimestamp).format("YYYY/MM/DD HH:mm:ssZZ")}</div>,
+        content: <div className="inline-block max-w-full w-[100%] break-all whitespace-normal font-menlo"><DateTime date={transaction.createTimestamp!} showRelative /></div>,
       },
       {
         width: '25%',
