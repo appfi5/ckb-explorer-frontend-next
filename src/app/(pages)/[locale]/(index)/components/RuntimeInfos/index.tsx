@@ -118,12 +118,15 @@ export default function RuntimeInfos() {
       <Card className={cn("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-[16px] px-[16px] py-[16px] lg:py-[70px] md:py-[40px]", styles.card)}>
         {
           config.map((item, index) => (
-            <Info
-              key={item.key}
-              icon={item.icon}
-              label={item.label}
-              content={item.content}
-            />
+            <>
+              {index !== 0 && (<div className=" sm:hidden h-[1px] w-full bg-[#eee]" />)}
+              <Info
+                key={item.key}
+                icon={item.icon}
+                label={item.label}
+                content={item.content}
+              />
+            </>
           ))
         }
       </Card>
@@ -215,7 +218,7 @@ function ChartCardLayout({ first, second, children }: ChartCardLayoutProps) {
 
 function Info({ icon, label, content }: { icon: ReactNode; label: ReactNode; content: ReactNode }) {
   return (
-    <div className="flex flex-row justify-center items-start gap-[8px] md:gap-[16px] px-[8px]">
+    <div className="flex flex-row justify-start  sm:justify-center items-start gap-[8px] md:gap-[16px] px-[8px]">
       <div className="flex-none block size-[20px] md:size-[24px]">{icon}</div>
       <div>
         <div className="md:text-[16px] text-[14px] leading-[20px] md:leading-[24px] min-w-[180px] md:min-w-[204px] font-medium">{label}</div>

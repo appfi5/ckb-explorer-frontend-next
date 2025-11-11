@@ -65,12 +65,12 @@ function TranactionItem({ tx }: { tx: APIExplorer.TransactionPageResponse }) {
   const confirmationUnit = confirmation > 1 ? t("address.confirmations") : t("address.confirmation");
   const TransactionIcon = isDarkTheme ? TransactionDarkIcon : TransactionLightIcon;
   return (
-    <div className={classNames(styles.transaction, "flex flex-col sm:flex-row justify-between bg-[#F5F9FB] dark:bg-[#303030] gap-2 p-3 sm:p-4 lg:p-6 xl:p-4 2xl:p-6 rounded-[8px]")}>
+    <div className={classNames(styles.transaction, "flex flex-col sm:flex-row justify-between bg-[#F5F9FB] dark:bg-[#303030] gap-4 sm:gap-2 p-3 sm:p-4 lg:p-6 xl:p-4 2xl:p-6 rounded-[8px]")}>
       <div className="flex flex-row gap-[12px]">
-        <div className="flex size-[42px] sm:size-[54px] rounded-[4px] text-primary"><TransactionIcon width="100%" height="100%" /></div>
+        <div className="hidden sm:flex size-[42px] sm:size-[54px] rounded-[4px] text-primary"><TransactionIcon width="100%" height="100%" /></div>
         <div className="flex-1 items-center sm:items-start flex flex-row sm:flex-col justify-between">
           <OutLink
-            className="font-menlo font-bold text-[18px] leading-[1]"
+            className="font-menlo font-bold text-base sm:text-[18px] leading-[1]"
             href={`/transaction/${tx.transactionHash}`}
           >
             <TextEllipsis
@@ -78,12 +78,12 @@ function TranactionItem({ tx }: { tx: APIExplorer.TransactionPageResponse }) {
               ellipsis={{ head: 4, tail: -4 }}
             />
           </OutLink>
-          <div className="font-medium text-[#999] leading-[1]">{Math.max(confirmation, 0)} {confirmationUnit}</div>
+          <div className="font-medium text-[#999] text-xs sm:text-sm leading-[1]">{Math.max(confirmation, 0)} {confirmationUnit}</div>
         </div>
       </div>
 
-      <div className="flex flex-row sm:flex-col items-center sm:items-start justify-between">
-        <div className="flex flex-row text-[16px] leading-[22px] gap-3">
+      <div className="flex flex-col items-start justify-between gap-1">
+        <div className="flex flex-row text-sm sm:text-[16px] leading-[22px] gap-3">
           <span className="text-[#232323] dark:text-white font-medium whitespace-nowrap">{t("block.block")}</span>
           <Link
             className="font-menlo text-[#484D4E] dark:text-[#EDF2F2] hover:text-primary underline"
@@ -92,12 +92,12 @@ function TranactionItem({ tx }: { tx: APIExplorer.TransactionPageResponse }) {
             {localeNumberString(tx.blockNumber)}
           </Link>
         </div>
-        <div className="font-medium text-[#999] leading-[1]">
+        <div className="text-xs sm:text-sm text-[#999] leading-[1]">
           <DateTime date={tx.blockTimestamp} showRelative />
         </div>
       </div>
-      <div className="sm:basis-[158px] flex flex-row sm:flex-col justify-between text-right">
-        <div className="text-[16px] leading-[22px]">
+      <div className="sm:basis-[158px] flex flex-row sm:flex-col justify-between items-center sm:items-end text-right">
+        <div className="text-sm sm:text-base leading-[22px]">
           <TwoSizeAmount
             integerClassName="font-menlo"
             decimalClassName="font-menlo text-[12px]"
@@ -106,7 +106,7 @@ function TranactionItem({ tx }: { tx: APIExplorer.TransactionPageResponse }) {
             unit={<span className="font-medium ml-[6px]">CKB</span>}
           />
         </div>
-        <div className="font-medium text-[14px] text-[#999] leading-[1]">
+        <div className="font-medium text-xs sm:text-sm text-[#999] leading-[1]">
           {`${liveCellChanges >= 0 ? "+" : "-"}${Math.abs(liveCellChanges)} ${t("home.cells")}`}
         </div>
       </div>

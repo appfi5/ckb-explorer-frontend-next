@@ -12,7 +12,7 @@ export default function HomePage() {
   return (
     <Content>
       <Banner />
-      <div className="container flex flex-col items-stretch gap-[20px]">
+      <div className="container flex flex-col items-stretch gap-4 sm:gap-5">
         <HomeSearch />
         <RuntimeInfos />
         <div className="grid grid-cols-1 2xl:grid-cols-2 gap-[20px] mb-[34px]">

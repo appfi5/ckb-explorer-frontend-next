@@ -25,7 +25,7 @@ export const CardCell: FC<CardCellProps> = ({
   return (
     <div
       {...divProps}
-      className={`${styles.cardCell} ${divProps.className} w-full`}
+      className={`${styles.cardCell} ${divProps.className} w-full gap-1`}
     >
       <div className={`${styles.left}`}>
         {icon && <div className={styles.icon}>{icon}</div>}

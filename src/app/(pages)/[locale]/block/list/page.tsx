@@ -11,7 +11,6 @@ import { deprecatedAddrToNewAddr, shannonToCkb } from '@/utils/util'
 import { DELAY_BLOCK_NUMBER } from '@/constants/common'
 import { localeNumberString } from '@/utils/number'
 import Capacity from '@/components/Capacity'
-import AddressText from '@/components/AddressText'
 import { useIsMobile, useMediaQuery, usePaginationParamsInListPage, useSortParam } from '@/hooks'
 import Pagination from '@/components/Pagination'
 import styles from './styles.module.scss'
@@ -26,6 +25,7 @@ import DownloadIcon from '@/components/icons/download'
 import type { TFunction } from 'i18next'
 import { useCurrentLanguage } from '@/utils/i18n'
 import DateTime from '@/components/DateTime';
+import TextEllipsis from '@/components/TextEllipsis';
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
   <div className={styles.highLightValue}>
@@ -122,7 +122,7 @@ const BlockCardGroup: FC<{ blocks: Block[]; isFirstPage: boolean }> = ({ blocks,
       title: t('block.miner'),
       content: block => (
         <div className={styles.highLightValue}>
-          <AddressText
+          {/* <AddressText
             disableTooltip
             monospace={false}
             linkProps={{
@@ -130,7 +130,12 @@ const BlockCardGroup: FC<{ blocks: Block[]; isFirstPage: boolean }> = ({ blocks,
             }}
           >
             {block.minerHash}
-          </AddressText>
+          </AddressText> */}
+          <Link href={`/address/${block.minerHash}`}>
+            <TextEllipsis ellipsis="address"
+              text={block.minerHash}
+            />
+          </Link>
         </div>
       ),
     },
@@ -337,6 +342,7 @@ const BlockListPage = () => {
         <Pagination
           currentPage={currentPage}
           total={total}
+          className='bg-[#fff] rounded-[8px] shadow-[0_2px_8px_0_rgba(0,0,0,0.1)] sm:bg-transparent sm:rounded-none sm:shadow-none mt-4 sm:mt-0 pr-4 sm:pr-0'
           onChange={setPage}
           paginationType="list"
           setPageSize={setPageSize}

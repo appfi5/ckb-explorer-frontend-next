@@ -64,7 +64,7 @@ const MaintainAlert = () => {
   return lag >= threshold ? (
     <>
       <div className={styles.container}>
-        <InfoIcon />
+        <InfoIcon className="flex-none" />
         <Trans
           i18nKey="error.maintain"
           values={{

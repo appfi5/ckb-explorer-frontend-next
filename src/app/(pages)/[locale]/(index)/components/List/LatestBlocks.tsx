@@ -60,10 +60,10 @@ function BlockItem({ block }: { block: APIExplorer.BlockListResponse }) {
   const isDarkTheme = theme === "dark";
   const BlockIcon = isDarkTheme ? BlockDarkIcon : BlockLightIcon;
   return (
-    <div className={classNames("flex flex-col sm:flex-row justify-between bg-[#F5F9FB] dark:bg-[#303030] gap-2 p-3 sm:p-4 lg:p-6 xl:p-4 2xl:p-6 rounded-[8px]", styles.block)}>
+    <div className={classNames("flex flex-col sm:flex-row justify-between bg-[#F5F9FB] dark:bg-[#303030] gap-4 sm:gap-2 p-3 sm:p-4 lg:p-6 xl:p-4 2xl:p-6 rounded-[8px]", styles.block)}>
 
       <div className="flex flex-row gap-[12px]">
-        <div className="flex size-[42px] sm:size-[54px] rounded-[4px] text-primary">
+        <div className="hidden sm:flex size-[54px] rounded-[4px] text-primary">
           <BlockIcon width="100%" height="100%" />
         </div>
         <div className="flex-1 items-center sm:items-start flex flex-row sm:flex-col justify-between">
@@ -72,20 +72,24 @@ function BlockItem({ block }: { block: APIExplorer.BlockListResponse }) {
               {block.number}
             </TextWithLinkIcon>
           </Link> */}
+
           <OutLink
-            className="font-menlo font-bold text-[18px] leading-[1]"
+            className="font-menlo font-bold text-base sm:text-[18px] leading-[1]"
             href={`/block/${block.number}`}
           >
-            {block.number}
+            <span>
+              <span className="inline sm:hidden mr-1 font-normal">#</span>
+              {block.number}
+            </span>
           </OutLink>
-          <div className="font-medium text-[14px] text-[#999] leading-[1]">
+          <div className="font-medium text-xs sm:text-sm text-[#999] leading-[1]">
             <DateTime date={block.timestamp} showRelative />
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col items-start justify-between">
-        <div className="flex flex-row text-[16px] leading-[22px] gap-3">
+      <div className="flex flex-col items-start justify-between gap-1">
+        <div className="flex flex-row text-sm sm:text-[16px] leading-[22px] gap-3">
           <span className="text-[#232323] dark:text-white font-medium whitespace-nowrap">{t("home.miner")}</span>
           <Link
             className="hover:text-primary"
@@ -99,7 +103,7 @@ function BlockItem({ block }: { block: APIExplorer.BlockListResponse }) {
           </Link>
 
         </div>
-        <div className="font-medium text-[14px] text-[#999] leading-[1]">
+        <div className="text-[14px] text-[#999] leading-[1]">
           <span>{t("home.reward")}</span>
           <span className="ml-[8px]">
             {
@@ -121,10 +125,11 @@ function BlockItem({ block }: { block: APIExplorer.BlockListResponse }) {
       </div>
 
       <div className="sm:basis-[90px] flex flex-row items-center sm:flex-col sm:items-end justify-between text-right">
-        <div className="font-menlo text-[16px] leading-[22px]">
-          {block.transactionsCount} TXs
+        <div className="font-menlo text-sm sm:text-base leading-[22px]">
+          {block.transactionsCount}
+          <span className="ml-1">TXs</span>
         </div>
-        <div className="font-medium text-[#999] leading-[1]">
+        <div className="font-medium text-[#999] leading-[1] text-xs sm:text-sm">
           {`${liveCellChanges >= 0 ? "+" : "-"}${Math.abs(liveCellChanges)} ${t("home.cells")}`}
         </div>
       </div>

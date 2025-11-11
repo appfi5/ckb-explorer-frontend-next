@@ -24,6 +24,8 @@ import Link from 'next/link'
 import InteImage from '@/components/InteImage'
 import server from '@/server';
 import DateTime from '@/components/DateTime'
+import classNames from 'classnames'
+import TextEllipsis from '@/components/TextEllipsis'
 
 type TxStatus = 'confirmed' | 'pending'
 
@@ -43,23 +45,28 @@ const TransactionCardGroup: FC<{
   const itemHash: SortItemCardData<Transaction> = {
     title: t('transaction.transaction_hash'),
     content: transaction => (
-      <AddressText
-        disableTooltip
-        monospace={false}
-        linkProps={{
-          className: styles.addressLink,
-          href: `/transaction/${transaction.transactionHash}`,
-        }}
-      >
-        {transaction.transactionHash}
-      </AddressText>
+      // <AddressText
+      //   disableTooltip
+      //   monospace={false}
+      //   linkProps={{
+      //     className: styles.addressLink,
+      //     href: `/transaction/${transaction.transactionHash}`,
+      //   }}
+      // >
+      //   {transaction.transactionHash}
+      // </AddressText>
+      <Link className='text-primary' href={`/transaction/${transaction.transactionHash}`}>
+        <TextEllipsis ellipsis="transaction"
+          text={transaction.transactionHash}
+        />
+      </Link>
     ),
   }
   const itemCapacity: SortItemCardData<Transaction> = {
     title: t('transaction.capacity'),
     sortRule: 'capacity',
     content: transaction => (
-      <Capacity capacity={shannonToCkb(transaction.capacityInvolved)} textDirection="left" layout="responsive" unit={null} />
+      <Capacity capacity={shannonToCkb(transaction.capacityInvolved)} textDirection="left" integerClassName="text-sm" layout="responsive" unit={null} />
     ),
   }
 
@@ -120,7 +127,7 @@ const TransactionCardGroup: FC<{
           ))}
       </div> */}
       <CardListWithCellsList
-        className={styles.transactionCardGroup}
+        className={classNames(styles.transactionCardGroup)}
         dataSource={transactions}
         getDataKey={transaction => transaction.transactionHash}
         cells={items}
@@ -310,7 +317,7 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
             )}
 
             <Pagination
-              className={styles.pagination}
+              className={classNames(styles.pagination, "bg-[#fff] rounded-[8px] shadow-[0_2px_8px_0_rgba(0,0,0,0.1)] sm:bg-transparent sm:rounded-none sm:shadow-none mt-4 sm:mt-0 pr-4 sm:pr-0")}
               currentPage={currentPage}
               total={data.total}
               onChange={setPage}
