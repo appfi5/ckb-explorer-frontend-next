@@ -2,11 +2,11 @@
   "modal-title": "Cell Info",
   "state": {
     "live": "Live",
-    "dead": "Comsumed"
+    "dead": "Consumed"
   },
   "field": {
     "outpoint": "Outpoint",
-    "consumed_tx": "Comsumed By",
+    "consumed_tx": "Consumed By",
     "capacity": "Capacity",
     "occupied": "Occupied",
     "lock": "Lock",
