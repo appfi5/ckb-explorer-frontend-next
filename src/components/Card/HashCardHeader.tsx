@@ -49,17 +49,20 @@ export default function HashCardHeader(props: HashCardHeaderProps) {
         <span className="flex-none font-medium text-base md:text-xl">
           {title}
         </span>
-        <span className="font-menlo text-sm md:text-lg min-w-0 overflow-hidden pl-1 md:pl-3">
-          <TextEllipsis
-            text={hash}
-            ellipsis={{ tail: -8 }}
-            showTooltip={false}
-          />
-        </span>
-        <div className="flex flex-row items-center">
-          {type !== "script" && <CopyButton text={hash} />}
-          {actions}
+        <div className="flex-1 flex flex-row min-w-0 items-center gap-1 sm:gap-3">
+          <span className="font-hash text-sm md:text-lg min-w-0 overflow-hidden pl-1 md:pl-3">
+            <TextEllipsis
+              text={hash}
+              ellipsis={{ tail: -8 }}
+              showTooltip={false}
+            />
+          </span>
+          <div className="flex flex-row items-center">
+            {type !== "script" && <CopyButton text={hash} />}
+            {actions}
+          </div>
         </div>
+
       </div>
       {children}
     </Card>

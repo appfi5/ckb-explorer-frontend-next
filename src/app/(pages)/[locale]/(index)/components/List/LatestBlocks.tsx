@@ -68,13 +68,13 @@ function BlockItem({ block }: { block: APIExplorer.BlockListResponse }) {
         </div>
         <div className="flex-1 items-center sm:items-start flex flex-row sm:flex-col justify-between">
           {/* <Link className={classNames("font-bold text-[18px] leading-[1] hover:text-primary")} href={`/block/${block.number}`}>
-            <TextWithLinkIcon className="font-menlo">
+            <TextWithLinkIcon className="font-hash">
               {block.number}
             </TextWithLinkIcon>
           </Link> */}
 
           <OutLink
-            className="font-menlo font-bold text-base sm:text-[18px] leading-[1]"
+            className="font-hash font-bold text-base sm:text-[18px] leading-[1]"
             href={`/block/${block.number}`}
           >
             <span>
@@ -125,7 +125,7 @@ function BlockItem({ block }: { block: APIExplorer.BlockListResponse }) {
       </div>
 
       <div className="sm:basis-[90px] flex flex-row items-center sm:flex-col sm:items-end justify-between text-right">
-        <div className="font-menlo text-sm sm:text-base leading-[22px]">
+        <div className="font-hash text-sm sm:text-base leading-[22px]">
           {block.transactionsCount}
           <span className="ml-1">TXs</span>
         </div>

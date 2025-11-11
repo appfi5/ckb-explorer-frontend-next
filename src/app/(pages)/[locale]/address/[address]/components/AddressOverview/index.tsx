@@ -56,8 +56,8 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
               />
             </div>
             <TwoSizeAmount
-              integerClassName="font-menlo"
-              decimalClassName="font-menlo text-[12px]"
+              integerClassName="font-hash"
+              decimalClassName="font-hash text-[12px]"
               amount={shannonToCkb(addressInfo.balance)}
               unit={<span className="font-medium ml-1">CKB</span>}
             />
@@ -70,8 +70,8 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
           <div className="flex flex-col justify-between gap-1 sm:gap-3">
             <div className="text-[#909399]">{t('address.occupied')}</div>
             <TwoSizeAmount
-              integerClassName="font-menlo"
-              decimalClassName="font-menlo text-[12px]"
+              integerClassName="font-hash"
+              decimalClassName="font-hash text-[12px]"
               amount={shannonToCkb(addressInfo.balanceOccupied)}
               unit={<span className="font-medium ml-1">CKB</span>}
             />
@@ -79,8 +79,8 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
           <div className="flex flex-col justify-between gap-1 sm:gap-3">
             <div className="text-[#909399]">{t('address.dao_deposit')}</div>
             <TwoSizeAmount
-              integerClassName="font-menlo"
-              decimalClassName="font-menlo text-[12px]"
+              integerClassName="font-hash"
+              decimalClassName="font-hash text-[12px]"
               amount={shannonToCkb(addressInfo.daoDeposit)}
               unit={<span className="font-medium ml-1">CKB</span>}
             />
@@ -88,8 +88,8 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
           <div className="flex flex-col justify-between gap-1 sm:gap-3">
             <div className="text-[#909399]">{t('address.compensation')}</div>
             <TwoSizeAmount
-              integerClassName="font-menlo"
-              decimalClassName="font-menlo text-[12px]"
+              integerClassName="font-hash"
+              decimalClassName="font-hash text-[12px]"
               amount={shannonToCkb(new BigNumber(addressInfo.depositUnmadeCompensation).plus(addressInfo.phase1UnClaimedCompensation))}
               unit={<span className="font-medium ml-1">CKB</span>}
             />
@@ -150,23 +150,23 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
           <div className="mt-2 bg-[#fbfbfb] dark:bg-[#303030] flex flex-col gap-4 sm:gap-2 px-4 py-2.5">
             {
               !showLockScript ? (
-                <div className="font-menlo break-all">{addressInfo.lockScript ? CCCScript.from(addressInfo.lockScript).hash() : null}</div>
+                <div className="font-hash break-all">{addressInfo.lockScript ? CCCScript.from(addressInfo.lockScript).hash() : null}</div>
               ) : (
                 <>
                   <div className="flex flex-col sm:flex-row">
                     <span className="flex-none sm:basis-[104px] font-medium">{t("address.code_hash")}:</span>
                     <div className="flex flex-col xl:flex-row gap-1.5 xl:gap-3 xl:items-center">
-                      <span className="font-menlo break-all">{addressInfo.lockScript.codeHash}</span>
+                      <span className="font-hash break-all">{addressInfo.lockScript.codeHash}</span>
                       <ScriptTag category="lock" script={addressInfo.lockScript} />
                     </div>
                   </div>
                   <div className="flex flex-col sm:flex-row">
                     <span className="flex-none sm:basis-[104px] font-medium">{t("address.hash_type")}:</span>
-                    <span className="font-menlo">{addressInfo.lockScript.hashType}</span>
+                    <span className="font-hash">{addressInfo.lockScript.hashType}</span>
                   </div>
                   <div className="flex flex-col sm:flex-row">
                     <span className="flex-none sm:basis-[104px] font-medium">{t("address.args")}: </span>
-                    <span className="font-menlo break-all">{addressInfo.lockScript.args}</span>
+                    <span className="font-hash break-all">{addressInfo.lockScript.args}</span>
                   </div>
                 </>
               )

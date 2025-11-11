@@ -2,9 +2,9 @@
 @import "tw-animate-css";
 
 @theme {
-  /* --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
   --container-8xl: 88rem;
   --spacing-page-height: calc(100vh - 64px - 375px);
+  --font-hash: var(--font-source-code-pro);
 }
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
@@ -12,7 +12,6 @@
 
 @theme inline {
   /* base */
-  /* --font-menlo: menlo; */
   --color-primary: var(--color-primary);
   --color-success: var(--success);
   --color-destructive: var(--destructive);
@@ -41,7 +40,7 @@
 
 :root {
   /* base */
-  --default-font-family: 'PingFang SC', -apple-system, Roboto, Lato, sans-serif, Montserrat;
+  --default-font-family: Roboto, 'PingFang SC', -apple-system;
   --color-primary: #00cc9b;
   --success: #00cc9b;
   --foreground: #232323;
@@ -137,23 +136,12 @@ body {
 }
 
 
-* {
-  /* font-family: Roboto, Lato, sans-serif, Montserrat, 'PingFang SC', -apple-system; */
-  font-family: 'PingFang SC', -apple-system, Roboto, Lato, sans-serif, Montserrat;
-}
-
-
 
 /* stylelint-disable selector-class-pattern */
 @media (width <=750px) {
   .rc-pagination-options-quick-jumper {
     display: none;
   }
-}
-
-
-.font-menlo {
-  font-family: menlo;
 }
 
 

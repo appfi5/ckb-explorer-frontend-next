@@ -276,7 +276,7 @@
       font-size: 20px;
       font-weight: 700;
       line-height: 36px;
-      font-family: menlo;
+      font-family: var(--font-hash);
     }
     @variant dark {
       .title{
@@ -357,7 +357,7 @@
     > div {
       font-size: 14px;
       color: #232323;
-      font-family: menlo;
+      font-family: var(--font-hash);
       margin-top:3px;
 
       @variant dark {

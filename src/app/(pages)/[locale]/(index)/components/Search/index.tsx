@@ -70,7 +70,7 @@ function HomeSearchInner() {
   const { t } = useTranslation();
   // const isMobile = useIsMobile();
   const isMobile = useMediaQuery("(max-width: 40rem)");
-
+  console.log({ isMobile })
   return (
     <>
       <div className="relative flex gap-1">

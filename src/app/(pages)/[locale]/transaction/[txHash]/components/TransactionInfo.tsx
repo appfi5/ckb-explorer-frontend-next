@@ -49,7 +49,7 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
       // showContent: txLoaded,
       content: (
         <OutLink
-          className="font-menlo underline"
+          className="font-hash underline"
           href={`/block/${blockNumber}`}
         >
           {localeNumberString(blockNumber)}
@@ -70,7 +70,7 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
             unit={<span className="ml-[4px]">CKB</span>}
           />
           <span className="mx-[0.5em]">|</span>
-          <span className="font-menlo whitespace-pre">{new BigNumber(transactionFee).multipliedBy(1000).dividedToIntegerBy(bytes).toFormat({
+          <span className="font-hash whitespace-pre">{new BigNumber(transactionFee).multipliedBy(1000).dividedToIntegerBy(bytes).toFormat({
             groupSeparator: ',',
             groupSize: 3,
           })} shannons/kB</span>
@@ -98,7 +98,7 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
             alignItems: 'center',
           }}
         >
-          <span className="font-menlo">{`${(bytes - 4).toLocaleString('en')} Bytes`}</span>
+          <span className="font-hash">{`${(bytes - 4).toLocaleString('en')} Bytes`}</span>
           <ComparedToMaxTooltip
             numerator={bytes}
             maxInEpoch={largestTxInEpoch}
@@ -121,7 +121,7 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
       show: !isLite,
       label: t('transaction.cycles'),
       content: !!cycles && (
-        <div className="flex items-center font-menlo">
+        <div className="flex items-center font-hash">
           {`${cycles.toLocaleString('en')}`}
           <ComparedToMaxTooltip
             numerator={cycles}
@@ -208,7 +208,7 @@ function Field({ title, tooltip, value, valueTooltip, href, tag }: {
     <div>
       <div className="flex items-center">
         {href ? (
-          <Link href={href} className="font-menlo underline hover:text-primary">
+          <Link href={href} className="font-hash underline hover:text-primary">
             {value}
           </Link>
         ) : (
@@ -330,7 +330,7 @@ function Parameters({ transaction }: { transaction: APIExplorer.TransactionRespo
                   title="Witness"
                   // tooltip={t("glossary.witness")}
                   value={
-                    <div className="font-menlo">
+                    <div className="font-hash">
                       {witness}
                     </div>
                   }

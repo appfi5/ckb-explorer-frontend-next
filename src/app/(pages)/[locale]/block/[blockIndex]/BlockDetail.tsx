@@ -17,7 +17,6 @@ export default function BlockDetail({ blockIndex: blockHeightOrHash }: { blockIn
   const search = useSearchParams();
   const { currentPage, pageSize: pageSizeParam, setPage } = usePaginationParamsInPage()
   const filter = new URLSearchParams(search).get('filter')
-
   const blockQuery = useQuery({
     queryKey: ['block', blockHeightOrHash],
     // queryFn: () => explorerService.api.fetchBlock(blockHeightOrHash),
@@ -75,7 +74,7 @@ export default function BlockDetail({ blockIndex: blockHeightOrHash }: { blockIn
 
   return (
     <Content>
-      <div className="container flex flex-col gap-[20px] pb-[20px]">
+      <div className="container flex flex-col gap-4 sm:gap-5 pb-[20px]">
         <QueryResult query={blockQuery} delayLoading defaultLoadingClassName='min-h-[400px]'>
           {block => (
             <>

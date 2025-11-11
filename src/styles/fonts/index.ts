@@ -1,9 +1,14 @@
 import localFont from "next/font/local"
-import { Geist } from "next/font/google";
+import { Geist,Source_Code_Pro } from "next/font/google";
 
-const geist = Geist({
+// const geist = Geist({
+//   subsets: ["latin"],
+//   variable: "--font-geist-sans",
+// });
+
+const sourceCodePro = Source_Code_Pro({
   subsets: ["latin"],
-  variable: "--font-geist-sans",
+  variable: "--font-source-code-pro",
 });
 
 // const pixer = localFont({
@@ -19,7 +24,9 @@ const geist = Geist({
 
 const fonts = {
   // pixer,
-  geist
+  sourceCodePro,
+  // inputSans,
+  // geist
 }
 
 

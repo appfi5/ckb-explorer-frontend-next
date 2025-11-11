@@ -59,7 +59,7 @@ const LoadingSection = () => <Loading className='min-h-[200px]' />
 const getTableContentDataList = (block: Block, index: number, page: number, isMaxW: boolean, t: TFunction<"common", undefined>, currentLanguage: string) => {
   const blockReward =
     !block.reward
-      ? <div className={`font-menlo text-[#999] ${currentLanguage === 'zh' && 'text-[14px]'}`}>{t("block.pending")}</div>
+      ? <div className={`font-hash text-[#999] ${currentLanguage === 'zh' && 'text-[14px]'}`}>{t("block.pending")}</div>
       : <Capacity capacity={shannonToCkb(block.reward)} textDirection="right" unit={null} integerClassName="font-bold text-[16px]" />
   // index < DELAY_BLOCK_NUMBER && page === 1 ? (
   //   <div className={`${styles.blockRewardContainer}`}>

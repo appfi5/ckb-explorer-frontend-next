@@ -52,7 +52,7 @@ const Capacity: React.FC<CapacityProps> = ({
       {/* <div>
         <span data-role="int" className="text-[#232323] dark:text-white">{int}</span>
         {dec ? (
-          <span data-role="dec" className="dark:text-white! font-menlo">
+          <span data-role="dec" className="dark:text-white! font-hash">
             {`.${dec}`}
           </span>
         ) : null}
@@ -60,8 +60,8 @@ const Capacity: React.FC<CapacityProps> = ({
       {unit && <span className={`${styles.unit} ${unitClassName}`}>{unit}</span>} */}
       <TwoSizeAmount
         format={display === "full" ? [8] : undefined}
-        integerClassName={`${integerClassName} font-menlo`}
-        decimalClassName="font-menlo text-[12px]"
+        integerClassName={`${integerClassName}`}
+        decimalClassName="text-[12px]"
         amount={capacity}
         unit={unit && <span className={`${styles.unit} ${unitClassName}`}>{unit}</span>}
       />

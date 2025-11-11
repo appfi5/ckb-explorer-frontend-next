@@ -49,11 +49,11 @@ export const TableContentItem = ({
   return (
     <TableContentRowItem width={width} textDirection={textDirection}>
       {highLight ? (
-        <Link href={to} className={`${!!isTextActive && styles.highlightLink} ${textAlignClass} ${boldClass} font-menlo`}>
+        <Link href={to} className={`${!!isTextActive && styles.highlightLink} ${textAlignClass} ${boldClass} font-hash`}>
           {content}
         </Link>
       ) : (
-        <div className={`w-full ${textAlignClass} ${boldClass} font-menlo`}>{content}</div>
+        <div className={`w-full ${textAlignClass} ${boldClass} font-hash`}>{content}</div>
       )}
     </TableContentRowItem>
   );
@@ -109,7 +109,7 @@ export const TableMinerContentItem = memo(
           </div>
         ) : (
           <div
-            className="tableMinerTextDisable font-menlo"
+            className="tableMinerTextDisable font-hash"
             style={{ fontSize: isMobile ? "13px" : fontSize }}
           >
             {t("address.unable_decode_address")}

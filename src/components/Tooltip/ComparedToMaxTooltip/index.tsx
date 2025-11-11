@@ -49,7 +49,7 @@ const ComparedToMaxTooltip: any = ({
             <div>{titleInEpoch}</div>
             <div className="flex justify-between text-[12px] leading-[20px]">
               <div>
-                <span className="font-menlo text-primary">{localeNumberString(maxInEpoch)}</span>
+                <span className="font-hash text-primary">{localeNumberString(maxInEpoch)}</span>
                 {unit ? <span className="text-primary"> {unit}</span> : ""}
               </div>
 
@@ -73,7 +73,7 @@ const ComparedToMaxTooltip: any = ({
             <div>{titleInChain}</div>
             <div className="flex justify-between text-[12px] leading-[20px]">
               <div>
-                <span className="font-menlo text-primary">{localeNumberString(maxInChain)}</span>
+                <span className="font-hash text-primary">{localeNumberString(maxInChain)}</span>
                 {unit ? <span className="text-primary"> {unit}</span> : ""}
               </div>
               <span className="text-[#999]">({percentOfMaxInChain}%)</span>

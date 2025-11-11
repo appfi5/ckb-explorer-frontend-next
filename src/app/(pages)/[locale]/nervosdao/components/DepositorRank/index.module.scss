@@ -124,7 +124,7 @@
   .address {
     max-width: 80%;
     div{
-      font-family: Menlo !important;
+      font-family: var(--font-hash) !important;
     }
   
     &:hover{

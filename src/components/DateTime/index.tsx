@@ -14,12 +14,12 @@ export default function DateTime({ date, showRelative }: DateTimeProps) {
   return (
     <Tips
       trigger={
-        <span className="font-menlo">
+        <span className="font-hash">
           {showRelative ? relativeDateStr : dayjs(date).format("YYYY/MM/DD HH:mm:ss")}
         </span>
       }
     >
-      <span className="font-menlo">{dayjs(date).format("YYYY/MM/DD HH:mm:ssZZ")}</span>
+      <span className="font-hash">{dayjs(date).format("YYYY/MM/DD HH:mm:ssZZ")}</span>
     </Tips>
   )
 }

@@ -223,7 +223,7 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
 
               return (
                 <tr key={data.address} className='h-[63px] border-b-[1px] border-[#EEEEEE] dark:border-[#4C4C4C] text-[16px]'>
-                  <td className='font-menlo'>{data.ranking}</td>
+                  <td className='font-hash'>{data.ranking}</td>
                   <td className={styles.address}>
                     <Link href={`/address/${data.address}`}>
                       <EllipsisMiddle>{data.address}</EllipsisMiddle>
@@ -235,7 +235,7 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
                         {t('statistic.rounded')}
                       </Tooltip>
                     )}
-                    <div className="h-[63px] leading-[63px] font-menlo">{localeNumberString(r)}</div>
+                    <div className="h-[63px] leading-[63px] font-hash">{localeNumberString(r)}</div>
                     {/* <Capacity capacity={shannonToCkb(r)} textDirection="left" contentClassName="h-[63px] leading-[63px]" /> */}
                   </td>
                 </tr>

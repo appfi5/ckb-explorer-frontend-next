@@ -30,7 +30,9 @@ export default function CopyButton(props: CopyProps) {
             });
           }}
         >
-          <CopyIcon />
+          <div className="size-[16px] sm:size-[20px]">
+            <CopyIcon width="100%" height="100%" />
+          </div>
         </div>
       }
     >

@@ -132,7 +132,7 @@ export default function CellInfo({ cellId, suffix }: { cellId: APIExplorer.CellO
                         }
                         onRenderValue={(path, value) => {
                           if (path === "root.codeHash" || path === "root.args") {
-                            return <span className="font-menlo min-w-0">{value}</span>
+                            return <span className="font-hash min-w-0">{value}</span>
                           }
                           return `${value}`;
                         }}
@@ -169,7 +169,7 @@ export default function CellInfo({ cellId, suffix }: { cellId: APIExplorer.CellO
                         }
                         onRenderValue={(path, value) => {
                           if (path === "root.codeHash" || path === "root.args") {
-                            return <span className="font-menlo min-w-0">{value}</span>
+                            return <span className="font-hash min-w-0">{value}</span>
                           }
                           return `${value}`;
                         }}
@@ -212,7 +212,7 @@ export default function CellInfo({ cellId, suffix }: { cellId: APIExplorer.CellO
                   }}
                   source={
                     <div className="p-2 sm:p-5 w-full grid">
-                      <div className="break-words font-menlo min-w-0 max-w-full">
+                      <div className="break-words font-hash min-w-0 max-w-full">
                         {cellInfo.dataSize > 1024 && (cellInfo.data.length < 3) ? `<${t("message.data_too_large")}>` : cellInfo.data}
                       </div>
                     </div>

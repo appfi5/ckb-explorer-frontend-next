@@ -57,7 +57,7 @@ const Cellbase = ({
         </Tooltip>
       </div>
       <div className="flex align-center justify-center gap-[8px]">
-        <OutLink href={`/block/${cell.targetBlockNumber}`} className="underline">
+        <OutLink href={`/block/${cell.targetBlockNumber}`} className="font-hash underline">
           {localeNumberString(cell.targetBlockNumber)}
         </OutLink>
       </div>

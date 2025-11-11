@@ -12,7 +12,6 @@ import ComparedToMaxTooltip from '@/components/Tooltip/ComparedToMaxTooltip'
 import Tooltip from '@/components/Tooltip'
 import { useSetToast } from '@/components/Toast'
 import Link from 'next/link'
-import InteImage from '@/components/InteImage'
 import { useRouter } from 'next/navigation'
 import LeftArrow from '../prev_block.svg?component'
 import InfoIcon from '../info.svg?component'
@@ -185,6 +184,8 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
             key: 'block_height',
             label: t('block.block_height'),
             tooltip: t('glossary.block_height'),
+            textDirection: "right",
+            contentClassName: "flex sm:text-left sm:justify-start",
             content: (
                 <div className={styles.blockNumber}>
                     <Tooltip
@@ -201,7 +202,7 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
                     >
                         {t('block.view_prev_block')}
                     </Tooltip>
-                    <div className='font-menlo'>{localeNumberString(blockNumber)}</div>
+                    <div className='font-hash'>{localeNumberString(blockNumber)}</div>
                     <Tooltip
                         trigger={
                             <Link
@@ -222,13 +223,17 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
             key: 'transactions',
             label: t('transaction.transactions'),
             tooltip: t('glossary.transactions'),
-            content: <span className="font-menlo">{localeNumberString(block.transactionsCount)}</span>,
+            textDirection: "right",
+            contentClassName: "flex sm:text-left sm:justify-start",
+            content: <span className="font-hash">{localeNumberString(block.transactionsCount)}</span>,
         },
         ...(block.size
             ? [
                 {
                     key: 'size',
                     label: t('block.size'),
+                    textDirection: "right",
+                    contentClassName: "flex sm:text-left sm:justify-start",
                     // tooltip: t('glossary.size'),
                     content: block.size ? (
                         <div
@@ -238,7 +243,7 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
                             }}
                         >
                             <div className='flex gap-[8px]'>
-                                <span className='font-menlo'>{`${block.size.toLocaleString('en')}`}</span>
+                                <span className='font-hash'>{`${block.size.toLocaleString('en')}`}</span>
                                 <span className='font-medium'>Bytes</span>
                             </div>
                             {/* {`${block.size.toLocaleString('en')} Bytes`} */}
@@ -260,11 +265,13 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
                         '-'
                     ),
                 },
-            ]
+            ] as Field[]
             : []),
         {
             key: 'cycles',
             label: t('block.cycles'),
+            textDirection: "right",
+            contentClassName: "flex sm:text-left sm:justify-start",
             // tooltip: t('glossary.cycles'),
             content: block.cycles ? (
                 <div
@@ -272,7 +279,7 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
                         display: 'flex',
                         alignItems: 'center',
                     }}
-                    className='font-menlo'
+                    className='font-hash'
                 >
                     {`${block.cycles.toLocaleString('en')}`}
                     <ComparedToMaxTooltip
@@ -289,15 +296,20 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
         },
         {
             key: 'proposal_transactions',
-            label: t('block.proposal_transactions'),
+            label: <span className='whitespace-nowrap'>{t('block.proposal_transactions')}</span>,
+            // flex: { label: 2, content: 1 },
+            textDirection: "right",
+            contentClassName: "flex sm:text-left sm:justify-start",
             // tooltip: t('glossary.proposal_transactions'),
-            content: <span className="font-menlo">{block.proposalsCount ? localeNumberString(block.proposalsCount) : 0}</span>,
+            content: <span className="font-hash">{block.proposalsCount ? localeNumberString(block.proposalsCount) : 0}</span>,
         },
         ...(block.minerReward
             ? [
                 {
                     key: 'miner_reward',
                     label: t('block.miner_reward'),
+                    textDirection: "right",
+                    contentClassName: "flex sm:text-left sm:justify-start",
                     // tooltip: t('glossary.miner_reward'),
                     content: (
                         <BlockMinerReward
@@ -307,23 +319,29 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
                         />
                     ),
                 },
-            ]
+            ] as Field[]
             : []),
         {
             key: 'difficulty',
             label: t('block.difficulty'),
+            textDirection: "right",
+            contentClassName: "flex sm:text-left sm:justify-start",
             // tooltip: t('glossary.difficulty'),
-            content: <span className="font-menlo">{handleDifficulty(block.difficulty)}</span>,
+            content: <span className="font-hash">{handleDifficulty(block.difficulty)}</span>,
         },
         {
             key: 'nonce',
             label: t('block.nonce'),
+            textDirection: "right",
+            contentClassName: "flex sm:text-left sm:justify-start",
             // tooltip: t('glossary.nonce'),
             content: <div className='w-[200px]'> <TextEllipsis text={`0x${block.nonce}`} ellipsis="address" /></div>
         },
         {
             key: 'uncle_count',
             label: t('block.uncle_count'),
+            textDirection: "right",
+            contentClassName: "flex sm:text-left sm:justify-start",
             // tooltip: (
             //   <Trans
             //     i18nKey="glossary.uncle_count"
@@ -340,6 +358,8 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
             key: 'miner',
             label: t('block.miner'),
             show: true,
+            textDirection: "right",
+            contentClassName: "flex sm:text-left sm:justify-start",
             // tooltip: t('glossary.miner'),
             content: <BlockMiner miner={block.minerHash} />,
         },
@@ -348,17 +368,21 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
                 {
                     key: 'miner_message',
                     label: t('block.miner_message'),
+                    textDirection: "right",
+                    contentClassName: "flex sm:text-left sm:justify-start",
                     // tooltip: t('glossary.miner_message'),
                     content: <BlockMinerMessage minerMessage={block.minerMessage ?? t('common.none')} />,
                 },
-            ]
+            ] as Field[]
             : []),
         {
             key: 'epoch',
             label: t('block.epoch'),
+            textDirection: "right",
+            contentClassName: "flex sm:text-left sm:justify-start",
             // tooltip: t('glossary.epoch'),
             content: (
-                <span className="flex items-center gap-1 font-menlo">
+                <span className="flex items-center gap-1 font-hash">
                     {isNumber(Number(block.epoch)) ? localeNumberString(block.epoch) : '-'}
                     <EpochInfoTooltip />
                 </span>
@@ -367,6 +391,8 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
         {
             key: 'epoch_start_number',
             label: t('block.epoch_start_number'),
+            textDirection: "right",
+            contentClassName: "flex sm:text-left sm:justify-start",
             // tooltip: t('glossary.epoch_start_number'),
             content: (
                 <OutLink href={`/block/${epochStartNumber}`} className="underline">
@@ -377,9 +403,11 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
         {
             key: 'block_index',
             label: t('block.block_index'),
+            textDirection: "right",
+            contentClassName: "flex sm:text-left sm:justify-start",
             // tooltip: t('glossary.block_index'),
             content: (
-                <span className="flex items-center gap-1 font-menlo">
+                <span className="flex items-center gap-1 font-hash">
                     {numberToOrdinal(Number(block.blockIndexInEpoch) + 1)} of the {block.length}
                     <EpochInfoTooltip />
                 </span>
@@ -388,6 +416,8 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
         {
             key: 'timestamp',
             label: t('block.timestamp'),
+            textDirection: "right",
+            contentClassName: "flex sm:text-left sm:justify-start",
             // tooltip: t('glossary.timestamp'),
             content: <DateTime date={block.timestamp} />,
         },
@@ -401,7 +431,7 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
             content: (
                 <Tooltip
                     asChild
-                    trigger={<div className="truncate font-menlo">{block.transactionsRoot}</div>}
+                    trigger={<div className="truncate font-hash">{block.transactionsRoot}</div>}
                 >
                     <CopyTooltipText content={block.transactionsRoot} />
                 </Tooltip>
@@ -411,7 +441,10 @@ const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
 
     return (
         <Card className="flex flex-col gap-[16px] p-[12px] md:p-[24px]">
-            <DescPanel fields={overviewItems} />
+            <DescPanel
+                fields={overviewItems}
+
+            />
             {!isMobile && <DescPanelSingle fields={rootInfoItem} textDirection="right" />}
         </Card>
     )

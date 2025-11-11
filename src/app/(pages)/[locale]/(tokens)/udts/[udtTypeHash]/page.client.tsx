@@ -78,7 +78,7 @@ function Head({ logo, name, hash, tags }: {
       <div className="flex items-center gap-3 ">
         {logo && <div className="flex-none size-[32px] rounded-full">{logo}</div>}
         <span className="font-medium text-xl">{name}</span>
-        <span className="font-menlo text-lg leading-[1] min-w-0 overflow-hidden text-ellipsis pl-3">
+        <span className="font-hash text-lg leading-[1] min-w-0 overflow-hidden text-ellipsis pl-3">
           <TextEllipsis
             text={hash}
             showTooltip={false}
@@ -120,14 +120,14 @@ function UDTOverview({ udtInfo }: { udtInfo: APIExplorer.UdtDetailResponse & { t
     {
       key: "decimal",
       label: t('xudt.decimal'),
-      content: <span className="font-menlo">{udtInfo.info?.decimalPlaces ?? '-'}</span>,
+      content: <span className="font-hash">{udtInfo.info?.decimalPlaces ?? '-'}</span>,
     },
     {
       key: "manager",
       label: t('xudt.owner'), // issuerOnBtc ? t('xudt.issuer') : t('xudt.owner'),
       // content: issuer ? <IssuerContent address={issuerOnBtc ?? issuer} /> : '-',
       content: udtInfo.info?.manager ? (
-        <OutLink className="font-menlo underline" href={`/address/${udtInfo.info?.manager}`}>
+        <OutLink className="font-hash underline" href={`/address/${udtInfo.info?.manager}`}>
           <TextEllipsis text={udtInfo.info?.manager} ellipsis="address" />
         </OutLink>
       ) : "-",
@@ -140,7 +140,7 @@ function UDTOverview({ udtInfo }: { udtInfo: APIExplorer.UdtDetailResponse & { t
     {
       key: "total_amount",
       label: t('xudt.total_amount'),
-      content: udtInfo?.totalAmount && udtInfo.info ? <span className="font-menlo">{new BigNumber(udtInfo.totalAmount).dividedBy(10 ** (udtInfo.info.decimalPlaces ?? 0)).toString()}</span> : '-',
+      content: udtInfo?.totalAmount && udtInfo.info ? <span className="font-hash">{new BigNumber(udtInfo.totalAmount).dividedBy(10 ** (udtInfo.info.decimalPlaces ?? 0)).toString()}</span> : '-',
     },
   ]
   return (
@@ -167,23 +167,23 @@ function UDTOverview({ udtInfo }: { udtInfo: APIExplorer.UdtDetailResponse & { t
             <div className="mt-2 bg-white dark:bg-[#232323e6] flex flex-col gap-4 sm:gap-2 px-4 py-2.5">
               {
                 !showScript ? (
-                  <div className="font-menlo break-all">{udtInfo.info.typeHash}</div>
+                  <div className="font-hash break-all">{udtInfo.info.typeHash}</div>
                 ) : (
                   <>
                     <div className="flex flex-col sm:flex-row">
                       <span className="flex-none sm:basis-[104px] font-medium">{t("address.code_hash")}:</span>
                       <div className="flex flex-col xl:flex-row gap-1.5 xl:gap-3 xl:items-center">
-                        <span className="font-menlo break-all">{udtInfo.info.type.codeHash}</span>
+                        <span className="font-hash break-all">{udtInfo.info.type.codeHash}</span>
                         <ScriptTag category="type" script={udtInfo.info.type} />
                       </div>
                     </div>
                     <div className="flex flex-col sm:flex-row">
                       <span className="flex-none sm:basis-[104px] font-medium">{t("address.hash_type")}:</span>
-                      <span className="font-menlo">{udtInfo.info.type.hashType}</span>
+                      <span className="font-hash">{udtInfo.info.type.hashType}</span>
                     </div>
                     <div className="flex flex-col sm:flex-row">
                       <span className="flex-none sm:basis-[104px] font-medium">{t("address.args")}: </span>
-                      <span className="font-menlo break-all">{udtInfo.info.type.args}</span>
+                      <span className="font-hash break-all">{udtInfo.info.type.args}</span>
                     </div>
                   </>
                 )

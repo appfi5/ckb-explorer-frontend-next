@@ -134,7 +134,7 @@ function NFTOverview({ detail, collection }: { detail: NFTDetail, collection: AP
           </DescItem>
 
           <DescItem layout="flex-col gap-1" label={t("field.token_id")} >
-            <span className="font-menlo break-all">{detail.tokenId}</span>
+            <span className="font-hash break-all">{detail.tokenId}</span>
           </DescItem>
 
           <DescItem layout="flex-col gap-1" label={t("field.type")} >
