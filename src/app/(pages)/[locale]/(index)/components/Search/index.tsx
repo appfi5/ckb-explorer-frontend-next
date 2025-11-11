@@ -87,7 +87,7 @@ function HomeSearchInner() {
           {/* <SearchIcon width={24} height={24} className="flex-none" />
         <SpinIcon width={24} height={24} className={styles.spinning} /> */}
           <SearchRangeSelect
-            triggerClassName="text-md md:text-base flex-none w-[170px]"
+            triggerClassName="text-md md:text-base flex-none w-[158px] sm:w-[170px]"
             onChange={(rangeCode, placeholder) => {
               setKeyword("");
               setPlaceholder(placeholder);

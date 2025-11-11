@@ -11,7 +11,7 @@ export default function ListContainer(props: PropsWithChildren<{ title?: ReactNo
   const { t } = useTranslation()
   return (
     <Card className="flex flex-col overflow-hidden border-none!">
-      <div className="flex flex-row items-center pl-[32px] pr-[36px] justify-between bg-[#232323] dark:bg-primary text-primary dark:text-white text-[20px] leading-[48px] font-medium">
+      <div className="flex flex-row items-center pl-5 sm:pl-8 pr-[36px] justify-between bg-[#232323] dark:bg-primary text-primary dark:text-white text-base sm:text-[20px] leading-[48px] font-medium">
         {title}
         {/* <ArrowRightIcon /> */}
       </div>
@@ -20,7 +20,7 @@ export default function ListContainer(props: PropsWithChildren<{ title?: ReactNo
       </div>
       <Link
         href={link}
-        className="flex items-center justify-center border-t dark:border text-[16px] font-medium leading-[24px] border-t-[#d9d9d9] dark:border-[#282B2C] hover:bg-primary dark:text-primary hover:text-white py-[12px] rounded-b-lg">
+        className="flex items-center justify-center border-t dark:border text-sm sm:text-base font-medium leading-[24px] border-t-[#d9d9d9] dark:border-[#282B2C] hover:bg-primary dark:text-primary hover:text-white py-[12px] rounded-b-lg">
         {t("home.more")}
         <OutlinkIcon width={20} height={20} />
       </Link>
