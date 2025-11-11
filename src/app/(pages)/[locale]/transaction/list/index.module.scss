@@ -168,6 +168,9 @@
   }
 
   @media (max-width: variables.$mobileBreakPoint) {
+    padding-inline: 0;
+    background: transparent;
+    box-shadow: none;
     margin-top: 0;
     .blockGreenBackground {
       margin-left: -20px;

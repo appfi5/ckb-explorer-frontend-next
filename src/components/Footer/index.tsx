@@ -168,7 +168,7 @@ export default memo(() => {
                     <span className="flex items-center justify-center mb-2.5 text-[#232323]">
                       {item.icon}
                     </span>
-                    <span className="text-center text-xs font-medium text-[#484D4E] dark:text-[#999999]">
+                    <span className="text-center text-sm font-medium text-[#484D4E] dark:text-[#999999]">
                       {t(`footer.${item.label}`)}
                     </span>
                   </a>
@@ -185,7 +185,7 @@ export default memo(() => {
               }
               arr.push((
                 <div className='flex flex-col gap-y-2' key={list.name}>
-                  <div className="font-medium text-lg leading-[2] text-black dark:text-white">{t(`footer.${list.name}`)}</div>
+                  <div className="font-medium text-lg leading-[1] sm:leading-[2] text-black dark:text-white">{t(`footer.${list.name}`)}</div>
                   <div className="flex flex-col gap-y-2">
                     {
                       list.items.map((item) => (
