@@ -167,8 +167,8 @@ const ReactChartCore = ({
 
   return (
     <div
-      style={{ height: isThumbnail ? "200px" : "70vh", ...style }}
-      className={className}
+      style={{ ...style }}
+      className={classNames(className, isThumbnail ? "h-[200px]" : "h-[30vh] sm:h-[70vh]")}
       ref={chartRef}
     />
   );
@@ -207,6 +207,8 @@ const ChartPage = ({
   const { t } = useTranslation();
   const [theme] = useTheme();
   const isDarkTheme = theme === "dark";
+  const isMobile = useIsMobile();
+  
   const fileName = (
     title.indexOf(" (") > 0 ? title.substring(0, title.indexOf(" (")) : title
   )
@@ -214,7 +216,7 @@ const ChartPage = ({
     .toLowerCase()
     .replace(/\s+/g, "-");
 
-  const defaultContentClassName = !isNoDefaultStyle ? "container md:shadow-[0_2px_8px_0_rgba(0,0,0,0.1)] bg-[white] dark:bg-[#232323E5] dark:shadow-[0_4px_4px_rgba(0,0,0,0.25)] dark:backdrop-blur-[50px] dark:border-2 dark:border-[#282B2C] rounded-[8px] p-[20px] my-[20px]!" : ''
+  const defaultContentClassName = !isNoDefaultStyle ? "container md:shadow-[0_2px_8px_0_rgba(0,0,0,0.1)] bg-[white] dark:bg-[#232323E5] dark:shadow-[0_4px_4px_rgba(0,0,0,0.25)] dark:backdrop-blur-[50px] dark:border-2 dark:border-[#282B2C] rounded-[8px] p-3 sm:p-5 my-[20px]!" : ''
   return (
     <Content>
       <div className={defaultContentClassName}>
@@ -228,7 +230,7 @@ const ChartPage = ({
             )}
           </div>
           <div className={`${styles.chartDetailTitleBtn}`}>
-            {csv && <PixelBorderBlock
+            {csv && !isMobile && <PixelBorderBlock
               pixelSize="2px"
               apperanceClassName="*:data-[slot=border]:bg-[#D9D9D9] *:dark:data-[slot=border]:bg-[#4C4C4C] hover:*:data-[slot=bg]:bg-[#ffffff14]"
               className="cursor-pointer w-full h-[32px]"
@@ -248,8 +250,8 @@ const ChartPage = ({
             </PixelBorderBlock>}
           </div>
         </div>
-        <div className="bg-[#F5F9FB] dark:bg-[#303030] rounded-[16px] p-[20px]">
-          <div className="bg-white rounded-[4px] py-[40px] dark:bg-[#363839]">
+        <div className="bg-[#F5F9FB] dark:bg-[#303030] rounded-[16px] p-3 sm:p-5">
+          <div className="bg-white rounded-[4px] py-5 sm:py-10 dark:bg-[#363839]">
             {queryNode}
             {children}
           </div>

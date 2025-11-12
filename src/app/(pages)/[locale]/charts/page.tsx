@@ -341,9 +341,9 @@ const Charts = () => {
 
   return (
     <Content>
-      <div className={`${styles.chartsContent} container bg-white md:p-[20px] my-[20px]! shadow-[0_2px_8px_0_rgba(0,0,0,0.1)]`}>
-        <div ref={headerRef} className="sticky top-[64px] z-9 bg-white dark:bg-[#232323E5]">
-          <div className="font-medium p-[16px] md:p-0 text-[20px]">{t("statistic.charts_title")}</div>
+      <div className={`${styles.chartsContent} container bg-white md:p-[20px] my-[20px]! shadow-[0_2px_8px_0_rgba(0,0,0,0.1)] rounded-lg`}>
+        <div ref={headerRef} className="sticky top-[64px] z-9 sm:bg-white dark:bg-[#232323E5]">
+          <div className="font-medium p-4 pb-0 md:p-0 text-[20px]">{t("statistic.charts_title")}</div>
           {!isMobile && <Tabs
             type="underline"
             value={activeCategoryId}

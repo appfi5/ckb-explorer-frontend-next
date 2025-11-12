@@ -124,12 +124,13 @@ ${t('statistic.active_address_count')}: ${filteredParams.reduce(
     grid: isThumbnail ? gridThumbnail : grid,
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
     legend: {
+      show: isMobile || isThumbnail ? false : true,
       data: isThumbnail ? [] : allKeys, // allKeys.map(key => t(`statistic.address_label.${key}`) as string),
       textStyle: {
         color: axisLabelColor
       },
       width: isMobile ? 'auto' : '80%',
-      left: isMobile ? '0px' : 'center', 
+      left: isMobile ? '0px' : 'center',
     },
     xAxis: {
       type: 'category',
