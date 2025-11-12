@@ -44,7 +44,7 @@ const processDisplayText = (hash: string | undefined, ellipsis: TextEllipsisProp
       {
         hash.length <= ellipsisLen ? hash : (
           <>
-            {hash.slice(0, head)}<span>...</span>{!!tail ? hash.slice(tail) : ''}
+            {hash.slice(0, head)}<span className="font-root">...</span>{!!tail ? hash.slice(tail) : ''}
           </>
         )
       }

@@ -4,7 +4,8 @@
 @theme {
   --container-8xl: 88rem;
   --spacing-page-height: calc(100vh - 64px - 375px);
-  --font-hash: var(--font-source-code-pro);
+  --font-hash: menlo, var(--font-noto-sans-sc);
+  --font-root: var(--font-root);
 }
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
@@ -40,7 +41,8 @@
 
 :root {
   /* base */
-  --default-font-family: Roboto, 'PingFang SC', -apple-system;
+  --font-root: var(--font-roboto), var(--font-noto-sans-sc), 'PingFang SC', -apple-system;
+  --default-font-family: var(--font-root);
   --color-primary: #00cc9b;
   --success: #00cc9b;
   --foreground: #232323;
