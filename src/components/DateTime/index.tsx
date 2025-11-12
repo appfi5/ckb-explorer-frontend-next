@@ -13,6 +13,7 @@ export default function DateTime({ date, showRelative }: DateTimeProps) {
   const relativeDateStr = useParsedDate(date)
   return (
     <Tips
+      placement="top"
       trigger={
         <span className="font-hash">
           {showRelative ? relativeDateStr : dayjs(date).format("YYYY/MM/DD HH:mm:ss")}

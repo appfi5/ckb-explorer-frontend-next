@@ -24,9 +24,8 @@ import DateTime from "@/components/DateTime";
 
 export default function TransactionInfo({ transaction: tx }: { transaction: APIExplorer.TransactionResponse }) {
   const { t } = useTranslation();
-  const layout = useTxLaytout();
   const formatConfirmation = useFormatConfirmation()
-  const isLite = layout === LayoutLiteProfessional.Lite;
+  // const isLite = layout === LayoutLiteProfessional.Lite;
   const topBlockNumber = useBlockChainInfo(s => s.blockNumber);
 
   const {
@@ -56,10 +55,9 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
         </OutLink>
       )
     }, {
-      key: "tx-free|fee-rate",
+      key: "tx-free",
       // showContent: txLoaded,
-      show: !isLite,
-      label: `${t('transaction.transaction_fee')} | ${t('transaction.fee_rate')}`,
+      label: t('transaction.transaction_fee'),
       content: (
         <>
           <TwoSizeAmount
@@ -69,13 +67,18 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
             decimalClassName="text-[12px]"
             unit={<span className="ml-[4px]">CKB</span>}
           />
-          <span className="mx-[0.5em]">|</span>
-          <span className="font-hash whitespace-pre">{new BigNumber(transactionFee).multipliedBy(1000).dividedToIntegerBy(bytes).toFormat({
-            groupSeparator: ',',
-            groupSize: 3,
-          })} shannons/kB</span>
         </>
       )
+    },
+    {
+      key: "fee-rate",
+      label: t('transaction.fee_rate'),
+      content: (
+        <span className="font-hash whitespace-pre">{new BigNumber(transactionFee).multipliedBy(1000).dividedToIntegerBy(bytes).toFormat({
+          groupSeparator: ',',
+          groupSize: 3,
+        })} shannons/kB</span>
+      ),
     }, {
       key: "status",
       // showContent: txLoaded,
@@ -89,7 +92,6 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
     }, {
       key: "size",
       // showContent: txLoaded,
-      show: !isLite,
       label: t('transaction.size'),
       content: !!bytes && (
         <div
@@ -118,7 +120,6 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
     }, {
       key: "cycles",
       // showContent: txLoaded,
-      show: !isLite,
       label: t('transaction.cycles'),
       content: !!cycles && (
         <div className="flex items-center font-hash">
@@ -137,17 +138,13 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
 
   return (
     <Card className="mt-[20px] p-[24px] pt-[13px]">
-      <LayoutSwitch className="mb-[17px]" />
+      {/* <LayoutSwitch className="mb-[17px]" /> */}
       <DescPanel
         fields={items}
       />
-      {
-        !isLite && (
-          <CardPanel className="mt-[20px] p-[20px]">
-            <TxDetails transaction={tx} />
-          </CardPanel>
-        )
-      }
+      <CardPanel className="mt-[20px] p-[20px]">
+        <TxDetails transaction={tx} />
+      </CardPanel>
     </Card>
   )
 }

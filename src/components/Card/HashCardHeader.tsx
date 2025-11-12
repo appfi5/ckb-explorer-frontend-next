@@ -43,7 +43,7 @@ export default function HashCardHeader(props: HashCardHeaderProps) {
           type === "script"
             ? null
             : type === "block"
-              ? <BlockIcon className="flex-none dark:text-white w-[20px] md:w-[26px]" />
+              ? <BlockIcon className="flex-none dark:text-white w-[20px] h-[30px] md:w-[26px]" />
               : <TransactionIcon className="flex-none dark:text-white w-[20px] md:w-[26px]" />
         }
         <span className="flex-none font-medium text-base md:text-xl">

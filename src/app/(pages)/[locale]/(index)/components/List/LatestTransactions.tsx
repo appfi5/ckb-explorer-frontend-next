@@ -83,7 +83,7 @@ function TranactionItem({ tx }: { tx: APIExplorer.TransactionPageResponse }) {
       </div>
 
       <div className="flex flex-col items-start justify-between gap-1">
-        <div className="flex flex-row text-sm sm:text-[16px] leading-[22px] gap-3">
+        <div className="flex flex-row items-center text-sm sm:text-[16px] leading-[22px] gap-3">
           <span className="text-[#232323] dark:text-white font-medium whitespace-nowrap">{t("block.block")}</span>
           <Link
             className="font-hash text-[#484D4E] dark:text-[#EDF2F2] hover:text-primary underline"
