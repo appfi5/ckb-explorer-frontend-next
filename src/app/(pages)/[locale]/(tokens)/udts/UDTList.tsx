@@ -100,7 +100,7 @@ const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {
       <dl className={styles.tokenInfo}>
         <dt className={styles.title}>Name</dt>
         <dd>
-          <InteImage src={token.iconFile ? token.iconFile : FtFallbackIcon} alt="latest blocks" className={styles.icon} />
+          <InteImage src={token.icon ? token.icon : FtFallbackIcon} alt="latest blocks" className={styles.icon} />
           <Link className={styles.link} href={`/udts/${token.typeScriptHash}`}>
             {symbol}
           </Link>
