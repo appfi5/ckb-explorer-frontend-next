@@ -27,7 +27,7 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
   })
 
   return (
-    <Card className="p-6">
+    <Card className="p-3 sm:p-6">
       <Tabs
         currentTab="tx"
         tabs={[{ key: 'tx', label: <>{t("transaction.24h_transactions")}{txsQuery.isLoading ? "" : `(${txsQuery.data?.total ?? 0})`}</> }]}
@@ -83,7 +83,7 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
 
 function Tabs<T extends string>({ currentTab, tabs, onTabChange }: { currentTab: T; tabs: readonly { key: T, label: ReactNode }[]; onTabChange: (tab: T) => void }) {
   return (
-    <div className="flex mb-5 gap-8">
+    <div className="flex mb-3 sm:mb-5 gap-8">
       {tabs.map((tab) => (
         <div
           key={tab.key}
@@ -91,7 +91,7 @@ function Tabs<T extends string>({ currentTab, tabs, onTabChange }: { currentTab:
           onClick={() => onTabChange(tab.key)}
         >
           {tab.label}
-          <div className={classNames("absolute left-0 right-0 mx-auto bottom-[-10px] w-[64px] h-[4px] bg-primary", currentTab !== tab.key ? "hidden" : "")} />
+          {/* <div className={classNames("absolute left-0 right-0 mx-auto bottom-[-10px] w-[64px] h-[4px] bg-primary", currentTab !== tab.key ? "hidden" : "")} /> */}
         </div>
       ))}
     </div>

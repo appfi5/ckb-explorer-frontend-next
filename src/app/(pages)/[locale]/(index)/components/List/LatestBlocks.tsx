@@ -79,7 +79,7 @@ function BlockItem({ block }: { block: APIExplorer.BlockListResponse }) {
           >
             <span>
               <span className="inline sm:hidden mr-1 font-normal">#</span>
-              {block.number}
+              <span className="text-primary sm:text-inherit">{block.number}</span>
             </span>
           </OutLink>
           <div className="font-medium text-xs sm:text-sm text-[#999] leading-[1]">

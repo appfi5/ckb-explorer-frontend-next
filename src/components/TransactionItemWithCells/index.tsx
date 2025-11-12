@@ -52,7 +52,7 @@ export default function TransactionItemWithCells(props: TransactionItemWithCells
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <CardPanel ref={ref} className="p-3 md:p-5 mt-5">
+    <CardPanel ref={ref} className="p-3 md:p-5 mt-3 md:mt-5">
       <div className="flex flex-row flex-wrap gap-y-1.5 items-center justify-between mb-2.5">
         <div className="flex max-w-full flex-row gap-2">
           {/* left */}
@@ -103,7 +103,7 @@ function BlockTime({ tx }: { tx: Transaction }) {
 
   if (tx.blockTimestamp) {
     return (
-      <time dateTime={dateTime} className={classNames('transactionItemBlock', styles.transactionBlockTime)}>
+      <time dateTime={dateTime} className={classNames('transactionItemBlock', 'text-xs sm:text-sm', styles.transactionBlockTime)}>
         <div className="flex items-center gap-[4px]">
           <BlockIcon className="flex-none text-[#999]" />
           <span className="mr-[32px] font-hash text-[#999]">{`${t("block.block")} ${localeNumberString(tx.blockNumber)}`}</span>

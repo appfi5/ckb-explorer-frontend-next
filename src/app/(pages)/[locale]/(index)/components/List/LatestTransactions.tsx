@@ -74,6 +74,7 @@ function TranactionItem({ tx }: { tx: APIExplorer.TransactionPageResponse }) {
             href={`/transaction/${tx.transactionHash}`}
           >
             <TextEllipsis
+              className="text-primary sm:text-inherit"
               text={tx.transactionHash}
               ellipsis={{ head: 4, tail: -4 }}
             />
@@ -103,7 +104,7 @@ function TranactionItem({ tx }: { tx: APIExplorer.TransactionPageResponse }) {
             decimalClassName="font-hash text-[12px]"
             format={[2]}
             amount={shannonToCkb(tx.capacityInvolved)}
-            unit={<span className="font-medium ml-[6px]">CKB</span>}
+            unit={<span className="ml-[6px]">CKB</span>}
           />
         </div>
         <div className="font-medium text-xs sm:text-sm text-[#999] leading-[1]">

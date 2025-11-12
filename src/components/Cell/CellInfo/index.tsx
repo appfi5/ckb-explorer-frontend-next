@@ -104,14 +104,14 @@ export default function CellInfo({ cellId, suffix }: { cellId: APIExplorer.CellO
                       <TwoSizeAmount
                         decimalClassName="text-xs"
                         amount={shannonToCkb(cellInfo.capacity)}
-                        unit={<span className="font-medium ml-[4px]">CKBytes</span>}
+                        unit={<span className="ml-[4px]">CKBytes</span>}
                       />
                     </InfoField>
                     <InfoField label={t("field.occupied")}>
                       <TwoSizeAmount
                         decimalClassName="text-xs"
                         amount={shannonToCkb(cellInfo.occupiedCapacity)}
-                        unit={<span className="font-medium ml-[4px]">CKBytes</span>}
+                        unit={<span className="ml-[4px]">CKBytes</span>}
                       />
                     </InfoField>
                   </div>

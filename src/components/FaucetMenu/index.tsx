@@ -4,7 +4,7 @@ import { claimTestToken } from "@/services/UtilityService";
 import Popover from "../Popover";
 import { useSetToast } from "../Toast";
 // import FaucetIcon from "./faucet.svg";
-import FaucetIcon from "@/assets/icons/faucet.svg?component";
+import FaucetIcon from "./faucet.svg?component";
 
 
 import styles from "./index.module.scss";
@@ -105,7 +105,7 @@ export const FaucetMenu = ({
     )
   ) {
     return (
-      <Popover trigger={<FaucetButton />} contentStyle={{ transform: 'translateY(4px)' }}>
+      <Popover asChild={true} trigger={<FaucetButton />} contentStyle={{ transform: 'translateY(4px)' }}>
         <div>
           <form onSubmit={handleFormSubmit} className={styles.form}>
             <input name="address" placeholder="address" type="text" />
@@ -118,7 +118,7 @@ export const FaucetMenu = ({
 
   if (address) {
     return (
-      <Popover trigger={<FaucetButton />} contentStyle={{ 
+      <Popover trigger={<FaucetButton />} contentStyle={{
         padding: 0,
         transform: 'translateY(4px)'
       }}>
@@ -154,12 +154,19 @@ export const FaucetMenu = ({
 
 
 function FaucetButton(props: ComponentProps<"div">) {
+  const { t } = useTranslation();
   return (
-    <div
-      {...props}
-      className={classNames("items-center justify-center p-1 cursor-pointer rounded-[2px] hover:bg-[#edf2f2] dark:hover:bg-[#ffffff1a] hover:text-primary", props.className)}
+    <Tooltip
+      trigger={
+        <div
+          {...props}
+          className={classNames("items-center justify-center p-1 cursor-pointer rounded-[2px] hover:bg-[#edf2f2] dark:hover:bg-[#ffffff1a] hover:text-primary", props.className)}
+        >
+          <FaucetIcon />
+        </div>
+      }
     >
-      <FaucetIcon />
-    </div>
+      {t("common.faucet")}
+    </Tooltip>
   )
 }

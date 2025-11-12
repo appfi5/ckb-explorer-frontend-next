@@ -169,7 +169,7 @@ function CellCard({ cell }: { cell: APIExplorer.LiveCellsResponse }) {
               integerClassName="font-hash"
               decimalClassName="font-hash text-xs"
               amount={shannonToCkb(cell.capacity)}
-              unit={<span className="font-medium ml-1">CKB</span>}
+              unit={<span className="ml-1">CKB</span>}
             />
           )
         });
@@ -185,7 +185,7 @@ function CellCard({ cell }: { cell: APIExplorer.LiveCellsResponse }) {
               integerClassName="font-hash"
               decimalClassName="font-hash text-xs"
               amount={new BigNumber(udtData?.amount ?? 0).dividedBy(10 ** (udtInfo?.decimalPlaces ?? 0)).toString()}
-              unit={<span className="font-medium ml-1">{udtInfo?.symbol}</span>}
+              unit={<span className="ml-1">{udtInfo?.symbol}</span>}
             />
           )
         });
@@ -198,7 +198,7 @@ function CellCard({ cell }: { cell: APIExplorer.LiveCellsResponse }) {
               integerClassName="font-hash"
               decimalClassName="font-hash text-xs"
               amount={shannonToCkb(cell.capacity)}
-              unit={<span className="font-medium ml-1">CKB</span>}
+              unit={<span className="ml-1">CKB</span>}
             />
           )
         });

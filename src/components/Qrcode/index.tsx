@@ -38,9 +38,10 @@ const Qrcode = ({ text, size }: { text: string; size?: number }) => {
     <div className={classNames("p-1 cursor-pointer", styles.container)}>
       <label htmlFor="address-qr">
         <Tooltip
+          showArrow={false}
           trigger={
-            <div className="items-center justify-center p-1 cursor-pointer rounded-[2px] hover:bg-[#edf2f2] dark:hover:bg-[#ffffff1a] hover:text-primary">
-              <QrCodeIcon width={20} height={20} />
+            <div className="flex-none size-[16px] sm:size-[20px] items-center justify-center cursor-pointer rounded-[2px] hover:bg-[#edf2f2] dark:hover:bg-[#ffffff1a] hover:text-primary">
+              <QrCodeIcon width="100%" height="100%" />
             </div>
           }
         >

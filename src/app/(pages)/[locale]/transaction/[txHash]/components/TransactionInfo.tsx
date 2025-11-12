@@ -45,6 +45,8 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
     {
       key: 'block height',
       label: t('block.block_height'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       // showContent: txLoaded,
       content: (
         <OutLink
@@ -56,8 +58,9 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
       )
     }, {
       key: "tx-free",
-      // showContent: txLoaded,
-      label: t('transaction.transaction_fee'),
+      label: <span className="whitespace-nowrap">{t('transaction.transaction_fee')}</span>,
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       content: (
         <>
           <TwoSizeAmount
@@ -73,6 +76,8 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
     {
       key: "fee-rate",
       label: t('transaction.fee_rate'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       content: (
         <span className="font-hash whitespace-pre">{new BigNumber(transactionFee).multipliedBy(1000).dividedToIntegerBy(bytes).toFormat({
           groupSeparator: ',',
@@ -81,18 +86,21 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
       ),
     }, {
       key: "status",
-      // showContent: txLoaded,
       label: t('transaction.status'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       content: formatConfirmation(confirmation),
     }, {
       key: "block.timestamp",
-      // showContent: txLoaded,
       label: t('block.timestamp'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       content: blockTimestamp ? <DateTime date={blockTimestamp} /> : "-"
     }, {
       key: "size",
-      // showContent: txLoaded,
       label: t('transaction.size'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       content: !!bytes && (
         <div
           style={{
@@ -119,9 +127,10 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
       )
     }, {
       key: "cycles",
-      // showContent: txLoaded,
       label: t('transaction.cycles'),
-      content: !!cycles && (
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
+      content: !!cycles ? (
         <div className="flex items-center font-hash">
           {`${cycles.toLocaleString('en')}`}
           <ComparedToMaxTooltip
@@ -132,17 +141,15 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
             titleInChain={t('transaction.compared_to_the_max_cycles_in_chain')}
           />
         </div>
-      ),
+      ) : "-",
     }
   ]
 
   return (
-    <Card className="mt-[20px] p-[24px] pt-[13px]">
+    <Card className="mt-[20px] p-[12px] md:p-[24px]">
       {/* <LayoutSwitch className="mb-[17px]" /> */}
-      <DescPanel
-        fields={items}
-      />
-      <CardPanel className="mt-[20px] p-[20px]">
+      <DescPanel fields={items} />
+      <CardPanel className="mt-[12px] md:mt-[20px] p-[12px] md:p-[20px]">
         <TxDetails transaction={tx} />
       </CardPanel>
     </Card>

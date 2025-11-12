@@ -41,12 +41,12 @@ export default function MobileMenu() {
         </PixelBorderBlock>
       </DrawerTrigger>
       <DrawerContent style={{ borderRight: 0 }}>
-        <div className="h-full w-full bg-[#111] p-4 flex flex-col gap-4">
+        <div className="h-full w-full bg-[#111] p-4 flex flex-col gap-5">
           <Link className="inline-flex" onClick={() => setOpen(false)} href="/">
             <InteImage src="/assets/ckb_logo.png" alt="" width={114} height={30} />
           </Link>
           <BlockchainSwitch />
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             {
               menuList.map(item => (
                 <MenuItem

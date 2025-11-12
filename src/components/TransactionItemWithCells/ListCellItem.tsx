@@ -46,7 +46,7 @@ export default function ListCellItem(props: ListCellItemProps) {
   return (
     <>
       <div className="flex flex-row justify-between items-start bg-[#d9d9d91a] dark:bg-[#363839] p-3 lg:py-5">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-2">
+        <div className="flex-1 min-w-0 flex flex-col lg:flex-row items-start lg:items-center gap-2">
           <div className={classNames("flex-none flex items-center gap-2")}>
             {ioType === IOType.Input && (
               <Tooltip
@@ -64,14 +64,14 @@ export default function ListCellItem(props: ListCellItemProps) {
                 <OutLink href={`/address/${cell.addressHash}`} className="underline">
                   <TextEllipsis
                     text={addressText}
-                    ellipsis="address"
+                    ellipsis={{ head: 4, tail: -8 }}
                   />
                 </OutLink>
               ) : (
                 <div className="flex flex-row items-center gap-2">
                   <TextEllipsis
                     text={addressText}
-                    ellipsis="address"
+                    ellipsis={{ head: 4, tail: -8 }}
                   />
                 </div>
               )
@@ -83,7 +83,7 @@ export default function ListCellItem(props: ListCellItemProps) {
             <ScriptTag category="type" short withTag={false} script={cell.typeScript} className="h-[20px]!" />
           </div>
         </div>
-        <div className="flex flex-col items-end lg:flex-row gap-2">
+        <div className="flex-none flex flex-col items-end lg:flex-row gap-2">
           <div className="flex flex-row items-center gap-2">
             <TwoSizeAmount
               className="leading-[20px]"

@@ -76,7 +76,7 @@ const TransactionCardGroup: FC<{
       title: t('transaction.height'),
       sortRule: 'height',
       content: transaction => (
-        <Link href={`/block/${transaction.blockNumber}`}>
+        <Link className='font-hash' href={`/block/${transaction.blockNumber}`}>
           <span>{localeNumberString(transaction.blockNumber)}</span>
         </Link>
       ),

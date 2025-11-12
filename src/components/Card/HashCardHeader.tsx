@@ -37,7 +37,7 @@ export default function HashCardHeader(props: HashCardHeaderProps) {
   }, [t, type])
 
   return (
-    <Card className={classNames("flex flex-col mt-5 p-6 z-1", styles.card, className)}>
+    <Card className={classNames("flex flex-col mt-5 p-3 sm:p-6 z-1", styles.card, className)}>
       <div className="flex flex-row items-center gap-3">
         {
           type === "script"

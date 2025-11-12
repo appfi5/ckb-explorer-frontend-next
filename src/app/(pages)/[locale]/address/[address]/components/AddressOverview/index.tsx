@@ -37,12 +37,12 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
   const [showLockScript, setShowLockScript] = useState(false)
 
   return (
-    <Card className="p-[24px] pt-[13px]">
+    <Card className="p-3 md:p-6 pt-[13px]">
       {/* <LayoutSwitch /> */}
       <div className={classNames(cardSubtitleClass, "font-medium my-[12px]")}>
         {t("address.overview")}
       </div>
-      <CardPanel className="flex flex-col lg:flex-row p-5 gap-4 lg:gap-2 items-stetch  lg:items-center">
+      <CardPanel className="flex flex-col lg:flex-row p-3 sm:p-5 gap-4 lg:gap-2 items-stetch  lg:items-center">
         <div className="flex-[360] flex flex-row gap-4">
           <div className="size-14">
             <Image src={CKBTokenIcon} alt="ckb token icon" />
@@ -59,7 +59,7 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
               integerClassName="font-hash"
               decimalClassName="font-hash text-[12px]"
               amount={shannonToCkb(addressInfo.balance)}
-              unit={<span className="font-medium ml-1">CKB</span>}
+              unit={<span className="ml-1">CKB</span>}
             />
           </div>
         </div>
@@ -73,7 +73,7 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
               integerClassName="font-hash"
               decimalClassName="font-hash text-[12px]"
               amount={shannonToCkb(addressInfo.balanceOccupied)}
-              unit={<span className="font-medium ml-1">CKB</span>}
+              unit={<span className="ml-1">CKB</span>}
             />
           </div>
           <div className="flex flex-col justify-between gap-1 sm:gap-3">
@@ -82,7 +82,7 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
               integerClassName="font-hash"
               decimalClassName="font-hash text-[12px]"
               amount={shannonToCkb(addressInfo.daoDeposit)}
-              unit={<span className="font-medium ml-1">CKB</span>}
+              unit={<span className="ml-1">CKB</span>}
             />
           </div>
           <div className="flex flex-col justify-between gap-1 sm:gap-3">
@@ -91,7 +91,7 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
               integerClassName="font-hash"
               decimalClassName="font-hash text-[12px]"
               amount={shannonToCkb(new BigNumber(addressInfo.depositUnmadeCompensation).plus(addressInfo.phase1UnClaimedCompensation))}
-              unit={<span className="font-medium ml-1">CKB</span>}
+              unit={<span className="ml-1">CKB</span>}
             />
           </div>
         </div>
@@ -103,13 +103,13 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
         onTabChange={(nextTab) => setTabKey(nextTab)}
       />
 
-      <CardPanel className="p-5">
+      <CardPanel className="p-3 sm:p-5">
         {
           tabKey === "others" && (
             <LiveCells
               cellRange="Other"
               address={addressInfo.addressHash}
-              listContainerClassName="mt-5 bg-white dark:bg-[#111] p-5"
+              listContainerClassName="mt-5 bg-white dark:bg-[#111] p-3 sm:p-5"
             />
           )
         }
@@ -119,7 +119,7 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
         {
           tabKey === "nft" && <NFTs addressInfo={addressInfo} />
         }
-        <div className="flex flex-col bg-white dark:bg-[#111] p-5 rounded-[4px] mt-[20px]">
+        <div className="flex flex-col bg-white dark:bg-[#111] p-3 sm:p-5 rounded-[4px] mt-[20px]">
           <div className="flex flex-row ">
             <div className="flex flex-1 gap-2">
               <div className="flex-none basis-[114px] text-[#909399]">{t('address.live_cells')}</div>

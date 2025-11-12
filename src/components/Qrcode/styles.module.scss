@@ -54,6 +54,7 @@
 
     .qrcode,
     &::after {
+      content: none;
       left: 0;
     }
   }
