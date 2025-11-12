@@ -153,7 +153,7 @@ const NervosDaoLeftItem = ({ item }: { item: NervosDaoItemContent }) => (
         </span>
         {item.titleTooltip && <HelpTip>{item.titleTooltip}</HelpTip>}
       </div>
-      <div className="daoOverviewItemContent">
+      <div className="daoOverviewItemContent flex flex-col items-start! sm:items-center! sm:flex-row ">
         <span className={styles.title}>{item.content}</span>
         {
           isNonZeroChange(item.change) && <Tooltip
@@ -189,11 +189,13 @@ const NervosDaoOverviewLeftComp: FC<{ nervosDao: NervosDaoInfo }> = ({ nervosDao
   //   )
   // }
   return (
-    <div className={`${styles.daoOverviewLeftPanel}`}>
-      {leftItems.map((item) => (
-        <NervosDaoLeftItem item={item} key={item.title} />
-      ))}
-    </div>
+    <>
+      <div className={`${styles.daoOverviewLeftPanel}`}>
+        {leftItems.map((item) => (
+          <NervosDaoLeftItem item={item} key={item.title} />
+        ))}
+      </div>
+    </>
   )
 }
 
@@ -250,7 +252,7 @@ const useOption = (nervosDao: NervosDaoInfo, colors: string[], isMobile: boolean
       {
         name: t('nervos_dao.secondary_issuance'),
         type: 'pie',
-        radius: '75%',
+        radius: ['40%', '75%'],
         center: ['50%', '50%'],
         data: seriesData.sort((a, b) => a.value - b.value),
         label: {
@@ -262,12 +264,10 @@ const useOption = (nervosDao: NervosDaoInfo, colors: string[], isMobile: boolean
           length: 4,
           length2: isMobile ? 4 : 12,
         },
-        emphasis: {
-          itemStyle: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)',
-          },
+        itemStyle: {
+          borderRadius: 4,
+          borderColor: '#fff',
+          borderWidth: 2
         },
       },
     ],
@@ -283,18 +283,32 @@ const NervosDaoRightCapacity = ({ reward }: { reward: string }) => {
 }
 
 const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
-  <div className={styles.nervosDaoPieItemPanel}>
-    <div
-      className={styles.nervosDaoOverviewPieIcon}
-      style={{
-        backgroundColor: item.color,
-      }}
-    />
-    <div>
-      <span>{item.title}</span>
-      <div className="w-[40px] break-all">{item.content}</div>
+  <>
+    <div className="flex flex-col">
+      <div className="flex flex-row items-center gap-2">
+        <div
+          className="size-[8px]"
+          style={{
+            backgroundColor: item.color,
+          }}
+        />
+        <div>{item.title}</div>
+      </div>
+      <div className="w-[40px] break-all pl-4">{item.content}</div>
     </div>
-  </div>
+    {/* <div className={styles.nervosDaoPieItemPanel}>
+      <div
+        className={styles.nervosDaoOverviewPieIcon}
+        style={{
+          backgroundColor: item.color,
+        }}
+      />
+      <div className='flex flex-col'>
+        <span>{item.title}</span>
+        <div className="w-[40px] break-all">{item.content}</div>
+      </div>
+    </div> */}
+  </>
 )
 
 const NervosDaoOverviewPanel = ({ nervosDao }: { nervosDao: NervosDaoInfo }) => {
@@ -354,7 +368,7 @@ const NervosDaoOverviewPanel = ({ nervosDao }: { nervosDao: NervosDaoInfo }) => 
           </div>
         </div>
         <div className={styles.daoOverviewPieItemsPanel}>
-          <div>
+          <div className='flex flex-col gap-2'>
             {nervosDaoPieItemContents(nervosDao).map(item => (
               <NervosDaoPieItem item={item} key={item.title} />
             ))}

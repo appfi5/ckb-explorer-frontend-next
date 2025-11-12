@@ -1,8 +1,9 @@
 import type { ComponentProps, FC } from "react";
 import classNames from "classnames";
 import styles from "./index.module.scss";
-import Tooltip, { type TooltipProps } from "../Tooltip";
+import { type TooltipProps } from "../Tooltip";
 import QuestionIcon from "@/assets/icons/question.svg?component";
+import Tips from "../Tips";
 
 export const HelpTip: FC<
   Omit<TooltipProps, "trigger"> & {
@@ -19,7 +20,7 @@ export const HelpTip: FC<
   };
 
   return (
-    <Tooltip
+    <Tips
       {...finalProps}
       contentClassName={classNames(styles.tooltip, finalProps.contentClassName)}
     />

@@ -20,7 +20,7 @@ import NFTs from "../NFTs";
 import ScriptTag from "@/components/ScriptTag";
 
 
-const cardSubtitleClass = "text-[18px] leading-[24px]"
+const cardSubtitleClass = "text-[16px] sm:text-[18px] leading-[24px]"
 
 
 

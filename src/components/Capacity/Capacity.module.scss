@@ -38,17 +38,17 @@
     }
   }
 
-  &[data-layout='responsive'] {
-    @media screen and (width <= variables.$largeBreakPoint) {
-      font-size: 0.75rem;
+  // &[data-layout='responsive'] {
+  //   @media screen and (width <= variables.$largeBreakPoint) {
+  //     font-size: 0.75rem;
 
-      span[data-role='dec'] {
-        font-size: 0.9em;
-      }
+  //     span[data-role='dec'] {
+  //       font-size: 0.9em;
+  //     }
 
-      .unit {
-        font-size: 1rem;
-      }
-    }
-  }
+  //     .unit {
+  //       font-size: 1rem;
+  //     }
+  //   }
+  // }
 }
