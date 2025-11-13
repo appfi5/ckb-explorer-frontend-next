@@ -4,7 +4,7 @@ import { type DefinedUseQueryResult, type UseQueryResult } from "@tanstack/react
 import { LOADING_WAITING_TIME } from "@/constants/common";
 import Loading from "../Loading";
 import { useDelayLoading } from "@/hooks";
-import Empty from "../Empty";
+import Empty, { type EmptyProps } from "../Empty";
 import classNames from "classnames";
 // import NoDataImg from "@/assets/icons/no-data.svg?component";
 
@@ -15,6 +15,7 @@ type QueryResultProps<TData, TError> = {
   errorRender?: (err: TError) => ReactElement;
   loadingRender?: (show: boolean) => ReactElement;
   defaultLoadingClassName?: string;
+  emptyProps?: EmptyProps
 };
 
 export function QueryResult<TData, TError>(props: QueryResultProps<TData, TError>): ReactElement {
@@ -24,13 +25,14 @@ export function QueryResult<TData, TError>(props: QueryResultProps<TData, TError
     delayLoading,
     errorRender,
     loadingRender,
-    defaultLoadingClassName = "min-h-[80px]"
+    defaultLoadingClassName = "min-h-[80px]",
+    emptyProps
   } = props;
   const delayedLoading = useDelayLoading(LOADING_WAITING_TIME, true);
 
   switch (query.status) {
     case "error":
-      return errorRender ? errorRender(query.error) : <Empty className="flex-1 h-full min-h-[40vh] gap-3" iconScale={2} message={query.error?.message ?? ""} />
+      return errorRender ? errorRender(query.error) : <Empty iconScale={2} message={query.error?.message ?? ""} {...emptyProps} className={classNames("flex-1 h-full min-h-[40vh] gap-3", emptyProps?.className)} />
     case "success":
       return children(query.data);
     // case "loading":

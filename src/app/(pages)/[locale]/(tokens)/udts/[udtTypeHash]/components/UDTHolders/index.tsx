@@ -102,7 +102,7 @@ function ModalContent({ ckbHoldersCount, btcHoldersCount, ckbLockHashes }: {
         })}
       </div>
       <div className="max-h-[50vh] overflow-y-auto">
-        <div className="border border-[#eee] dark:border-[#4c4c4c] rounded-[8px] w-[420px]  m-auto">
+        <div className="border border-[#eee] dark:border-[#4c4c4c] rounded-[8px] w-auto md:w-[420px]  m-auto">
           <div className="rounded-t-[8px] bg-[#F5F9FB] dark:bg-[#363839] flex flex-row items-center justify-between p-3">
             <span className="font-medium">{t("xudt.lock_hash")}</span>
             <span className="font-medium">{t("xudt.count")}</span>
@@ -118,7 +118,7 @@ function ModalContent({ ckbHoldersCount, btcHoldersCount, ckbLockHashes }: {
           {
             ckbLockHashes?.map(lockInfo => (
               <div className="flex flex-row items-center justify-between p-3 border-t border-[#eee]">
-                <span className="font-medium">
+                <span className="flex-1 font-medium break-all gap-1">
                   {
                     lockInfo.name || (
                       <TextEllipsis
@@ -128,7 +128,7 @@ function ModalContent({ ckbHoldersCount, btcHoldersCount, ckbLockHashes }: {
                     )
                   }
                 </span>
-                <span className="font-hash">{lockInfo.holderCount}</span>
+                <span className="flex-none min-w-[5em] text-right font-hash">{lockInfo.holderCount}</span>
               </div>
             ))
           }

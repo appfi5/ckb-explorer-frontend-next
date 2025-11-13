@@ -160,9 +160,9 @@ function FaucetButton(props: ComponentProps<"div">) {
       trigger={
         <div
           {...props}
-          className={classNames("items-center justify-center p-1 cursor-pointer rounded-[2px] hover:bg-[#edf2f2] dark:hover:bg-[#ffffff1a] hover:text-primary", props.className)}
+          className={classNames("hidden sm:block flex-none items-center size-[24px] sm:size-[28px] justify-center p-1 cursor-pointer rounded-[2px] hover:bg-[#edf2f2] dark:hover:bg-[#ffffff1a] hover:text-primary", props.className)}
         >
-          <FaucetIcon />
+          <FaucetIcon width="100%" height="100%" />
         </div>
       }
     >
