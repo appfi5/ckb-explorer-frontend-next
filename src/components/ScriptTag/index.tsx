@@ -25,15 +25,12 @@ export default function ScriptTag(props: ScriptTagProps) {
 
 
   return (
-    <Link
+    <div
       className={classNames(styles.tag, {
         [styles.lock!]: category === "lock",
         [styles.type!]: category !== "lock",
       }, className)}
-      href={`/scripts#${script.codeHash}`}
-      rel="noopener noreferrer"
-      target="_blank"
-    // className="flex items-center gap-1"
+      onClick={() => window.open(`/scripts#${script.codeHash}`, "_blank", "noopener noreferrer")}
     >
       {
         short ? (
@@ -45,6 +42,6 @@ export default function ScriptTag(props: ScriptTagProps) {
           withTag ? knwonScriptInfo.nameWithTag : knwonScriptInfo.name
         )
       }
-    </Link>
+    </div>
   )
 }
