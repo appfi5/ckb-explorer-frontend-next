@@ -7,7 +7,7 @@ import {
   type DobDecodeResponse,
   type DobDecodeResult,
   type RenderOutput,
-} from "@nervina-labs/dob-render";
+} from "@nervape/dob-render";
 import { hexToUtf8 } from "./string";
 import { hexToBase64 } from "./util";
 import { isMainnet } from "./chain";

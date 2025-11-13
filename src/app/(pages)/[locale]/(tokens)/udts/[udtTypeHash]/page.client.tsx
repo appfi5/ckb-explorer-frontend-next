@@ -45,8 +45,7 @@ export default function UDTDetail({ udtTypeHash }: { udtTypeHash: string }) {
   })
 
   return (
-    <div className="container flex flex-col gap-[20px] py-[20px] min-h-page-height">
-
+    <div className="container flex flex-col gap-4 sm:gap-5 py-[20px] min-h-page-height">
       <QueryResult query={xudtQuery} defaultLoadingClassName='min-h-[400px]'>
         {(udtInfo) => (
           <>
@@ -74,21 +73,24 @@ function Head({ logo, name, hash, tags }: {
   tags?: string[]
 }) {
   return (
-    <Card className="flex flex-col p-[24px] gap-4">
-      <div className="flex items-center gap-3 ">
-        {logo && <div className="flex-none size-[32px] rounded-full">{logo}</div>}
-        <span className="font-medium text-xl">{name}</span>
-        <span className="font-hash text-lg leading-[1] min-w-0 overflow-hidden text-ellipsis pl-3">
-          <TextEllipsis
-            text={hash}
-            showTooltip={false}
-            ellipsis={{ tail: -8 }}
-          />
-        </span>
-        <div className="flex">
+    <Card className="flex flex-col p-3 sm:p-6 gap-4">
+      <div className="flex flex-col items-start sm:flex-row sm:items-center gap-3">
+        <div className="flex-none flex flex-row items-center gap-3">
+          {logo && <div className="flex-none size-[32px] rounded-full">{logo}</div>}
+          <span className="font-medium text-xl mr-1 sm:mr-3">{name}</span>
+        </div>
+        <div className="flex-1 min-w-0 max-w-full flex flex-row items-center gap-1">
+          <div className="flex-1 font-hash text-base sm:text-lg leading-[1] min-w-0 overflow-hidden text-ellipsis">
+            <TextEllipsis
+              text={hash}
+              showTooltip={false}
+              ellipsis={{ tail: -8 }}
+            />
+          </div>
           <CopyButton text={hash} />
           <FaucetMenu tokenId={hash} />
         </div>
+
       </div>
       {!!tags?.length && (
         <div className="flex flex-row flex-wrap gap-1">
@@ -110,21 +112,29 @@ function UDTOverview({ udtInfo }: { udtInfo: APIExplorer.UdtDetailResponse & { t
     {
       key: "name",
       label: t('xudt.name'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       content: <span className="font-medium">{udtInfo.info?.name ?? '-'}</span>,
     },
     {
       key: "holders",
       label: t('xudt.holders'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       content: <UDTHolders udtInfo={udtInfo} />,
     },
     {
       key: "decimal",
       label: t('xudt.decimal'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       content: <span className="font-hash">{udtInfo.info?.decimalPlaces ?? '-'}</span>,
     },
     {
       key: "manager",
       label: t('xudt.owner'), // issuerOnBtc ? t('xudt.issuer') : t('xudt.owner'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       // content: issuer ? <IssuerContent address={issuerOnBtc ?? issuer} /> : '-',
       content: udtInfo.info?.manager ? (
         <OutLink className="font-hash underline" href={`/address/${udtInfo.info?.manager}`}>
@@ -135,20 +145,24 @@ function UDTOverview({ udtInfo }: { udtInfo: APIExplorer.UdtDetailResponse & { t
     {
       key: "symbol",
       label: t('xudt.symbol'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       content: <span className="font-medium">{udtInfo.info?.symbol}</span>,
     },
     {
       key: "total_amount",
       label: t('xudt.total_amount'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       content: udtInfo?.totalAmount && udtInfo.info ? <span className="font-hash">{new BigNumber(udtInfo.totalAmount).dividedBy(10 ** (udtInfo.info.decimalPlaces ?? 0)).toString()}</span> : '-',
     },
   ]
   return (
-    <Card className="p-5">
+    <Card className="p-3 sm:p-5">
       <DescPanel fields={descItems} fieldFlex={{ label: 220, content: 490 }} />
-      <CardPanel className="p-5 mt-5">
-        <div className="flex flex-row gap-2 items-center">
-          <span className="text-[#909399] basis-[114px]">Type Script {showScript ? "" : "Hash"}</span>
+      <CardPanel className="p-3 sm:p-5 mt-3 sm:mt-5">
+        <div className="flex flex-row gap-1 sm:gap-2 items-center">
+          <span className="text-[#909399]">Type Script {showScript ? "" : "Hash"}</span>
           <span
             className="flex items-center justify-center size-[20px] rounded-[4px] bg-white dark:bg-[#ffffff1a] border-[#ddd] dark:border-[transparent] border-[1px] hover:text-primary hover:border-(--color-primary) cursor-pointer "
             onClick={() => setShowScript(v => !v)}
@@ -191,7 +205,6 @@ function UDTOverview({ udtInfo }: { udtInfo: APIExplorer.UdtDetailResponse & { t
             </div>
           )
         }
-
       </CardPanel>
     </Card>
   )

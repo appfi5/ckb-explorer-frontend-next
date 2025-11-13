@@ -51,7 +51,7 @@ export default function UDTTransactions(props: AddressTransactionsProps) {
   })
 
   return (
-    <Card className="p-6">
+    <Card className="p-3 sm:p-6">
       <div className="flex flex-col sm:flex-row justify-between">
         <Tabs
           currentTab="tx"
@@ -69,7 +69,7 @@ export default function UDTTransactions(props: AddressTransactionsProps) {
             // router.push(`/block/${blockId}`)
             router.push(window.location.pathname)
           }}
-          className="w-[296px]"
+          className="hidden sm:block w-[296px]"
         />
       </div>
 
@@ -95,7 +95,7 @@ export default function UDTTransactions(props: AddressTransactionsProps) {
                     showBlockInfo
                   />
                 ))}
-                {txList.length === 0 ? <Empty message={t(`transaction.no_records`)} /> : null}
+                {txList.length === 0 ? <Empty className="mt-3 sm:mt-5 min-h-[40px] gap-2" message={t(`transaction.no_records`)} /> : null}
               </div>
               <Pagination
                 total={total}
@@ -115,15 +115,15 @@ export default function UDTTransactions(props: AddressTransactionsProps) {
 
 function Tabs<T extends string>({ currentTab, tabs, onTabChange }: { currentTab: T; tabs: readonly { key: T, label: ReactNode }[]; onTabChange: (tab: T) => void }) {
   return (
-    <div className="flex mb-5 gap-8">
+    <div className="flex gap-8">
       {tabs.map((tab) => (
         <div
           key={tab.key}
-          className={classNames("text-[18px] leading-[24px]", "relative cursor-pointer", currentTab !== tab.key ? "text-[#999]" : "font-medium")}
+          className={classNames("text-base sm:text-[18px] leading-[24px]", "relative cursor-pointer", currentTab !== tab.key ? "text-[#999]" : "font-medium")}
           onClick={() => onTabChange(tab.key)}
         >
           {tab.label}
-          <div className={classNames("absolute left-0 right-0 mx-auto bottom-[-10px] w-[64px] h-[4px] bg-primary", currentTab !== tab.key ? "hidden" : "")} />
+          {/* <div className={classNames("absolute left-0 right-0 mx-auto bottom-[-10px] w-[64px] h-[4px] bg-primary", currentTab !== tab.key ? "hidden" : "")} /> */}
         </div>
       ))}
     </div>

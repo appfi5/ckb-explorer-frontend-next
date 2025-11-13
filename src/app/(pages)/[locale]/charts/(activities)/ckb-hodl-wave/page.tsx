@@ -116,7 +116,7 @@ const useOption = (
   const grid = {
     left: '3%',
     right: '3%',
-    top: isMobile ? '18%' : '8%',
+    top: '10%',
     bottom: '5%',
     containLabel: true,
   }
@@ -190,6 +190,7 @@ const useOption = (
         color: axisLabelColor
       },
       width: isMobile ? 'auto' : '80%',
+      show: !isMobile
     },
     grid: isThumbnail ? gridThumbnail : grid,
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,

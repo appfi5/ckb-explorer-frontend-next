@@ -82,6 +82,7 @@ const useOption = (
       }
       : undefined,
     legend: {
+      show: !isMobile,
       icon: 'roundRect',
       data: isThumbnail
         ? []
