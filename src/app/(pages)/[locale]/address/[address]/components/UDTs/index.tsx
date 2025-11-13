@@ -54,7 +54,7 @@ export default function UDTs({ addressInfo }: { addressInfo: APIExplorer.Address
             if (!list?.length) {
               return (
                 <div>
-                  <Empty className="p-5" />
+                  <Empty className="min-h-[40px] gap-2 p-5" />
                 </div>
               )
             }

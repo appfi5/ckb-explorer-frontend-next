@@ -32,7 +32,7 @@ export default function NFTs({ addressInfo }: { addressInfo: APIExplorer.Address
             if (!list?.length) {
               return (
                 <div>
-                  <Empty className="p-5" />
+                  <Empty className="min-h-[40px] gap-2 p-5" />
                 </div>
               )
             }
@@ -72,7 +72,7 @@ function NFTCard({ item }: { item: APIExplorer.AccountNftResponse }) {
           </div>
         </div>
         <div className="flex flex-row items-center gap-2 bg-[#fbfbfb] dark:bg-[#363839] border border-[#eee] dark:border-[#4C4C4C] rounded-b-sm px-2 pt-3 pb-4">
-          <div className="size-[48px] rounded-sm">
+          <div className="size-[48px] rounded-sm bg-[#eee] dark:bg-[#303030]">
             { !isLoading && <img src={itemCover || "/images/spore_placeholder.svg"} className="w-full h-full object-scale-down rounded-sm" alt={item.collectionName} />}
           </div>
           <div>

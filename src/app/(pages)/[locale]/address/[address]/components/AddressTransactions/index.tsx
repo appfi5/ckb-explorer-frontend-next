@@ -87,7 +87,7 @@ function Tabs<T extends string>({ currentTab, tabs, onTabChange }: { currentTab:
       {tabs.map((tab) => (
         <div
           key={tab.key}
-          className={classNames("text-[18px] leading-[24px]", "relative cursor-pointer", currentTab !== tab.key ? "text-[#999]" : "font-medium")}
+          className={classNames("text-base sm:text-[18px] leading-[24px]", "relative cursor-pointer", currentTab !== tab.key ? "text-[#999]" : "font-medium")}
           onClick={() => onTabChange(tab.key)}
         >
           {tab.label}

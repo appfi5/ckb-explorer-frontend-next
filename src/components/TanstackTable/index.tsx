@@ -26,7 +26,7 @@ export default function TanstackTable<T>(props: CommonTableProps<T>) {
   const table = useReactTable<T>({
     data: dataSource,
     columns,
-    enableRowPinning: true,
+    enableRowPinning: false,
     enableColumnPinning: true,
     getCoreRowModel: getCoreRowModel(),
     initialState: {
@@ -38,7 +38,7 @@ export default function TanstackTable<T>(props: CommonTableProps<T>) {
 
   return (
     <Table onScroll={e => {
-      table.getAllColumns()[0]?.pin(e.target.scrollLeft > 0 ? "left" : false)
+      // table.getAllColumns()[0]?.pin(e.target.scrollLeft > 0 ? "left" : false)
     }}>
       <TableHeader>
         {table.getHeaderGroups().map((headerGroup) => (
