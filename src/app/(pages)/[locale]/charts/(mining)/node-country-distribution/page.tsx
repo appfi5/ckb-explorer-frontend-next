@@ -63,7 +63,7 @@ const useOption = (
     tooltip,
     grid: isThumbnail ? gridThumbnail : grid,
     legend: {
-      show: !isThumbnail,
+      show: !isMobile,//!isThumbnail,
       // right: 40,
       // top: 40,
       icon: 'circle',
