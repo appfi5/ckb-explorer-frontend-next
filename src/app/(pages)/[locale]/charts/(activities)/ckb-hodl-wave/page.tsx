@@ -155,6 +155,7 @@ const useOption = (
     color: colors,
     tooltip: !isThumbnail
       ? {
+        confine: true,
         trigger: 'axis',
         formatter: dataList => {
           if (!Array.isArray(dataList) || dataList.length === 0) {

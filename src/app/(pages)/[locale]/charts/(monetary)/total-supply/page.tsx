@@ -76,36 +76,36 @@ const useOption = (
     color: chartColor.totalSupplyColors,
     tooltip: !isThumbnail
       ? {
-          trigger: 'axis',
-          formatter: dataList => {
-            assertIsArray(dataList)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${
-              (dataList[0].data as string[])[0]
+        confine: true,
+        trigger: 'axis',
+        formatter: dataList => {
+          assertIsArray(dataList)
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${(dataList[0].data as string[])[0]
             }</div>`
-            dataList.forEach(data => {
-              assertSerialsItem(data)
-              assertSerialsDataIsStringArrayOf4(data)
-              result += parseTooltip(data)
-            })
-            return result
-          },
-        }
+          dataList.forEach(data => {
+            assertSerialsItem(data)
+            assertSerialsDataIsStringArrayOf4(data)
+            result += parseTooltip(data)
+          })
+          return result
+        },
+      }
       : undefined,
     legend: {
       icon: 'roundRect',
       data: isThumbnail
         ? []
         : [
-            {
-              name: t('statistic.circulating_supply'),
-            },
-            {
-              name: t('statistic.locked'),
-            },
-            {
-              name: t('statistic.burnt'),
-            },
-          ],
+          {
+            name: t('statistic.circulating_supply'),
+          },
+          {
+            name: t('statistic.locked'),
+          },
+          {
+            name: t('statistic.burnt'),
+          },
+        ],
     },
     grid: isThumbnail ? gridThumbnail : grid,
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
@@ -194,11 +194,11 @@ const useOption = (
 const toCSV = (statisticTotalSupplies: ChartItem.TotalSupply[]) =>
   statisticTotalSupplies
     ? statisticTotalSupplies.map(data => [
-        data.createdAtUnixtimestamp,
-        shannonToCkbDecimal(data.circulatingSupply, 8),
-        shannonToCkbDecimal(data.lockedCapacity, 8),
-        shannonToCkbDecimal(data.burnt, 8),
-      ])
+      data.createdAtUnixtimestamp,
+      shannonToCkbDecimal(data.circulatingSupply, 8),
+      shannonToCkbDecimal(data.lockedCapacity, 8),
+      shannonToCkbDecimal(data.burnt, 8),
+    ])
     : []
 
 export const TotalSupplyChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {

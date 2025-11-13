@@ -25,11 +25,15 @@ const parseTooltip = ({
   data,
   color,
   currentLanguage,
-}: SeriesItem & { data: string; currentLanguage: App.Language }): string => {
+  isMobile
+}: SeriesItem & { data: string; currentLanguage: App.Language, isMobile?: boolean }): string => {
   if (!seriesName) {
     throw new Error('seriesName is required')
   }
-  return `<div>${tooltipColor(color)}${widthSpan(seriesName, currentLanguage)} ${localeNumberString(data)}</div>`
+  return isMobile ? `<div>
+    <div>${tooltipColor(color)}${widthSpan(seriesName, currentLanguage)}</div>
+    <div>${localeNumberString(data)}</div>
+  </div>`: `<div>${tooltipColor(color)}${widthSpan(seriesName, currentLanguage)} ${localeNumberString(data)}</div>`
 }
 
 const toChangeData = (balanceDistributions: ChartItem.BalanceDistribution[]) => {
@@ -73,11 +77,15 @@ const useOption = (
     color: chartThemeColor.colors,
     tooltip: !isThumbnail
       ? {
+        confine: true,
         trigger: 'axis',
+        appendTo: 'body',
+        extraCssText: isMobile ? 'max-width: 80vw; word-wrap: break-word;' : '',
         formatter: dataList => {
           assertIsArray(dataList)
           const firstData = dataList[0]
           assertSerialsItem(firstData)
+
           let result = `<div>${tooltipColor('#333333')}${widthSpan(
             t('statistic.addresses_balance'),
             currentLanguage,
@@ -85,12 +93,29 @@ const useOption = (
             new BigNumber(firstData.name),
             firstData.dataIndex === balanceDistributions.length - 1 ? '+' : '',
           )} ${t('common.ckb_unit')}</div>`
+
+          let mobileResult = `<div>
+          <div>${tooltipColor('#333333')}${widthSpan(
+            t('statistic.addresses_balance'),
+            currentLanguage,
+          )}</div>
+          <div className="pl-[30px]">${handleLogGroupAxis(
+            new BigNumber(firstData.name),
+            firstData.dataIndex === balanceDistributions.length - 1 ? '+' : '',
+          )} ${t('common.ckb_unit')}</div>
+          </div>`
+
           dataList.forEach(data => {
             assertSerialsItem(data)
             assertSerialsDataIsString(data)
-            result += parseTooltip({ ...data, currentLanguage })
+            if(isMobile){
+              mobileResult += parseTooltip({ ...data, currentLanguage, isMobile })
+            }else{
+              result += parseTooltip({ ...data, currentLanguage, isMobile })
+            }
           })
-          return result
+
+          return isMobile ? mobileResult : result
         },
       }
       : undefined,

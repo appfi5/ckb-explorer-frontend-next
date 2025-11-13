@@ -51,6 +51,7 @@ const useOption = (
     color: chartThemeColor.colors,
     tooltip: !isThumbnail
       ? {
+        confine: true,
         trigger: 'axis',
         formatter: dataList => {
           assertIsArray(dataList)

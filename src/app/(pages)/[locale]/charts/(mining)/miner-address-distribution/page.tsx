@@ -57,18 +57,19 @@ const useOption = () => {
       color: [chartThemeColor.colors[0], ...Colors],
       tooltip: !isThumbnail
         ? {
-            formatter: data => {
-              assertNotArray(data)
-              const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 60 : 65)
-              let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.address'))} ${getAdaptAddressText(
-                (data.data as Record<string, string>).title,
-              )}</div>`
-              result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('statistic.miner_ratio'))} ${(
-                Number((data.data as Record<string, string>).value) * 100
-              ).toFixed(1)}%</div>`
-              return result
-            },
-          }
+          confine: true,
+          formatter: data => {
+            assertNotArray(data)
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 60 : 65)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.address'))} ${getAdaptAddressText(
+              (data.data as Record<string, string>).title,
+            )}</div>`
+            result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('statistic.miner_ratio'))} ${(
+              Number((data.data as Record<string, string>).value) * 100
+            ).toFixed(1)}%</div>`
+            return result
+          },
+        }
         : undefined,
       grid: isThumbnail ? gridThumbnail : grid,
       series: [

@@ -91,6 +91,7 @@ const useOption = (
     color: colors,
     tooltip: !isThumbnail
       ? {
+        confine: true,
         trigger: 'axis',
         axisPointer: { type: 'cross' },
         formatter: params => {
