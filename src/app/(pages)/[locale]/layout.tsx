@@ -1,6 +1,6 @@
 import "@/styles/global.css";
 
-import { type Metadata } from "next";
+import { type Metadata, type Viewport } from "next";
 import { LANGUAGES } from "@/i18n";
 import TranslationsProvider from "@/components/I18nProvider";
 import { env } from "@/env";
@@ -22,6 +22,11 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
+export const viewport: Viewport = {
+  width: "device-width, shrink-to-fit=no",
+  initialScale: 1,
+  maximumScale: 1,
+}
 
 export function generateStaticParams() {
   return LANGUAGES.map((locale) => ({ locale }));
