@@ -40,7 +40,7 @@ function AccordionTrigger({
         )}
         {...props}
       >
-        <ArrowIcon className="text-[#0A090B] dark:text-[#999] pointer-events-none size-6 shrink-0 translate-y-0.5 transition-transform duration-200" />
+        <ArrowIcon className="text-[#0A090B] dark:text-[#999] pointer-events-none size-5 sm:size-6 shrink-0 transition-transform duration-200" />
         {children}
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>

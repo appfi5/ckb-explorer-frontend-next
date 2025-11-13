@@ -64,7 +64,7 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
           </div>
         </div>
 
-        <div className="hidden lg:block flex-none h-[40px] w-[1px] bg-[#d9d9d9]" />
+        <div className="hidden lg:block flex-none h-[40px] w-[1px] bg-[#d9d9d9] dark:bg-[#4c4c4c]" />
 
         <div className="flex-[1140] flex flex-col sm:flex-row justify-between gap-3 sm:gap-0 items-left sm:items-center p-0 lg:pl-6 lg:pr-20">
           <div className="flex flex-col justify-between gap-1 sm:gap-3">

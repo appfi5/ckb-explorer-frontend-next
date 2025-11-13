@@ -89,6 +89,7 @@ function HisTable({ loading, list }: { loading: boolean, list: DataType[] }) {
       enablePinning: false,
       cell: ({ row }) => {
         const fromAddr = row.original.from
+        if(!fromAddr) return "-"
         return (
           <Link
             href={`/address/${fromAddr}`}
@@ -108,6 +109,7 @@ function HisTable({ loading, list }: { loading: boolean, list: DataType[] }) {
       enablePinning: false,
       cell: ({ row }) => {
         const toAddr = row.original.to
+        if(!toAddr) return "-"
         return (
           <Link
             href={`/address/${toAddr}`}
@@ -125,8 +127,8 @@ function HisTable({ loading, list }: { loading: boolean, list: DataType[] }) {
   const table = useReactTable<DataType>({
     data: list,
     columns,
-    enableRowPinning: true,
-    enableColumnPinning: true,
+    enableRowPinning: false,
+    enableColumnPinning: false,
     getCoreRowModel: getCoreRowModel(),
     initialState: {
       columnPinning: {
@@ -137,7 +139,7 @@ function HisTable({ loading, list }: { loading: boolean, list: DataType[] }) {
 
   return (
     <Table onScroll={e => {
-      table.getAllColumns()[0]?.pin(e.target.scrollLeft > 0 ? "left" : false)
+      // table.getAllColumns()[0]?.pin(e.target.scrollLeft > 0 ? "left" : false)
     }}>
       <TableHeader>
         {table.getHeaderGroups().map((headerGroup) => (
@@ -216,8 +218,8 @@ export default function NFTTransactionsHistory({ collectionId, tokenId }: { coll
   const loading = query.isLoading || query.isPlaceholderData;
   const total = query.data?.total ?? 0;
   return (
-    <Card className="p-6">
-      <div className="text-lg font-medium mb-7">{t("title.activity")}</div>
+    <Card className="p-3 sm:p-6">
+      <div className="text-lg font-medium mb-3 sm:mb-6">{t("title.activity")}</div>
       <div className="relative">
         {
           loading && (

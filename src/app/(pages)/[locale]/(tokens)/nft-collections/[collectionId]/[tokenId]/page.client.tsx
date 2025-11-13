@@ -13,7 +13,7 @@ import NFTTransactionsHistory from "./TransactionsHistory"
 import AssetContainer from "@/components/AssetContainer"
 import { formatNftDisplayId } from "@/utils/util"
 import useDOBRender from "@/hooks/useDOBRender"
-import type { ParsedTrait } from "@nervina-labs/dob-render"
+import type { ParsedTrait } from "@nervape/dob-render"
 import { getDob0Traits } from "@/utils/spore"
 import parseData from "@/components/Cell/dataDecoder"
 import { CellType } from "@/components/Cell/utils"
@@ -59,10 +59,10 @@ export default function NFTDetail({ collectionId, tokenId }: { collectionId: str
   })
 
   return (
-    <div className="container min-h-page-height pb-8 py-8">
+    <div className="container min-h-page-height pb-6 py-6">
       <QueryResult query={query} defaultLoadingClassName='min-h-page-height'>
         {nft => (
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-4 sm:gap-6">
             <NFTOverview detail={nft} collection={collectionInfo} />
             <NFTTransactionsHistory collectionId={collectionId} tokenId={tokenId} />
           </div>
@@ -77,12 +77,12 @@ function NFTOverview({ detail, collection }: { detail: NFTDetail, collection: AP
   const { t } = useTranslation("tokens");
   const { data: nftCoverImg, isLoading } = useDOBRender({ type: "dob", data: detail.data, id: detail.tokenId })
   return (
-    <Card className={classNames("p-6 flex flex-col md:flex-row flex-wrap gap-6", styles.overview)}>
+    <Card className={classNames("p-3 sm:p-6 flex flex-col md:flex-row flex-wrap gap-6", styles.overview)}>
       <AssetContainer className="flex-none flex justify-center items-center max-w-full md:size-[360px] xl:size-[480px] rounded-lg overflow-hidden">
         {
           !isLoading && (
             <img
-              className="w-full md:h-full max-h-[480px] md:max-h-full object-scale-down"
+              className="w-full md:h-full min-h-[200px] max-h-[480px] md:max-h-full object-scale-down"
               src={nftCoverImg}
               alt="cover"
               loading="lazy"
@@ -91,12 +91,12 @@ function NFTOverview({ detail, collection }: { detail: NFTDetail, collection: AP
         }
       </AssetContainer>
       <div className="flex-1">
-        <div className="font-medium text-[#000] dark:text-white text-2xl break-all">
+        <div className="font-medium text-[#000] dark:text-white text-base md:text-2xl break-all">
           {detail
             ? `${collection?.name ?? UNIQUE_ITEM_LABEL} ${formatNftDisplayId(detail.tokenId, "spore")}`
             : '-'}
         </div>
-        <div className="block h-[1px] bg-[#ccc] md:hidden"></div>
+        {/* <div className="block h-[1px] bg-[#ccc] md:hidden"></div> */}
         <div className="flex flex-col gap-5 mt-3">
           <DescItem layout="flex-col gap-1" label={t("field.owner")} >
             <OutLink className="underline" href={`/address/${detail.owner}`}>
@@ -174,10 +174,10 @@ function DOBTraits({ traits }: { traits?: ParsedTrait[] }) {
           .map(trait => (
             <div
               key={trait.name}
-              className="bg-[#F5F9FB] dark:bg-[#363839] flex-none p-3 rounded-lg"
+              className="bg-[#F5F9FB] dark:bg-[#363839] flex-none p-3 rounded-lg max-w-[200px]"
             >
               <div className="text-xs text-[#909399] dark:text-[#999]">{trait.name}</div>
-              <div className="text-xs">{trait.value as string}</div>
+              <div className="text-xs truncate">{trait.value as string}</div>
             </div>
           ))}
       </div>
