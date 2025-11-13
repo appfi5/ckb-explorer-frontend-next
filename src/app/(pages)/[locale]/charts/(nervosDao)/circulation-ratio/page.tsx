@@ -35,21 +35,20 @@ const useOption = (
     color: chartColor.colors,
     tooltip: !isThumbnail
       ? {
-          trigger: 'axis',
-          formatter: dataList => {
-            assertIsArray(dataList)
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 185 : 165)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${
-              (dataList[0].data as string[])[0]
+        confine: true,
+        trigger: 'axis',
+        formatter: dataList => {
+          assertIsArray(dataList)
+          const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 185 : 165)
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0].data as string[])[0]
             }</div>`
-            if (dataList[0].data) {
-              result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('statistic.circulation_ratio'))} ${
-                (dataList[0].data as string[])[1]
+          if (dataList[0].data) {
+            result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('statistic.circulation_ratio'))} ${(dataList[0].data as string[])[1]
               }%</div>`
-            }
-            return result
-          },
-        }
+          }
+          return result
+        },
+      }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,

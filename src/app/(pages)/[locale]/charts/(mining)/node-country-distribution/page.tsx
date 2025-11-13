@@ -39,6 +39,7 @@ const useOption = (
 
   const tooltip: TooltipComponentOption | undefined = !isThumbnail
     ? {
+      confine: true,
       formatter: data => {
         const item = Array.isArray(data) ? data[0] : data
         const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 100 : 120)
@@ -63,7 +64,7 @@ const useOption = (
     tooltip,
     grid: isThumbnail ? gridThumbnail : grid,
     legend: {
-      show: !isMobile,//!isThumbnail,
+      show:!isThumbnail &&  !isMobile,
       // right: 40,
       // top: 40,
       icon: 'circle',

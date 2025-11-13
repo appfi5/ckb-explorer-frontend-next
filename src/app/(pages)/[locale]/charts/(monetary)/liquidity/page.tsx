@@ -79,6 +79,7 @@ const useOption = (
     color: chartColor.liquidityColors,
     tooltip: !isThumbnail
       ? {
+        confine: true,
         trigger: 'axis',
         formatter: dataList => {
           assertIsArray(dataList)

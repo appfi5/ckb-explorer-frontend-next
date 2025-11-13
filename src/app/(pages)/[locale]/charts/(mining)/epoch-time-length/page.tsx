@@ -40,7 +40,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor,chartThemeColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
 
   const gridThumbnail = {
     left: '4%',
@@ -69,57 +69,57 @@ const useOption = (
     color: chartThemeColor.moreColors,
     tooltip: !isThumbnail
       ? {
-          trigger: 'axis',
-          formatter: dataList => {
-            assertIsArray(dataList)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('block.epoch'), currentLanguage)} ${
-              dataList[0].name
+        confine: true,
+        trigger: 'axis',
+        formatter: dataList => {
+          assertIsArray(dataList)
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('block.epoch'), currentLanguage)} ${dataList[0].name
             }</div>`
-            dataList.forEach(data => {
-              assertSerialsItem(data)
-              result += parseTooltip(data)
-            })
-            return result
-          },
-        }
+          dataList.forEach(data => {
+            assertSerialsItem(data)
+            result += parseTooltip(data)
+          })
+          return result
+        },
+      }
       : undefined,
     legend: !isThumbnail
       ? {
-          icon: 'roundRect',
-          data: [
-            {
-              name: t('block.epoch_time'),
-            },
-            {
-              name: t('block.epoch_length'),
-            },
-          ],
-          textStyle: {
-            fontSize: isMobile ? 11 : 14,
-            color: axisLabelColor
+        icon: 'roundRect',
+        data: [
+          {
+            name: t('block.epoch_time'),
           },
-          left: isMobile ? '0px' : 'center', 
-        }
+          {
+            name: t('block.epoch_length'),
+          },
+        ],
+        textStyle: {
+          fontSize: isMobile ? 11 : 14,
+          color: axisLabelColor
+        },
+        left: isMobile ? '0px' : 'center',
+      }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     dataZoom: isThumbnail
       ? []
       : [
-          {
-            show: true,
-            realtime: true,
-            startValue,
-            endValue,
-            xAxisIndex: [0],
-          },
-          {
-            type: 'inside',
-            realtime: true,
-            startValue,
-            endValue,
-            xAxisIndex: [0],
-          },
-        ],
+        {
+          show: true,
+          realtime: true,
+          startValue,
+          endValue,
+          xAxisIndex: [0],
+        },
+        {
+          type: 'inside',
+          realtime: true,
+          startValue,
+          endValue,
+          xAxisIndex: [0],
+        },
+      ],
 
     xAxis: [
       {
@@ -135,12 +135,12 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         }
       },
@@ -160,18 +160,18 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         splitLine: {
           show: true,
           lineStyle: {
-            color: axisLineColor, 
+            color: axisLineColor,
             type: 'dashed',
           }
         }

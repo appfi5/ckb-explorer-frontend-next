@@ -55,6 +55,7 @@ const useOption = () => {
       color: chartThemeColor.colors,
       tooltip: !isThumbnail
         ? {
+          confine: true,
           show: !isMobile,
           trigger: 'axis',
           formatter: dataList => {
