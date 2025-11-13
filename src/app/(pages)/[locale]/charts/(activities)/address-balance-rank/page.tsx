@@ -162,7 +162,7 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
         const address = getAddressWithRanking(statisticAddressBalanceRanks, param.name)
         if (address) {
           // history.push(`/${language}/address/${address}`)
-          if(!isMobile) {
+          if (!isMobile) {
             router.push(`/address/${address}`)
           }
         }

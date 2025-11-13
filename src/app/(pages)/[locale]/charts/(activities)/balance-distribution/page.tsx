@@ -106,12 +106,13 @@ const useOption = (
         ],
         textStyle: {
           color: axisLabelColor,
-          width: isMobile ? 200 : 300,  
-          overflow: 'truncate',  
+          width: isMobile ? 200 : 300,
+          overflow: 'truncate',
         },
         // orient: isMobile ? 'vertical' : 'horizontal',
-        left: isMobile ? '10px' : 'center', 
+        left: isMobile ? '10px' : 'center',
         width: isMobile ? 'auto' : '80%',
+        show: !isMobile
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
@@ -133,16 +134,16 @@ const useOption = (
               new BigNumber(value),
               index === balanceDistributions.length - 1 ? '+' : '',
             )}`,
-            color: axisLabelColor
+          color: axisLabelColor
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         }
       },
@@ -163,18 +164,18 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         splitLine: {
           show: true,
           lineStyle: {
-            color: axisLineColor, 
+            color: axisLineColor,
             type: 'dashed',
           }
         }

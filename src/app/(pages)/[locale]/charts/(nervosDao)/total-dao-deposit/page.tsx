@@ -57,7 +57,7 @@ const useOption = (
   const grid = {
     left: '4%',
     right: '3%',
-    top: '6%',
+    top: isMobile ? '15%' : '6%',
     bottom: '5%',
     containLabel: true,
   }

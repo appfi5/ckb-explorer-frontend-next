@@ -26,7 +26,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor,chartThemeColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
   const gridThumbnail = {
     left: '4%',
     right: '4%',
@@ -37,7 +37,7 @@ const useOption = (
   const grid = () => ({
     left: '3%',
     right: '3%',
-    top: '12%',
+    top: isMobile ? '15%' : '12%',
     bottom: '5%',
     containLabel: true,
   })
@@ -63,38 +63,38 @@ const useOption = (
     color: chartThemeColor.moreColors,
     tooltip: !isThumbnail
       ? {
-          trigger: 'axis',
-          formatter: (dataList): string => {
-            assertIsArray(dataList)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('block.epoch'))} ${dataList[0].name}</div>`
-            dataList.forEach(data => {
-              assertSerialsItem(data)
-              assertSerialsDataIsString(data)
-              result += parseTooltip(data)
-            })
-            return result
-          },
-        }
+        trigger: 'axis',
+        formatter: (dataList): string => {
+          assertIsArray(dataList)
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('block.epoch'))} ${dataList[0].name}</div>`
+          dataList.forEach(data => {
+            assertSerialsItem(data)
+            assertSerialsDataIsString(data)
+            result += parseTooltip(data)
+          })
+          return result
+        },
+      }
       : undefined,
     legend: !isThumbnail
       ? {
-          icon: 'roundRect',
-          data: [
-            {
-              name: t('block.difficulty'),
-            },
-            {
-              name: t('block.hash_rate_hps'),
-            },
-            {
-              name: t('block.uncle_rate'),
-            },
-          ],
-          textStyle: {
-            color: axisLabelColor
+        icon: 'roundRect',
+        data: [
+          {
+            name: t('block.difficulty'),
           },
-          left: isMobile ? '0px' : 'center', 
-        }
+          {
+            name: t('block.hash_rate_hps'),
+          },
+          {
+            name: t('block.uncle_rate'),
+          },
+        ],
+        textStyle: {
+          color: axisLabelColor
+        },
+        left: isMobile ? '0px' : 'center',
+      }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid(),
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
@@ -112,12 +112,12 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         }
       },
@@ -138,18 +138,18 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         splitLine: {
           show: true,
           lineStyle: {
-            color: axisLineColor, 
+            color: axisLineColor,
             type: 'dashed',
           }
         }
@@ -209,18 +209,18 @@ const useOption = (
         markLine: isThumbnail
           ? undefined
           : {
-              symbol: 'none',
-              data: [
-                {
-                  name: t('block.uncle_rate_target'),
-                  yAxis: 2.5,
-                },
-              ],
-              label: {
-                formatter: (params: CallbackDataParams) => `${params.value}%`,
-                color: axisLabelColor
+            symbol: 'none',
+            data: [
+              {
+                name: t('block.uncle_rate_target'),
+                yAxis: 2.5,
               },
+            ],
+            label: {
+              formatter: (params: CallbackDataParams) => `${params.value}%`,
+              color: axisLabelColor
             },
+          },
         data: statisticDifficultyHashRates.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
       },
     ],
