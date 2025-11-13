@@ -115,8 +115,8 @@ const useOption = (
       textStyle: {
         color: axisLabelColor
       },
-      orient: isMobile ? 'vertical' : 'horizontal',
-      left: isMobile ? '10px' : 'center', 
+      orient: 'horizontal',
+      left: 'center', 
     },
     grid: isThumbnail ? gridThumbnail : grid,
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,

@@ -117,7 +117,7 @@ function NFTCollectionOverview({ collectionInfo }: { collectionInfo: APIExplorer
             {
               key: 'holder|minted',
               label: `${t("field.holder")}/${t("field.minted")}`,
-              content: <span className="font-menlo">{collectionInfo.holdersCount}/{collectionInfo.itemsCount}</span>
+              content: <span className="font-hash">{collectionInfo.holdersCount}/{collectionInfo.itemsCount}</span>
             },
             {
               key: 'creator',
@@ -137,7 +137,7 @@ function NFTCollectionOverview({ collectionInfo }: { collectionInfo: APIExplorer
               label: t("field.cluster_id"),
               layout: "flex-row items-start gap-2",
               content: collectionInfo.clusterId
-                ? (<span className="font-menlo break-all">{collectionInfo.clusterId}</span>)
+                ? (<span className="font-hash break-all">{collectionInfo.clusterId}</span>)
                 : "-"
             },
           ]}

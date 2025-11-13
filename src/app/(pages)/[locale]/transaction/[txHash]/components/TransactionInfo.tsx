@@ -24,9 +24,8 @@ import DateTime from "@/components/DateTime";
 
 export default function TransactionInfo({ transaction: tx }: { transaction: APIExplorer.TransactionResponse }) {
   const { t } = useTranslation();
-  const layout = useTxLaytout();
   const formatConfirmation = useFormatConfirmation()
-  const isLite = layout === LayoutLiteProfessional.Lite;
+  // const isLite = layout === LayoutLiteProfessional.Lite;
   const topBlockNumber = useBlockChainInfo(s => s.blockNumber);
 
   const {
@@ -46,20 +45,22 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
     {
       key: 'block height',
       label: t('block.block_height'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       // showContent: txLoaded,
       content: (
         <OutLink
-          className="font-menlo underline"
+          className="font-hash underline"
           href={`/block/${blockNumber}`}
         >
           {localeNumberString(blockNumber)}
         </OutLink>
       )
     }, {
-      key: "tx-free|fee-rate",
-      // showContent: txLoaded,
-      show: !isLite,
-      label: `${t('transaction.transaction_fee')} | ${t('transaction.fee_rate')}`,
+      key: "tx-free",
+      label: <span className="whitespace-nowrap">{t('transaction.transaction_fee')}</span>,
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       content: (
         <>
           <TwoSizeAmount
@@ -69,28 +70,37 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
             decimalClassName="text-[12px]"
             unit={<span className="ml-[4px]">CKB</span>}
           />
-          <span className="mx-[0.5em]">|</span>
-          <span className="font-menlo whitespace-pre">{new BigNumber(transactionFee).multipliedBy(1000).dividedToIntegerBy(bytes).toFormat({
-            groupSeparator: ',',
-            groupSize: 3,
-          })} shannons/kB</span>
         </>
       )
+    },
+    {
+      key: "fee-rate",
+      label: t('transaction.fee_rate'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
+      content: (
+        <span className="font-hash whitespace-pre">{new BigNumber(transactionFee).multipliedBy(1000).dividedToIntegerBy(bytes).toFormat({
+          groupSeparator: ',',
+          groupSize: 3,
+        })} shannons/kB</span>
+      ),
     }, {
       key: "status",
-      // showContent: txLoaded,
       label: t('transaction.status'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       content: formatConfirmation(confirmation),
     }, {
       key: "block.timestamp",
-      // showContent: txLoaded,
       label: t('block.timestamp'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       content: blockTimestamp ? <DateTime date={blockTimestamp} /> : "-"
     }, {
       key: "size",
-      // showContent: txLoaded,
-      show: !isLite,
       label: t('transaction.size'),
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
       content: !!bytes && (
         <div
           style={{
@@ -98,7 +108,7 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
             alignItems: 'center',
           }}
         >
-          <span className="font-menlo">{`${(bytes - 4).toLocaleString('en')} Bytes`}</span>
+          <span className="font-hash">{`${(bytes - 4).toLocaleString('en')} Bytes`}</span>
           <ComparedToMaxTooltip
             numerator={bytes}
             maxInEpoch={largestTxInEpoch}
@@ -117,11 +127,11 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
       )
     }, {
       key: "cycles",
-      // showContent: txLoaded,
-      show: !isLite,
       label: t('transaction.cycles'),
-      content: !!cycles && (
-        <div className="flex items-center font-menlo">
+      textDirection: "right",
+      contentClassName: "flex sm:text-left sm:justify-start",
+      content: !!cycles ? (
+        <div className="flex items-center font-hash">
           {`${cycles.toLocaleString('en')}`}
           <ComparedToMaxTooltip
             numerator={cycles}
@@ -131,23 +141,17 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
             titleInChain={t('transaction.compared_to_the_max_cycles_in_chain')}
           />
         </div>
-      ),
+      ) : "-",
     }
   ]
 
   return (
-    <Card className="mt-[20px] p-[24px] pt-[13px]">
-      <LayoutSwitch className="mb-[17px]" />
-      <DescPanel
-        fields={items}
-      />
-      {
-        !isLite && (
-          <CardPanel className="mt-[20px] p-[20px]">
-            <TxDetails transaction={tx} />
-          </CardPanel>
-        )
-      }
+    <Card className="mt-[20px] p-[12px] md:p-[24px]">
+      {/* <LayoutSwitch className="mb-[17px]" /> */}
+      <DescPanel fields={items} />
+      <CardPanel className="mt-[12px] md:mt-[20px] p-[12px] md:p-[20px]">
+        <TxDetails transaction={tx} />
+      </CardPanel>
     </Card>
   )
 }
@@ -208,7 +212,7 @@ function Field({ title, tooltip, value, valueTooltip, href, tag }: {
     <div>
       <div className="flex items-center">
         {href ? (
-          <Link href={href} className="font-menlo underline hover:text-primary">
+          <Link href={href} className="font-hash underline hover:text-primary">
             {value}
           </Link>
         ) : (
@@ -330,7 +334,7 @@ function Parameters({ transaction }: { transaction: APIExplorer.TransactionRespo
                   title="Witness"
                   // tooltip={t("glossary.witness")}
                   value={
-                    <div className="font-menlo">
+                    <div className="font-hash">
                       {witness}
                     </div>
                   }

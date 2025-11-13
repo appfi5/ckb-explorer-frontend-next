@@ -55,7 +55,7 @@ export default function RuntimeInfos() {
         !!statistics.epochInfo.index ? (
           <>
             {statistics.epochInfo.index}
-            <span className="font-menlo font-normal ml-[6px] text-[14px]">/ {statistics.epochInfo.epochLength}</span>
+            <span className="font-hash font-normal ml-[6px] text-[14px]">/ {statistics.epochInfo.epochLength}</span>
           </>
         )
           : "-"
@@ -74,7 +74,7 @@ export default function RuntimeInfos() {
           return (
             <Fragment key={unit}>
               {val}
-              <span className="font-menlo font-normal mx-[8px] text-[14px]">{unit}</span>
+              <span className="font-hash font-normal mx-[8px] text-[14px]">{unit}</span>
             </Fragment>
           )
         })
@@ -91,7 +91,7 @@ export default function RuntimeInfos() {
         return (
           <>
             {val}
-            <span className="font-menlo font-normal mx-[4px] text-[14px]">{unit}</span>
+            <span className="font-hash font-normal mx-[4px] text-[14px]">{unit}</span>
           </>
         )
       })(),
@@ -106,7 +106,7 @@ export default function RuntimeInfos() {
         return (
           <>
             {val}
-            <span className="font-menlo font-normal mx-[4px] text-[14px]">{unit}</span>
+            <span className="font-hash font-normal mx-[4px] text-[14px]">{unit}</span>
           </>
         )
       })(),
@@ -143,7 +143,7 @@ export default function RuntimeInfos() {
                 .map(([val, unit]) => (
                   <Fragment key={unit}>
                     {val}
-                    <span className="font-menlo mx-[4px] text-[14px] font-bold leading-[22px]">{unit}</span>
+                    <span className="font-hash mx-[4px] text-[14px] font-bold leading-[22px]">{unit}</span>
                   </Fragment>
                 ))
               : "-"
@@ -164,7 +164,7 @@ export default function RuntimeInfos() {
               return (
                 <>
                   {val}
-                  <span className="font-menlo mx-[4px] text-[14px] font-bold leading-[22px]">{unit}</span>
+                  <span className="font-hash mx-[4px] text-[14px] font-bold leading-[22px]">{unit}</span>
                 </>
               )
             })(),
@@ -176,7 +176,7 @@ export default function RuntimeInfos() {
               return (
                 <>
                   {val}
-                  <span className="font-menlo mx-[4px] text-[14px] font-bold leading-[22px]">{unit}</span>
+                  <span className="font-hash mx-[4px] text-[14px] font-bold leading-[22px]">{unit}</span>
                 </>
               )
             })()
@@ -202,11 +202,11 @@ function ChartCardLayout({ first, second, children }: ChartCardLayoutProps) {
       <div className="flex flex-none flex-row w-full lg:w-auto lg:flex-col leading-[22px] justify-between lg:gap-[48px]">
         <div>
           <div className="font-medium mb-[8px]">{first.label}</div>
-          <div className="font-menlo font-bold text-[18px]">{first.content}</div>
+          <div className="font-hash font-bold text-[18px]">{first.content}</div>
         </div>
         <div className="text-right lg:text-left">
           <div className="font-medium mb-[8px]">{second.label}</div>
-          <div className="font-menlo font-bold text-[18px]">{second.content}</div>
+          <div className="font-hash font-bold text-[18px]">{second.content}</div>
         </div>
       </div>
       <div className="hidden lg:block h-[160px] bg-[#EDF2F2] dark:bg-[#5B5B5B] w-[1px]" />
@@ -222,7 +222,7 @@ function Info({ icon, label, content }: { icon: ReactNode; label: ReactNode; con
       <div className="flex-none block size-[20px] md:size-[24px]">{icon}</div>
       <div>
         <div className="md:text-[16px] text-[14px] leading-[20px] md:leading-[24px] min-w-[180px] md:min-w-[204px] font-medium">{label}</div>
-        <div className="mt-[10px] font-menlo font-bold text-[20px] lg:text-[24px] leading-[26px]">{content}</div>
+        <div className="mt-[10px] font-hash font-bold text-[20px] lg:text-[24px] leading-[26px]">{content}</div>
       </div>
     </div>
   )

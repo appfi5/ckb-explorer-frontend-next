@@ -5,7 +5,7 @@
 
   table {
     background: #fff;
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-family: var(--font-hash);
     margin-bottom: 30px;
     width: 100%;
     text-align: left;
@@ -66,7 +66,7 @@
   max-width: 200px;
 
   a > div {
-    font-family: Menlo !important;
+    font-family: var(--font-hash) !important;
   }
 
   &:hover{

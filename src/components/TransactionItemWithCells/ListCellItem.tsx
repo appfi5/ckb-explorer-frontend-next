@@ -8,9 +8,9 @@ import OutLink from "../OutLink";
 import { localeNumberString } from "@/utils/number";
 import HelpIcon from "@/assets/icons/help.svg?component";
 import styles from './index.module.scss';
-import SandClockIcon from '@/assets/icons/sandClock.svg?component';
 import { CellStatus } from "../Cell/CellStatus";
 import RelateTxOutputIcon from '@/assets/icons/relate-tx.output.svg?component';
+import RelateTxCellConsumedIcon from '@/assets/icons/relate-tx.cell-consumed.svg?component';
 import TwoSizeAmount from "../TwoSizeAmount";
 import { shannonToCkb } from "@/utils/util";
 import CellModal from "../Cell/CellModal";
@@ -18,6 +18,7 @@ import InfoIcon from '@/assets/icons/info.svg?component';
 import Tips from "../Tips";
 import ScriptTag from "../ScriptTag";
 import { addressToScript } from "@nervosnetwork/ckb-sdk-utils";
+import classNames from "classnames";
 
 type ListCellItemProps = {
   currentAddress?: string;
@@ -43,108 +44,99 @@ export default function ListCellItem(props: ListCellItemProps) {
   } catch { }
 
   return (
-    <div className="flex flex-row flex-wrap items-center gap-1 justify-between p-3 min-h-16 bg-[#d9d9d91a] dark:bg-[#363839]">
-      <div className="flex flex-row flex-wrap items-center gap-2">
-        {ioType === IOType.Input && (
-          <>
+    <>
+      <div className="flex flex-row justify-between items-start bg-[#d9d9d91a] dark:bg-[#363839] p-3 lg:py-5">
+        <div className="flex-1 min-w-0 flex flex-col lg:flex-row items-start lg:items-center gap-2">
+          <div className={classNames("flex-none flex items-center gap-2")}>
+            {ioType === IOType.Input && (
+              <Tooltip
+                trigger={
+                  <Link className="flex size-[16px] lg:size-[20px]" href={`/transaction/${cell.generatedTxHash}`}>
+                    <LeftArrow width="100%" height="100%" />
+                  </Link>
+                }
+                placement="top">
+                {`${t("transaction.related_transaction")}`}
+              </Tooltip>
+            )}
+            {
+              highLight ? (
+                <OutLink href={`/address/${cell.addressHash}`} className="underline">
+                  <TextEllipsis
+                    text={addressText}
+                    ellipsis={{ head: 4, tail: -8 }}
+                  />
+                </OutLink>
+              ) : (
+                <div className="flex flex-row items-center gap-2">
+                  <TextEllipsis
+                    text={addressText}
+                    ellipsis={{ head: 4, tail: -8 }}
+                  />
+                </div>
+              )
+            }
+          </div>
+
+          <div className="flex flex-row gap-2 min-w-0 lg:min-w-50 h-[20px]">
+            <ScriptTag category="lock" short withTag={false} script={lockScript} className="h-[20px]!" />
+            <ScriptTag category="type" short withTag={false} script={cell.typeScript} className="h-[20px]!" />
+          </div>
+        </div>
+        <div className="flex-none flex flex-col items-end lg:flex-row gap-2">
+          <div className="flex flex-row items-center gap-2">
+            <TwoSizeAmount
+              className="leading-[20px]"
+              integerClassName="text-xs"
+              decimalClassName="text-xs"
+              amount={shannonToCkb(cell.capacity)}
+              format={[8]}
+              unit={<span className="ml-2! text-[#999] text-xs">CKB</span>}
+            />
             <Tooltip
+              asChild={false}
               trigger={
-                <Link href={`/transaction/${cell.generatedTxHash}`}>
-                  <LeftArrow />
-                </Link>
+                <CellModal cell={cell}>
+                  <div className="flex size-[16px] lg:size-[20px]">
+                    <InfoIcon width="100%" height="100%" className={styles.infoIcon} />
+                  </div>
+                </CellModal>
               }
-              placement="top">
-              {`${t("transaction.related_transaction")}`}
+              placement="top"
+            >
+              {`${t("transaction.cell-info")} `}
             </Tooltip>
-          </>
-        )}
-        {
-          highLight ? (
-            <OutLink href={`/address/${cell.addressHash}`} className="underline">
-              <TextEllipsis
-                text={addressText}
-                ellipsis="address"
-              />
-            </OutLink>
-          ) : (
-            <div className="flex flex-row items-center gap-2">
-              <TextEllipsis
-                text={addressText}
-                ellipsis="address"
-              />
-              {/* <Tooltip
+          </div>
+
+          <div className={classNames("flex-none flex flex-row gap-2 lg:block size-[16px] lg:size-[20px]")}>
+
+            {
+              ioType === IOType.Output && (
+                <>
+                  {cell.status === CellStatus.LIVE && (
+                    <div className="flex items-center justify-center gap-[8px] size-[16px] lg:size-[20px]">
+                      <Tooltip trigger={<RelateTxCellConsumedIcon width="100%" height="100%" />} placement="top">{`${t("transaction.unspent_output")}`}</Tooltip>
+                    </div>
+                  )}
+                  {cell.status === CellStatus.COMSUMED && (
+                    <div className="flex items-center justify-center gap-[8px]">
+                      <Tooltip
                         trigger={
-                          <div className="flex items-center justify-center size-[20px] border border-[#ddd] p-[2px] bg-white rounded-sm">
-                            <HomeIcon />
-                          </div>
+                          <Link className="flex size-[16px] lg:size-[20px]" href={`/transaction/${cell.consumedTxHash}`}>
+                            <RelateTxOutputIcon width="100%" height="100%" />
+                          </Link>
                         }
                         placement="top"
-                      >
-                        {`${t("address.current-address")} `}
-                      </Tooltip> */}
-            </div>
-          )
-        }
-        {
-          ioType === IOType.Output && (
-            <>
-              {cell.status === CellStatus.LIVE && (
-                <div className="flex items-center justify-center gap-[8px]">
-                  <Tooltip trigger={<SandClockIcon />} placement="top">{`${t("transaction.unspent_output")}`}</Tooltip>
-                  {/* <div className="bg-[#FFB0411A] text-[#FFB041] text-[12px] font-medium leading-[20px] py-[2px] px-[4px] border rounded-[2px]">Live Cell</div> */}
-                </div>
-              )}
-              {cell.status === CellStatus.COMSUMED && (
-                <div className="flex items-center justify-center gap-[8px]">
-                  <Tooltip
-                    trigger={
-                      <Link href={`/transaction/${cell.consumedTxHash}`}>
-                        <RelateTxOutputIcon />
-                      </Link>
-                    }
-                    placement="top"
-                  >{`${t("transaction.related_transaction")}`}</Tooltip>
-                  {/* <div className="bg-[#FFB0411A] text-[#FFB041] text-[12px] font-medium leading-[20px] py-[2px] px-[4px] border rounded-[2px]">Live Cell</div> */}
-                </div>
-              )}
-            </>
-          )
-        }
-        <div className="flex flex-row gap-2 min-w-50">
-          <ScriptTag category="lock" short withTag={false} script={lockScript} className="h-[20px]!" />
-          <ScriptTag category="type" short withTag={false} script={cell.typeScript} className="h-[20px]!" />
+                      >{`${t("transaction.related_transaction")}`}</Tooltip>
+                    </div>
+                  )}
+                </>
+              )
+            }
+          </div>
         </div>
-
-
-        {/* {
-          !!decodedCellType && (
-            <div>{decodedCellType.toUpperCase()}</div>
-          )
-        } */}
       </div>
-      <div className="flex flex-row items-center gap-2">
-        {/* <TransactionCellCapacity cell={cell} ioType={ioType} /> */}
-        <TwoSizeAmount
-          integerClassName="font-menlo"
-          decimalClassName="font-menlo text-[12px]"
-          amount={shannonToCkb(cell.capacity)}
-          format={[8]}
-          unit={<span className="ml-2! text-[#999]">CKB</span>}
-        />
-        <Tooltip
-          asChild={false}
-          trigger={
-            <CellModal cell={cell}>
-              {/* <InfoIcon className="infoIcon cursor-pointer" /> */}
-              <InfoIcon className={styles.infoIcon} />
-            </CellModal>
-          }
-          placement="top"
-        >
-          {`${t("transaction.cell-info")} `}
-        </Tooltip>
-      </div>
-    </div>
+    </>
   )
 }
 
@@ -190,7 +182,7 @@ function Cellbase({ cell }: { cell: APIExplorer.CellInputResponse }) {
         </Tips>
       </div>
       <div className="flex align-center justify-center gap-2">
-        <OutLink href={`/block/${cell.targetBlockNumber}`} className="underline">
+        <OutLink href={`/block/${cell.targetBlockNumber}`} className="font-hash underline">
           {localeNumberString(cell.targetBlockNumber)}
         </OutLink>
       </div>

@@ -52,12 +52,12 @@ export default function TransactionItemWithCells(props: TransactionItemWithCells
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <CardPanel ref={ref} className="p-3 md:p-5 mt-5">
+    <CardPanel ref={ref} className="p-3 md:p-5 mt-3 md:mt-5">
       <div className="flex flex-row flex-wrap gap-y-1.5 items-center justify-between mb-2.5">
         <div className="flex max-w-full flex-row gap-2">
           {/* left */}
           <HeadIcon className="flex-none" />
-          <OutLink href={`/transaction/${txInfo.transactionHash}`} className="min-w-0 flex flex-row items-center font-menlo underline">
+          <OutLink href={`/transaction/${txInfo.transactionHash}`} className="min-w-0 flex flex-row items-center font-hash underline">
             <TextEllipsis
               className="flex-1 min-w-0"
               text={txInfo.transactionHash}
@@ -73,9 +73,9 @@ export default function TransactionItemWithCells(props: TransactionItemWithCells
           )
         }
       </div>
-      <div className="bg-white p-2 md:p-5 md:rounded-[16px] dark:bg-[#232323E5] flex flex-col xl:flex-row gap-3">
+      <div className="bg-white p-2 md:p-5 md:rounded-[16px] dark:bg-[#232323E5] flex flex-col 2xl:flex-row gap-1 sm:gap-3">
         <CellList currentAddress={currentAddress} transaction={txInfo} ioType={IOType.Input} cells={txInfo.displayInputs} />
-        <RightArrowIcon className={classNames("rotate-90 xl:rotate-0 self-center xl:self-start xl:mt-4", styles.arrowIcon)} />
+        <RightArrowIcon className={classNames("flex-none rotate-90 2xl:rotate-0 self-center 2xl:self-start 2xl:mt-4", styles.arrowIcon)} />
         <CellList currentAddress={currentAddress} transaction={txInfo} ioType={IOType.Output} cells={txInfo.displayOutputs} />
       </div>
     </CardPanel>
@@ -103,10 +103,10 @@ function BlockTime({ tx }: { tx: Transaction }) {
 
   if (tx.blockTimestamp) {
     return (
-      <time dateTime={dateTime} className={classNames('transactionItemBlock', styles.transactionBlockTime)}>
+      <time dateTime={dateTime} className={classNames('transactionItemBlock', 'text-xs sm:text-sm', styles.transactionBlockTime)}>
         <div className="flex items-center gap-[4px]">
-          <BlockIcon className="flex-none w-[13px] h-[16px] text-[#999]" />
-          <span className="mr-[32px] font-menlo text-[#999]">{`${t("block.block")} ${localeNumberString(tx.blockNumber)}`}</span>
+          <BlockIcon className="flex-none text-[#999]" />
+          <span className="mr-[32px] font-hash text-[#999]">{`${t("block.block")} ${localeNumberString(tx.blockNumber)}`}</span>
         </div>
         <div className="flex items-center gap-[4px]">
           <TimeIcon className="flex-none text-[#999] " />
@@ -144,7 +144,7 @@ function CellList(props: CellListProps) {
   const { cells, ioType, currentAddress, transaction } = props;
   const { t } = useTranslation();
   return (
-    <div className="flex-1 flex flex-col gap-2">
+    <div className="flex-1 min-w-0 flex flex-col gap-2">
       {cells.slice(0, MAX_CELL_SHOW_SIZE).map((cell) => (
         <ListCellItem key={cell.id} ioType={ioType} cell={cell} currentAddress={currentAddress} />
       ))}

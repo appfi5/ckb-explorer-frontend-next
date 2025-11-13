@@ -26,7 +26,7 @@ export default function NFTs({ addressInfo }: { addressInfo: APIExplorer.Address
       <div className="flex flex-row justify-between">
         <span className="font-medium">{t("address.count")}: {!udtQuery.isLoading ? udtQuery.data?.length : ""}</span>
       </div>
-      <div className="bg-white dark:bg-[#111] rounded-[4px] mt-[20px]">
+      <div className="bg-white dark:bg-[#111] rounded-[4px] mt-3 sm:mt-5">
         <QueryResult query={udtQuery}>
           {(list) => {
             if (!list?.length) {
@@ -37,7 +37,7 @@ export default function NFTs({ addressInfo }: { addressInfo: APIExplorer.Address
               )
             }
             return (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-[20px] max-h-[380px] p-[20px] overflow-y-auto ">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-5 max-h-[380px] p-3 sm:p-5 overflow-y-auto ">
                 {
                   list?.map((item) => (
                     <NFTCard key={item.tokenId} item={item} />

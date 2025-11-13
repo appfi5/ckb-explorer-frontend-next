@@ -71,6 +71,7 @@ const createGetfilterList = (isXudts: boolean) => (t: TFunction) => [
 
 const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {
   const { t } = useTranslation()
+  const router = useRouter();
 
   const symbol = token.symbol || `#${token.typeScriptHash.substring(token.typeScriptHash.length - 4)}`
 
@@ -90,12 +91,16 @@ const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {
   ].filter(BooleanT())
 
   return (
-    <Card key={token.typeScriptHash} className={styles.tokensCard}>
+    <Card
+      key={token.typeScriptHash} 
+      className={styles.tokensCard}
+      onClick={() => router.push(`/udts/${token.typeScriptHash}`)}
+    >
       {/* {token.published && ( */}
       <dl className={styles.tokenInfo}>
         <dt className={styles.title}>Name</dt>
         <dd>
-          <InteImage src={token.iconFile ? token.iconFile : FtFallbackIcon} alt="latest blocks" className={styles.icon} />
+          <InteImage src={token.icon ? token.icon : FtFallbackIcon} alt="latest blocks" className={styles.icon} />
           <Link className={styles.link} href={`/udts/${token.typeScriptHash}`}>
             {symbol}
           </Link>

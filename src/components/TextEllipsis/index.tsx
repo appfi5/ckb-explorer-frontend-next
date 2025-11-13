@@ -31,8 +31,8 @@ const processDisplayText = (hash: string | undefined, ellipsis: TextEllipsisProp
 
     return (
       <div {...divProps} className={classNames("flex flex-row items-center", divProps.className)}>
-        <span className="font-menlo flex-1 min-w-0 flex-nowrap truncate break-all">{hash.slice(0, tail)}</span>
-        <span className="font-menlo flex-none" >{hash.slice(tail)}</span>
+        <span className="font-hash flex-1 min-w-0 flex-nowrap truncate break-all">{hash.slice(0, tail)}</span>
+        <span className="font-hash flex-none" >{hash.slice(tail)}</span>
       </div>
     )
   }
@@ -40,11 +40,11 @@ const processDisplayText = (hash: string | undefined, ellipsis: TextEllipsisProp
   const ellipsisLen = (head || 0) + (isNil(tail) ? 0 : (tail < 0 ? -tail : hash.slice(tail).length)); // ((tail || 0) < 0 ? -(tail || 0) : hash.slice(tail).length);
 
   return (
-    <div {...divProps} className={classNames("font-menlo", divProps.className)}>
+    <div {...divProps} className={classNames("font-hash", divProps.className)}>
       {
         hash.length <= ellipsisLen ? hash : (
           <>
-            {hash.slice(0, head)}<span>...</span>{!!tail ? hash.slice(tail) : ''}
+            {hash.slice(0, head)}<span className="font-root">...</span>{!!tail ? hash.slice(tail) : ''}
           </>
         )
       }

@@ -25,8 +25,8 @@ export default function TwoSizeAmount(props: TwoSizeAmountProps) {
   }, [amount])
   return (
     <div className={classNames(className)} style={style}>
-      <span className={classNames("font-menlo",integerClassName)}>{int}{!!dec && "."}</span>
-      <span className={classNames("font-menlo",decimalClassName)}>{dec}</span>
+      <span className={classNames("font-hash",integerClassName)}>{int}{!!dec && "."}</span>
+      <span className={classNames("font-hash",decimalClassName)}>{dec}</span>
       {unit}
     </div>
   )

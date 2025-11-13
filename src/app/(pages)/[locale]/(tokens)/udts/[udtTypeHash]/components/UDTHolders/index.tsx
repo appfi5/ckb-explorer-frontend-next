@@ -43,7 +43,7 @@ function UDTHoldersInner({ holderCategoryList, udtInfo }: { udtInfo: APIExplorer
   const { t } = useTranslation();
   return (
     <div className="flex flex-row gap-2">
-      <span className="font-menlo">{localeNumberString(udtInfo.holdersCount)}</span>
+      <span className="font-hash">{localeNumberString(udtInfo.holdersCount)}</span>
       <Dialog>
         <DialogTrigger>
           <Tooltip
@@ -111,7 +111,7 @@ function ModalContent({ ckbHoldersCount, btcHoldersCount, ckbLockHashes }: {
             !!btcHoldersCount && (
               <div className="flex flex-row items-center justify-between p-3">
                 <span className="font-medium">BTC</span>
-                <span className="font-menlo">{btcHoldersCount}</span>
+                <span className="font-hash">{btcHoldersCount}</span>
               </div>
             )
           }
@@ -128,7 +128,7 @@ function ModalContent({ ckbHoldersCount, btcHoldersCount, ckbLockHashes }: {
                     )
                   }
                 </span>
-                <span className="font-menlo">{lockInfo.holderCount}</span>
+                <span className="font-hash">{lockInfo.holderCount}</span>
               </div>
             ))
           }

@@ -53,13 +53,13 @@ export const AddressToScript: React.FC = () => {
         <CardPanel className='flex flex-col p-5 gap-1 rounded-lg!'>
           <MultiVersionAddress displayName multiVersionAddr={parsed} />
           <DescItem label={<div className='w-20'>Code Hash:</div>} flex={{ label: 'none', content: 1 }}>
-            <span className="font-menlo break-all"><CopyableText>{parsed.script.codeHash}</CopyableText></span>
+            <span className="font-hash break-all"><CopyableText>{parsed.script.codeHash}</CopyableText></span>
           </DescItem>
           <DescItem label={<div className='w-20'>Hash Type:</div>} flex={{ label: 'none', content: 1 }}>
             <span ><CopyableText>{parsed.script.hashType}</CopyableText></span>
           </DescItem>
           <DescItem label={<div className='w-20'>Args:</div>} flex={{ label: 'none', content: 1 }}>
-            <span className="font-menlo break-all"><CopyableText>{parsed.script.args}</CopyableText></span>
+            <span className="font-hash break-all"><CopyableText>{parsed.script.args}</CopyableText></span>
           </DescItem>
         </CardPanel>
       )}

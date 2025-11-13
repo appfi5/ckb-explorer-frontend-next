@@ -51,19 +51,19 @@ export function Table<T>({
       !!isTransactionFree && {
         width: '20%',
         to: `/block/${transaction.blockNumber}`,
-        content: <div className='underline font-menlo hover:text-[var(--color-primary)]'>{localeNumberString(transaction.blockNumber)}</div>,
+        content: <div className='underline font-hash hover:text-[var(--color-primary)]'>{localeNumberString(transaction.blockNumber)}</div>,
         textDirection: 'left',
       },
       !!isTransactionFree && {
         width: '25%',
         textDirection: 'left',
-        content: <div className="inline-block max-w-full w-[100%] break-all whitespace-normal font-menlo"><DateTime date={transaction.blockTimestamp} showRelative /></div>,
+        content: <div className="inline-block max-w-full w-[100%] break-all whitespace-normal font-hash"><DateTime date={transaction.blockTimestamp} showRelative /></div>,
       },
       !isTransactionFree && {
         width: '25%',
         to: `/block/${transaction.createTimestamp}`,
         textDirection: 'left',
-        content: <div className="inline-block max-w-full w-[100%] break-all whitespace-normal font-menlo"><DateTime date={transaction.createTimestamp!} showRelative /></div>,
+        content: <div className="inline-block max-w-full w-[100%] break-all whitespace-normal font-hash"><DateTime date={transaction.createTimestamp!} showRelative /></div>,
       },
       {
         width: '25%',

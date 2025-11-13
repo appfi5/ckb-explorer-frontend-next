@@ -60,7 +60,7 @@ export default function NFTCollectionHolderList({ collectionId }: { collectionId
         if (!fromAddr) return '-'
         return (
           <Link
-            className="font-menlo underline hover:text-primary"
+            className="font-hash underline hover:text-primary"
             href={`/address/${fromAddr}`}
           >
             {fromAddr}

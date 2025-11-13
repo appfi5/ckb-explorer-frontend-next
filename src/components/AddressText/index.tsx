@@ -49,7 +49,7 @@ const AddressText: FC<{
             fontKey={fontKey}
             className={classNames(
               {
-                "font-menlo" : monospace,
+                "font-hash" : monospace,
               },
               linkProps == null && containerClass,
               className,

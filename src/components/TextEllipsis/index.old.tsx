@@ -35,7 +35,7 @@ export default function TextEllipsis(props: TextEllipsisProps) {
   const displayText = processDisplayText(text, ellipsis);
 
   const dom = (
-    <span {...spanProps} className={classNames("font-menlo", spanProps.className)}>{displayText}</span>
+    <span {...spanProps} className={classNames("font-hash", spanProps.className)}>{displayText}</span>
   )
 
   if (!text) {

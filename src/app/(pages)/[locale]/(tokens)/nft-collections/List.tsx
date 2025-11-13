@@ -265,7 +265,7 @@ const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: 
         <div>
           {
             nftItem.standard === 'spore' && nftItem.creator === '' ? 'Unique items' : nftItem.name.length > 6 ? <Tooltip
-              trigger={<span className='font-menlo'>{`${nftItem.name.slice(0, 6)}...`}</span>}
+              trigger={<span className='font-hash'>{`${nftItem.name.slice(0, 6)}...`}</span>}
               placement="top"
             >{nftItem.name}</Tooltip> : nftItem.name
           }

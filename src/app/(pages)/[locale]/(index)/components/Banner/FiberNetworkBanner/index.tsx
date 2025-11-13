@@ -11,8 +11,8 @@ export default function FiberNetworkBanner() {
   return (
     <div className={classNames(styles.banner)}>
       <div className={styles.content}>
-        <h1 className="text-[18px] md:text-[40px]">{t(`banner.fiber_title`)}</h1>
-        <h3 className="text-[12px] md:text-[18px]">{t(`banner.fiber_subtitle`)}</h3>
+        <h1 className="text-[20px] px-10 md:text-[40px]">{t(`banner.fiber_title`)}</h1>
+        <h3 className="text-[14px] px-10 md:text-[18px]">{t(`banner.fiber_subtitle`)}</h3>
         <div className={styles.links}>
           <Link
             href="https://www.ckbfiber.net/"

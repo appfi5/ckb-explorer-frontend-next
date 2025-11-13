@@ -161,7 +161,7 @@ export const SearchResultItem: FC<{
             className={classNames(
               styles.secondaryText,
               styles.subTitle,
-              "font-menlo",
+              "font-hash",
             )}
           >
             <span style={{ marginRight: 4, flexShrink: 0 }}>type hash: </span>
@@ -224,7 +224,7 @@ export const SearchResultItem: FC<{
               className={classNames(
                 styles.secondaryText,
                 styles.subTitle,
-                "font-menlo",
+                "font-hash",
               )}
             >
               <span style={{ marginRight: 4, flexShrink: 0 }}>type hash: </span>
@@ -239,7 +239,7 @@ export const SearchResultItem: FC<{
               className={classNames(
                 styles.secondaryText,
                 styles.subTitle,
-                "font-menlo",
+                "font-hash",
               )}
             >
               <span style={{ marginRight: 4, flexShrink: 0 }}>cluster Id: </span>
@@ -306,7 +306,7 @@ export const SearchResultItem: FC<{
               className={classNames(
                 styles.secondaryText,
                 styles.subTitle,
-                "font-menlo",
+                "font-hash",
               )}
             >
               <span style={{ marginRight: 4, flexShrink: 0 }}>collection name: </span>
@@ -323,7 +323,7 @@ export const SearchResultItem: FC<{
                   className={classNames(
                     styles.secondaryText,
                     styles.subTitle,
-                    "font-menlo",
+                    "font-hash",
                   )}
                 >
                   <span style={{ marginRight: 4, flexShrink: 0 }}>cluster ID: </span>
@@ -357,7 +357,7 @@ export const SearchResultItem: FC<{
   //           keyword={keyword}
   //         />
   //         <EllipsisMiddle
-  //           className={classNames(styles.secondaryText, "font-menlo")}
+  //           className={classNames(styles.secondaryText, "font-hash")}
   //           style={{ maxWidth: "min(200px, 40%)" }}
   //           useTextWidthForPlaceholderWidth
   //           title={item.attributes.address}
@@ -390,7 +390,7 @@ export const SearchResultItem: FC<{
   //           className={classNames(
   //             styles.secondaryText,
   //             styles.subTitle,
-  //             "font-menlo",
+  //             "font-hash",
   //           )}
   //         >
   //           <span style={{ marginRight: 4, flexShrink: 0 }}>btc id:</span>
@@ -424,7 +424,7 @@ export const SearchResultItem: FC<{
             className={classNames(
               styles.secondaryText,
               styles.subTitle,
-              "font-menlo",
+              "font-hash",
             )}
           >
             <span style={{ marginRight: 4, flexShrink: 0 }}>
@@ -456,7 +456,7 @@ export const SearchResultItem: FC<{
   //           className={classNames(
   //             styles.secondaryText,
   //             styles.subTitle,
-  //             "font-menlo",
+  //             "font-hash",
   //           )}
   //         >
   //           <span style={{ marginRight: 4, flexShrink: 0 }}>

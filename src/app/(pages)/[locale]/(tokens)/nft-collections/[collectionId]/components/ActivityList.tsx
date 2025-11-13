@@ -83,7 +83,7 @@ export default function NFTCollectionActivtyList({ collectionId }: { collectionI
         return (
           <Link className="flex flex-row items-center gap-2 w-50 group" href={`/nft-collections/${collectionId}/${tokenId}`}>
             <DOBCover tokenId={tokenId} data={data} />
-            <span className="font-menlo truncate underline group-hover:text-primary">{tokenId}</span>
+            <span className="font-hash truncate underline group-hover:text-primary">{tokenId}</span>
           </Link>
         )
       },
@@ -144,7 +144,7 @@ export default function NFTCollectionActivtyList({ collectionId }: { collectionI
       accessorKey: 'blockTimestamp',
       enablePinning: false,
       cell: ({ row }) => (
-        <div className="font-menlo">
+        <div className="font-hash">
           <DateTime date={row.original.blockTimestamp} showRelative />
         </div>
       ),

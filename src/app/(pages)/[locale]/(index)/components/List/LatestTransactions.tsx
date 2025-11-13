@@ -70,10 +70,11 @@ function TranactionItem({ tx }: { tx: APIExplorer.TransactionPageResponse }) {
         <div className="hidden sm:flex size-[42px] sm:size-[54px] rounded-[4px] text-primary"><TransactionIcon width="100%" height="100%" /></div>
         <div className="flex-1 items-center sm:items-start flex flex-row sm:flex-col justify-between">
           <OutLink
-            className="font-menlo font-bold text-base sm:text-[18px] leading-[1]"
+            className="font-hash font-bold text-base sm:text-[18px] leading-[1]"
             href={`/transaction/${tx.transactionHash}`}
           >
             <TextEllipsis
+              className="text-primary sm:text-inherit"
               text={tx.transactionHash}
               ellipsis={{ head: 4, tail: -4 }}
             />
@@ -83,10 +84,10 @@ function TranactionItem({ tx }: { tx: APIExplorer.TransactionPageResponse }) {
       </div>
 
       <div className="flex flex-col items-start justify-between gap-1">
-        <div className="flex flex-row text-sm sm:text-[16px] leading-[22px] gap-3">
+        <div className="flex flex-row items-center text-sm sm:text-[16px] leading-[22px] gap-3">
           <span className="text-[#232323] dark:text-white font-medium whitespace-nowrap">{t("block.block")}</span>
           <Link
-            className="font-menlo text-[#484D4E] dark:text-[#EDF2F2] hover:text-primary underline"
+            className="font-hash text-[#484D4E] dark:text-[#EDF2F2] hover:text-primary underline"
             href={`/block/${tx.blockNumber}`}
           >
             {localeNumberString(tx.blockNumber)}
@@ -99,11 +100,11 @@ function TranactionItem({ tx }: { tx: APIExplorer.TransactionPageResponse }) {
       <div className="sm:basis-[158px] flex flex-row sm:flex-col justify-between items-center sm:items-end text-right">
         <div className="text-sm sm:text-base leading-[22px]">
           <TwoSizeAmount
-            integerClassName="font-menlo"
-            decimalClassName="font-menlo text-[12px]"
+            integerClassName="font-hash"
+            decimalClassName="font-hash text-[12px]"
             format={[2]}
             amount={shannonToCkb(tx.capacityInvolved)}
-            unit={<span className="font-medium ml-[6px]">CKB</span>}
+            unit={<span className="ml-[6px]">CKB</span>}
           />
         </div>
         <div className="font-medium text-xs sm:text-sm text-[#999] leading-[1]">

@@ -85,6 +85,7 @@ export const BlockList = ({
         <Empty />
       )}
       <Pagination
+        paginationType="page"
         className='w-full mt-1'
         total={total}
         pageSize={pageSize}

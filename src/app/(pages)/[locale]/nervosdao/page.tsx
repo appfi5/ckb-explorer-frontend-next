@@ -12,12 +12,13 @@ import { QueryResult } from '@/components/QueryResult'
 import { defaultNervosDaoInfo } from './state'
 import styles from './index.module.scss'
 import { useRouter } from 'next/navigation'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+// import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import DownloadIcon from '@/components/icons/download'
 import PixelBorderBlock from '@/components/PixelBorderBlock'
 import { useState } from 'react'
 import server from '@/server'
 import { useIsMobile } from '@/hooks'
+import classNames from 'classnames'
 
 export const NervosDao = () => {
   const router = useRouter();
@@ -70,16 +71,25 @@ export const NervosDao = () => {
         <div className={styles.tabContainer}>
           <div className={styles.tabHeader}>
             <Tabs
+              currentTab={activeTab}
+              tabs={[
+                { key: "transactions", label: t('nervos_dao.dao_tab_transactions') },
+                { key: "depositors", label: t('nervos_dao.dao_tab_depositors') },
+              ]}
+              onTabChange={(value) => setActiveTab(value)}
+            > 
+            </Tabs>
+            {/* <Tabs
               type="underline"
               value={activeTab}
               className='w-[320px]!'
               onValueChange={(value: string) => setActiveTab(value)}
             >
-              <TabsList className='gap-[60px]! text-[18px]!'>
-                <TabsTrigger className={styles.tabsTriggerStyle} value="transactions" key="transactions">{t('nervos_dao.dao_tab_transactions')}</TabsTrigger>
-                <TabsTrigger className={styles.tabsTriggerStyle} value="depositors" key="depositors">{t('nervos_dao.dao_tab_depositors')}</TabsTrigger>
+              <TabsList className='gap-[30px] sm:gap-[60px]!'>
+                <TabsTrigger className={classNames(styles.tabsTriggerStyle, "text-base! sm:text-[18px]!")} value="transactions" key="transactions">{t('nervos_dao.dao_tab_transactions')}</TabsTrigger>
+                <TabsTrigger className={classNames(styles.tabsTriggerStyle, "text-base! sm:text-[18px]!")} value="depositors" key="depositors">{t('nervos_dao.dao_tab_depositors')}</TabsTrigger>
               </TabsList>
-            </Tabs>
+            </Tabs> */}
 
             {!isMobile && <div className={styles.txHeaderLabels}>
               {/* <PixelBorderBlock
@@ -134,3 +144,23 @@ export const NervosDao = () => {
 }
 
 export default NervosDao
+
+
+function Tabs<T extends string>({ currentTab, tabs, onTabChange }: { currentTab: T; tabs: readonly { key: T, label: ReactNode }[]; onTabChange: (tab: T) => void }) {
+  return (
+    <div className="pb-[8px] max-w-full h-[34px] overflow-hidden">
+      <div className="pb-4 flex gap-8 w-full  overflow-x-auto overlfow-y-hidden">
+        {tabs.map((tab) => (
+          <div
+            key={tab.key}
+            className={classNames("text-[16px] sm:text-[18px] leading-[24px]", "flex-none relative cursor-pointer", currentTab !== tab.key ? "text-[#999]" : "font-medium")}
+            onClick={() => onTabChange(tab.key)}
+          >
+            {tab.label}
+            <div className={classNames("absolute left-0 right-0 mx-auto bottom-[-8px] m-w-[64px] h-1 bg-primary", currentTab !== tab.key ? "hidden" : "")} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}

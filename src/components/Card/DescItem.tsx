@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import Tooltip from "../Tooltip";
 import QuestionIcon from "@/assets/icons/question.svg?component";
 import classNames from "classnames";
+import Tips from "../Tips";
 
 export type DescItemProps = {
   show?: boolean;
@@ -33,13 +34,14 @@ export default function DescItem(props: DescItemProps) {
       <div className="text-[14px] leading-[22px] text-[#909399] basis-[0] flex flex-row items-center " style={{ flex: labelFlex }}>
         {label}
         {tooltip && (
-          <Tooltip
+          <Tips
+            placement="top"
             trigger={
               <QuestionIcon className="ml-1 hover:text-primary cursor-pointer" />
             }
           >
             {tooltip}
-          </Tooltip>
+          </Tips>
         )}
       </div>
       <div className={classNames("basis-[0] min-w-0", textAlignClass, contentClassName)} style={{ flex: contentFlex }}>

@@ -116,7 +116,7 @@ export default function ScriptsList() {
                     label={<div className="w-20">{t("fields.code_hash")}</div>}
                     flex={{ label: 'none', content: 1 }}
                   >
-                    <span className="font-menlo">{script.codeHash}</span>
+                    <span className="font-hash">{script.codeHash}</span>
                   </DescItem>
                   <DescItem
                     layout="flex-row items-start gap-3"
@@ -130,7 +130,7 @@ export default function ScriptsList() {
                     label={<div className="w-20">{script.hashType === "type" ? t("fields.data_hash") : t("fields.type_hash")}</div>}
                     flex={{ label: 'none', content: 1 }}
                   >
-                    <span className="font-menlo">{script.hashType === "type" ? script.dataHash : script.typeHash}</span>
+                    <span className="font-hash">{script.hashType === "type" ? script.dataHash : script.typeHash}</span>
                   </DescItem> */}
 
                   <DescItem
@@ -139,7 +139,7 @@ export default function ScriptsList() {
                     contentClassName="self-stretch"
                     flex={{ label: 'none', content: 1 }}
                   >
-                    {/* <span className="font-menlo">{script.hashType === "type" ? script.dataHash : script.typeHash}</span> */}
+                    {/* <span className="font-hash">{script.hashType === "type" ? script.dataHash : script.typeHash}</span> */}
                     <div className="flex flex-col gap-2">
                       {
                         script.deployments.map((deployment, index) => (
@@ -148,16 +148,16 @@ export default function ScriptsList() {
                               <div className="mb-2">{deployment.tag} {deployment.deprecated ? "deprecated" : ""}</div>
                             )}
                             <div>
-                              <span className="font-menlo">{t("fields.code_hash")}:</span>
-                              <span className="font-menlo ml-2">{deployment.codeHash}</span>
+                              <span className="font-hash">{t("fields.code_hash")}:</span>
+                              <span className="font-hash ml-2">{deployment.codeHash}</span>
                             </div>
                             <div>
-                              <span className="font-menlo">{deployment.hashType === 'type' ? t("fields.data_hash") : t("fields.type_hash")}:</span>
-                              <span className="font-menlo ml-2">{(deployment.hashType === 'type' ? deployment.dataHash : deployment.typeHash) || "0x"}</span>
+                              <span className="font-hash">{deployment.hashType === 'type' ? t("fields.data_hash") : t("fields.type_hash")}:</span>
+                              <span className="font-hash ml-2">{(deployment.hashType === 'type' ? deployment.dataHash : deployment.typeHash) || "0x"}</span>
                             </div>
                             <div>
-                              <span className="font-menlo">Hash Type:</span>
-                              <span className="font-menlo ml-2">{deployment.hashType}</span>
+                              <span className="font-hash">Hash Type:</span>
+                              <span className="font-hash ml-2">{deployment.hashType}</span>
                             </div>
                           </div>
                         ))
