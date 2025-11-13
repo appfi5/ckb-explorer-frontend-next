@@ -8,7 +8,7 @@ import { type ChartItem } from '@/server/dataTypes'
 import { type ChartColorConfig } from '@/constants/common'
 import server from "@/server";
 
-const  processNominalApc = (data: any): { year: number; apc: string }[] => {
+const processNominalApc = (data: any): { year: number; apc: string }[] => {
   const { nominalApc } = data.length > 0 ? data[0] : {};
   if (!Array.isArray(nominalApc) || nominalApc.length === 0) {
     return [];
@@ -50,19 +50,18 @@ const useOption = (
     color: chartColor.colors,
     tooltip: !isThumbnail
       ? {
-          trigger: 'axis',
-          formatter: dataList => {
-            assertIsArray(dataList)
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 220 : 80)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.year'))} ${
-              (dataList[0].data as string[])[0]
+        confine: true,
+        trigger: 'axis',
+        formatter: dataList => {
+          assertIsArray(dataList)
+          const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 220 : 80)
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.year'))} ${(dataList[0].data as string[])[0]
             }</div>`
-            result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('statistic.nominal_apc'))} ${
-              (dataList[0].data as string[])[1]
+          result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('statistic.nominal_apc'))} ${(dataList[0].data as string[])[1]
             }%</div>`
-            return result
-          },
-        }
+          return result
+        },
+      }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,

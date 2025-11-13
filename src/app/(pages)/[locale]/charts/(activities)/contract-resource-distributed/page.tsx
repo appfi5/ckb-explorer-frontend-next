@@ -44,23 +44,24 @@ const useOption = (
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
     tooltip: !isThumbnail
       ? {
-          trigger: 'item',
-          axisPointer: {
-            type: 'cross',
-          },
-          formatter: params => {
-            if (params && 'data' in params) {
-              const [addrCount, ckbAmount, txCount, codeHash, tag, hashType, h24TxCount] = params.data as [
-                string,
-                string,
-                string,
-                string,
-                string,
-                string,
-                string,
-              ]
-              const script = tag || `<div style="white-space: pre">Code Hash: ${codeHash}\nHash Type: ${hashType}</div>`
-              return `<table>
+        confine: true,
+        trigger: 'item',
+        axisPointer: {
+          type: 'cross',
+        },
+        formatter: params => {
+          if (params && 'data' in params) {
+            const [addrCount, ckbAmount, txCount, codeHash, tag, hashType, h24TxCount] = params.data as [
+              string,
+              string,
+              string,
+              string,
+              string,
+              string,
+              string,
+            ]
+            const script = tag || `<div style="white-space: pre">Code Hash: ${codeHash}\nHash Type: ${hashType}</div>`
+            return `<table>
                       <tr>
                         <td>Script:</td>
                         <td>${script}</td>
@@ -82,10 +83,10 @@ const useOption = (
                         <td>${Number(h24TxCount).toLocaleString('en')}</td>
                       </tr>
                     </table>`
-            }
-            return ''
-          },
-        }
+          }
+          return ''
+        },
+      }
       : undefined,
     xAxis: [
       {
@@ -155,14 +156,14 @@ const useOption = (
 const toCSV = (statisticContractResourceDistributed: ChartItem.ContractResourceDistributed[]) =>
   statisticContractResourceDistributed
     ? statisticContractResourceDistributed.map(data => [
-        data.name,
-        data.codeHash,
-        data.hashType,
-        data.txCount,
-        data.ckbAmount,
-        data.addressCount,
-        data.h24TxCount,
-      ])
+      data.name,
+      data.codeHash,
+      data.hashType,
+      data.txCount,
+      data.ckbAmount,
+      data.addressCount,
+      data.h24TxCount,
+    ])
     : []
 
 export const ContractResourceDistributedChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
@@ -190,7 +191,7 @@ export const ContractResourceDistributedChart = ({ isThumbnail = false }: { isTh
       isThumbnail={isThumbnail}
       chartProps={{ onClick: !isThumbnail ? handleClick : undefined }}
       // fetchData={explorerService.api.fetchContractResourceDistributed}
-        fetchData={() => server.explorer("GET /statistics/{fieldName}", { fieldName: "contract_resource_distributed" })}
+      fetchData={() => server.explorer("GET /statistics/{fieldName}", { fieldName: "contract_resource_distributed" })}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchContractResourceDistributed"

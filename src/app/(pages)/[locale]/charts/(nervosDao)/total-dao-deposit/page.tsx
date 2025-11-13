@@ -69,20 +69,20 @@ const useOption = (
     color: chartColor.colors,
     tooltip: !isThumbnail
       ? {
-          trigger: 'axis',
-          formatter: dataList => {
-            assertIsArray(dataList)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${
-              (dataList[0].data as string[])[0]
+        confine: true,
+        trigger: 'axis',
+        formatter: dataList => {
+          assertIsArray(dataList)
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${(dataList[0].data as string[])[0]
             }</div>`
-            dataList.forEach(data => {
-              assertSerialsItem(data)
-              assertSerialsDataIsStringArrayOf3(data)
-              result += parseTooltip(data)
-            })
-            return result
-          },
-        }
+          dataList.forEach(data => {
+            assertSerialsItem(data)
+            assertSerialsDataIsStringArrayOf3(data)
+            result += parseTooltip(data)
+          })
+          return result
+        },
+      }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     legend: {
@@ -90,13 +90,13 @@ const useOption = (
       data: isThumbnail
         ? []
         : [
-            {
-              name: t('statistic.total_dao_deposit'),
-            },
-            {
-              name: t('statistic.total_dao_depositor'),
-            },
-          ],
+          {
+            name: t('statistic.total_dao_deposit'),
+          },
+          {
+            name: t('statistic.total_dao_depositor'),
+          },
+        ],
     },
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
     xAxis: [
@@ -183,10 +183,10 @@ const useOption = (
 const toCSV = (statisticTotalDaoDeposits: ChartItem.TotalDaoDeposit[]) =>
   statisticTotalDaoDeposits
     ? statisticTotalDaoDeposits.map(data => [
-        data.createdAtUnixtimestamp,
-        shannonToCkbDecimal(data.totalDaoDeposit, 8),
-        data.totalDepositorsCount,
-      ])
+      data.createdAtUnixtimestamp,
+      shannonToCkbDecimal(data.totalDaoDeposit, 8),
+      data.totalDepositorsCount,
+    ])
     : []
 
 export const TotalDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {

@@ -23,9 +23,8 @@ const useTooltip = () => {
 
   return ({ seriesName, data, color }: SeriesItem & { data: [string, string, string, string] }): string => {
     if (seriesName === t('nervos_dao.deposit_compensation')) {
-      return `<div>${tooltipColor(color)}${widthSpan(t('nervos_dao.deposit_compensation'), currentLanguage)} ${
-        data[3]
-      }%</div>`
+      return `<div>${tooltipColor(color)}${widthSpan(t('nervos_dao.deposit_compensation'), currentLanguage)} ${data[3]
+        }%</div>`
     }
     if (seriesName === t('nervos_dao.mining_reward')) {
       return `<div>${tooltipColor(color)}${widthSpan(t('nervos_dao.mining_reward'), currentLanguage)} ${data[2]}%</div>`
@@ -94,20 +93,20 @@ const useOption = (
     color: chartColor.secondaryIssuanceColors,
     tooltip: !isThumbnail
       ? {
-          trigger: 'axis',
-          formatter: dataList => {
-            assertIsArray(dataList)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${
-              (dataList[0].data as string[])[0]
+        confine: true,
+        trigger: 'axis',
+        formatter: dataList => {
+          assertIsArray(dataList)
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${(dataList[0].data as string[])[0]
             }</div>`
-            dataList.forEach(data => {
-              assertSerialsItem(data)
-              assertSerialsDataIsStringArrayOf4(data)
-              result += parseTooltip(data)
-            })
-            return result
-          },
-        }
+          dataList.forEach(data => {
+            assertSerialsItem(data)
+            assertSerialsDataIsStringArrayOf4(data)
+            result += parseTooltip(data)
+          })
+          return result
+        },
+      }
       : undefined,
     legend: {
       show: !isMobile,
@@ -115,16 +114,16 @@ const useOption = (
       data: isThumbnail
         ? []
         : [
-            {
-              name: t('nervos_dao.burnt'),
-            },
-            {
-              name: t('nervos_dao.mining_reward'),
-            },
-            {
-              name: t('nervos_dao.deposit_compensation'),
-            },
-          ],
+          {
+            name: t('nervos_dao.burnt'),
+          },
+          {
+            name: t('nervos_dao.mining_reward'),
+          },
+          {
+            name: t('nervos_dao.deposit_compensation'),
+          },
+        ],
     },
     grid: isThumbnail ? gridThumbnail : grid,
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
@@ -207,11 +206,11 @@ const useOption = (
 const toCSV = (statisticSecondaryIssuance: ChartItem.SecondaryIssuance[]) =>
   statisticSecondaryIssuance
     ? toChangeData(statisticSecondaryIssuance).map(data => [
-        data.createdAtUnixtimestamp,
-        data.treasuryAmount,
-        data.miningReward,
-        data.depositCompensation,
-      ])
+      data.createdAtUnixtimestamp,
+      data.treasuryAmount,
+      data.miningReward,
+      data.depositCompensation,
+    ])
     : []
 
 export const SecondaryIssuanceChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {

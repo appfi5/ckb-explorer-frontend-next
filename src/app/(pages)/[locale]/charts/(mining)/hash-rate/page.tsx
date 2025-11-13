@@ -41,19 +41,19 @@ const useOption = (
     color: chartThemeColor.colors,
     tooltip: !isThumbnail
       ? {
-          trigger: 'axis',
-          formatter: dataList => {
-            assertIsArray(dataList)
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 75 : 50)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${
-              (dataList[0].data as string[])[0]
+        confine: true,
+        trigger: 'axis',
+        formatter: dataList => {
+          assertIsArray(dataList)
+          const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 75 : 50)
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0].data as string[])[0]
             }</div>`
-            result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('block.hash_rate'))} ${handleHashRate(
-              (dataList[0].data as string[])[1],
-            )}</div>`
-            return result
-          },
-        }
+          result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('block.hash_rate'))} ${handleHashRate(
+            (dataList[0].data as string[])[1],
+          )}</div>`
+          return result
+        },
+      }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
@@ -69,12 +69,12 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         }
       },
@@ -94,18 +94,18 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         splitLine: {
           show: true,
           lineStyle: {
-            color: axisLineColor, 
+            color: axisLineColor,
             type: 'dashed',
           }
         }

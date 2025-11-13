@@ -39,6 +39,7 @@ const useOption = (
     color: chartThemeColor.colors,
     tooltip: !isThumbnail
       ? {
+          confine: true,
           trigger: 'axis',
           formatter: dataList => {
             assertIsArray(dataList)
@@ -49,7 +50,7 @@ const useOption = (
             result += `<div>${tooltipColor(chartThemeColor.colors[0])}\
           ${widthSpan(t('statistic.address_count'))} ${handleAxis((dataList[0].data as string[])[1], 2)}</div>`
             return result
-          },
+          }, 
         }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,

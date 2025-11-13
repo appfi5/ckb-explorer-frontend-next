@@ -77,6 +77,7 @@ const useOption = (
     color: colors,
     tooltip: !isThumbnail
       ? {
+        confine: true,
         trigger: 'axis',
         formatter: dataList => {
           assertIsArray(dataList)

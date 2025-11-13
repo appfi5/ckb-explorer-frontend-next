@@ -52,21 +52,20 @@ const useOption = (
 
   const tooltip: TooltipComponentOption | undefined = !isThumbnail
     ? {
-        formatter: data => {
-          const item = Array.isArray(data) ? data[0] : data
-          const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 80 : 60)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.version'))} ${
-            (item.data as Record<string, string>).title
+      confine: true,
+      formatter: data => {
+        const item = Array.isArray(data) ? data[0] : data
+        const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 80 : 60)
+        let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.version'))} ${(item.data as Record<string, string>).title
           }</div>`
-          result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('statistic.percent'))} ${
-            (item.data as Record<string, string>).value
+        result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('statistic.percent'))} ${(item.data as Record<string, string>).value
           }%</div>`
-          return result
-        },
-      }
+        return result
+      },
+    }
     : {
-        show: false,
-      }
+      show: false,
+    }
 
   return {
     color: [chartThemeColor.colors[0], ...Colors],

@@ -27,7 +27,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor,chartThemeColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
   const gridThumbnail = {
     left: '3%',
     right: '3%',
@@ -59,34 +59,35 @@ const useOption = (
     color: chartThemeColor.colors,
     tooltip: !isThumbnail
       ? {
-          trigger: 'axis',
-          formatter: dataList => {
-            assertIsArray(dataList)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${parseSimpleDateNoSecond(
-              new Date((dataList[0].data as string[])[0]),
-              '/',
-              false,
-            )}</div>`
-            dataList.forEach(data => {
-              assertSerialsItem(data)
-              result += parseTooltip({ ...(data as SeriesItem) })
-            })
-            return result
-          },
-        }
+        confine: true,
+        trigger: 'axis',
+        formatter: dataList => {
+          assertIsArray(dataList)
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${parseSimpleDateNoSecond(
+            new Date((dataList[0].data as string[])[0]),
+            '/',
+            false,
+          )}</div>`
+          dataList.forEach(data => {
+            assertSerialsItem(data)
+            result += parseTooltip({ ...(data as SeriesItem) })
+          })
+          return result
+        },
+      }
       : undefined,
     legend: !isThumbnail
       ? {
-          icon: 'roundRect',
-          data: [
-            {
-              name: t('statistic.udt_holders'),
-            },
-            {
-              name: t('statistic.udt_txs'),
-            },
-          ],
-        }
+        icon: 'roundRect',
+        data: [
+          {
+            name: t('statistic.udt_holders'),
+          },
+          {
+            name: t('statistic.udt_txs'),
+          },
+        ],
+      }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     /* Selection starts from 1% because the average block time is extremely high on launch */
@@ -110,12 +111,12 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         }
       },
@@ -136,18 +137,18 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         splitLine: {
           show: true,
           lineStyle: {
-            color: axisLineColor, 
+            color: axisLineColor,
             type: 'dashed',
           }
         }
