@@ -17,7 +17,7 @@ export default function OutLink(props: NextLinkProsp) {
       className={classNames(styles.link, props.className)}
     >
       {children}
-      <OutlinkIcon width={iconSize} height={iconSize} className={classNames(styles.icon, "hidden sm:block rounded-[4px] bg-white border-[1px] border-[#ddd]")} />
+      <OutlinkIcon width={iconSize} height={iconSize} className={classNames(styles.icon, "flex-none hidden sm:block rounded-[4px] bg-white border-[1px] border-[#ddd]")} />
     </Link>
   )
 }

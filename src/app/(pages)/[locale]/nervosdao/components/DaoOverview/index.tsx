@@ -57,7 +57,8 @@ interface NervosDaoPieItemContent {
 }
 
 const numberSymbol = (num: number, isCapacity = true) => {
-  const value = isCapacity ? shannonToCkbDecimal(num) : num
+  const value = isCapacity ? shannonToCkbDecimal(num, 2) : num
+
   if (value >= 0.01) {
     return 'positive'
   }
