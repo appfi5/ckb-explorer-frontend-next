@@ -8,13 +8,13 @@ import LinkSingle from '@/assets/icons/linkSingle.svg?component'
 import { useIsMobile, useMediaQuery } from '@/hooks'
 import { useCurrentLanguage } from '@/utils/i18n'
 
-const LinkButtonContent = ({ name, isLinkHref, isShowModal, width }: { name: string, isLinkHref?: string, isShowModal?: (show: boolean) => void, width: string }) => {
+const LinkButtonContent = ({ name, isLinkHref, isShowModal }: { name: string, isLinkHref?: string, isShowModal?: (show: boolean) => void }) => {
   return (
-    <div className={`${styles.btnStyle}`} style={{ width: width }}>
+    <div className={styles.btnStyle}>
       <PixelBorderBlock
         pixelSize="3px"
         apperanceClassName="*:data-[slot=border]:bg-[#D9D9D9] hover:*:data-[slot=border]:bg-primary hover:*:data-[slot=bg]:bg-[rgb(from_var(--color-primary)_r_g_b_/_20%)]"
-        className="cursor-pointer h-[34px]"
+        className="cursor-pointer h-[34px] inline-block"
         contentClassName="h-full flex items-center justify-left px-[8px] text-[14px] leading-[20px]"
       >
         <a href={isLinkHref} target="_blank" rel="noopener noreferrer" className='w-auto flex items-center justify-center gap-[9px]' onClick={() => isShowModal?.(true)}>
@@ -42,9 +42,9 @@ const DaoBanner = ({ estimatedApc }: { estimatedApc: string }) => {
         <p className={styles.title}>{t('nervos_dao.deposit_to_dao')}</p>
         <p className={styles.description}>{t('nervos_dao.deposit_to_dao_description')}</p>
         <div className={styles.actions}>
-          <LinkButtonContent name={t('nervos_dao.reward_calculator')} isShowModal={setShowRewardCalcutorModal} width={isMaxW ? (isZh ? '100px' : '200px') : (isMobile ? '200px' : 'auto')} />
-          <LinkButtonContent name={t('nervos_dao.nervos_dao_rfc')} isLinkHref={NERVOS_DAO_RFC_URL} width={isMaxW ? (isZh ? '160px' : '160px') : (isMobile ? '160px' : 'auto')} />
-          <LinkButtonContent name={t('nervos_dao.learn_more')} isLinkHref="https://www.nervos.org/knowledge-base/nervosdao_withdrawal_process_explained" width={isMaxW ? (isZh ? '105px' : '125px') : (isMobile ? '135px' : 'auto')} />
+          <LinkButtonContent name={t('nervos_dao.reward_calculator')} isShowModal={setShowRewardCalcutorModal} />
+          <LinkButtonContent name={t('nervos_dao.nervos_dao_rfc')} isLinkHref={NERVOS_DAO_RFC_URL} />
+          <LinkButtonContent name={t('nervos_dao.learn_more')} isLinkHref="https://www.nervos.org/knowledge-base/nervosdao_withdrawal_process_explained"  />
         </div>
       </div>
       {showRewardCalcutorModal ? (
