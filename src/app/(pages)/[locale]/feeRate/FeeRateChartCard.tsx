@@ -51,6 +51,7 @@ export const ConfirmationTimeFeeRateChart = ({
         tooltip: {
           trigger: 'axis',
           position: 'top',
+          confine: true,
           textStyle: textStyleOfTooltip,
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           formatter(params: TopLevelFormatterParams) {
@@ -84,7 +85,7 @@ export const ConfirmationTimeFeeRateChart = ({
             position: 'left',
             type: 'value',
             nameLocation: 'end',
-            nameTextStyle: { ...textStyleInChart, color: chartThemeColor.moreColors[1] },
+            nameTextStyle: { align: "left", ...textStyleInChart, color: chartThemeColor.moreColors[1] },
             axisLabel: {
               ...textStyleInChart,
               color: chartThemeColor.moreColors[1],
@@ -110,7 +111,7 @@ export const ConfirmationTimeFeeRateChart = ({
             position: 'right',
             type: 'value',
             nameLocation: 'end',
-            nameTextStyle: { ...textStyleInChart, color: chartThemeColor.moreColors[0] },
+            nameTextStyle: { align: "right", ...textStyleInChart, color: chartThemeColor.moreColors[0] },
             axisLabel: {
               ...textStyleInChart,
               color: chartThemeColor.moreColors[0],
@@ -153,7 +154,9 @@ export const ConfirmationTimeFeeRateChart = ({
           },
         ],
         grid: {
+          left: 0,
           bottom: 30,
+          right: 0,
           containLabel: true,
         },
       }}
@@ -310,6 +313,7 @@ export const LastNDaysTransactionFeeRateChart = ({
           tooltip: {
             trigger: 'axis',
             position: 'top',
+            confine: true,
             textStyle: textStyleOfTooltip,
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
             formatter(params: TopLevelFormatterParams) {
@@ -347,7 +351,7 @@ export const LastNDaysTransactionFeeRateChart = ({
           yAxis: {
             type: scaleType === 'log' ? 'log' : 'value',
             nameLocation: 'end',
-            nameTextStyle: textStyleInChart,
+            nameTextStyle: {...textStyleInChart, align: "left"},
             axisLabel: {
               ...textStyleInChart,
               margin: 2,
@@ -404,7 +408,9 @@ export const LastNDaysTransactionFeeRateChart = ({
             },
           ],
           grid: {
-            left: 75,
+            bottom: '10%',
+            left: 0,
+            right: '4%',
             containLabel: true,
           },
         }}

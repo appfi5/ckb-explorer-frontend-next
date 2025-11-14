@@ -170,8 +170,8 @@ export enum HashType {
   DATA2 = "data2",
 }
 
-export const MAINNET_URL = `https://${env.NEXT_PUBLIC_BASE_URL}`;
-export const TESTNET_URL = `https://testnet.${env.NEXT_PUBLIC_BASE_URL}`;
+export const MAINNET_URL = env.NEXT_PUBLIC_MAINNET_URL; // `https://${env.NEXT_PUBLIC_BASE_URL}`;
+export const TESTNET_URL = env.NEXT_PUBLIC_TESTNET_URL; //`https://testnet.${env.NEXT_PUBLIC_BASE_URL}`;
 export const XUDT_CODE_URL =
   "https://github.com/nervosnetwork/ckb-production-scripts/blob/master/c/xudt_rce.c";
 export const SUDT_CODE_URL =

@@ -13,6 +13,8 @@
 
 @theme inline {
   /* base */
+  --color-mainnet: var(--color-mainnet);
+  --color-testnet: var(--color-testnet);
   --color-primary: var(--color-primary);
   --color-success: var(--success);
   --color-destructive: var(--destructive);
@@ -22,15 +24,15 @@
   --color-muted: var(--muted);
 
   /* components */
-  
+
   --color-card-foreground: var(--color-foreground);
   --color-card: var(--card-background);
-  
+
   --color-popover-foreground: var(--foreground);
   --color-popover: var(--popover-background);
-  
+
   --color-tooltip: var(--tooltip-background);
-  
+
   --color-tabs-forground: var(--tabs-foreground);
   --color-tabs: var(--tabs-background);
   --color-tab-forground: var(--tab-foreground);
@@ -40,10 +42,12 @@
 }
 
 :root {
+  --color-mainnet: #00cc9b;
+  --color-testnet: #9672FA;
   /* base */
   --font-root: var(--font-roboto), var(--font-noto-sans-sc), 'PingFang SC', -apple-system;
   --default-font-family: var(--font-root);
-  --color-primary: #00cc9b;
+  --color-primary: var(--color-mainnet);
   --success: #00cc9b;
   --foreground: #232323;
   --popover-background: #fff;
@@ -57,7 +61,7 @@
 
   --btc-color-primary: #F7931A;
   --navbar-height: 64px;
-  
+
   /* components */
   --card-background: #fff;
 
@@ -99,7 +103,7 @@
   }
 
   @variant testnet {
-    --color-primary: #9672FA;
+    --color-primary: var(--color-testnet);
   }
 }
 

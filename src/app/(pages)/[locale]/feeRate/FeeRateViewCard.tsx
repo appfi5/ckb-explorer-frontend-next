@@ -1,9 +1,10 @@
 'use client';
 import { useTranslation } from 'react-i18next'
-import type { FeeRateTracker } from'@/server/dataTypes'
+import type { FeeRateTracker } from '@/server/dataTypes'
 import styles from './styles.module.scss'
 import { useChartTheme } from "@/hooks/useChartTheme";
-import {FeeRateIconOne, FeeRateIconTwo, FeeRateIconThree} from '@/components/icons/feeRateIcon'
+import { FeeRateIconOne, FeeRateIconTwo, FeeRateIconThree } from '@/components/icons/feeRateIcon'
+import classNames from 'classnames';
 const getWeightedMedian = (tfrs: FeeRateTracker.TransactionFeeRate[]): number => {
   if (tfrs?.length === 0) {
     return 0
@@ -47,7 +48,7 @@ const FeeRateViewCard = ({ transactionFeeRates }: { transactionFeeRates: FeeRate
   // let low = list[0]
   // let medium = list[1]
   // const high = list[2]
-  
+
   // if (+medium.replace(/,/g, '') > +high.replace(/,/g, '')) {
   //   medium = high
   // }
@@ -59,19 +60,19 @@ const FeeRateViewCard = ({ transactionFeeRates }: { transactionFeeRates: FeeRate
   const feeRateCards: any[] = [
     {
       priority: t('fee_rate_tracker.low'),
-      icon: <FeeRateIconOne className='mt-[31px]' />,
+      icon: <FeeRateIconOne />,
       feeRate: medium,
       confirmationTime: avgConfirmationTime,
     },
     {
       priority: t('fee_rate_tracker.average'),
-      icon: <FeeRateIconTwo className='mt-[31px]' />,
+      icon: <FeeRateIconTwo />,
       feeRate: medium,
       confirmationTime: avgConfirmationTime,
     },
     {
       priority: t('fee_rate_tracker.high'),
-      icon: <FeeRateIconThree className='mt-[10px]' />,
+      icon: <FeeRateIconThree />,
       feeRate: medium,
       confirmationTime: avgConfirmationTime,
     },
@@ -80,15 +81,18 @@ const FeeRateViewCard = ({ transactionFeeRates }: { transactionFeeRates: FeeRate
   return (
     <>
       {feeRateCards.map(({ priority, icon, feeRate, confirmationTime, color }, index) => (
-        <div className={styles.feeRateItem} key={priority}>
-          <div className={styles.block} style={{ background: feeColors[index] }}></div>
+        <div className={classNames(styles.feeRateItem, "basis-[160px]! md:basis-[200px]! items-center p-3 md:px-5 2xl:p-8 gap-2")} key={priority}>
+
           <div className={styles.feeRateContent}>
-            <div className={styles.subTit}>{priority}</div>
-            <div className={styles.feeRateCountText}>
-              <span className={styles.feeRateCountTextVal}>{feeRate}</span>
-              <span className={styles.feeRateCountTextUnit}>shannons/kB</span>
+            <div className="relative pl-6 md:pl-10">
+              <div className="absolute size-[8px] my-auto left-2 md:left-4 top-0 bottom-0" style={{ background: feeColors[index] }}></div>
+              <div>{priority}</div>
             </div>
-            <div className={styles.feeRateTime}>
+            <div className={classNames(styles.feeRateCountText, "pl-6 md:pl-10")}>
+              <span className={classNames(styles.feeRateCountTextVal, "text-xl md:text-[28px] md:leading-[36px]")}>{feeRate}</span>
+              <span className={classNames(styles.feeRateCountTextUnit, "mb-0 md:mb-1")}>shannons/kB</span>
+            </div>
+            <div className={classNames(styles.feeRateTime, "pl-6 md:pl-10")}>
               {
                 confirmationTime >= 60
                   ? `${Math.floor(confirmationTime / 60)} ${t('fee_rate_tracker.mins')}${confirmationTime % 60 === 0 ? '' : ` ${confirmationTime % 60} ${t('fee_rate_tracker.secs')}`
@@ -96,7 +100,7 @@ const FeeRateViewCard = ({ transactionFeeRates }: { transactionFeeRates: FeeRate
                   : `${confirmationTime} ${t('fee_rate_tracker.secs')}`}
             </div>
           </div>
-          <div className={styles.chartIcon}>{icon}</div>
+          <div className={classNames(styles.chartIcon, "scale-70 sm:scale-100")}>{icon}</div>
         </div>
       ))}
     </>

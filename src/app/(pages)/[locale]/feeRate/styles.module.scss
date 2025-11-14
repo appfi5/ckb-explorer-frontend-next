@@ -35,14 +35,12 @@
 
   .feeRateItems{
     width: 100%;
-    margin-bottom: 20px;
   }
 
   .feeRateItemContainer{
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
     
     @media (width <= variables.$extraLargeBreakPoint) {
       display: flex;
@@ -51,29 +49,22 @@
   }
 
   .feeRateItem{
-    flex: 1;
+    flex: 1 1 0;
     box-shadow: 0px 2px 8px 0px #2A31561A;
     border-radius: 8px;
     background: #fff;
     height: 200px;
-    padding: 49px 35px 40px 60px;
+    // padding: 49px 35px 40px 60px;
     display: flex;
-    gap: 16px;
-    align-items: self-start;
 
     @media (max-width: variables.$extraLargeBreakPoint + 200px) {
-      padding: 49px 30px 40px;
+      // padding: 49px 30px 40px;
     }
 
     @media (width <= variables.$extraLargeBreakPoint) {
-      padding: 49px 35px 40px 60px;
+      // padding: 49px 35px 40px 60px;
     }
 
-    .block{
-      width: 8px;
-      height: 8px;
-      margin-top: 10px;
-    }
     .feeRateContent{
       flex: 1;
       display: flex;
@@ -90,9 +81,7 @@
         align-items: self-end;
         gap:8px;
         .feeRateCountTextVal{
-          font-size: 28px;
           font-weight: bold;
-          line-height: 36px;
           color: #000;
           font-family: var(--font-hash);
         }
@@ -101,7 +90,7 @@
           font-weight: 400;
           line-height: 22px;
           color: #484D4E;
-          margin-bottom: 4px;
+          // margin-bottom: 4px;
         }
       }
       .feeRateTime{
@@ -174,7 +163,7 @@
   .charts {
     width: 100%;
     display: flex;
-    gap: 20px;
+    // gap: 20px;
     align-items: center;
 
     .feeRateChart{
@@ -183,7 +172,6 @@
       border-radius: 8px;
       background: #fff;
       flex: 1;
-      padding: 24px;
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -290,7 +278,7 @@
 
   @media (width <= variables.$mobileBreakPoint) {
     .title {
-      margin: 20px 0 12px;
+      // margin: 12px 0 12px;
       font-size: 20px;
       line-height: 23px;
     }

@@ -22,10 +22,12 @@ export const env = createEnv({
     NEXT_PUBLIC_CHAIN_TYPE: z.enum(["testnet", "mainnet"]),
     // NEXT_PUBLIC_NODE_ENV: z.enum(["development", "test", "production"]).default('development'),
     NEXT_PUBLIC_BASE_URL: z.string().optional(),
+    NEXT_PUBLIC_TESTNET_URL: z.string(),
+    NEXT_PUBLIC_MAINNET_URL: z.string(),
     NEXT_PUBLIC_CHAIN_NODE: z.string(),
     NEXT_PUBLIC_PROB_NODE: z.string(),
     // todo confirm
-    NEXT_PUBLIC_BTC_TESTNET_IDENTIFIER: z.string().optional(),
+    // NEXT_PUBLIC_BTC_TESTNET_IDENTIFIER: z.string().optional(),
     NEXT_PUBLIC_BITCOIN_EXPLORER: z.string().optional(),
     NEXT_PUBLIC_DID_INDEXER_URL: z.string().optional(),
     // todo remove
@@ -46,10 +48,12 @@ export const env = createEnv({
     NEXT_PUBLIC_EXPLORER_SERVICE_URL: process.env.NEXT_PUBLIC_EXPLORER_SERVICE_URL,
     NEXT_PUBLIC_CHAIN_TYPE: process.env.NEXT_PUBLIC_CHAIN_TYPE,
     NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+    NEXT_PUBLIC_TESTNET_URL: process.env.NEXT_PUBLIC_TESTNET_URL,
+    NEXT_PUBLIC_MAINNET_URL: process.env.NEXT_PUBLIC_MAINNET_URL,
     NEXT_PUBLIC_CHAIN_NODE: process.env.NEXT_PUBLIC_CHAIN_NODE,
     NEXT_PUBLIC_PROB_NODE: process.env.NEXT_PUBLIC_PROB_NODE,
     // todo confirm
-    NEXT_PUBLIC_BTC_TESTNET_IDENTIFIER: process.env.NEXT_PUBLIC_BTC_TESETNET_IDENTIFIER!,
+    // NEXT_PUBLIC_BTC_TESTNET_IDENTIFIER: process.env.NEXT_PUBLIC_BTC_TESTNET_IDENTIFIER!,
     NEXT_PUBLIC_BITCOIN_EXPLORER: process.env.NEXT_PUBLIC_BITCOIN_EXPLORER,
     NEXT_PUBLIC_DID_INDEXER_URL: process.env.NEXT_PUBLIC_DID_INDEXER_URL,
     // todo remove

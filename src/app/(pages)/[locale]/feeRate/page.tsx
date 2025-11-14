@@ -58,9 +58,9 @@ const FeeRateTrackerPage = () => {
             second: secondAfterUpdate,
           })}</span>
         </div>
-        <div className={styles.feeRateItems}>
+        <div className={classNames(styles.feeRateItems, "mb-4 md:mb-5")}>
           {
-            transactionFeesStatistic && transactionFeesStatistic?.transactionFeeRates ? <div className={styles.feeRateItemContainer}>
+            transactionFeesStatistic && transactionFeesStatistic?.transactionFeeRates ? <div className={classNames(styles.feeRateItemContainer, "gap-4 md:gap-5")}>
               <FeeRateViewCard
                 transactionFeeRates={getFeeRateSamples(
                   transactionFeesStatistic?.transactionFeeRates,
@@ -71,8 +71,8 @@ const FeeRateTrackerPage = () => {
             </div> : <LoadingComponent />
           }
         </div>
-        <div className={styles.charts}>
-          <div className={styles.feeRateChart}>
+        <div className={classNames(styles.charts, "gap-4 md:gap-5")}>
+          <div className={classNames(styles.feeRateChart, "p-5 sm:p-6")}>
             <div className={styles.chartTitle}>
               {`${t('fee_rate_tracker.confirmation_time_x_avg_fee_rate')}${isMobile ? '\n' : ' '}(${t(
                 'fee_rate_tracker.last_n_transactions',
@@ -90,7 +90,7 @@ const FeeRateTrackerPage = () => {
             </div>
           </div>
 
-          <div className={styles.feeRateChart}>
+          <div className={classNames(styles.feeRateChart, "p-5 sm:p-6")}>
             <div className={styles.chartTitle}>{t('fee_rate_tracker.n_days_historical_fee_rate', { n: 7 })}</div>
             <div className={styles.chart}>
               {transactionFeesStatistic && transactionFeesStatistic?.lastNDaysTransactionFeeRates ? (
