@@ -119,7 +119,7 @@ export default function RuntimeInfos() {
         {
           config.map((item, index) => (
             <>
-              {index !== 0 && (<div className=" sm:hidden h-[1px] w-full bg-[#eee]" />)}
+              {index !== 0 && (<div className=" sm:hidden h-[1px] w-full bg-[#eee] dark:bg-[#4c4c4c]" />)}
               <Info
                 key={item.key}
                 icon={item.icon}

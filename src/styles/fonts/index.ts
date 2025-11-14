@@ -1,10 +1,5 @@
-import localFont from "next/font/local"
-import { Noto_Sans_SC, Roboto } from "next/font/google";
-
-// const geist = Geist({
-//   subsets: ["latin"],
-//   variable: "--font-geist-sans",
-// });
+// import localFont from "next/font/local"
+import { Noto_Sans_SC, Roboto, Source_Code_Pro } from "next/font/google";
 
 const roboto = Roboto({
   weight: ['400', '500', '700'], // Specify the desired weights for Roboto
@@ -17,29 +12,22 @@ const roboto = Roboto({
 // noto sans chinese only
 const notoSansSC = Noto_Sans_SC({
   subsets: ["latin"],
-  // subsets: ["latin", "cyrillic", "cyrillic-ext", "greek", "greek-ext", "latin-ext", "vietnamese"],
   variable: "--font-noto-sans-sc",
-  // uni
 });
 
-// const pixer = localFont({
-//   src: "./Pixer-Regular.ttf",
-//   display: "swap",
-//   variable: "--font-pixer",
-//   declarations:[{
-//     prop: "ascent-override",
-//     value: "80%"
-//   }]
-// })
+
+const sourceCodePro = Source_Code_Pro({
+  subsets: ["latin"],
+  weight: "variable",
+  variable: "--font-source-code-pro",
+});
+
 
 
 const fonts = {
   roboto,
   notoSansSC,
-  // pixer,
-  // sourceCodePro,
-  // inputSans,
-  // geist
+  sourceCodePro,
 }
 
 

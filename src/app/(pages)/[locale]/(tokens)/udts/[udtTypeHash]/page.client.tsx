@@ -80,8 +80,9 @@ function Head({ logo, name, hash, tags }: {
           <span className="font-medium text-xl mr-1 sm:mr-3">{name}</span>
         </div>
         <div className="flex-1 min-w-0 max-w-full flex flex-row items-center gap-1">
-          <div className="flex-1 font-hash text-base sm:text-lg leading-[1] min-w-0 overflow-hidden text-ellipsis">
+          <div className="flex shrink font-hash text-base sm:text-lg leading-[1] min-w-0 overflow-hidden text-ellipsis">
             <TextEllipsis
+              className="max-w-full"
               text={hash}
               showTooltip={false}
               ellipsis={{ tail: -8 }}

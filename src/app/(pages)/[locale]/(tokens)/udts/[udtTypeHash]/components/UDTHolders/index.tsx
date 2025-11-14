@@ -10,36 +10,48 @@ import { useTranslation } from "react-i18next";
 import TooltipMoreIcon from "@/assets/icons/tooltip.more.svg?component";
 import { useQuery } from "@tanstack/react-query";
 import { localeNumberString } from "@/utils/number";
-import TextEllipsis from "@/components/TextEllipsis";
 import server from "@/server";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
 import Tooltip from "@/components/Tooltip";
 import { DialogTitle } from "@radix-ui/react-dialog";
 export default function UDTHolders({ udtInfo }: { udtInfo: APIExplorer.UdtDetailResponse & { typeScriptHash: string } }) {
-  const { data: holderCategoryList, isLoading } = useQuery({
+  const { data: holderCategory, isLoading } = useQuery({
     queryKey: ['udt-holder-list', udtInfo.typeScriptHash],
     queryFn: async () => {
       const list = await server.explorer("GET /udts/{typeScriptHash}/holder_allocation", { typeScriptHash: udtInfo.typeScriptHash });
-      if (!!list?.length) {
-        list.sort((a, b) => Number(b.holderCount) - Number(a.holderCount));
+      
+      if(!list?.length) return { btcCount: 0, ckbList: [], ckbCount: 0 };
+
+      const info = list.reduce((obj, cur) => {
+        if(cur.name === "RgbppLock") {
+          obj.btcCount += Number(cur.holderCount);
+          return obj;
+        }
+        obj.ckbList.push(cur);
+        obj.ckbCount += Number(cur.holderCount);
+        return obj;
+      }, { btcCount: 0, ckbList: [] as APIExplorer.UdtHolderAllocationsResponse[], ckbCount: 0  })
+
+      if (info.ckbList.length) {
+        info.ckbList.sort((a, b) => Number(b.holderCount) - Number(a.holderCount));
       }
-      return list
+      return info
     }
   });
 
 
   if (isLoading) return null;
-  if (!holderCategoryList?.length) return '-';
+  if (!holderCategory?.ckbList.length) return '-';
 
   return (
-    <UDTHoldersInner holderCategoryList={holderCategoryList} udtInfo={udtInfo} />
+    <UDTHoldersInner holderCategory={holderCategory} udtInfo={udtInfo} />
   )
 }
 
 
-function UDTHoldersInner({ holderCategoryList, udtInfo }: { udtInfo: APIExplorer.UdtDetailResponse, holderCategoryList: APIExplorer.UdtHolderAllocationsResponse[] }) {
-  const btcHoldersCount = 0; // +(holderInfo.btcHolderCount ?? 0);
-  const ckbHoldersCount = holderCategoryList.reduce((acc, cur) => acc + +cur.holderCount, 0) ?? 0
+function UDTHoldersInner({ holderCategory, udtInfo }: { udtInfo: APIExplorer.UdtDetailResponse, holderCategory: { btcCount: number, ckbList: APIExplorer.UdtHolderAllocationsResponse[], ckbCount: number } }) {
+  const btcHoldersCount = holderCategory.btcCount;
+  const ckbHoldersCount = holderCategory.ckbCount;
   const { t } = useTranslation();
   return (
     <div className="flex flex-row gap-2">
@@ -75,7 +87,7 @@ function UDTHoldersInner({ holderCategoryList, udtInfo }: { udtInfo: APIExplorer
             <span className="sr-only">Close</span>
           </DialogClose>
           <ModalContent
-            ckbLockHashes={holderCategoryList}
+            ckbLockHashes={holderCategory.ckbList}
             btcHoldersCount={btcHoldersCount}
             ckbHoldersCount={ckbHoldersCount}
           />
@@ -119,14 +131,7 @@ function ModalContent({ ckbHoldersCount, btcHoldersCount, ckbLockHashes }: {
             ckbLockHashes?.map(lockInfo => (
               <div className="flex flex-row items-center justify-between p-3 border-t border-[#eee]">
                 <span className="flex-1 font-medium break-all gap-1">
-                  {
-                    lockInfo.name || (
-                      <TextEllipsis
-                        text={lockInfo.lockCodeHash}
-                        ellipsis="address"
-                      />
-                    )
-                  }
+                  {lockInfo.name}
                 </span>
                 <span className="flex-none min-w-[5em] text-right font-hash">{lockInfo.holderCount}</span>
               </div>

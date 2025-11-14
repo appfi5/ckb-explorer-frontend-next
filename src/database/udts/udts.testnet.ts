@@ -25,7 +25,7 @@ const testnetUDTList = [
       args: "0x878fcc6f1f08d48e87bb1c3b3d5083f23f8a39c5d5c764f253b55b998526439b"
     },
     manager: "ckt1qrfrwcdnvssswdwpn3s9v8fp87emat306ctjwsm3nmlkjg8qyza2cqgqq9tn3v8fgf8fegvm3n8y7elvpjza4kd7mcd7aek4",
-    tags: ["rgbpp-compatible", "layer-2-asset", "supply-unlimited"],
+    tags: ["rgb++","layer-2-asset", "supply-unlimited"], // "rgbpp-compatible", 
   }),
   registerUDT({
     name: "Test Btc",

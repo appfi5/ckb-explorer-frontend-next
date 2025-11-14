@@ -217,12 +217,17 @@ function CellCard({ cell }: { cell: APIExplorer.LiveCellsResponse }) {
             {/* </div> */}
             <span className="font-medium text-[#EDF2F2]">{t("cell.in_block")}:</span>
             <Link
-              className={classNames(styles.blockNumber, "flex gap-[4px] items-center justify-center hover:text-primary text-[#EDF2F2] font-medium")}
+              className={classNames(styles.blockNumber, "flex gap-[4px] items-center justify-center text-[#EDF2F2] font-medium")}
               href={`/block/${cell.blockNumber}`}
               onClick={(e) => { e.stopPropagation() }}
             >
               {localeNumberString(cell.blockNumber)}
-              <OutlinkIcon className={classNames(styles.icon, "flex items-center justify-center border-[#ddd] border-[1px] rounded-[4px] bg-[rgba(255,255,255,0.1))]")} width={20} height={20} />
+              <div className="block size-[16px] sm:size-[20px]">
+                <OutlinkIcon
+                  className={classNames(styles.icon, "flex items-center justify-center border-[#ddd] border-[1px] rounded-[4px] bg-[rgba(255,255,255,0.1))]")}
+                  width="100%" height="100%"
+                />
+              </div>
             </Link>
 
           </div>

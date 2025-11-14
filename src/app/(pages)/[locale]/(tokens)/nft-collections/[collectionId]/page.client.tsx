@@ -42,13 +42,13 @@ export default function NFTCollectionDetail({ collectionId }: { collectionId: st
 
 
   return (
-    <div className="container min-h-page-height py-5 flex flex-col gap-5">
+    <div className="container min-h-page-height py-5 flex flex-col gap-4 sm:gap-5">
       <QueryResult query={query} defaultLoadingClassName='min-h-page-height'>
         {collectionInfo => (
           <>
             <NFTCollectionOverview collectionInfo={collectionInfo} />
 
-            <Card className="relative p-6">
+            <Card className="relative p-3 sm:p-6">
               <Tabs
                 currentTab={tabKey}
                 tabs={tabs}
@@ -82,7 +82,7 @@ function NFTCollectionOverview({ collectionInfo }: { collectionInfo: APIExplorer
   const { t } = useTranslation("tokens");
   return (
     <>
-      <Card className={classNames("p-6 flex flex-row gap-5", styles.overview)}>
+      <Card className={classNames("p-3 sm:p-6 flex flex-row gap-5", styles.overview)}>
         <AssetContainer className="flex-none size-[120px] rounded-sm">
           <img
             className="w-full h-full object-scale-down"
@@ -110,14 +110,22 @@ function NFTCollectionOverview({ collectionInfo }: { collectionInfo: APIExplorer
         </div>
       </Card>
 
-      <Card className="p-6">
+      <Card className="p-3 sm:p-6">
         <DescPanel
           fields={[
-            { key: 'type', label: t("field.type"), content: "DOB" },
+            {
+              key: 'type',
+              label: t("field.type"),
+              content: "DOB",
+              textDirection: "right",
+              contentClassName: "flex sm:text-left sm:justify-start",
+            },
             {
               key: 'holder|minted',
               label: `${t("field.holder")}/${t("field.minted")}`,
-              content: <span className="font-hash">{collectionInfo.holdersCount}/{collectionInfo.itemsCount}</span>
+              content: <span className="font-hash">{collectionInfo.holdersCount}/{collectionInfo.itemsCount}</span>,
+              textDirection: "right",
+              contentClassName: "flex sm:text-left sm:justify-start",
             },
             {
               key: 'creator',
@@ -130,15 +138,22 @@ function NFTCollectionOverview({ collectionInfo }: { collectionInfo: APIExplorer
                     ellipsis="address"
                   />
                 </OutLink>
-              ) : "-"
+              ) : "-",
+              textDirection: "right",
+              contentClassName: "flex sm:text-left sm:justify-start",
             },
             {
               key: 'clusterId',
               label: t("field.cluster_id"),
               layout: "flex-row items-start gap-2",
               content: collectionInfo.clusterId
-                ? (<span className="font-hash break-all">{collectionInfo.clusterId}</span>)
-                : "-"
+                // ? (<span className="font-hash truncate">{collectionInfo.clusterId}</span>)
+                ? (
+                  <TextEllipsis text={collectionInfo.clusterId} ellipsis="transaction" />
+                )
+                : "-",
+              textDirection: "right",
+              contentClassName: "flex sm:text-left sm:justify-start",
             },
           ]}
         />
@@ -151,11 +166,11 @@ function NFTCollectionOverview({ collectionInfo }: { collectionInfo: APIExplorer
 function Tabs<T extends string>({ currentTab, tabs, onTabChange }: { currentTab: T; tabs: readonly { key: T, label: ReactNode }[]; onTabChange: (tab: T) => void }) {
   return (
     <div className="mb-5 max-w-full overflow-hidden">
-      <div className="pb-2 flex gap-10 w-full  overflow-x-auto overlfow-y-hidden">
+      <div className="pb-2 flex gap-5 sm:gap-10 w-full  overflow-x-auto overlfow-y-hidden">
         {tabs.map((tab) => (
           <div
             key={tab.key}
-            className={classNames("text-[18px] leading-[24px]", "flex-none relative cursor-pointer", currentTab !== tab.key ? "text-[#999]" : "font-medium")}
+            className={classNames("text-[16px] sm:text-[18px] leading-[24px]", "flex-none relative cursor-pointer", currentTab !== tab.key ? "text-[#999]" : "font-medium")}
             onClick={() => onTabChange(tab.key)}
           >
             {tab.label}

@@ -80,7 +80,7 @@ export default function ScriptsList() {
           {
             scriptInfos?.map(script => (
               <AccordionItem id={`script-${script.name}`} value={script.name} className={borderClass}>
-                <AccordionTrigger className={classNames("bg-[#FAFAFA] dark:bg-[#303030] [&[data-state=open]]:border-b px-1 sm:px-3 py-3 cursor-pointer", borderClass)}>
+                <AccordionTrigger className={classNames("bg-[#FAFAFA] dark:bg-[#303030] [&[data-state=open]]:border-b px-1 sm:px-3 py-3 cursor-pointer items-center", borderClass)}>
                   <div className="flex-1 flex flex-col sm:flex-row items-start sm:items-center justify-between">
                     <div>
                       <div>{script.name}</div>
@@ -143,7 +143,7 @@ export default function ScriptsList() {
                     <div className="flex flex-col gap-2">
                       {
                         script.deployments.map((deployment, index) => (
-                          <div key={index} className="flex flex-col gap-1 bg-[#FBFBFB] dark:bg-[#303030] p-3 rounded-sm">
+                          <div key={index} className="flex flex-col gap-2 bg-[#f5f5f5] dark:bg-[#303030] p-3 rounded-sm text-xs sm:text-sm">
                             {(deployment.tag || deployment.deprecated) && (
                               <div className="mb-2">{deployment.tag} {deployment.deprecated ? "deprecated" : ""}</div>
                             )}

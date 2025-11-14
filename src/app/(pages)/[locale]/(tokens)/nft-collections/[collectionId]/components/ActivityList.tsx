@@ -87,6 +87,7 @@ export default function NFTCollectionActivtyList({ collectionId }: { collectionI
           </Link>
         )
       },
+      enablePinning: false,
     },
     {
       header: t("transaction.tx"),

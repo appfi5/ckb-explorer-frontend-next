@@ -17,13 +17,37 @@ import { ChainName, MAINNET_URL, TESTNET_URL } from "@/constants/common";
 import { isClient } from "@/utils/tool";
 import BlockchainSwitch from "../BlockchainSwitch";
 import DropdownArrowIcon from "@/assets/icons/arrow-down.svg?component";
-import { useBoolean,useMediaQuery } from "@/hooks";
+import { useBoolean, useMediaQuery } from "@/hooks";
+import ArrowIcon from "@/components/icons/arrow";
+import { useQuery } from "@tanstack/react-query";
 
+const handleVersion = (nodeVersion: string) => {
+  if (nodeVersion && nodeVersion.includes("(")) {
+    return `v${nodeVersion.slice(0, nodeVersion.indexOf("("))}`;
+  }
+  return nodeVersion;
+};
 export default function MobileMenu() {
   const menuList = useMenu();
   const [open, setOpen] = useState(false);
   const [isChildrenOpen, setIsChildrenOpen] = useState(false);
   const { t } = useTranslation();
+  const query = useQuery({
+    queryKey: ["node_version"],
+    // keepPreviousData: true,
+    // placeholderData: keepPreviousData,
+    // initialData: () => cacheService.get<string>("node_version"),
+    queryFn: async () => {
+      // const { version } = await explorerService.api.fetchNodeVersion();
+      const res = await server.explorer("GET /nets/version");
+      const version = res?.version ?? ""; // "v0.0.1"
+      // cacheService.set<string>("node_version", version, {
+      //   expireTime: ONE_DAY_MILLISECOND,
+      // });
+      return version;
+    },
+  });
+  const nodeVersion = query.data ?? "";
   return (
     <Drawer
       open={open}
@@ -45,7 +69,31 @@ export default function MobileMenu() {
           <Link className="inline-flex" onClick={() => setOpen(false)} href="/">
             <InteImage src="/assets/ckb_logo.png" alt="" width={114} height={30} />
           </Link>
-          <BlockchainSwitch />
+          {/* <Link
+            className="text-white text-lg flex flex-row gap-2 items-center cursor-pointer hover:text-primary"
+            href={isMainnet() ? TESTNET_URL : MAINNET_URL}
+          >
+            <ArrowRightLeft className="size-5" />
+            <span>{t("navbar.to")} {isMainnet() ? <span className="text-testnet">{ChainName.Testnet} Testnet</span> : <span className="text-mainnet">{ChainName.Mainnet} Mainnet</span>}</span>
+          </Link> */}
+          <PixelBorderBlock
+            className="cursor-pointer flex-col"
+            apperanceClassName="*:data-[slot=border]:bg-[#4d4d4d] hover:*:data-[slot=bg]:bg-[#ffffff14]"
+            contentClassName="relative py-1 px-2"
+            onClick={() => window.location.href = isMainnet() ? TESTNET_URL : MAINNET_URL}
+          >
+            <div className="flex flex-col text-primary items-left justify-between gap-[2px] leading-[1] text-[12px]">
+              <div className="uppercase">
+                {isMainnet() ? `${ChainName.Mainnet} Mainnet` : `${ChainName.Testnet} Testnet`}
+              </div>
+              <div className="text-[10px]">
+                {handleVersion(nodeVersion)}&nbsp;
+              </div>
+            </div>
+
+            <ArrowRightLeft width={18} height={18} className="absolute right-2 top-0 bottom-0 text-primary m-auto" />
+          </PixelBorderBlock>
+          {/* <BlockchainSwitch /> */}
           <div className="flex flex-col gap-4">
             {
               menuList.map(item => (
@@ -57,13 +105,7 @@ export default function MobileMenu() {
               ))
             }
           </div>
-          {/* <Link
-            className="text-white text-lg flex flex-row gap-2 items-center cursor-pointer hover:text-primary"
-            href={isMainnet() ? TESTNET_URL : MAINNET_URL}
-          >
-            <ArrowRightLeft className="size-5" />
-            <span>{t("navbar.to")} {isMainnet() ? `${ChainName.Testnet} Testnet` : `${ChainName.Mainnet} Mainnet`}</span>
-          </Link> */}
+
         </div>
       </DrawerContent>
     </Drawer>

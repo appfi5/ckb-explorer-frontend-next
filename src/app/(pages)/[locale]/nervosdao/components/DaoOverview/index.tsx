@@ -57,7 +57,8 @@ interface NervosDaoPieItemContent {
 }
 
 const numberSymbol = (num: number, isCapacity = true) => {
-  const value = isCapacity ? shannonToCkbDecimal(num) : num
+  const value = isCapacity ? shannonToCkbDecimal(num, 2) : num
+
   if (value >= 0.01) {
     return 'positive'
   }
@@ -266,7 +267,7 @@ const useOption = (nervosDao: NervosDaoInfo, colors: string[], isMobile: boolean
         },
         itemStyle: {
           borderRadius: 4,
-          borderColor: '#fff',
+          borderColor: 'transparent',
           borderWidth: 2
         },
       },

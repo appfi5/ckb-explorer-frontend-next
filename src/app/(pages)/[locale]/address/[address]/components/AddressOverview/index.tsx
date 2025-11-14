@@ -39,7 +39,7 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
   return (
     <Card className="p-3 md:p-6 pt-[13px]">
       {/* <LayoutSwitch /> */}
-      <div className={classNames(cardSubtitleClass, "font-medium my-[12px]")}>
+      <div className={classNames(cardSubtitleClass, "font-medium mb-3")}>
         {t("address.overview")}
       </div>
       <CardPanel className="flex flex-col lg:flex-row p-3 sm:p-5 gap-4 lg:gap-2 items-stetch  lg:items-center">
@@ -64,9 +64,9 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
           </div>
         </div>
 
-        <div className="hidden lg:block flex-none h-[40px] w-[1px] bg-[#d9d9d9]" />
+        <div className="hidden lg:block flex-none h-[40px] w-[1px] bg-[#d9d9d9] dark:bg-[#4c4c4c]" />
 
-        <div className="flex-[1140] flex flex-col sm:flex-row justify-between gap-2 sm:gap-0 items-left sm:items-center p-0 lg:pl-6 lg:pr-20">
+        <div className="flex-[1140] flex flex-col sm:flex-row justify-between gap-3 sm:gap-0 items-left sm:items-center p-0 lg:pl-6 lg:pr-20">
           <div className="flex flex-col justify-between gap-1 sm:gap-3">
             <div className="text-[#909399]">{t('address.occupied')}</div>
             <TwoSizeAmount

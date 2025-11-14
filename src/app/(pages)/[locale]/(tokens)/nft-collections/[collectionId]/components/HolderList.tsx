@@ -3,6 +3,7 @@ import Loading from "@/components/Loading";
 import Pagination from "@/components/Pagination";
 import TanstackTable from "@/components/TanstackTable";
 import SortButton, { type SortValue } from "@/components/TanstackTable/SortButton";
+import TextEllipsis from "@/components/TextEllipsis";
 // import { useSearchParams } from "@/hooks";
 import server from "@/server";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -60,20 +61,23 @@ export default function NFTCollectionHolderList({ collectionId }: { collectionId
         if (!fromAddr) return '-'
         return (
           <Link
-            className="font-hash underline hover:text-primary"
+            className="flex min-w-0 max-w-[60vw] font-hash underline hover:text-primary"
             href={`/address/${fromAddr}`}
           >
-            {fromAddr}
+            <TextEllipsis
+              className="min-w-0"
+              text={fromAddr}
+              ellipsis={{ tail: -8 }}
+            />
           </Link>
         )
       }
     },
     {
       header: () => (
-        <div className="flex flex-row items-center gap-1">
+        <div className="flex flex-row items-center gap-1 justify-end md:justify-start">
           <span>{t("field.quantity")}</span>
           <SortButton
-            className="pr-4"
             fieldName="holdersCount"
             defaultValue={params.get("sort") as SortValue}
             onChange={(nextSort) => {
@@ -90,6 +94,11 @@ export default function NFTCollectionHolderList({ collectionId }: { collectionId
       ),
       accessorKey: 'holdersCount',
       enablePinning: false,
+      cell: ({ row }) => (
+        <div className="text-right md:text-left">
+          {row.original.holdersCount}
+        </div>
+      ),
     },
   ];
 

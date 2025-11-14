@@ -51,8 +51,11 @@
   }
 
   @media screen and (width <=768px) {
-
-    .qrcode,
+    .qrcode {
+      left: initial;
+      right: 0;
+      transform: translateX(0)
+    }
     &::after {
       content: none;
       left: 0;
