@@ -22,6 +22,12 @@ const notoSansSC = Noto_Sans_SC({
   // uni
 });
 
+const menlo = localFont({
+  src: "./Menlo-Regular.ttf",
+  display: "swap",
+  variable: "--font-menlo",
+});
+
 // const pixer = localFont({
 //   src: "./Pixer-Regular.ttf",
 //   display: "swap",
@@ -36,6 +42,7 @@ const notoSansSC = Noto_Sans_SC({
 const fonts = {
   roboto,
   notoSansSC,
+  menlo,
   // pixer,
   // sourceCodePro,
   // inputSans,
