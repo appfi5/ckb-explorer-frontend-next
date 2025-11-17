@@ -24,7 +24,7 @@ const getOption =
 
       isThumbnail = false,
     ): EChartsOption => {
-      const { axisLabelColor, axisLineColor,chartThemeColor } = useChartTheme()
+      const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
 
       const gridThumbnail = {
         left: '4%',
@@ -75,12 +75,12 @@ const getOption =
             },
             axisLine: {
               lineStyle: {
-                color: axisLineColor 
+                color: axisLineColor
               }
             },
             axisTick: {
               lineStyle: {
-                color: axisLineColor 
+                color: axisLineColor
               }
             }
           },
@@ -100,18 +100,18 @@ const getOption =
             } as YAXisOption['axisLabel'],
             axisLine: {
               lineStyle: {
-                color: axisLineColor 
+                color: axisLineColor
               }
             },
             axisTick: {
               lineStyle: {
-                color: axisLineColor 
+                color: axisLineColor
               }
             },
             splitLine: {
               show: true,
               lineStyle: {
-                color: axisLineColor, 
+                color: axisLineColor,
                 type: 'dashed',
               }
             }
@@ -163,7 +163,7 @@ export const TxFeeHistoryChart = ({ isThumbnail = false }: { isThumbnail?: boole
 
   if (isThumbnail) return chart;
 
-  const SearchNode = <div className="flex items-center justify-center mb-[16px] gap-[8px]">
+  const SearchNode = <div className={styles.scaleSelector}>
     <input
       type="radio"
       id="linear"
@@ -172,7 +172,10 @@ export const TxFeeHistoryChart = ({ isThumbnail = false }: { isThumbnail?: boole
       checked={scaleType === 'linear'}
       onChange={onScaleTypeChange}
     />
-    <label htmlFor="linear" className="mr-[8px]">Linear Scale</label>
+    <label htmlFor="linear" className={styles.radioLabel}>
+      <span className={styles.radioItem}></span>
+      <span>Linear Scale</span>
+    </label>
     <input
       type="radio"
       id="log"
@@ -181,7 +184,10 @@ export const TxFeeHistoryChart = ({ isThumbnail = false }: { isThumbnail?: boole
       checked={scaleType === 'log'}
       onChange={onScaleTypeChange}
     />
-    <label htmlFor="log">Log Scale</label>
+    <label htmlFor="log" className={styles.radioLabel}>
+      <span className={styles.radioItem}></span>
+      <span>Log Scale</span>
+    </label>
   </div>
 
   return (

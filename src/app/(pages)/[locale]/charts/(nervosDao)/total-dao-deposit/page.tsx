@@ -17,6 +17,7 @@ import { tooltipColor, tooltipWidth, type SeriesItem, SmartChartPage } from '../
 import { type ChartItem } from '@/server/dataTypes'
 import { type ChartColorConfig } from '@/constants/common'
 import server from "@/server";
+import { useChartTheme } from "@/hooks/useChartTheme";
 
 const widthSpan = (value: string, language: App.Language) => tooltipWidth(value, language === 'en' ? 168 : 110)
 
@@ -47,6 +48,7 @@ const useOption = (
 
   isThumbnail = false,
 ): EChartsOption => {
+  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
   const gridThumbnail = {
     left: '4%',
     right: '10%',
@@ -57,7 +59,7 @@ const useOption = (
   const grid = {
     left: '4%',
     right: '3%',
-    top: isMobile ? '15%' : '6%',
+    top: isMobile ? '15%' : '10%',
     bottom: '5%',
     containLabel: true,
   }
@@ -66,7 +68,7 @@ const useOption = (
   const parseTooltip = useTooltip()
 
   return {
-    color: chartColor.colors,
+    color: chartThemeColor.colors,
     tooltip: !isThumbnail
       ? {
         confine: true,
@@ -106,6 +108,19 @@ const useOption = (
         nameGap: 30,
         type: 'category',
         boundaryGap: false,
+        axisLabel: {
+          color: axisLabelColor
+        },
+        axisLine: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        },
+        axisTick: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        }
       },
     ],
     yAxis: [
@@ -119,12 +134,24 @@ const useOption = (
         scale: true,
         axisLine: {
           lineStyle: {
-            color: chartColor.colors[0],
+            color: chartThemeColor.colors[0],
           },
         },
         axisLabel: {
           formatter: (value: number) => `${parseNumericAbbr(value)}`,
         },
+        axisTick: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: axisLineColor,
+            type: 'dashed',
+          }
+        }
       },
       {
         position: 'right',
@@ -136,7 +163,7 @@ const useOption = (
         scale: true,
         axisLine: {
           lineStyle: {
-            color: chartColor.colors[1],
+            color: chartThemeColor.colors[1],
           },
         },
         splitLine: { show: false },

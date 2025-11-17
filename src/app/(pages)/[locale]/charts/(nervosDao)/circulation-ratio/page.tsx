@@ -8,6 +8,7 @@ import { DATA_ZOOM_CONFIG, assertIsArray } from '@/utils/chart'
 import { type ChartItem } from '@/server/dataTypes'
 import { type ChartColorConfig } from '@/constants/common'
 import server from "@/server";
+import { useChartTheme } from "@/hooks/useChartTheme";
 
 const useOption = (
   statisticCirculationRatios: ChartItem.CirculationRatio[],
@@ -17,6 +18,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
+  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
   const gridThumbnail = {
     left: '4%',
     right: '10%',
@@ -32,7 +34,7 @@ const useOption = (
     containLabel: true,
   }
   return {
-    color: chartColor.colors,
+    color: chartThemeColor.colors,
     tooltip: !isThumbnail
       ? {
         confine: true,
@@ -43,7 +45,7 @@ const useOption = (
           let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0].data as string[])[0]
             }</div>`
           if (dataList[0].data) {
-            result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('statistic.circulation_ratio'))} ${(dataList[0].data as string[])[1]
+            result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('statistic.circulation_ratio'))} ${(dataList[0].data as string[])[1]
               }%</div>`
           }
           return result
@@ -58,7 +60,19 @@ const useOption = (
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
-        boundaryGap: false,
+        boundaryGap: false,axisLabel: {
+          color: axisLabelColor
+        },
+        axisLine: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        },
+        axisTick: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        }
       },
     ],
     yAxis: [
@@ -72,12 +86,24 @@ const useOption = (
         scale: true,
         axisLine: {
           lineStyle: {
-            color: chartColor.colors[0],
+            color: chartThemeColor.colors[0],
           },
         },
         axisLabel: {
           formatter: (value: number) => `${value}%`,
         },
+        axisTick: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: axisLineColor,
+            type: 'dashed',
+          }
+        }
       },
     ],
     series: [

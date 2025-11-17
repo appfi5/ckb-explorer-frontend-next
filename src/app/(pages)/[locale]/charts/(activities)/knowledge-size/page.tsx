@@ -10,6 +10,7 @@ import { useCurrentLanguage } from '@/utils/i18n'
 import { type ChartColorConfig } from '@/constants/common'
 import server from "@/server";
 import { shannonToCkb } from "@/utils/util";
+import { useChartTheme } from "@/hooks/useChartTheme";
 
 const toChangeData = (data: ChartItem.KnowledgeSize[]) =>
   data?.map(item => ({ ...item, knowledgeSize: +shannonToCkb(item.knowledgeSize) })) ?? []
@@ -22,6 +23,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
+  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
   const gridThumbnail = {
     left: '4%',
     right: '10%',
@@ -37,7 +39,7 @@ const useOption = (
     containLabel: true,
   }
   return {
-    color: chartColor.colors,
+    color: chartThemeColor.colors,
     tooltip: !isThumbnail
       ? {
         confine: true,
@@ -47,7 +49,7 @@ const useOption = (
           const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 155 : 110)
           let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0].data as string[])[0]
             }</div>`
-          result += `<div>${tooltipColor(chartColor.colors[0])}\
+          result += `<div>${tooltipColor(chartThemeColor.colors[0])}\
           ${widthSpan(t('statistic.knowledge_size'))} ${handleAxis((dataList[0].data as string[])[1], 2)}</div>`
           return result
         },
@@ -65,6 +67,19 @@ const useOption = (
         splitLine: {
           show: false,
         },
+        axisLabel: {
+          color: axisLabelColor
+        },
+        axisLine: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        },
+        axisTick: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        }
       },
     ],
     yAxis: [
@@ -75,15 +90,29 @@ const useOption = (
         scale: true,
         nameTextStyle: {
           align: 'left',
+          color: axisLabelColor
         },
         axisLine: {
           lineStyle: {
-            color: chartColor.colors[0],
+            color: axisLineColor,
           },
         },
         axisLabel: {
+          color: axisLabelColor,
           formatter: (value: number) => handleAxis(new BigNumber(value)),
         },
+        axisTick: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: axisLineColor,
+            type: 'dashed',
+          }
+        }
       },
     ],
     series: [
