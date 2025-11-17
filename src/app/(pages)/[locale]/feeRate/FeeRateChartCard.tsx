@@ -11,6 +11,7 @@ import type { FeeRateTracker } from '@/server/dataTypes'
 import { handleAxis } from '@/utils/chart'
 import styles from './styles.module.scss'
 import { useChartTheme } from "@/hooks/useChartTheme";
+import { useTheme } from "@/components/Theme";
 
 const textStyleInChart: EChartsOption['textStyle'] = {
   color: '#999999',
@@ -54,6 +55,7 @@ export const ConfirmationTimeFeeRateChart = ({
           confine: true,
           textStyle: textStyleOfTooltip,
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          borderColor: 'rgba(0, 0, 0, 0.8)',
           formatter(params: TopLevelFormatterParams) {
             const feeRate = Array.isArray(params) ? params[0] : params
             const count = Array.isArray(params) ? params[1] : params
@@ -268,9 +270,11 @@ export const LastNDaysTransactionFeeRateChart = ({
 }: {
   lastNDaysTransactionFeeRates: FeeRateTracker.LastNDaysTransactionFeeRate[]
 }) => {
+  const [theme] = useTheme();
+  const isDarkTheme = theme === "dark";
   const [scaleType, setScaleType] = useState<'linear' | 'log'>('log')
   const { t } = useTranslation()
-  const { chartThemeColor, axisLineColor,AreaStyleColors } = useChartTheme()
+  const { chartThemeColor, axisLineColor, AreaStyleColors } = useChartTheme()
   const sortedLastNDaysTransactionFeeRates = lastNDaysTransactionFeeRates
     .filter(r => dayjs(r.date).isValid())
     .sort((a, b) => (dayjs(a.date).isBefore(dayjs(b.date)) ? -1 : 1))
@@ -316,6 +320,7 @@ export const LastNDaysTransactionFeeRateChart = ({
             confine: true,
             textStyle: textStyleOfTooltip,
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            borderColor: 'rgba(0, 0, 0, 0.8)',
             formatter(params: TopLevelFormatterParams) {
               const param = Array.isArray(params) ? params[0] : params
               const feeRate = sortedLastNDaysTransactionFeeRates.find(r => dayjs(r.date).format('MM/DD') === param.name)
@@ -325,7 +330,7 @@ export const LastNDaysTransactionFeeRateChart = ({
             axisPointer: {
               type: 'line',
               lineStyle: {
-                color: '#484D4E',
+                color: isDarkTheme ? '#999999' : '#484D4E',
                 width: 1,
                 type: 'solid'
               }
@@ -351,7 +356,7 @@ export const LastNDaysTransactionFeeRateChart = ({
           yAxis: {
             type: scaleType === 'log' ? 'log' : 'value',
             nameLocation: 'end',
-            nameTextStyle: {...textStyleInChart, align: "left"},
+            nameTextStyle: { ...textStyleInChart, align: "left" },
             axisLabel: {
               ...textStyleInChart,
               margin: 2,
