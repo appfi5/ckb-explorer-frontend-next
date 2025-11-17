@@ -7,7 +7,9 @@
     background: #fff;
     font-family: var(--font-hash);
     margin-bottom: 30px;
+    max-width: 100%;
     width: 100%;
+    table-layout: fixed;
     text-align: left;
     th {
       line-height: 2;
@@ -63,7 +65,7 @@
 }
 
 .address {
-  max-width: 200px;
+  // max-width: 200px;
 
   a > div {
     font-family: var(--font-hash) !important;

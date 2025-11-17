@@ -65,7 +65,7 @@ export default function ListCellItem(props: ListCellItemProps) {
                 href={`/address/${cell.addressHash}`}
               >
                 <TextEllipsis
-                  className="max-w-125 @2xl:max-w-50 min-w-0 text-sm underline"
+                  className="max-w-80 @2xl:max-w-50 min-w-0 text-sm underline"
                   text={addressText}
                   ellipsis={{ tail: -8 }}
                 />
@@ -73,7 +73,7 @@ export default function ListCellItem(props: ListCellItemProps) {
             ) : (
               <div className="flex grow-0 shrink min-w-0">
                 <TextEllipsis
-                  className="max-w-125 @2xl:max-w-50 min-w-0 text-sm"
+                  className="max-w-80 @2xl:max-w-50 min-w-0 text-sm"
                   text={addressText}
                   ellipsis={{ tail: -8 }}
                 />
@@ -108,7 +108,7 @@ export default function ListCellItem(props: ListCellItemProps) {
         <div className="flex-1 flex flex-col @xl:flex-row @xl:justify-between @xl:items-center gap-y-2">
           <div className={cn(
             "flex flex-row gap-2 min-w-50",
-            "empty:hidden @xl:empty:block pb-2 @xl:pb-0 border-b @xl:border-none border-dashed border-b-[#d9d9d9]"
+            "empty:hidden @xl:empty:block pb-2 @xl:pb-0 border-b @xl:border-none border-dashed border-b-[#d9d9d9] dark:border-b-[#4c4c4c]"
           )}>
             <ScriptTag category="lock" short withTag={false} script={lockScript} className="h-5!" />
             <ScriptTag category="type" short withTag={false} script={cell.typeScript} className="h-5!" />

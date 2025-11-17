@@ -4,6 +4,7 @@ import clientDB from "@/database";
 import type { UDT } from "@/database/udts/tool";
 import { toast } from "sonner";
 import i18n from "i18next";
+import { addPrefixForHash } from "@/utils/string";
 
 export enum SearchResultType {
   Block = "block",
