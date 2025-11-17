@@ -42,7 +42,7 @@ const testnetUDTList = [
   }),
   registerUDT({
     name: "Stable++",
-    icon: "/assets/udt/BTCPP.png",
+    icon: "/assets/udt/default.png",
     symbol: "BTCPP",
     decimalPlaces: 8,
     type: {
