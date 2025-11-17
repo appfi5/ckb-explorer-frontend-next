@@ -213,8 +213,13 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
         isNoDefaultStyle={true}
         typeKey="addressBalanceRanking"
       />
-      <div className={`${styles.list} mt-[16px]`}>
+      <div className={`${styles.list} mt-4`}>
         <table>
+          <colgroup>
+            <col style={{ width: 50 }} />
+            <col style={{ width: "auto" }} />
+            <col className='w-[150px] lg:w-[250px]' />
+          </colgroup>
           <thead className='bg-[#F5F9FB] dark:bg-[#303030] h-[46px]'>
             <tr>
               <th className='h-[46px] text-sm! '>{t('statistic.rank')}</th>
@@ -233,7 +238,7 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
                   <td className={styles.address}>
                     <Link className='inline-flex max-w-full' href={`/address/${data.address}`}>
                       {/* <EllipsisMiddle>{data.address}</EllipsisMiddle> */}
-                      <TextEllipsis className='min-w-0' text={data.address} ellipsis="address" />
+                      <TextEllipsis className='min-w-0 max-w-200' text={data.address} ellipsis={{ tail: -8 }} />
                     </Link>
                   </td>
                   <td className='h-full flex flex-row justify-end items-center gap-[2px] leading-[63px]'>
