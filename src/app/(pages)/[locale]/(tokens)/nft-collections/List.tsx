@@ -277,7 +277,7 @@ const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: 
       </div>
     },
     {
-      width: '15%',
+      width: '17%',
       content: nftItem.tags ? <div className={styles.tags}>
         {nftItem.tags?.map(tag => (
           displayTagSet.has(tag) ? (
@@ -290,7 +290,7 @@ const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: 
       textDirection: 'left',
     },
     {
-      width: '15%',
+      width: '14%',
       content: `${nftItem.h24CkbTransactionsCount}`,
       textDirection: 'left',
     },
@@ -314,7 +314,7 @@ const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: 
       textDirection: 'left',
     },
     {
-      width: '18%',
+      width: '17%',
       content: nftItem.creator ? nftItem.creator : '-',
       textDirection: 'left',
       textWidth: isMaxW ? '140px' : '200px',
@@ -342,12 +342,12 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
       },
       {
         title: <Tags />,
-        width: '15%',
+        width: '17%',
         textDirection: 'left',
       },
       {
         title: t('nft.transactions'),
-        width: '15%',
+        width: '14%',
         sortRule: 'h24_ckb_transactions_count',
         textDirection: 'left',
       },
@@ -364,7 +364,7 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
       },
       {
         title: t('nft.minter_address'),
-        width: '18%',
+        width: '17%',
         textDirection: 'left',
       },
     ],
