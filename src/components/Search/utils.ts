@@ -13,7 +13,8 @@ import server from "@/server";
 import { SearchRangeCode } from "./SearchRangeSelect";
 import clientDB from "@/database";
 import type { UDT } from "@/database/udts/tool";
-
+import { toast } from "sonner";
+import i18n from "i18next";
 
 export enum SearchResultType {
   Block = "block",
@@ -248,46 +249,42 @@ export async function fetchAggregateSearchResult(
 
 export const getURLBySearchValue = async (searchValue: string) => {
   // check whether is btc address
-  if (isValidBTCAddress(searchValue)) {
-    return `/address/${searchValue}`;
-  }
-  if (/\w*\.bit$/.test(searchValue)) {
-    // search .bit name
-    const list = await getReverseAddresses(searchValue);
-    const ETH_COIN_TYPE = "60";
-    const ethAddr = list?.find(
-      (item) => item.key_info.coin_type === ETH_COIN_TYPE,
-    );
-    if (ethAddr) {
-      const ckbAddr = DidEthToCkb(ethAddr.key_info.key);
-      return `/address/${ckbAddr}`;
-    }
-  }
+  // if (isValidBTCAddress(searchValue)) {
+  //   return `/address/${searchValue}`;
+  // }
+  // if (/\w*\.bit$/.test(searchValue)) {
+  //   // search .bit name
+  //   const list = await getReverseAddresses(searchValue);
+  //   const ETH_COIN_TYPE = "60";
+  //   const ethAddr = list?.find(
+  //     (item) => item.key_info.coin_type === ETH_COIN_TYPE,
+  //   );
+  //   if (ethAddr) {
+  //     const ckbAddr = DidEthToCkb(ethAddr.key_info.key);
+  //     return `/address/${ckbAddr}`;
+  //   }
+  // }
   // TODO: Is this replace needed?
   const query = addPrefixForHash(searchValue).replace(",", "");
   if (!query || containSpecialChar(query)) {
-    return `/search/fail?q=${query}`;
+    toast.error(i18n.t("search.no_search_result"));
+    return;
+    // return `/search/fail?q=${query}`;
   }
-  if (isChainTypeError(query)) {
-    return `/search/fail?type=${SearchFailType.CHAIN_ERROR}&q=${query}`;
-  }
+  // if (isChainTypeError(query)) {
+    
+  //   toast.error(i18n.t("common.qrcode"));
+  //   debugger;
+  //   // return `/search/fail?type=${SearchFailType.CHAIN_ERROR}&q=${query}`;
+  //   return;
+  // }
 
   try {
     const data = await fetchAggregateSearchResult(addPrefixForHash(query));
     return getURLByAggregateSearchResult(data[0]);
   } catch (error) {
-    // if (
-    //   isRequestError(error) &&
-    //   error.response?.data &&
-    //   error.response.status === 404 &&
-    //   (error.response.data as Response.Error[]).find(
-    //     (errorData: Response.Error) =>
-    //       errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS,
-    //   )
-    // ) {
-    //   return `/address/${query}`;
-    // }
-
-    return `/search/fail?q=${query}`;
+    toast.error(i18n.t("search.no_search_result"));
+    return;
+    // return `/search/fail?q=${query}`;
   }
 };

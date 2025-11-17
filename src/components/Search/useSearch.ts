@@ -47,16 +47,18 @@ export function useSearch({
   const handleSearch = () => {
     if (aggregateSearchResults && aggregateSearchResults.length > 0) {
       const url = getURLByAggregateSearchResult(aggregateSearchResults[0]);
-      // history.push(url ?? `/search/fail?q=${searchValue}`)
-      router.push(url ?? `/search/fail?q=${searchValue}`);
+      if(url) {
+        router.push(url); //  ?? `/search/fail?q=${searchValue}`
+      }
       onEditEnd?.();
       return;
     }
 
     if (searchValue) {
       getURLBySearchValue(searchValue).then((url) => {
-        // history.push(url ?? `/search/fail?q=${searchValue}`)
-        router.push(url ?? `/search/fail?q=${searchValue}`);
+        if(url) {
+          router.push(url); //  ?? `/search/fail?q=${searchValue}`
+        }
         onEditEnd?.();
       });
     }
