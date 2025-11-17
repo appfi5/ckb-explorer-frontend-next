@@ -253,7 +253,7 @@ const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: 
       textDirection: 'left',
       isTextActive: true,
       bold: true,
-      content: <div className='flex items-center gap-2 pr-1'>
+      content: <div className='flex items-center gap-2 pr-4'>
         <InteImage
           src={nftItem.icon_url || '/images/spore_placeholder.svg'}
           alt={nftItem.name}
@@ -389,7 +389,7 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
         isLoading ? <LoadingComponent /> : list.length ? list.map(
           (item, itemIndex) =>
             item && (
-              <TableContentRow key={itemIndex} className="hover:bg-[#F5F5F5] dark:hover:bg-[#363839] cursor-pointer" onClick={() => router.push(`/nft-collections/${item.typeScriptHash}`)}>
+              <TableContentRow key={itemIndex} className="hover:bg-[#F5F5F5] dark:hover:bg-[#363839] cursor-pointer" onClick={() => router.push(`/nft-collections/${item.typeScriptHash}`, { scroll: true })}>
                 {getTableContentDataList(item, itemIndex, isMaxW, t).map(
                   (data: any, index: number) => {
                     const key = index

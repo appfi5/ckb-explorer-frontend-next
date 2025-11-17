@@ -15,6 +15,7 @@ import MobileMenu from "./components/Menu/MobileMenu";
 import {useMediaQuery } from '@/hooks';
 import classNames from 'classnames';
 import MaintainAlert from "./components/MaintainAlert";
+import { useEffect } from "react";
 
 
 export default function AppHeader() {
@@ -22,6 +23,13 @@ export default function AppHeader() {
   const pathname = usePathname();
   const defaultSearchBarVisible = pathname !== "/" && pathname !== "/zh" && pathname !== "/search/fail";
   const isShowSearchBar = useIsShowSearchBarInHeader();
+
+  useEffect(() => {
+    if(typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname])
+
   return (
     <div className="sticky top-0 z-10 bg-[#111]" >
       <div className="flex flex-row container min-h-(--navbar-height) items-center">

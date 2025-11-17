@@ -16,6 +16,8 @@ import { type ChartItem } from'@/server/dataTypes'
 import { type ChartColorConfig } from '@/constants/common'
 import server from "@/server";
 import BigNumber from "bignumber.js";
+import { useChartTheme } from "@/hooks/useChartTheme";
+
 
 const toChangeData = (statisticLiquidity: ChartItem.Liquidity[]) => statisticLiquidity.map((item) => ({
   ...item,
@@ -33,6 +35,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
+  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
 
   const gridThumbnail = {
     left: '4%',
@@ -76,7 +79,7 @@ const useOption = (
   }
   const parseTooltip = useTooltip()
   return {
-    color: chartColor.liquidityColors,
+    color: chartThemeColor.liquidityColors,
     tooltip: !isThumbnail
       ? {
         confine: true,
@@ -101,12 +104,21 @@ const useOption = (
         : [
           {
             name: t('statistic.circulating_supply'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
           {
             name: t('statistic.dao_deposit'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
           {
             name: t('statistic.tradable'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
         ],
     },
@@ -119,6 +131,19 @@ const useOption = (
         nameGap: 30,
         type: 'category',
         boundaryGap: false,
+        axisLabel: {
+          color: axisLabelColor
+        },
+        axisLine: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        },
+        axisTick: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        },
       },
     ],
     yAxis: [
@@ -127,12 +152,24 @@ const useOption = (
         type: 'value',
         axisLine: {
           lineStyle: {
-            color: chartColor.colors[0],
+            color: chartThemeColor.colors[0],
           },
         },
         axisLabel: {
           formatter: (value: number) => parseNumericAbbr(value),
         },
+        axisTick: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: axisLineColor,
+            type: 'dashed',
+          }
+        }
       },
     ],
     series: [

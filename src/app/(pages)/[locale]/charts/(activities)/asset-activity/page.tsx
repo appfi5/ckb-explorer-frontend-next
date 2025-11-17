@@ -38,7 +38,7 @@ const useOption = (
   const grid = {
     left: '2%',
     right: '3%',
-    top: isMobile ? '18%' : '8%',
+    top: isMobile ? '18%' : '10%',
     bottom: '5%',
     containLabel: true,
   }
@@ -82,9 +82,15 @@ const useOption = (
         data: [
           {
             name: t('statistic.udt_holders'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
           {
             name: t('statistic.udt_txs'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
         ],
       }
@@ -164,7 +170,7 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: chartColor.colors[1],
+            color: chartThemeColor.colors[1],
           },
         },
         axisLabel: {

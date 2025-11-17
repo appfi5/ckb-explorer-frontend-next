@@ -7,6 +7,7 @@ import { DATA_ZOOM_CONFIG, assertSerialsDataIsString, assertIsArray, assertSeria
 import { type ChartItem } from '@/server/dataTypes'
 import { type ChartColorConfig } from '@/constants/common'
 import server from "@/server";
+import { useChartTheme } from "@/hooks/useChartTheme";
 
 const toChangeData = (data: any[]): { nominalApc: string[]; nominalInflationRate: string[]; realInflationRate: string[] }[] => {
   const { nominalApc, nominalInflationRate, realInflationRate } = data.length > 0 ? data[0] : { nominalApc: [], nominalInflationRate: [], realInflationRate: [] };  
@@ -31,6 +32,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
+  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
 
   const gridThumbnail = {
     left: '4%',
@@ -65,7 +67,7 @@ const useOption = (
   }
   const parseTooltip = useTooltip()
   return {
-    color: chartColor.moreColors,
+    color: chartThemeColor.moreColors,
     tooltip: !isThumbnail
       ? {
         confine: true,
@@ -90,12 +92,21 @@ const useOption = (
         : [
           {
             name: t('statistic.real_inflation_rate'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
           {
             name: t('statistic.nominal_apc'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
           {
             name: t('statistic.nominal_inflation_rate'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
         ],
     },
@@ -112,7 +123,18 @@ const useOption = (
         axisLabel: {
           interval: isMobile || isThumbnail ? 11 : 3,
           formatter: (value: string) => value,
+          color: axisLabelColor
         },
+        axisLine: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        },
+        axisTick: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        }
       },
     ],
     yAxis: [
@@ -121,12 +143,24 @@ const useOption = (
         type: 'value',
         axisLine: {
           lineStyle: {
-            color: chartColor.moreColors[0],
+            color: chartThemeColor.moreColors[0],
           },
         },
         axisLabel: {
           formatter: (value: number) => `${value}%`,
         },
+        axisTick: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: axisLineColor,
+            type: 'dashed',
+          }
+        }
       },
     ],
     series: [

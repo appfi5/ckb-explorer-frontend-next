@@ -9,7 +9,7 @@ import { DEFAULT_LANGUAGE, LANGUAGES } from "@/i18n";
 import { usePathname, useRouter } from "next/navigation";
 
 // export const SupportedLngs = ['en', 'zh'] as const
-// export type SupportedLng = (typeof SupportedLngs)[number]
+export type SupportedLng = (typeof LANGUAGES)[number]
 export const isSupportedLng = (value: unknown): value is App.Language =>
   includes(LANGUAGES, value);
 

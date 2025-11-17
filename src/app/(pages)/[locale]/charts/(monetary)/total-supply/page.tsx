@@ -16,6 +16,7 @@ import { shannonToCkb, shannonToCkbDecimal } from '@/utils/util'
 import { type ChartItem } from '@/server/dataTypes'
 import { type ChartColorConfig } from '@/constants/common'
 import server from "@/server";
+import { useChartTheme } from "@/hooks/useChartTheme";
 
 const widthSpan = (value: string, currentLanguage: App.Language) =>
   tooltipWidth(value, currentLanguage === 'en' ? 125 : 80)
@@ -56,6 +57,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
+  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
 
   const gridThumbnail = {
     left: '4%',
@@ -73,7 +75,7 @@ const useOption = (
   }
   const parseTooltip = useTooltip()
   return {
-    color: chartColor.totalSupplyColors,
+    color: chartThemeColor.totalSupplyColors,
     tooltip: !isThumbnail
       ? {
         confine: true,
@@ -98,12 +100,21 @@ const useOption = (
         : [
           {
             name: t('statistic.circulating_supply'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
           {
             name: t('statistic.locked'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
           {
             name: t('statistic.burnt'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
         ],
     },
@@ -116,6 +127,19 @@ const useOption = (
         nameGap: 30,
         type: 'category',
         boundaryGap: false,
+        axisLabel: {
+          color: axisLabelColor
+        },
+        axisLine: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        },
+        axisTick: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        }
       },
     ],
     yAxis: [
@@ -124,12 +148,25 @@ const useOption = (
         type: 'value',
         axisLine: {
           lineStyle: {
-            color: chartColor.colors[0],
+            color: axisLineColor,
           },
         },
         axisLabel: {
+          color: axisLabelColor,
           formatter: (value: number) => parseNumericAbbr(new BigNumber(value)),
         },
+        axisTick: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: axisLineColor,
+            type: 'dashed',
+          }
+        }
       },
     ],
     series: [
@@ -141,7 +178,7 @@ const useOption = (
         symbolSize: 3,
         stack: 'sum',
         areaStyle: {
-          color: chartColor.totalSupplyColors[0],
+          color: chartThemeColor.totalSupplyColors[0],
         },
         encode: {
           x: 'timestamp',
@@ -156,7 +193,7 @@ const useOption = (
         symbolSize: 3,
         stack: 'sum',
         areaStyle: {
-          color: chartColor.totalSupplyColors[1],
+          color: chartThemeColor.totalSupplyColors[1],
         },
         encode: {
           x: 'timestamp',
@@ -171,7 +208,7 @@ const useOption = (
         symbolSize: 3,
         stack: 'sum',
         areaStyle: {
-          color: chartColor.totalSupplyColors[2],
+          color: chartThemeColor.totalSupplyColors[2],
         },
         encode: {
           x: 'timestamp',
