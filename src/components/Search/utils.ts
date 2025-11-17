@@ -1,14 +1,3 @@
-import { getReverseAddresses } from "@/services/DidService";
-import { ethToCKb as DidEthToCkb } from "@/utils/did";
-import { addPrefixForHash, containSpecialChar } from "@/utils/string";
-import {
-  HttpErrorCode,
-  SearchFailType,
-  // TYPE_ID_CODE_HASH,
-} from "@/constants/common";
-import { isChainTypeError } from "@/utils/chain";
-// import { isRequestError } from "@/utils/error";
-import { isValidBTCAddress } from "@/utils/bitcoin";
 import server from "@/server";
 import { SearchRangeCode } from "./SearchRangeSelect";
 import clientDB from "@/database";
