@@ -33,9 +33,9 @@ const processDisplayText = (hash: string | undefined, ellipsis: TextEllipsisProp
     const haveUnderline = divProps.className?.includes("underline");
     const fixedClassName = haveUnderline
       ? divProps.className!.replace("underline", "")
-      : styles.underline;
+      : divProps.className;
 
-    return (
+      return (
       <div {...divProps} className={classNames("flex flex-row items-center", haveUnderline ? styles.underline : "", fixedClassName)}>
         <span className="font-hash flex-1 min-w-0 flex-nowrap truncate break-all">{hash.slice(0, tail)}</span>
         <span className="font-hash flex-none" >{hash.slice(tail)}</span>
