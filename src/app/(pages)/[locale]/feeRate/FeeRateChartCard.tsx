@@ -54,6 +54,7 @@ export const ConfirmationTimeFeeRateChart = ({
           confine: true,
           textStyle: textStyleOfTooltip,
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          borderColor: 'rgba(0, 0, 0, 0.8)',
           formatter(params: TopLevelFormatterParams) {
             const feeRate = Array.isArray(params) ? params[0] : params
             const count = Array.isArray(params) ? params[1] : params
@@ -316,6 +317,7 @@ export const LastNDaysTransactionFeeRateChart = ({
             confine: true,
             textStyle: textStyleOfTooltip,
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            borderColor: 'rgba(0, 0, 0, 0.8)',
             formatter(params: TopLevelFormatterParams) {
               const param = Array.isArray(params) ? params[0] : params
               const feeRate = sortedLastNDaysTransactionFeeRates.find(r => dayjs(r.date).format('MM/DD') === param.name)
