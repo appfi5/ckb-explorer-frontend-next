@@ -10,6 +10,7 @@ import { type ChartItem } from '@/server/dataTypes'
 import { type ChartColorConfig } from '@/constants/common'
 import { useRouter } from 'next/navigation'
 import server from "@/server";
+import { useChartTheme } from "@/hooks/useChartTheme";
 
 
 const useOption = (
@@ -19,6 +20,7 @@ const useOption = (
   isThumbnail = false,
 ): EChartsOption => {
   const { t } = useTranslation()
+  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
 
   const gridThumbnail = {
     left: '4%',
@@ -39,7 +41,7 @@ const useOption = (
     .sort((a, b) => b - a)
 
   return {
-    color: chartColor.colors,
+    color: chartThemeColor.colors,
     grid: isThumbnail ? gridThumbnail : grid,
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
     tooltip: !isThumbnail
