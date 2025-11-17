@@ -267,7 +267,7 @@ const useOption = (nervosDao: NervosDaoInfo, colors: string[], isMobile: boolean
         },
         itemStyle: {
           borderRadius: 4,
-          borderColor: 'transparent',
+          borderColor: isDarkTheme ? "#232323e5" : '#fff',
           borderWidth: 2
         },
       },
