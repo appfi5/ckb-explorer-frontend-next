@@ -65,7 +65,7 @@ export default function ListCellItem(props: ListCellItemProps) {
                 href={`/address/${cell.addressHash}`}
               >
                 <TextEllipsis
-                  className="max-w-125 @2xl:max-w-50 min-w-0 text-sm underline"
+                  className="max-w-80 @2xl:max-w-50 min-w-0 text-sm underline"
                   text={addressText}
                   ellipsis={{ tail: -8 }}
                 />
@@ -73,7 +73,7 @@ export default function ListCellItem(props: ListCellItemProps) {
             ) : (
               <div className="flex grow-0 shrink min-w-0">
                 <TextEllipsis
-                  className="max-w-125 @2xl:max-w-50 min-w-0 text-sm"
+                  className="max-w-80 @2xl:max-w-50 min-w-0 text-sm"
                   text={addressText}
                   ellipsis={{ tail: -8 }}
                 />

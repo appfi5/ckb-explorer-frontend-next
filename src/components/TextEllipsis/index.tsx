@@ -3,6 +3,7 @@ import Tooltip from "../Tooltip";
 import CopyTooltipText from "../Text/CopyTooltipText";
 import type { ComponentProps, DetailedHTMLProps, HTMLAttributes } from "react";
 import classNames from "classnames";
+import styles from "./index.module.scss";
 
 
 
@@ -24,13 +25,18 @@ const processDisplayText = (hash: string | undefined, ellipsis: TextEllipsisProp
     console.error("ellipsis config required");
     return null;
   }
-  
+
   const { head, tail } = ellipsisCfg;
 
   if (isNil(head)) {
+    // if divProps.className contains "underline", remove underline class
+    const haveUnderline = divProps.className?.includes("underline");
+    const fixedClassName = haveUnderline
+      ? divProps.className!.replace("underline", "")
+      : styles.underline;
 
     return (
-      <div {...divProps} className={classNames("flex flex-row items-center", divProps.className)}>
+      <div {...divProps} className={classNames("flex flex-row items-center", haveUnderline ? styles.underline : "", fixedClassName)}>
         <span className="font-hash flex-1 min-w-0 flex-nowrap truncate break-all">{hash.slice(0, tail)}</span>
         <span className="font-hash flex-none" >{hash.slice(tail)}</span>
       </div>
