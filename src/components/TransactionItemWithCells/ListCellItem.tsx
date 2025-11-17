@@ -44,13 +44,13 @@ export default function ListCellItem(props: ListCellItemProps) {
   } catch { }
 
   return (
-    <div className="@container bg-[#d9d9d91a] dark:bg-[#363839] min-h-[20px] p-3 rounded-xs">
-      <div className="flex flex-col @5xl:flex-row @5xl:py-2.5 gap-y-2 gap-x-2">
+    <div className="@container bg-[#d9d9d91a] dark:bg-[#363839] min-h-5 p-3 rounded-xs">
+      <div className="flex flex-col @2xl:flex-row @2xl:py-2.5 gap-y-2 gap-x-2">
         <div className="flex flex-row gap-x-2 items-center">
           {ioType === IOType.Input && (
             <Tooltip
               trigger={
-                <Link className="flex size-[20px]" href={`/transaction/${cell.generatedTxHash}`}>
+                <Link className="flex size-5" href={`/transaction/${cell.generatedTxHash}`}>
                   <LeftArrow width="100%" height="100%" />
                 </Link>
               }
@@ -61,21 +61,21 @@ export default function ListCellItem(props: ListCellItemProps) {
           {
             highLight ? (
               <OutLink
-                className="flex grow-0 shrink-1 min-w-0 truncate"
+                className="flex grow-0 shrink min-w-0"
                 href={`/address/${cell.addressHash}`}
               >
                 <TextEllipsis
-                  className="max-w-125 min-w-0 text-sm underline"
+                  className="max-w-125 @2xl:max-w-50 min-w-0 text-sm underline"
                   text={addressText}
                   ellipsis={{ tail: -8 }}
                 />
               </OutLink>
             ) : (
-              <div className="flex flex-row items-center gap-2">
+              <div className="flex grow-0 shrink min-w-0">
                 <TextEllipsis
-                  className="text-sm"
+                  className="max-w-125 @2xl:max-w-50 min-w-0 text-sm"
                   text={addressText}
-                  ellipsis={{ head: 4, tail: -8 }}
+                  ellipsis={{ tail: -8 }}
                 />
               </div>
             )
@@ -84,15 +84,15 @@ export default function ListCellItem(props: ListCellItemProps) {
             ioType === IOType.Output && (
               <>
                 {cell.status === CellStatus.LIVE && (
-                  <div className="flex-none flex items-center justify-center gap-[8px] size-[20px]">
+                  <div className="flex-none flex items-center justify-center gap-2 size-5">
                     <Tooltip trigger={<RelateTxCellConsumedIcon width="100%" height="100%" />} placement="top">{`${t("transaction.unspent_output")}`}</Tooltip>
                   </div>
                 )}
                 {cell.status === CellStatus.COMSUMED && (
-                  <div className="flex-none flex items-center justify-center gap-[8px]">
+                  <div className="flex-none flex items-center justify-center gap-2">
                     <Tooltip
                       trigger={
-                        <Link className="flex size-[20px]" href={`/transaction/${cell.consumedTxHash}`}>
+                        <Link className="flex size-5" href={`/transaction/${cell.consumedTxHash}`}>
                           <RelateTxOutputIcon width="100%" height="100%" />
                         </Link>
                       }
@@ -110,12 +110,12 @@ export default function ListCellItem(props: ListCellItemProps) {
             "flex flex-row gap-2 min-w-50",
             "empty:hidden @xl:empty:block pb-2 @xl:pb-0 border-b @xl:border-none border-dashed border-b-[#d9d9d9]"
           )}>
-            <ScriptTag category="lock" short withTag={false} script={lockScript} className="h-[20px]!" />
-            <ScriptTag category="type" short withTag={false} script={cell.typeScript} className="h-[20px]!" />
+            <ScriptTag category="lock" short withTag={false} script={lockScript} className="h-5!" />
+            <ScriptTag category="type" short withTag={false} script={cell.typeScript} className="h-5!" />
           </div>
           <div className="flex flex-row items-center justify-end gap-2">
             <TwoSizeAmount
-              className="leading-[20px]"
+              className="leading-5"
               integerClassName="text-sm"
               decimalClassName="text-xs"
               amount={shannonToCkb(cell.capacity)}
@@ -126,7 +126,7 @@ export default function ListCellItem(props: ListCellItemProps) {
               asChild={false}
               trigger={
                 <CellModal cell={cell}>
-                  <div className="flex size-[20px]">
+                  <div className="flex size-5">
                     <InfoIcon width="100%" height="100%" className={styles.infoIcon} />
                   </div>
                 </CellModal>
@@ -149,7 +149,7 @@ function Cellbase({ cell }: { cell: APIExplorer.CellInputResponse }) {
   if (!cell.targetBlockNumber || cell.targetBlockNumber <= 0) {
     return (
       //  className={styles.cellbasePanel}
-      <div className="flex flex-row h-16 justify-between px-3 items-center bg-[#d9d9d91a] dark:bg-[#363839] rounded-[2px]">
+      <div className="flex flex-row h-16 justify-between px-3 items-center bg-[#d9d9d91a] dark:bg-[#363839] rounded-xs">
         <div className="cellbaseContent">Cellbase</div>
       </div>
     );
@@ -172,7 +172,7 @@ function Cellbase({ cell }: { cell: APIExplorer.CellInputResponse }) {
   );
 
   return (
-    <div className="flex flex-row h-16 justify-between px-3 items-center bg-[#d9d9d91a] dark:bg-[#363839] rounded-[2px]">
+    <div className="flex flex-row h-16 justify-between px-3 items-center bg-[#d9d9d91a] dark:bg-[#363839] rounded-xs">
       <div className="flex align-center justify-center gap-2">
         <div className="cellbaseContent">Cellbase for Block</div>
         <Tips
