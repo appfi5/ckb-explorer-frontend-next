@@ -13,6 +13,7 @@ import {
 import { type ChartItem } from '@/server/dataTypes'
 import { type ChartColorConfig } from '@/constants/common'
 import server from "@/server";
+import { useChartTheme } from "@/hooks/useChartTheme";
 
 const widthSpan = (value: string, currentLanguage: App.Language) =>
   tooltipWidth(value, currentLanguage === 'en' ? 155 : 70)
@@ -73,6 +74,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
+  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
 
   const gridThumbnail = {
     left: '4%',
@@ -90,7 +92,7 @@ const useOption = (
   }
   const parseTooltip = useTooltip()
   return {
-    color: chartColor.secondaryIssuanceColors,
+    color: chartThemeColor.secondaryIssuanceColors,
     tooltip: !isThumbnail
       ? {
         confine: true,
@@ -116,12 +118,21 @@ const useOption = (
         : [
           {
             name: t('nervos_dao.burnt'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
           {
             name: t('nervos_dao.mining_reward'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
           {
             name: t('nervos_dao.deposit_compensation'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
         ],
     },
@@ -134,6 +145,19 @@ const useOption = (
         nameGap: 30,
         type: 'category',
         boundaryGap: false,
+        axisLabel: {
+          color: axisLabelColor
+        },
+        axisLine: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        },
+        axisTick: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        }
       },
     ],
     yAxis: [
@@ -142,12 +166,24 @@ const useOption = (
         type: 'value',
         axisLine: {
           lineStyle: {
-            color: chartColor.colors[0],
+            color: chartThemeColor.colors[0],
           },
         },
         axisLabel: {
           formatter: (value: number) => `${value}%`,
         },
+        axisTick: {
+          lineStyle: {
+            color: axisLineColor
+          }
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: axisLineColor,
+            type: 'dashed',
+          }
+        }
       },
     ],
     series: [
