@@ -94,9 +94,15 @@ const useOption = (
         : [
           {
             name: t('statistic.total_dao_deposit'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
           {
             name: t('statistic.total_dao_depositor'),
+            textStyle: {
+              color: axisLabelColor
+            }
           },
         ],
     },

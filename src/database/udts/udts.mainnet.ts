@@ -8,7 +8,7 @@ const mainnetUDTList: UDT[] = [
     decimalPlaces: 8,
     type: {
       codeHash: "0x50bd8d6680b8b9cf98b73f3c08faf8b2a21914311954118ad6609be6e78a1b95",
-      hashType: "type",
+      hashType: "data1",
       args: "0x3046219b8dd69e0513691568ea438ac6a2a356c0f2695f98a8aed3cc03a1061a"
     },
     manager: "ckb1qzpfq3n62yh9hxnts9jxnv8d4wap7jkywn3gllwkqnp203myg6a67qnhxnpq8dfryqtgasrrh6l9pv05gsl40cha43v0sqg63slf05flu5qqqqqqx8ka9y",
