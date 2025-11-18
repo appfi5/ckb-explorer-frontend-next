@@ -208,7 +208,7 @@ const ChartPage = ({
   const [theme] = useTheme();
   const isDarkTheme = theme === "dark";
   const isMobile = useIsMobile();
-  
+
   const fileName = (
     title.indexOf(" (") > 0 ? title.substring(0, title.indexOf(" (")) : title
   )
@@ -221,8 +221,8 @@ const ChartPage = ({
     <Content>
       <div className={defaultContentClassName}>
         <div className={styles.chartDetailTitlePanel}>
-          <div className="flex items-center gap-[4px]">
-            <span className="text-[18px] font-medium">{title}</span>
+          <div>
+            <span className="text-[18px] font-medium mr-1">{title}</span>
             {description && (
               <HelpTip placement="bottom" iconProps={{ alt: "chart help" }}>
                 {description}
@@ -235,7 +235,7 @@ const ChartPage = ({
               apperanceClassName="*:data-[slot=border]:bg-[#D9D9D9] *:dark:data-[slot=border]:bg-[#4C4C4C] hover:*:data-[slot=bg]:bg-[#ffffff14]"
               className="cursor-pointer w-full h-[32px]"
               contentClassName="h-full flex items-center justify-left px-[9px] text-[14px] leading-[22px]"
-              // backgroundColor={isDarkTheme ? "transparent" : "#fff"}
+            // backgroundColor={isDarkTheme ? "transparent" : "#fff"}
             >
               <a
                 className="flex items-center justify-center gap-[7px]"

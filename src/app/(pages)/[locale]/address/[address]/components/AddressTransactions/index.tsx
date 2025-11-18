@@ -67,11 +67,11 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
                 setPageSize={setPageSize}
                 // totalPages={totalPages}
                 onChange={setPage}
-              // rear={null
-              //   // isPendingListActive ? null : (
-              //   //   <CsvExport link={`/export-transactions?type=address_transactions&id=${address}`} />
-              //   // )
-              // }
+                // rear={null
+                //   // isPendingListActive ? null : (
+                //   //   <CsvExport link={`/export-transactions?type=address_transactions&id=${address}`} />
+                //   // )
+                // }
               />
             </>
           );
