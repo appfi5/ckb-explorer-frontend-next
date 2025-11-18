@@ -303,7 +303,7 @@ const Charts = () => {
     if (!targetElement || !headerRef.current) return 
     const headerHeight = headerRef.current.offsetHeight
     const targetRect = targetElement.getBoundingClientRect()
-    const targetTop = targetElement.offsetTop - headerHeight + 50
+    const targetTop = targetElement.offsetTop - headerHeight - 70
 
     window.scrollTo({
       top: targetTop,
@@ -316,7 +316,7 @@ const Charts = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (!headerRef.current) return 
-      const scrollPosition = window.scrollY + headerRef.current.offsetHeight - 50
+      const scrollPosition = window.scrollY + headerRef.current.offsetHeight + 70
 
       for (const category of chartsData) {
         const element = document.getElementById(category.id)
