@@ -22,7 +22,7 @@ export default function UDTTransactions(props: AddressTransactionsProps) {
   const { udtInfo } = props;
   const { t } = useTranslation();
   const router = useRouter();
-  const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
+  const { currentPage, pageSize, setPage, setPageSize } = usePaginationParamsInListPage()
   const { filter } = useSearchParams('filter')
   const txsQuery = useQuery({
     queryKey: ['udt_transactions', udtInfo.typeScriptHash, currentPage, pageSize, filter],
@@ -103,6 +103,7 @@ export default function UDTTransactions(props: AddressTransactionsProps) {
                 currentPage={currentPage}
                 // totalPages={totalPages}
                 onChange={setPage}
+                setPageSize={setPageSize}
               />
             </>
           );
