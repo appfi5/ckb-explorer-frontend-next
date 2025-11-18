@@ -28,6 +28,7 @@ import ArrowIcon from './arrow.svg?component'
 import { useChartTheme } from "@/hooks/useChartTheme";
 import { useTheme } from "@/components/Theme";
 import { DaoOverviewIconOne, DaoOverviewIconTwo, DaoOverviewIconThree, DaoOverviewIconFour, DaoOverviewIconFive, DaoOverviewIconSix } from "@/components/icons/daoOverviewIcon"
+import classnames from "classnames"
 
 echarts.use([
   GridComponent,
@@ -191,7 +192,7 @@ const NervosDaoOverviewLeftComp: FC<{ nervosDao: NervosDaoInfo }> = ({ nervosDao
   // }
   return (
     <>
-      <div className={`${styles.daoOverviewLeftPanel}`}>
+      <div className={styles.daoOverviewLeftPanel}>
         {leftItems.map((item) => (
           <NervosDaoLeftItem item={item} key={item.title} />
         ))}
