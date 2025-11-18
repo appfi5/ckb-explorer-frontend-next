@@ -20,7 +20,7 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
   const { addressInfo } = props;
   const address = addressInfo.addressHash;
   const { t } = useTranslation();
-  const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
+  const { currentPage, pageSize, setPage, setPageSize } = usePaginationParamsInListPage()
   const txsQuery = useQuery({
     queryKey: ['address_transactions', address, currentPage, pageSize],
     queryFn: () => server.explorer("GET /address_transactions/{address}", { page: currentPage, pageSize, sort: "", address })
@@ -64,13 +64,14 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
                 total={total}
                 currentPage={currentPage}
                 pageSize={pageSize}
+                setPageSize={setPageSize}
                 // totalPages={totalPages}
                 onChange={setPage}
-                // rear={null
-                //   // isPendingListActive ? null : (
-                //   //   <CsvExport link={`/export-transactions?type=address_transactions&id=${address}`} />
-                //   // )
-                // }
+              // rear={null
+              //   // isPendingListActive ? null : (
+              //   //   <CsvExport link={`/export-transactions?type=address_transactions&id=${address}`} />
+              //   // )
+              // }
               />
             </>
           );
