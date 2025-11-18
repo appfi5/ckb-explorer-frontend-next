@@ -253,7 +253,7 @@ const TransactionTable: FC<{
 const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
-  const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
+  const { currentPage, pageSize, setPage, setPageSize } = usePaginationParamsInListPage()
   const MAX_PAGE_NUMBER = 5000
 
   const { sortBy, orderBy, sort, handleSortClick } = useSortParam<ConfirmedSortByType | PendingSortByType>(s =>
@@ -322,6 +322,7 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
               total={data.total}
               onChange={setPage}
               pageSize={pageSize}
+              setPageSize={setPageSize}
               // annotation={
               //   totalPages === MAX_PAGE_NUMBER
               //     ? t('pagination.only_first_pages_visible', { pages: MAX_PAGE_NUMBER })

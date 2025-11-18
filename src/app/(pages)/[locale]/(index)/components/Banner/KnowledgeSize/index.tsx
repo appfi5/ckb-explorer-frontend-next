@@ -29,7 +29,7 @@ export default function KnowledgeSize() {
   return (
     <div className={styles.banner}>
       <div className={styles.content}>
-        <h3 className='text-[24px] font-medium'>Knowledge Size</h3>
+        <h3 className='text-[28px] font-medium'>Knowledge Size</h3>
         <div className={classNames("text-[28px] md:text-[40px] font-bold", styles.ticker)}>
           <NumberTicker className='font-hash' value={size ? +size : null} />
           <span className='ml-5'>CKBytes</span>
