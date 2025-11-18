@@ -6,8 +6,8 @@
 
 CKB Explorer is a blockchain explorer for [Nervos CKB](https://github.com/nervosnetwork/ckb), built with modern web technologies. It consists of two parts:
 
-- [CKB Explorer Frontend](https://github.com/nervosnetwork/ckb-explorer-frontend-next) (This repository)
-- [CKB Explorer Server](https://github.com/nervosnetwork/ckb-explorer)
+- [CKB Explorer Frontend](https://github.com/appfi5/ckb-explorer-frontend-next) (This repository)
+- [CKB Explorer Server](https://github.com/appfi5/ckb-explorer-web)
 
 Visit the live explorer at [explorer.nervos.org](https://explorer.nervos.org).
 
@@ -82,7 +82,7 @@ npm run build
 
 ## Community
 
-- Join our [Discord](https://discord.gg/UYcWCzK9) for discussions
+<!-- - Join our [Discord](https://discord.gg/UYcWCzK9) for discussions -->
 - Follow us on [Twitter](https://twitter.com/NervosNetwork)
 - Read our [Documentation](https://docs.nervos.org)
 
