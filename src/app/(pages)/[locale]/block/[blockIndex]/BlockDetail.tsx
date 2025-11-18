@@ -15,7 +15,7 @@ import { addPrefixForHash } from '@/utils/string'
 
 export default function BlockDetail({ blockIndex: blockHeightOrHash }: { blockIndex: string }) {
   const search = useSearchParams();
-  const { currentPage, pageSize: pageSizeParam, setPage } = usePaginationParamsInPage()
+  const { currentPage, pageSize: pageSizeParam, setPage, setPageSize } = usePaginationParamsInPage()
   const filter = new URLSearchParams(search).get('filter')
   const blockQuery = useQuery({
     queryKey: ['block', blockHeightOrHash],
@@ -89,6 +89,7 @@ export default function BlockDetail({ blockIndex: blockHeightOrHash }: { blockIn
                     total={data?.total ?? 0}
                     transactions={data?.transactions ?? []}
                     blockId={blockHeightOrHash}
+                    setPageSize={setPageSize}
                   />
                 )}
               </QueryResult>

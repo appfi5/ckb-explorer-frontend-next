@@ -91,7 +91,7 @@ const Pagination: React.FC<PaginationProps> = ({
     return items;
   };
 
-  if (totalPages < 2) {
+  if (total === 0) {
     return null;
   }
 
