@@ -323,11 +323,11 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
               onChange={setPage}
               pageSize={pageSize}
               setPageSize={setPageSize}
-              // annotation={
-              //   totalPages === MAX_PAGE_NUMBER
-              //     ? t('pagination.only_first_pages_visible', { pages: MAX_PAGE_NUMBER })
-              //     : undefined
-              // }
+            // annotation={
+            //   totalPages === MAX_PAGE_NUMBER
+            //     ? t('pagination.only_first_pages_visible', { pages: MAX_PAGE_NUMBER })
+            //     : undefined
+            // }
             />
           </div>
         )

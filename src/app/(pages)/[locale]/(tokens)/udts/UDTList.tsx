@@ -389,7 +389,7 @@ const UDTList = ({ isXudts, isPagination }: XudtsProps) => {
   const searchParams = useCustomSearchParams('tags')
   const tags = searchParams.tags || ''
   const [isSubmitTokenInfoModalOpen, setIsSubmitTokenInfoModalOpen] = useState<boolean>(false)
-  const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
+  const { currentPage, pageSize: _pageSize, setPage,setPageSize } = usePaginationParamsInPage()
   const sortParam = useSortParam<SortField>(undefined, 'transactions.desc')
   const { sort } = sortParam
 
@@ -459,13 +459,14 @@ const UDTList = ({ isXudts, isPagination }: XudtsProps) => {
           <TokenTable query={query} sortParam={sortParam} isEmpty={isEmpty} isXudts={isXudts} />
         </div>
 
-        {!!isPagination && <Pagination
+        {/* {!!isPagination && <Pagination
           total={total}
           currentPage={currentPage}
           pageSize={pageSize}
           // totalPages={isEmpty ? 0 : totalPages}
           onChange={setPage}
-        />}
+          setPageSize={setPageSize}
+        />} */}
       </div>
       {/* {isSubmitTokenInfoModalOpen ? (
         <SubmitTokenInfo tagFilters={['xudt']} onClose={() => setIsSubmitTokenInfoModalOpen(false)} />

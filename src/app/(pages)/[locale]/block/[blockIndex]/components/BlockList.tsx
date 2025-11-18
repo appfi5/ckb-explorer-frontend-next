@@ -20,7 +20,8 @@ export const BlockList = ({
   pageSize,
   transactions,
   total,
-  blockId
+  blockId,
+  setPageSize
 }: {
   onPageChange: (page: number) => void
   currentPage: number
@@ -28,6 +29,7 @@ export const BlockList = ({
   transactions: (Transaction & { btcTx: RawBtcRPC.BtcTx | null })[]
   total: number
   blockId: string
+  setPageSize: (size: number) => void
 }) => {
   const { t } = useTranslation()
   const totalPages = Math.ceil(total / pageSize)
@@ -92,6 +94,7 @@ export const BlockList = ({
         currentPage={currentPage}
         // totalPages={totalPages}
         onChange={onPageChange}
+        setPageSize={setPageSize}
       />
     </div>
   )
