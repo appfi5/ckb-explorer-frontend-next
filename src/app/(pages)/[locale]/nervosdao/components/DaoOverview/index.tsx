@@ -181,18 +181,16 @@ const NervosDaoOverviewLeftComp: FC<{ nervosDao: NervosDaoInfo }> = ({ nervosDao
   const isMobile = useIsMobile()
   const leftItems = useNervosDaoItemContents(nervosDao)
 
-  // if (isMobile) {
-  //   return (
-  //     <div className={`${styles.daoOverviewLeftPanel} grid grid-cols-2 gap-[20px]`}>
-  //       {leftItems.map((item) => (
-  //         <NervosDaoLeftItem item={item} key={item.title} />
-  //       ))}
-  //     </div>
-  //   )
-  // }
+  const isLongLength = leftItems.some(item => {
+    const contentStr = String(item.content);
+    return contentStr.length > 14;
+  });
+
+  const viewPortStyles = !!isMobile ? (!!isLongLength ? 'grid-cols-1' : 'grid-cols-2') : (!!isLongLength ? 'grid-cols-2' : 'grid-cols-3')
+
   return (
     <>
-      <div className={styles.daoOverviewLeftPanel}>
+      <div className={classnames(styles.daoOverviewLeftPanel,viewPortStyles)}>
         {leftItems.map((item) => (
           <NervosDaoLeftItem item={item} key={item.title} />
         ))}
