@@ -6,6 +6,9 @@ import type { NextConfig } from "next";
 import "./src/env";
 import I18nResourcePlugin from "./plugins/i18n-resource";
 
+const explorerUrl = `${process.env.NEXT_PUBLIC_EXPLORER_SERVICE_URL} ${process.env.NEXT_PUBLIC_CHAIN_NODE}`;
+const combinedUrl = explorerUrl.replaceAll(',', ' ').trim()
+
 /** @type {import("next").NextConfig} */
 const config: NextConfig = {
   output: "standalone",
@@ -27,7 +30,7 @@ const config: NextConfig = {
               "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data:",
-              "connect-src 'self' https://testnet-api.explorer.app5.org https://testnet.ckb.dev https://mainnet-api.explorer.app5.org  https://mainnet.ckb.dev https://mainnet.ckbapp.dev",
+              `connect-src 'self' ${combinedUrl}`,
               "font-src 'self'",
               "frame-src 'none'",
               "object-src 'none'",

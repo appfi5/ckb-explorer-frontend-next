@@ -364,6 +364,7 @@ const NervosDaoOverviewPanel = ({ nervosDao }: { nervosDao: NervosDaoInfo }) => 
                 height: '100%',
                 width: '100%',
               }}
+              className="flex justify-center items-center"
             />
           </div>
         </div>
