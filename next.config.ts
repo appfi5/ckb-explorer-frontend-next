@@ -15,6 +15,42 @@ const config: NextConfig = {
   sassOptions: {
     additionalData: `@use "~@/styles/theme.scss";`,
   },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data:",
+              "connect-src 'self' https://testnet-api.explorer.app5.org https://testnet.ckb.dev https://mainnet-api.explorer.app5.org  https://mainnet.ckb.dev https://mainnet.ckbapp.dev",
+              "font-src 'self'",
+              "frame-src 'none'",
+              "object-src 'none'",
+            ].join("; "),
+          },
+          {
+            key: "X-Frame-Options",
+            value: "DENY",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          { key: "X-Powered-By", value: "" }, 
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains; preload",
+          },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+        ],
+      },
+    ];
+  },
   webpack(config, { nextRuntime, isServer }) {
     if (!isServer) {
       config.output.filename = (pathData: any) => {

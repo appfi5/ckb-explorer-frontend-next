@@ -129,11 +129,11 @@ const useOption = () => {
               x2: 0,
               y2: 1,
               colorStops: [{
-                offset: 0, color: `${primaryColor}4d` // 0% 处的颜色
+                offset: 0, color: `${primaryColor}4d` 
               }, {
-                offset: 1, color: `${primaryColor}00` // 100% 处的颜色
+                offset: 1, color: `${primaryColor}00`
               }],
-              global: false // 缺省为 false
+              global: false 
             }
           },
           symbol: "none",
@@ -149,7 +149,7 @@ export default function HashRateChart() {
   const isXL = useIsExtraLarge();
   const query = useQuery({
     queryKey: ["fetchStatisticHashRate"],
-    queryFn: () => server.explorer("GET /daily_statistics/{indicator}", { indicator: "avg_hash_rate" }), // explorerService.api.fetchStatisticHashRate(),
+    queryFn: () => server.explorer("GET /daily_statistics/{indicator}", { indicator: "avg_hash_rate" }),
     refetchOnWindowFocus: false,
   });
 
