@@ -1,5 +1,3 @@
-import { env } from "@/env";
-
 // 禁止路径
 export const disallowPaths = [
     '/_next/*',
@@ -18,10 +16,11 @@ export const disallowPaths = [
 ];
 
 export function getSiteUrl() {
-    if (env.NEXT_PUBLIC_CHAIN_TYPE === 'testnet') {
+    const chainType = process.env.NEXT_PUBLIC_CHAIN_TYPE;
+    if (chainType === 'testnet') {
         return process.env.NEXT_PUBLIC_TESTNET_URL || 'https://testnet.explorer.app5.org';
     }
-    if (env.NEXT_PUBLIC_CHAIN_TYPE === 'mainnet') {
+    if (chainType === 'mainnet') {
         return process.env.NEXT_PUBLIC_MAINNET_URL || 'https://explorer.app5.org';
     }
     return 'http://localhost:3000';
