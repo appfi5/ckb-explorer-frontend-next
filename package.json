@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "next build",
+    "build": "next build && next-sitemap",
     "check": "next lint && tsc --noEmit",
     "dev": "next dev",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
@@ -101,6 +101,7 @@
     "eslint": "^9.23.0",
     "eslint-config-next": "^15.2.3",
     "muban.js": "^0.0.1",
+    "next-sitemap": "^4.2.3",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
