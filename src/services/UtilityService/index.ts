@@ -1,9 +1,11 @@
 import { env } from "@/env";
 
+const UTILITY_ENDPOINT = "https://ckb-utilities.random-walk.co.jp";
+
 export const fetchPrices = async (): Promise<{
   price: Record<string, Record<"pair" | "price", string>>;
 }> => {
-  const response = await fetch(`${env.NEXT_PUBLIC_UTILITY_ENDPOINT}/api/price`);
+  const response = await fetch(`${UTILITY_ENDPOINT}/api/price`);
   const data = await response.json();
   return data;
 };
@@ -21,7 +23,7 @@ export const fetchIpsInfo = async (
 ): Promise<{
   ips: Record<string, IpInfo>;
 }> => {
-  const data = await fetch(`${env.NEXT_PUBLIC_UTILITY_ENDPOINT}/api/ips`, {
+  const data = await fetch(`${UTILITY_ENDPOINT}/api/ips`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
@@ -35,7 +37,7 @@ export const claimTestToken = async (address: string, token: string) => {
   if (!address || !token) {
     throw new Error("Address and token are required");
   }
-  const data = await fetch(`${env.NEXT_PUBLIC_UTILITY_ENDPOINT}/api/faucet`, {
+  const data = await fetch(`${UTILITY_ENDPOINT}/api/faucet`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
