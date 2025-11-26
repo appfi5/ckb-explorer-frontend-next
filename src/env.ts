@@ -36,7 +36,6 @@ export const env = createEnv({
     NEXT_PUBLIC_SSRI_RPC_URL: z.string().optional(),
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
     // NEXT_PUBLIC_BACKUP_NODES: z.string().optional(),
-
   },
 
   /**

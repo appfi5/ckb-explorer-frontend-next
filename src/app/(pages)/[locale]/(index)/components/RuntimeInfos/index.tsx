@@ -118,7 +118,7 @@ export default function RuntimeInfos() {
       <Card className={cn("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-[16px] px-[16px] py-[16px] lg:py-[70px] md:py-[40px]", styles.card)}>
         {
           config.map((item, index) => (
-            <>
+            <Fragment key={item.key}> 
               {index !== 0 && (<div className=" sm:hidden h-[1px] w-full bg-[#eee] dark:bg-[#4c4c4c]" />)}
               <Info
                 key={item.key}
@@ -126,7 +126,7 @@ export default function RuntimeInfos() {
                 label={item.label}
                 content={item.content}
               />
-            </>
+            </Fragment>
           ))
         }
       </Card>

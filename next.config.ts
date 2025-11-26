@@ -6,8 +6,9 @@ import type { NextConfig } from "next";
 import "./src/env";
 import I18nResourcePlugin from "./plugins/i18n-resource";
 
-const explorerUrl = `${process.env.NEXT_PUBLIC_EXPLORER_SERVICE_URL} ${process.env.NEXT_PUBLIC_CHAIN_NODE}`;
-const combinedUrl = explorerUrl.replaceAll(',', ' ').trim()
+const dataUrl = "https://ckb-utilities.random-walk.co.jp https://dob-decoder.rgbpp.io,https://dob0-decoder-dev.omiga.io,https://api.omiga.io,https://test-api.omiga.io,https://ckbfs.nvap.app,https://test.bescard.com"
+const explorerUrl = `${process.env.NEXT_PUBLIC_EXPLORER_SERVICE_URL} ${process.env.NEXT_PUBLIC_CHAIN_NODE} ${process.env.NEXT_PUBLIC_PROB_NODE} ${dataUrl}`;
+const combinedUrl = explorerUrl.replaceAll(',', ' ').trim();
 
 /** @type {import("next").NextConfig} */
 const config: NextConfig = {
@@ -27,10 +28,11 @@ const config: NextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live",
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data:",
-              `connect-src 'self' ${combinedUrl}`,
+              "img-src 'self' data: https://raw.githubusercontent.com",
+              // `connect-src 'self' ${combinedUrl}`,
+              "connect-src *",
               "font-src 'self'",
               "frame-src 'none'",
               "object-src 'none'",
@@ -44,7 +46,7 @@ const config: NextConfig = {
             key: "X-Content-Type-Options",
             value: "nosniff",
           },
-          { key: "X-Powered-By", value: "" }, 
+          { key: "X-Powered-By", value: "" },
           {
             key: "Strict-Transport-Security",
             value: "max-age=31536000; includeSubDomains; preload",

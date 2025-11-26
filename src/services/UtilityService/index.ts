@@ -1,3 +1,5 @@
+import { env } from "@/env";
+
 const UTILITY_ENDPOINT = "https://ckb-utilities.random-walk.co.jp";
 
 export const fetchPrices = async (): Promise<{
