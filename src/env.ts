@@ -36,7 +36,7 @@ export const env = createEnv({
     NEXT_PUBLIC_SSRI_RPC_URL: z.string().optional(),
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
     // NEXT_PUBLIC_BACKUP_NODES: z.string().optional(),
-
+    NEXT_PUBLIC_UTILITY_ENDPOINT: z.string()
   },
 
   /**
@@ -62,6 +62,7 @@ export const env = createEnv({
     // NEXT_PUBLIC_METRICS_API_URL: process.env.NEXT_PUBLIC_METRICS_API_URL,
     NEXT_PUBLIC_SSRI_RPC_URL: "", // process.env.NEXT_PUBLIC_SSRI_RPC_URL,
     // NEXT_PUBLIC_BACKUP_NODES: process.env.NEXT_PUBLIC_BACKUP_NODES,
+    NEXT_PUBLIC_UTILITY_ENDPOINT: process.env.NEXT_PUBLIC_UTILITY_ENDPOINT,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
