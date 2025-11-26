@@ -6,8 +6,8 @@ import type { NextConfig } from "next";
 import "./src/env";
 import I18nResourcePlugin from "./plugins/i18n-resource";
 
-const explorerUrl = `${process.env.NEXT_PUBLIC_EXPLORER_SERVICE_URL} ${process.env.NEXT_PUBLIC_CHAIN_NODE}`;
-const combinedUrl = explorerUrl.replaceAll(',', ' ').trim()
+const explorerUrl = `${process.env.NEXT_PUBLIC_EXPLORER_SERVICE_URL} ${process.env.NEXT_PUBLIC_CHAIN_NODE} ${process.env.NEXT_PUBLIC_UTILITY_ENDPOINT}`;
+const combinedUrl = explorerUrl.replaceAll(',', ' ').trim();
 
 /** @type {import("next").NextConfig} */
 const config: NextConfig = {
@@ -27,7 +27,7 @@ const config: NextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live",
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data:",
               `connect-src 'self' ${combinedUrl}`,
