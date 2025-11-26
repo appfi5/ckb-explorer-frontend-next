@@ -7,7 +7,6 @@ import "./src/env";
 import I18nResourcePlugin from "./plugins/i18n-resource";
 
 const dataUrl = "https://dob-decoder.rgbpp.io,https://dob0-decoder-dev.omiga.io,https://api.omiga.io,https://test-api.omiga.io,https://ckbfs.nvap.app,https://test.bescard.com"
-
 const explorerUrl = `${process.env.NEXT_PUBLIC_EXPLORER_SERVICE_URL} ${process.env.NEXT_PUBLIC_CHAIN_NODE} ${process.env.NEXT_PUBLIC_UTILITY_ENDPOINT} ${process.env.NEXT_PUBLIC_PROB_NODE} ${dataUrl}`;
 const combinedUrl = explorerUrl.replaceAll(',', ' ').trim();
 
@@ -32,7 +31,8 @@ const config: NextConfig = {
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live",
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https://raw.githubusercontent.com",
-              `connect-src 'self' ${combinedUrl}`,
+              // `connect-src 'self' ${combinedUrl}`,
+              "connect-src *",
               "font-src 'self'",
               "frame-src 'none'",
               "object-src 'none'",
