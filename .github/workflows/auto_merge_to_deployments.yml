@@ -15,7 +15,7 @@ jobs:
       - uses: repo-sync/pull-request@v2
         with:
           source_branch: 'main'
-          destination_branch: 'deployment-testnet'
+          destination_branch: 'deploy-testnet'
           pr_title: 'Merge main into deploy-testnet'
           pr_reviewer: 'walker27'
           pr_label: 'auto-pr'
@@ -30,7 +30,7 @@ jobs:
       - uses: repo-sync/pull-request@v2
         with:
           source_branch: 'main'
-          destination_branch: 'deployment-mainnet'
+          destination_branch: 'deploy-mainnet'
           pr_title: 'Merge main into deploy-mainnet'
           pr_reviewer: 'walker27'
           pr_label: 'auto-pr'
