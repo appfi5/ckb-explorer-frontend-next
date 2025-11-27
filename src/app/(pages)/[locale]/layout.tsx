@@ -48,7 +48,7 @@ const RootLayout: App.LayoutWithParallel<LayoutParallels> = async (props) => {
   const { locale } = await props.params;
   const theme = await getThemeFromCookie();
   return (
-    <html lang={locale} className={fontClasses} data-theme={theme} data-chain-type={env.NEXT_PUBLIC_CHAIN_TYPE}>
+    <html lang={locale} className={fontClasses} data-theme={theme} data-chain-type={env.NEXT_PUBLIC_CHAIN_TYPE} translate="no">
       <body data-chain-type={env.NEXT_PUBLIC_CHAIN_TYPE} >
         <ClientRoot />
         <ThemeProvider initTheme={theme as Theme}>
