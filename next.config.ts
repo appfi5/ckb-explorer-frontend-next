@@ -34,7 +34,7 @@ const config: NextConfig = {
               // `connect-src 'self' ${combinedUrl}`,
               "connect-src *",
               "font-src 'self'",
-              "frame-src 'none'",
+              "frame-src https://vercel.live",
               "object-src 'none'",
             ].join("; "),
           },
