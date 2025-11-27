@@ -157,7 +157,7 @@ export default function RuntimeInfos() {
             // content: parseHashRate(statistics.hashRate),
             content: (() => {
               if (!statistics.hashRate) return "-"
-              const [val, unit] = handleHashRate(statistics.hashRate).split(" ");
+              const [val, unit] = handleHashRate(statistics.hashRate * 1000).split(" ");
               // const str = handleHashRate(Number(statistics.hashRate) * 1000);
               // const val = str.slice(0, -2);
               // const unit = str.slice(-2);
