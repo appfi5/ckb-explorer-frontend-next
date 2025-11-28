@@ -3,15 +3,48 @@
 */
 /** */
 declare namespace APIExplorer {
-  interface UdtsListResponse {
+  interface UdtPageReq {
 
-    type: string;
+    /** 当前页面数据量 {"minimum":1,"example":10} */
+    pageSize: number;
 
-    typeScriptHash: string;
+    /** 当前页码 {"minimum":1,"example":1} */
+    page: number;
 
-    h24CkbTransactionsCount: number;
+    /** 排序 {"example":"typeScriptId.desc | addressesCount.desc | h24CkbTransactionsCount.desc"} */
+    sort: string;
 
-    addressesCount: number;
+  }
+
+
+  interface PageUdtsListResponse {
+
+    records: Array<UdtsListResponse>;
+
+    total: number;
+
+    size: number;
+
+    current: number;
+
+    /** {"writeOnly":true} */
+    orders: Array<OrderItem>;
+
+    optimizeCountSql: PageUdtsListResponse;
+
+    searchCount: PageUdtsListResponse;
+
+    /** {"writeOnly":true} */
+    optimizeJoinOfCountSql: boolean;
+
+    /** {"writeOnly":true} */
+    maxLimit: number;
+
+    /** {"writeOnly":true} */
+    countId: string;
+
+    /** {"deprecated":true} */
+    pages: number;
 
   }
 
@@ -430,6 +463,39 @@ declare namespace APIExplorer {
   }
 
 
+  interface MinerDailyStatisticsResponse {
+
+    /** 主键Id */
+    id: number;
+
+    type: string;
+
+    createdAtUnixtimestamp: number;
+
+    maxBlockNumber: number;
+
+    minBlockNumber: number;
+
+    totalReward: number;
+
+    totalHashRate: string;
+
+    avgRor: string;
+
+    miners: Array<MinerRewardInfo>;
+
+  }
+
+
+  interface MinerDailyStatisticsStartEndTimeResponse {
+
+    startTime: number;
+
+    endTime: number;
+
+  }
+
+
   interface EpochStatisticsResponse {
 
     /** 主键Id */
@@ -811,23 +877,6 @@ declare namespace APIExplorer {
     capacityInvolved: number;
 
     liveCellChanges: number;
-
-  }
-
-
-  interface LockScriptResponse {
-
-    type: string;
-
-    args: string;
-
-    codeHash: string;
-
-    hashType: string;
-
-    verifiedScriptName: string;
-
-    tags: Array<string>;
 
   }
 
@@ -1236,6 +1285,28 @@ declare namespace APIExplorer {
   }
 
 
+  interface UdtsListResponse {
+
+    type: string;
+
+    typeScriptHash: string;
+
+    h24CkbTransactionsCount: number;
+
+    addressesCount: number;
+
+  }
+
+
+  interface OrderItem {
+
+    column: string;
+
+    asc: boolean;
+
+  }
+
+
   interface UdtTransactionPageResponse {
 
     /** 主键Id */
@@ -1258,15 +1329,6 @@ declare namespace APIExplorer {
     displayInputs: Array<CellInputResponse>;
 
     displayOutputs: Array<CellOutputResponse>;
-
-  }
-
-
-  interface OrderItem {
-
-    column: string;
-
-    asc: boolean;
 
   }
 
@@ -1380,6 +1442,21 @@ declare namespace APIExplorer {
 
     /** 持有者数量 */
     holdersCount: number;
+
+  }
+
+
+  interface MinerRewardInfo {
+
+    miner: string;
+
+    count: number;
+
+    userReward: number;
+
+    percent: number;
+
+    userHashRate: number;
 
   }
 
@@ -1500,6 +1577,23 @@ declare namespace APIExplorer {
     since: SinceResponse;
 
     typeScript: ScriptResponse;
+
+  }
+
+
+  interface LockScriptResponse {
+
+    type: string;
+
+    args: string;
+
+    codeHash: string;
+
+    hashType: string;
+
+    verifiedScriptName: string;
+
+    tags: Array<string>;
 
   }
 
