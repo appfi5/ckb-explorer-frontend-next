@@ -1,0 +1,90 @@
+"use client";
+
+import { useState, useRef, useEffect } from "react";
+import { CalendarIcon } from "lucide-react";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
+import dayjs from "dayjs";
+import styles from "./minerDailyStatistics.module.scss"
+import PixelBorderBlock from "@/components/PixelBorderBlock";
+import { useTranslation } from "react-i18next";
+import { enAU, zhCN } from "react-day-picker/locale";
+
+interface timeRangeProps {
+  startTime: Date;
+  endTime: Date;
+}
+
+const CustomDatePicker = ({ timeRange, setSelectedDate, selectedDate }: { timeRange: timeRangeProps, setSelectedDate: (date: Date | undefined) => void, selectedDate: Date | undefined }) => {
+  const { t, i18n } = useTranslation();
+  const IsZhCN = i18n.language === "zh";
+  const startTimestamp = Number(timeRange.startTime) * 1000;
+  const startDate = new Date(startTimestamp);
+  const newStartDate =  startDate.setDate(startDate.getDate() - 1);
+  const endTimestamp = Number(timeRange.endTime) * 1000;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const calendarRef = useRef<HTMLDivElement>(null);
+
+  // 格式化日期显示（输入框中）
+  const formattedDate = selectedDate
+    ? dayjs(selectedDate).format("YYYY-MM-DD")
+    : "请选择日期";
+
+  const disabledDate = (date: Date) => {
+    return date < new Date(newStartDate) || date > new Date(endTimestamp);
+  };
+
+  useEffect(() => {
+    setSelectedDate(new Date(startTimestamp));
+  }, [startTimestamp]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (calendarRef.current && !calendarRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div className={`${styles.dateContainer} relative`} ref={calendarRef}>
+      <div className={`${styles.chartDetailTitleBtn}`}>
+        <PixelBorderBlock
+          pixelSize="2px"
+          apperanceClassName="*:data-[slot=border]:bg-[#D9D9D9] *:dark:data-[slot=border]:bg-[#4C4C4C] hover:*:data-[slot=bg]:bg-[#ffffff14]"
+          className="cursor-pointer w-full h-[32px]!"
+          contentClassName="h-full flex items-center justify-left px-[9px] text-[14px] leading-[22px]"
+        >
+          <div className="w-full flex justify-between items-center text-[#999999]" onClick={() => setIsOpen(!isOpen)}>
+            {formattedDate}
+            <CalendarIcon className="ml-2 inline h-4 w-4 text-[#999999]" />
+          </div>
+        </PixelBorderBlock>
+      </div>
+
+      {isOpen && (
+        <div className="absolute right-0 mt-2 rounded-lg backdrop-blur-[50px] shadow-[0_0_12px_2px_rgba(0,0,0,0.08)] dark:shadow-[0_0_12px_2px_#00000040] bg-white dark:bg-[#303030] p-4 z-10">
+          <DayPicker
+            mode="single"
+            locale={IsZhCN ? zhCN : enAU}
+            disabled={disabledDate}
+            selected={selectedDate}
+            onSelect={(date) => {
+              setSelectedDate(date);
+              setIsOpen(false);
+            }}
+            captionLayout="dropdown"
+            defaultMonth={new Date(startTimestamp)}
+            startMonth={new Date(startTimestamp)}
+            endMonth={new Date(endTimestamp)}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default CustomDatePicker;

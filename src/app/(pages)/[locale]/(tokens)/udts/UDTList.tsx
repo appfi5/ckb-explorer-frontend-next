@@ -92,7 +92,7 @@ const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {
 
   return (
     <Card
-      key={token.typeScriptHash} 
+      key={token.typeScriptHash}
       className={styles.tokensCard}
       onClick={() => router.push(`/udts/${token.typeScriptHash}`)}
     >
@@ -389,9 +389,10 @@ const UDTList = ({ isXudts, isPagination }: XudtsProps) => {
   const searchParams = useCustomSearchParams('tags')
   const tags = searchParams.tags || ''
   const [isSubmitTokenInfoModalOpen, setIsSubmitTokenInfoModalOpen] = useState<boolean>(false)
-  const { currentPage, pageSize: _pageSize, setPage,setPageSize } = usePaginationParamsInPage()
+  const { currentPage, pageSize: _pageSize, setPage, setPageSize } = usePaginationParamsInPage()
   const sortParam = useSortParam<SortField>(undefined, 'transactions.desc')
   const { sort } = sortParam
+
 
   const query = useQuery({
     queryKey: ['xudts', currentPage, _pageSize, sort, tags, 'true'],
@@ -407,13 +408,13 @@ const UDTList = ({ isXudts, isPagination }: XudtsProps) => {
         throw new Error('Tokens empty');
       }
       const bMap = new Map(udtRegisterInfos.map(item => [item.typeHash, item]));
-      const updatedA = result.map(a => bMap.has(a.typeScriptHash) ? { ...a, ...bMap.get(a.typeScriptHash) } : a);
+      const updatedA = result.records.map((a: any) => bMap.has(a.typeScriptHash) ? { ...a, ...bMap.get(a.typeScriptHash) } : a);
       return {
         tokens: updatedA.map((token: XUDT) => ({
           ...token,
           xudtTags: token.tags?.filter(tag => !['rgb++', 'rgbpp-compatible'].includes(tag)),
         })),
-        total: result.length,
+        total: result.total,
         pageSize,
       };
     },
@@ -467,6 +468,14 @@ const UDTList = ({ isXudts, isPagination }: XudtsProps) => {
           onChange={setPage}
           setPageSize={setPageSize}
         />} */}
+        <Pagination
+          total={total}
+          currentPage={currentPage}
+          pageSize={pageSize}
+          // totalPages={isEmpty ? 0 : totalPages}
+          onChange={setPage}
+          setPageSize={setPageSize}
+        />
       </div>
       {/* {isSubmitTokenInfoModalOpen ? (
         <SubmitTokenInfo tagFilters={['xudt']} onClose={() => setIsSubmitTokenInfoModalOpen(false)} />

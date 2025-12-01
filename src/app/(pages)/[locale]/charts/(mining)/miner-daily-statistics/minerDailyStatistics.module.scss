@@ -1,0 +1,80 @@
+@use '@/styles/variables.module';
+
+.dateContainer{
+  :global(.rdp-root) {
+    --rdp-accent-color: var(--color-primary);
+    --rdp-accent-background-color: var(--color-primary); 
+  }
+}
+
+.chartDetailTitleBtn{
+  width: 180px;
+  height: 32px;
+  &:hover{
+    path{
+      fill: var(--color-primary);
+    }
+    .chartDesc{
+      color: var(--color-primary);
+    }
+    i{
+      background: var(--color-primary);
+    }
+  }
+}
+.list {
+  cursor: default;
+
+  table {
+    background: #fff;
+    font-family: var(--font-hash);
+    margin-bottom: 30px;
+    max-width: 100%;
+    width: 100%;
+    table-layout: fixed;
+    text-align: left;
+    th {
+      line-height: 2;
+    }
+
+    th,
+    td {
+      padding: 0 20px;
+      line-height: 2;
+
+      @media (width <= 480px) {
+        padding: 0 4px;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+    }
+
+    th:nth-child(1),
+    td:nth-child(1) {
+      // width: 300px;
+    }
+
+    @variant dark {
+      background: transparent;
+    }
+
+  }
+
+}
+
+
+.address {
+  a > div {
+    font-family: var(--font-hash) !important;
+  }
+
+  &:hover{
+    color: var(--color-primary) !important;
+  }
+}
+
+.minerCardGroupSty{
+  div{
+    background: transparent;
+  }
+}
