@@ -3,7 +3,7 @@
 */
 /** */
 export type APITypeTuple = {
-  "GET /udts": [null, Array<APIExplorer.UdtsListResponse>],
+  "GET /udts": [APIExplorer.UdtPageReq, APIExplorer.PageUdtsListResponse],
   "GET /udts/{typeScriptHash}": [{ typeScriptHash: string }, APIExplorer.UdtDetailResponse],
   "GET /udts/{typeScriptHash}/holder_allocation": [{ typeScriptHash: string }, Array<APIExplorer.UdtHolderAllocationsResponse>],
   "GET /udt_transactions/{typeScriptHash}": [APIExplorer.UdtTransactionsPageReq & { typeScriptHash: string }, APIExplorer.PageUdtTransactionPageResponse],
@@ -11,6 +11,7 @@ export type APITypeTuple = {
   "GET /suggest_queries": [{ q: string,filterBy?: number }, {}],
   "GET /statistics": [null, APIExplorer.IndexStatisticResponse],
   "GET /statistics/{fieldName}": [{ fieldName: string }, APIExplorer.StatisticResponse],
+  "GET /nft/storeCell/{tokenId}": [{ tokenId: string }, number],
   "GET /nft/collections": [APIExplorer.CollectionsPageReq, APIExplorer.PageCollectionsResp],
   "GET /nft/collections/{typeScriptHash}": [{ typeScriptHash: string }, APIExplorer.CollectionsResp],
   "GET /nft/collections/{typeScriptHash}/transfers": [APIExplorer.NftTransfersPageReq & { typeScriptHash: string }, APIExplorer.PageNftTransfersResp],
@@ -19,6 +20,9 @@ export type APITypeTuple = {
   "GET /nft/collections/{typeScriptHash}/holders": [APIExplorer.NftHoldersPageReq & { typeScriptHash: string }, APIExplorer.PageNftHolderResp],
   "GET /nets/version": [null, APIExplorer.NetInfoResponse],
   "GET /monetary_data/{indicator}": [{ indicator: string }, APIExplorer.MonetaryDataResponse],
+  "GET /miner_daily_statistics/{date}": [{ date: string }, APIExplorer.MinerDailyStatisticsResponse],
+  "GET /miner_daily_statistics/start_end_time": [null, APIExplorer.MinerDailyStatisticsStartEndTimeResponse],
+  "GET /miner_daily_statistics/avg_ror": [null, Array<APIExplorer.MinerDailyStatisticsResponse>],
   "GET /epoch_statistics/{indicator}": [{ indicator: string,limit?: number }, Array<APIExplorer.EpochStatisticsResponse>],
   "GET /distribution_data/{indicator}": [{ indicator: string }, APIExplorer.DistributionDataResponse],
   "GET /dao_depositors": [null, Array<APIExplorer.DaoDepositorResponse>],
@@ -30,8 +34,6 @@ export type APITypeTuple = {
   "GET /ckb_transactions/{txHash}/display_outputs": [APIExplorer.BasePageReq & { txHash: string }, APIExplorer.PageCellOutputResponse],
   "GET /ckb_transactions/{txHash}/display_inputs": [APIExplorer.BasePageReq & { txHash: string }, APIExplorer.PageCellInputResponse],
   "GET /ckb_transactions/homePage": [{ pageSize: number }, Array<APIExplorer.TransactionPageResponse>],
-  "GET /cell_output_type_scripts/{id}": [{ id: string }, APIExplorer.LockScriptResponse],
-  "GET /cell_output_lock_scripts/{id}": [{ id: string }, APIExplorer.LockScriptResponse],
   "GET /cell_output_data/{id}": [{ id: string }, APIExplorer.CellOutputDataResponse],
   "GET /cell_output/{id}": [{ id: string }, APIExplorer.CellInfoResponse],
   "GET /blocks": [APIExplorer.BlockPageReq, APIExplorer.PageBlockListResponse],
