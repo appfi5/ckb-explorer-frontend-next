@@ -33,6 +33,7 @@ import { MinerAddressDistributionChart } from './(mining)/miner-address-distribu
 import { MinerVersionDistributionChart } from './(mining)/miner-version-distribution/page'
 import { NodeCountryDistributionChart } from './(mining)/node-country-distribution/page'
 import NodeGeoDistributionChart from './(mining)/node-geo-distribution/page'
+import { MinerDailyStatisticsChart } from './(mining)/miner-daily-statistics/page'
 
 import { TotalSupplyChart } from './(monetary)/total-supply/page'
 import { AnnualPercentageCompensationChart } from './(monetary)/nominal-apc/page'
@@ -226,6 +227,11 @@ const useChartsData = () => {
           title: `${t('statistic.node_geo_distribution')}`,
           chart: <NodeGeoDistributionChart isThumbnail />,
           path: '/charts/node-geo-distribution',
+        },
+        {
+          title: `${t('statistic.miner_daily_statistics')}`,
+          chart: <MinerDailyStatisticsChart isThumbnail />,
+          path: '/charts/miner-daily-statistics',
         },
       ],
     },

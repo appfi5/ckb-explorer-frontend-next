@@ -39,6 +39,26 @@ export namespace Response {
 // but considering that this type will only be used by a single ChartComp and fetcher, in order not to add too much
 // complexity, it is directly treated as a type with strong server-side properties and placed here.
 export namespace ChartItem {
+  export interface MinerRewardInfo {
+    miner: string;
+    count: number;
+    userReward: number;
+    percent: number;
+    userHashRate: number;
+  }
+
+  export interface DailyStatistics {
+    id: number;
+    type: string;
+    createdAtUnixtimestamp: number;
+    maxBlockNumber: number;
+    minBlockNumber: number;
+    totalReward: number;
+    totalHashRate: string;
+    avgRor: string;
+    miners: Array<MinerRewardInfo>;
+  }
+  
   export interface TransactionCount {
     transactionsCount: string;
     createdAtUnixtimestamp: string;
