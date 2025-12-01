@@ -1550,6 +1550,8 @@ declare namespace APIExplorer {
 
     typeScript: ScriptResponse;
 
+    data: string;
+
   }
 
 
@@ -1577,6 +1579,25 @@ declare namespace APIExplorer {
     since: SinceResponse;
 
     typeScript: ScriptResponse;
+
+    data: string;
+
+  }
+
+
+  interface LockScriptResponse {
+
+    type: string;
+
+    args: string;
+
+    codeHash: string;
+
+    hashType: string;
+
+    verifiedScriptName: string;
+
+    tags: Array<string>;
 
   }
 
