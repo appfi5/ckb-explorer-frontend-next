@@ -78,3 +78,48 @@
     background: transparent;
   }
 }
+
+.overviewCell{
+  padding: 32px;
+  border-radius: 4px;
+  display: grid;
+  gap: 0; 
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  background: #fff;
+
+  @variant dark {
+    background: #363839;
+  }
+
+  .cellborder {
+    border-left: 1px solid #d9d9d9;
+    padding-left: 36px;
+    padding-right: 36px;
+  }
+
+  .title{
+    color: #666666;
+    margin-bottom: 12px;
+    @variant dark {
+      color: #999999;
+    }
+  }
+
+  @media (width <= variables.$extraLargeBreakPoint) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+    .cellborder{
+      border-left: none;
+      padding: 0;
+    }
+  }
+
+  @media (width <= variables.$mobileBreakPoint) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 30px;
+    .cellborder{
+      border-left: none;
+      padding: 0;
+    }
+  }
+}
