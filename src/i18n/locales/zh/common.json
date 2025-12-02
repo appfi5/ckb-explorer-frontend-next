@@ -677,12 +677,12 @@
     "since": {
       "relative": {
         "epoch": "committed 之后 {{since}} Epochs",
-        "block": "committed 之后 {{since}} 个区块",
+        "blockNumber": "committed 之后 {{since}} 个区块",
         "timestamp": "committed 之后 {{since}}"
       },
       "absolute": {
         "epoch": "Epoch {{since}}",
-        "block": "区块 {{since}}",
+        "blockNumber": "区块 {{since}}",
         "timestamp": "{{since}}"
       }
     },
