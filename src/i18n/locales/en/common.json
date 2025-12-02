@@ -403,7 +403,8 @@
     "miner_percent": "Percent",
     "user_hash_rate": "User_Hash_Rate",
     "relative_proportion": "Relative Proportion",
-    "abstract_information": "Abstract Information"
+    "abstract_information": "Abstract Information",
+    "block_range_total": "Blockno from {{min}} to {{max}}, total {{total}}" 
   },
   "home": {
     "height": "Height",

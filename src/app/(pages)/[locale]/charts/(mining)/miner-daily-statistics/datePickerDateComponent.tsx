@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { CalendarIcon } from "lucide-react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import dayjs from "dayjs";
@@ -9,6 +8,7 @@ import styles from "./minerDailyStatistics.module.scss"
 import PixelBorderBlock from "@/components/PixelBorderBlock";
 import { useTranslation } from "react-i18next";
 import { enAU, zhCN } from "react-day-picker/locale";
+import CalendarIcon from '@/assets/icons/calendar.svg?component'
 
 interface timeRangeProps {
   startTime: Date;
@@ -58,9 +58,9 @@ const DatePickerDateComponent = ({ timeRange, setSelectedDate, selectedDate }: {
           className="cursor-pointer w-full h-[32px]!"
           contentClassName="h-full flex items-center justify-left px-[9px] text-[14px] leading-[22px]"
         >
-          <div className="w-full flex justify-between items-center text-[#999999]" onClick={() => setIsOpen(!isOpen)}>
+          <div className="w-full flex justify-between items-center text-[#232323] dark:text-[#fff]" onClick={() => setIsOpen(!isOpen)}>
             {formattedDate}
-            <CalendarIcon className="ml-2 inline h-4 w-4 text-[#999999]" />
+            <CalendarIcon />
           </div>
         </PixelBorderBlock>
       </div>
