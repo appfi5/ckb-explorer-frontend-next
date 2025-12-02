@@ -20,7 +20,7 @@ import Link from 'next/link';
 import TextEllipsis from '@/components/TextEllipsis'
 import { type CardCellFactory, CardListWithCellsList } from '@/components/CardList'
 import { useMediaQuery } from '@/hooks'
-import CustomDatePicker from './customDatePicker'
+import DatePickerDateComponent from './datePickerDateComponent'
 
 const useOption = (
   minerDailyStatistics: ChartItem.DailyStatistics[],
@@ -245,7 +245,7 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
     <div className='container bg-[white] dark:bg-[#232323E5] dark:border-2 dark:border-[#282B2C] md:shadow-[0_2px_8px_0_rgba(0,0,0,0.1)] rounded-lg p-3 sm:p-5 my-5!'>
       <div className="flex justify-between items-center">
         <span className='text-[18px] text-[#232323] dark:text-white font-medium'>{t('statistic.miner_daily_statistics')}</span>
-        <CustomDatePicker timeRange={timeRange} setSelectedDate={setSelectedDate} selectedDate={selectedDate} />
+        <DatePickerDateComponent timeRange={timeRange} setSelectedDate={setSelectedDate} selectedDate={selectedDate} />
       </div>
       <div className='bg-[#F5F9FB] dark:bg-[#303030] rounded-[16px] p-3 sm:p-5 my-4'>
         <div className='rounded-sm bg-white dark:bg-[#363839]'>
