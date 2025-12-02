@@ -1,6 +1,5 @@
 import type { ReactNode, SyntheticEvent } from "react";
 import camelcaseKeys from "camelcase-keys";
-import JSBI from "jsbi";
 import BigNumber from "bignumber.js";
 import { scriptToAddress, addressToScript } from "@nervosnetwork/ckb-sdk-utils";
 import { useTranslation } from "react-i18next";
@@ -23,6 +22,7 @@ import { parseBtcTimeLockArgs } from "./rgbpp";
 // import nftCover from "../assets/nft_cover.svg";
 // import dobCover from "../assets/dob-cover.svg";
 import { isClient } from "./tool";
+import { ccc } from "@ckb-ccc/core";
 
 export const shannonToCkbDecimal = (
   value: BigNumber | string | number,
@@ -250,70 +250,108 @@ export const patchMibaoImg = (url: string) => {
 /**
  *@link https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0017-tx-valid-since/0017-tx-valid-since.md#specification
  */
-export const parseSince = (
-  since: string,
-): {
-  base: "absolute" | "relative";
-  type: "block" | "epoch" | "timestamp";
-  value: string;
-} | null => {
-  const s = JSBI.BigInt(since);
-  if (JSBI.equal(s, JSBI.BigInt(0))) {
-    return null;
-  }
-
-  const relativeFlag = JSBI.signedRightShift(s, JSBI.BigInt(63));
-  const metricFlag = JSBI.bitwiseAnd(
-    JSBI.signedRightShift(s, JSBI.BigInt(61)),
-    JSBI.BigInt(3),
-  );
-
-  const value = JSBI.bitwiseAnd(s, JSBI.BigInt("0xffffffffffffff"));
-
-  const base = relativeFlag.toString() === "0" ? "absolute" : "relative";
-
-  switch (metricFlag.toString()) {
-    case "0": {
-      // use block number
+export function parseSince(sinceRaw: string) {
+  // const since = ccc.Since.fromNum('0x' + mol.Uint64LE.decode(sinceRaw).toString(16))
+  if(sinceRaw === "0x0000000000000000") return null;
+  const since = ccc.Since.fromNum(sinceRaw)
+  const { metric, relative, value } = since;
+  switch (metric) {
+    case "blockNumber":
       return {
-        base,
-        type: "block",
-        value: JSBI.add(value, JSBI.BigInt(1)).toString(),
-      };
-    }
-    case "1": {
-      // use epoch number with fraction
-      const EFigures = JSBI.BigInt(0xffffff);
-      const IFigures = JSBI.BigInt(0xffff);
-      const LFigures = JSBI.BigInt(0xffff);
-      const E = +JSBI.bitwiseAnd(s, EFigures);
-      const I = +JSBI.bitwiseAnd(
-        JSBI.signedRightShift(s, JSBI.BigInt(24)),
-        IFigures,
-      );
-      const L = +JSBI.bitwiseAnd(
-        JSBI.signedRightShift(s, JSBI.BigInt(40)),
-        LFigures,
-      );
+        metric,
+        relative,
+        value: value.toString()
+      }
+    case "epoch":
+      const [bigE, bigI, bigL] = ccc.epochFromHex(value.toString(16))
+      const E = Number(bigE)
+      const I = Number(bigI)
+      const L = Number(bigL)
       return {
-        base,
-        type: "epoch",
+        relative,
+        metric,
         value: L ? `${(E + (I + 1) / L).toFixed(2)}` : `${E}`,
-      };
-    }
-    case "2": {
-      // use median_timestamp
+      }
+    case "timestamp":
       return {
-        base,
-        type: "timestamp",
-        value: value.toString(),
-      };
-    }
+        metric,
+        relative,
+        value: value.toString()
+      }
+
     default: {
       throw new Error("invalid since");
     }
   }
-};
+}
+
+
+// export const parseSinceOld = (
+//   sinceRaw: string,
+// ): {
+//   relative: Since['relative']; // "absolute" | "relative";
+//   metric: Since['metric']; // "block" | "epoch" | "timestamp";
+//   value: string;
+// } | null => {
+//   const since = '0x' + mol.Uint64LE.decode(sinceRaw).toString(16)
+//   const s = JSBI.BigInt(since);
+//   if (JSBI.equal(s, JSBI.BigInt(0))) {
+//     return null;
+//   }
+
+//   const relativeFlag = JSBI.signedRightShift(s, JSBI.BigInt(63));
+//   const metricFlag = JSBI.bitwiseAnd(
+//     JSBI.signedRightShift(s, JSBI.BigInt(61)),
+//     JSBI.BigInt(3),
+//   );
+
+//   const value = JSBI.bitwiseAnd(s, JSBI.BigInt("0xffffffffffffff"));
+
+//   const relative = relativeFlag.toString() === "0" ? "absolute" : "relative";
+
+//   switch (metricFlag.toString()) {
+//     case "0": {
+//       // use block number
+//       return {
+//         relative,
+//         metric: "blockNumber",
+//         value: JSBI.add(value, JSBI.BigInt(1)).toString(),
+//       };
+//     }
+//     case "1": {
+//       // use epoch number with fraction
+//       const EFigures = JSBI.BigInt(0xffffff);
+//       const IFigures = JSBI.BigInt(0xffff);
+//       const LFigures = JSBI.BigInt(0xffff);
+//       const E = +JSBI.bitwiseAnd(s, EFigures);
+//       const I = +JSBI.bitwiseAnd(
+//         JSBI.signedRightShift(s, JSBI.BigInt(24)),
+//         IFigures,
+//       );
+//       const L = +JSBI.bitwiseAnd(
+//         JSBI.signedRightShift(s, JSBI.BigInt(40)),
+//         LFigures,
+//       );
+//       console.log({ E, I, L })
+//       return {
+//         relative,
+//         metric: "epoch",
+//         value: L ? `${(E + (I + 1) / L).toFixed(2)}` : `${E}`,
+//       };
+//     }
+//     case "2": {
+//       // use median_timestamp
+//       return {
+//         relative,
+//         metric: "timestamp",
+//         value: value.toString(),
+//       };
+//     }
+//     default: {
+//       throw new Error("invalid since");
+//     }
+//   }
+// };
 
 export function singleton<Fn extends (...args: any) => Promise<any>>(
   fn: Fn,

@@ -80,6 +80,7 @@ function CellsPanel({ dir, txHash, className }: { className?: string, dir: "inpu
           {
             cells.map((cell, index) => (
               <TxCellCard
+                since={cell.since?.raw}
                 key={cell.id}
                 cell={cell}
                 showStatus={!isInput}

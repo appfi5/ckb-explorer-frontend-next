@@ -686,12 +686,12 @@
     "since": {
       "relative": {
         "epoch": "{{since}} epochs since committed",
-        "block": "{{since}} blocks since committed",
+        "blockNumber": "{{since}} blocks since committed",
         "timestamp": "{{since}} since committed"
       },
       "absolute": {
         "epoch": "epoch {{since}}",
-        "block": "block {{since}}",
+        "blockNumber": "block {{since}}",
         "timestamp": "{{since}}"
       }
     },
