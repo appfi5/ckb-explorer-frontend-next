@@ -21,6 +21,7 @@ import TextEllipsis from '@/components/TextEllipsis'
 import { type CardCellFactory, CardListWithCellsList } from '@/components/CardList'
 import { useMediaQuery, useIsMobile } from '@/hooks'
 import DatePickerDateComponent from './datePickerDateComponent'
+import classNames from 'classnames'
 
 const useOption = (
   minerDailyStatistics: ChartItem.DailyStatistics[],
@@ -242,7 +243,7 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
     )
   }
 
-  const totalBlock = Number(overviewData.maxBlockNumber) - Number(overviewData.minBlockNumber) > 0 ? Number(overviewData.maxBlockNumber) - Number(overviewData.minBlockNumber) + 1 : 0;
+  const totalBlocks = Number(overviewData.maxBlockNumber) - Number(overviewData.minBlockNumber) > 0 ? Number(overviewData.maxBlockNumber) - Number(overviewData.minBlockNumber) + 1 : 0;
 
   return (
     <div className='container bg-[white] dark:bg-[#232323E5] dark:border-2 dark:border-[#282B2C] md:shadow-[0_2px_8px_0_rgba(0,0,0,0.1)] rounded-lg p-3 sm:p-5 my-5!'>
@@ -250,30 +251,33 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
         <span className='text-[18px] text-[#232323] dark:text-white font-medium'>{t('statistic.miner_daily_statistics')}</span>
         <DatePickerDateComponent timeRange={timeRange} setSelectedDate={setSelectedDate} selectedDate={selectedDate} />
       </div>
-
       <div className='bg-[#F5F9FB] dark:bg-[#303030] rounded-[16px] p-3 sm:p-5 my-4'>
-        <div className='rounded-sm bg-white dark:bg-[#363839] p-[32px] grid grid-cols-4 gap-0'>
-          <div className='border-r border-[#D9D9D9] px-4'>
+        <div className={styles.overviewCell}>
+          <div className="pr-[36px]">
             <div className="text-[#000000] text-[16px] font-medium mb-[12px]">{t('statistic.abstract_information')}</div>
-            <div>Blockno from {overviewData.minBlockNumber} to {overviewData.maxBlockNumber}, total {totalBlock} </div>
+            <div>{t('statistic.block_range_total', {
+              min: overviewData.minBlockNumber,
+              max: overviewData.maxBlockNumber,
+              total: totalBlocks
+            })}</div>
           </div>
-          <div className='border-r border-[#D9D9D9] px-[36px]'>
-            <div className="text-[#666666] mb-[12px]">{t('statistic.total_reward')}</div>
+          <div className={classNames(styles.cellborder)}>
+            <div className={styles.title}>{t('statistic.total_reward')}</div>
             <div>{overviewData.totalReward} CKB</div>
           </div>
-          <div className='border-r border-[#D9D9D9] px-[36px]'>
-            <div className="text-[#666666] mb-[12px]">{t('statistic.total_hashrate')}</div>
+          <div className={classNames(styles.cellborder)}>
+            <div className={styles.title}>{t('statistic.total_hashrate')}</div>
             <div>{overviewData.totalHashRate}</div>
           </div>
-          <div className='px-[36px]'>
-            <div className="text-[#666666] mb-[12px]">{t('statistic.miner_daily_avgRor')}</div>
+          <div className={classNames(styles.cellborder)}>
+            <div className={styles.title}>{t('statistic.miner_daily_avgRor')}</div>
             <div>{overviewData.avgRor} CKB/T</div>
           </div>
         </div>
       </div>
 
       <div className='bg-[#F5F9FB] dark:bg-[#303030] rounded-[16px] p-3 sm:p-5 my-4'>
-        <div className='rounded-sm bg-white dark:bg-[#363839]'>
+        <div className='rounded-sm bg-white dark:bg-[#363839] h-[600px]'>
           <StaticOverview overviewData={overviewData} />
         </div>
       </div>
@@ -283,7 +287,7 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
             <table>
               <thead className='bg-[#F5F9FB] dark:bg-[#303030] h-[46px]'>
                 <tr>
-                  <th className='h-[46px] text-sm! '>{t('statistic.miner')} (CKB)</th>
+                  <th className='h-[46px] text-sm! '>{t('statistic.miner')}</th>
                   <th className='h-[46px] text-sm! '>{t('statistic.count')}</th>
                   <th className='h-[46px] text-sm! '>{t('statistic.user_reward')}</th>
                   <th className='h-[46px] text-sm! '>{t('statistic.miner_percent')} (%)</th>

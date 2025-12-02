@@ -414,7 +414,8 @@
     "miner_percent": "百分比",
     "user_hash_rate": "用户算力",
     "relative_proportion": "相对占比",
-    "abstract_information": "摘要信息"
+    "abstract_information": "摘要信息",
+    "block_range_total": "区块号从 {{min}} 到 {{max}}，共 {{total}}"
   },
   "home": { 
     "height": "高度",
