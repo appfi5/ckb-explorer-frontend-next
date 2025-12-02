@@ -412,7 +412,9 @@
     "count": "数量",
     "user_reward": "用户奖励",
     "miner_percent": "百分比",
-    "user_hash_rate": "用户算力"
+    "user_hash_rate": "用户算力",
+    "original_value": "原始值",
+    "relative_proportion": "相对占比"
   },
   "home": { 
     "height": "高度",
