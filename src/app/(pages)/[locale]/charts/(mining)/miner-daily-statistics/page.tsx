@@ -13,7 +13,7 @@ import BigNumber from 'bignumber.js'
 import dayjs from 'dayjs'
 import { useEffect, useState, useMemo } from 'react';
 import "react-day-picker/style.css";
-import CustomDatePicker from './CustomDatePicker';
+import CustomDatePicker from './customDatePicker';
 import { useQuery } from '@tanstack/react-query';
 import StaticOverview from './staticOverview';
 import styles from './minerDailyStatistics.module.scss';
