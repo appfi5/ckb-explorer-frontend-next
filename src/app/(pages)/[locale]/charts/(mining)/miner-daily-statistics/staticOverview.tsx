@@ -1,80 +1,54 @@
-import type { EChartsOption } from 'echarts'
-import { useTranslation } from 'react-i18next'
-import { useIsMobile } from '@/hooks'
-import { ReactChartCore } from '../../../charts/components/common'
-import { assertNotArray } from '@/utils/chart'
-import styles from './minerDailyStatistics.module.scss'
-import { useChartTheme } from "@/hooks/useChartTheme";
-import { useTheme } from "@/components/Theme";
-import { type ChartItem } from '@/server/dataTypes'
-import { logNormalize, getNormalizedRatio, localeNumberString } from "./methods"
+import type { EChartsOption } from 'echarts';
+import { useTranslation } from 'react-i18next';
+import { useIsMobile } from '@/hooks';
+import { ReactChartCore } from '../../../charts/components/common';
+import { assertNotArray } from '@/utils/chart';
+import styles from './minerDailyStatistics.module.scss';
+import { useChartTheme } from '@/hooks/useChartTheme';
+import { useTheme } from '@/components/Theme';
+import { type ChartItem } from '@/server/dataTypes';
+import { localeNumberString } from "@/utils/number";
+
+const formatMinerAddress = (address: string): string => {
+    if (address.length <= 12) return address;
+    return `${address.slice(0, 6)}...${address.slice(-6)}`;
+};
 
 const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], isMobile: boolean): EChartsOption => {
     const { t } = useTranslation();
     const [theme] = useTheme();
-    const isDarkTheme = theme === "dark";
+    const isDarkTheme = theme === 'dark';
 
-    // 1. 计算原始数据（保留完整精度）
-    const countData = Number(overviewData.maxBlockNumber) - Number(overviewData.minBlockNumber);
-    const blockTotal = countData === 0 ? 0 : countData + 1 || 0;
-    const totalReward = Number(overviewData.totalReward) || 0;
-    const totalHashRate = Number(overviewData.totalHashRate) || 0;
-    const avgRor = Number(overviewData.avgRor) || 0;
+    const miners = overviewData.miners || [];
+    const chartData = miners.map((miner, index) => ({
+        name: formatMinerAddress(miner.miner), 
+        rawData: miner, 
+        value: (miner.percent * 100).toFixed(1), 
+    }));
 
-    // 2. 标准化处理（仅用于环形图占比）
-    const rawValues = [blockTotal, totalReward, totalHashRate, avgRor];
-    const logValues = rawValues.map(val => logNormalize(val));
-    const normalizedRatios = getNormalizedRatio(logValues);
-
-    // 3. 构造图表数据（含原始值+标准化占比）
-    const chartData = [
-        {
-            name: t('statistic.block_total'),
-            rawValue: blockTotal,
-            value: (normalizedRatios[0] ?? 0).toFixed(1),
-            unit: '',
-        },
-        {
-            name: t('statistic.total_reward'),
-            rawValue: totalReward,
-            value: (normalizedRatios[1] ?? 0).toFixed(1),
-            unit: 'CKB',
-        },
-        {
-            name: t('statistic.total_hashrate'),
-            rawValue: totalHashRate,
-            value: (normalizedRatios[2] ?? 0).toFixed(1),
-            unit: '',
-        },
-        {
-            name: t('statistic.miner_daily_avgRor'),
-            rawValue: avgRor,
-            value: (normalizedRatios[3] ?? 0).toFixed(1),
-            unit: 'CKB/T',
-        },
-    ];
     return {
-        color: colors,
+        color: colors.slice(0, miners.length), // 取对应数量的主题色
         tooltip: {
             confine: true,
             trigger: 'item',
             formatter: (value: any) => {
                 assertNotArray(value);
-                const { name, rawValue, unit, value: ratio } = value.data;
+                const { name, rawData } = value.data;
                 return `
-                ${name}<br/>
-                ${t('statistic.original_value')}：${localeNumberString(rawValue)} ${unit || ''}<br/>
-                ${t('statistic.relative_proportion')}：${ratio}%
+                ${t('statistic.miner')}：${isMobile?name:rawData.miner}<br/>
+                ${t('statistic.block_total')}：${localeNumberString(rawData.count)}<br/>
+                ${t('statistic.total_reward')}：${localeNumberString(rawData.userReward)} CKB<br/>
+                ${t('statistic.total_hashrate')}：${localeNumberString(rawData.userHashRate)}<br/>
+                ${t('statistic.relative_proportion')}：${value.data.value}%
                 `;
             },
             backgroundColor: 'rgba(50, 50, 50, 0.7)',
             borderWidth: 0,
-            textStyle: { color: '#fff', fontSize: 12, whiteSpace: 'nowrap' }, // 禁止换行避免截断
-            // position: ['10%', '50%'],
+            textStyle: { color: '#fff', fontSize: 12 },
         },
         series: [
             {
-                name: t('statistic.miner_daily_statistics'),
+                name: 11,//t('statistic.miner_distribution'),
                 type: 'pie',
                 radius: ['40%', '75%'],
                 center: ['50%', '50%'],
@@ -83,8 +57,10 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
                     position: 'outside',
                     align: 'center',
                     color: isDarkTheme ? '#fff' : '#232323',
-                    formatter: '{b}: {c}%',
-                    fontSize: isMobile ? 10 : 12,
+                    formatter: '{b}: {c}%', // 显示矿工地址+占比
+                    fontSize: isMobile ? 9 : 12,
+                    overflow: 'truncate', // 地址过长时截断
+                    width: isMobile ? 80 : 120, // 限制标签宽度
                 },
                 labelLine: {
                     length: 4,
@@ -101,13 +77,13 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
                     },
                 },
             },
-        ]
+        ],
     };
 };
 
 const StaticOverview = ({ overviewData }: { overviewData: ChartItem.DailyStatistics }) => {
-    const isMobile = useIsMobile()
-    const { chartThemeColor } = useChartTheme()
+    const isMobile = useIsMobile();
+    const { chartThemeColor } = useChartTheme();
 
     return (
         <div className={styles.daoOverviewPanel}>
@@ -124,7 +100,7 @@ const StaticOverview = ({ overviewData }: { overviewData: ChartItem.DailyStatist
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default StaticOverview;
