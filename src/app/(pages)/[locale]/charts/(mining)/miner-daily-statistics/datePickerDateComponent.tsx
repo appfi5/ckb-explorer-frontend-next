@@ -15,7 +15,7 @@ interface timeRangeProps {
   endTime: Date;
 }
 
-const CustomDatePicker = ({ timeRange, setSelectedDate, selectedDate }: { timeRange: timeRangeProps, setSelectedDate: (date: Date | undefined) => void, selectedDate: Date | undefined }) => {
+const DatePickerDateComponent = ({ timeRange, setSelectedDate, selectedDate }: { timeRange: timeRangeProps, setSelectedDate: (date: Date | undefined) => void, selectedDate: Date | undefined }) => {
   const { t, i18n } = useTranslation();
   const IsZhCN = i18n.language === "zh";
   const startTimestamp = Number(timeRange.startTime) * 1000;
@@ -87,4 +87,4 @@ const CustomDatePicker = ({ timeRange, setSelectedDate, selectedDate }: { timeRa
   );
 };
 
-export default CustomDatePicker;
+export default DatePickerDateComponent;
