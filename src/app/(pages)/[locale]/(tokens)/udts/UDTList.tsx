@@ -35,7 +35,7 @@ import clientDB from "@/database";
 import TokenTag from '@/components/TokenTag'
 
 
-type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
+type SortField = 'h24CkbTransactionsCount' | 'addressesCount' | 'created_time' | 'mint_status'
 
 interface XudtsProps {
   isXudts: boolean;
@@ -296,7 +296,7 @@ const TokenTable: FC<{
       title: (
         <div className="w-full flex justify-end items-center">
           <span>{t('xudt.transactions')}</span>
-          {/* <SortButton field="transactions" sortParam={sortParam} /> */}
+          <SortButton field="h24CkbTransactionsCount" sortParam={sortParam} />
         </div>
       ),
       className: styles.colTransactions,
@@ -326,7 +326,7 @@ const TokenTable: FC<{
       : {
         title: (<div className="w-full flex justify-end items-center">
           <span>{t('xudt.address_count')}</span>
-          {/* <SortButton field="addresses_count" sortParam={sortParam} /> */}
+          <SortButton field="addressesCount" sortParam={sortParam} />
         </div>),
         className: styles.colTransactions,
         key: 'addresses_count',
