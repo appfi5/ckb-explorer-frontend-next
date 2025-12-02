@@ -13,7 +13,6 @@ import BigNumber from 'bignumber.js'
 import dayjs from 'dayjs'
 import { useEffect, useState, useMemo } from 'react';
 import "react-day-picker/style.css";
-import CustomDatePicker from './customDatePicker';
 import { useQuery } from '@tanstack/react-query';
 import StaticOverview from './staticOverview';
 import styles from './minerDailyStatistics.module.scss';
@@ -21,6 +20,7 @@ import Link from 'next/link';
 import TextEllipsis from '@/components/TextEllipsis'
 import { type CardCellFactory, CardListWithCellsList } from '@/components/CardList'
 import { useMediaQuery } from '@/hooks'
+import CustomDatePicker from './customDatePicker'
 
 const useOption = (
   minerDailyStatistics: ChartItem.DailyStatistics[],
