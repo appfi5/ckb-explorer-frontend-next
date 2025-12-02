@@ -20,7 +20,7 @@ import styles from './minerDailyStatistics.module.scss';
 import Link from 'next/link';
 import TextEllipsis from '@/components/TextEllipsis'
 import { type CardCellFactory, CardListWithCellsList } from '@/components/CardList'
-import { useIsMobile, useMediaQuery } from '@/hooks'
+import { useMediaQuery } from '@/hooks'
 
 const useOption = (
   minerDailyStatistics: ChartItem.DailyStatistics[],
@@ -227,8 +227,6 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
     }
     return minerDailyStatisticsQuery.data;
   }, [minerDailyStatisticsQuery.data]);
-
-  console.log(overviewData)
 
   if (isThumbnail) {
     return (
