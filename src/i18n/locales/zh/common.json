@@ -413,8 +413,8 @@
     "user_reward": "用户奖励",
     "miner_percent": "百分比",
     "user_hash_rate": "用户算力",
-    "original_value": "原始值",
-    "relative_proportion": "相对占比"
+    "relative_proportion": "相对占比",
+    "abstract_information": "摘要信息"
   },
   "home": { 
     "height": "高度",

@@ -402,8 +402,8 @@
     "user_reward": "User_Reward",
     "miner_percent": "Percent",
     "user_hash_rate": "User_Hash_Rate",
-    "original_value": "Original Value",
-    "relative_proportion": "Relative Proportion"
+    "relative_proportion": "Relative Proportion",
+    "abstract_information": "Abstract Information"
   },
   "home": {
     "height": "Height",
