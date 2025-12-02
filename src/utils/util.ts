@@ -252,7 +252,7 @@ export const patchMibaoImg = (url: string) => {
  */
 export function parseSince(sinceRaw: string) {
   // const since = ccc.Since.fromNum('0x' + mol.Uint64LE.decode(sinceRaw).toString(16))
-  if(sinceRaw === "0x0000000000000000") return null;
+  if(sinceRaw === "0x0000000000000000" || sinceRaw === "0x0") return null;
   const since = ccc.Since.fromNum(sinceRaw)
   const { metric, relative, value } = since;
   switch (metric) {
