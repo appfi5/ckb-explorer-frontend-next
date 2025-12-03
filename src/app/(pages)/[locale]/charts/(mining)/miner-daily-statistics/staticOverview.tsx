@@ -30,11 +30,10 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
         color: colors,
         legend: {
             show: isMobile ? false : true,
-            type: 'scroll',
             orient: 'horizontal',
-            top: '26px',
-            bottom: '40px',
+            top: '20px',
             left: 'center',
+            icon: "circle",
             textStyle: {
                 color: isDarkTheme ? '#fff' : '#232323', 
                 fontSize: isMobile ? 10 : 12, 
@@ -69,7 +68,7 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
                 name: t('statistic.miner_daily_statistics'),
                 type: 'pie',
                 radius: ['40%', '75%'],
-                center: ['50%', '60%'],
+                center: ['50%', isMobile ? '50%' : '60%'],
                 data: chartData,
                 label: {
                     position: 'outside',
