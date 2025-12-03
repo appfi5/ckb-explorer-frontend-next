@@ -253,8 +253,8 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
       </div>
       <div className='bg-[#F5F9FB] dark:bg-[#303030] rounded-[16px] p-3 sm:p-5 my-4'>
         <div className={styles.overviewCell}>
-          <div className="pr-[36px]">
-            <div className="text-[#000000] text-[16px] font-medium mb-[12px]">{t('statistic.abstract_information')}</div>
+          <div className="pr-[32px]">
+            <div className="text-[#000000] dark:text-[var(--color-primary)] text-[16px] font-medium mb-[12px]">{t('statistic.abstract_information')}</div>
             <div>{t('statistic.block_range_total', {
               min: overviewData.minBlockNumber,
               max: overviewData.maxBlockNumber,
@@ -269,7 +269,7 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
             <div className={styles.title}>{t('statistic.total_hashrate')}</div>
             <div>{overviewData.totalHashRate}</div>
           </div>
-          <div className={classNames(styles.cellborder)}>
+          <div className={classNames(styles.cellborder, styles.px32)}>
             <div className={styles.title}>{t('statistic.miner_daily_avgRor')}</div>
             <div>{overviewData.avgRor} CKB/T</div>
           </div>
@@ -277,7 +277,7 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
       </div>
 
       <div className='bg-[#F5F9FB] dark:bg-[#303030] rounded-[16px] p-3 sm:p-5 my-4'>
-        <div className='rounded-sm bg-white dark:bg-[#363839] h-[600px]'>
+        <div className='rounded-sm bg-white dark:bg-[#232323E5] h-[600px]'>
           <StaticOverview overviewData={overviewData} />
         </div>
       </div>

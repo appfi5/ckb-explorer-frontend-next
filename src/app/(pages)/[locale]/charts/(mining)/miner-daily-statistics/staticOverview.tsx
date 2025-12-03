@@ -26,31 +26,23 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
         value: (miner.percent * 100).toFixed(1),
     }));
 
-    const getOddIndexColors = (colorArray) => {
-        if (colorArray.length >= 9) return colorArray;
-
-        const oddColors = colorArray.filter((_, index) => index % 2 === 1);
-        // 若无奇数下标，返回原数组第一个元素
-        return oddColors.length > 0 ? oddColors : [colorArray[0]];
-    };
-
     return {
-        color: getOddIndexColors(colors),
+        color: colors,
         legend: {
+            show: isMobile ? false : true,
             type: 'scroll',
             orient: 'horizontal',
             top: '26px',
             bottom: '40px',
             left: 'center',
             textStyle: {
-                color: isDarkTheme ? '#fff' : '#232323', // 适配暗黑模式文字颜色
-                fontSize: isMobile ? 10 : 12, // 移动端字号缩小
+                color: isDarkTheme ? '#fff' : '#232323', 
+                fontSize: isMobile ? 10 : 12, 
             },
-            itemWidth: 12, // 图例标记宽度
-            itemHeight: 12, // 图例标记高度
-            itemGap: isMobile ? 8 : 12, // 图例项间距
+            itemWidth: 12, 
+            itemHeight: 12, 
+            itemGap: 12, 
             formatter: (name) => {
-                // 图例文本过长时截断（和标签保持一致） return `${address.slice(0, 10)}...${address.slice(-6)}`
                 if (name.length > 15) return `${name.slice(0, 8)}...${name.slice(-4)}`;
                 return name;
             },
@@ -83,10 +75,10 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
                     position: 'outside',
                     align: 'center',
                     color: isDarkTheme ? '#fff' : '#232323',
-                    formatter: '{b}: {c}%', // 显示矿工地址+占比
+                    formatter: '{b}: {c}%', 
                     fontSize: isMobile ? 9 : 12,
-                    overflow: 'truncate', // 地址过长时截断
-                    // width: isMobile ? 80 : 120, // 限制标签宽度
+                    overflow: 'truncate',
+                    // width: isMobile ? 80 : 120,
                 },
                 labelLine: {
                     length: 4,
@@ -94,7 +86,7 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
                 },
                 itemStyle: {
                     borderRadius: 4,
-                    borderColor: isDarkTheme ? '#363839' : '#fff',
+                    borderColor: isDarkTheme ? '#232323E5' : '#fff',
                     borderWidth: 2,
                 },
                 emphasis: {
@@ -109,17 +101,17 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
 
 const StaticOverview = ({ overviewData }: { overviewData: ChartItem.DailyStatistics }) => {
     const isMobile = useIsMobile();
-    const { chartThemeColor } = useChartTheme();
+    const { chartPieColors } = useChartTheme();
 
     return (
         <div className={styles.daoOverviewPanel}>
             <div>
                 <ReactChartCore
-                    option={useOption(overviewData, chartThemeColor.pieColors, isMobile)}
+                    option={useOption(overviewData, chartPieColors, isMobile)}
                     notMerge
                     lazyUpdate
                     style={{
-                        height: '500px',
+                        height: '540px',
                         width: '100%',
                     }}
                     className="flex justify-center items-center"
