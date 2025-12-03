@@ -277,7 +277,7 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
       </div>
 
       <div className='bg-[#F5F9FB] dark:bg-[#303030] rounded-[16px] p-3 sm:p-5 my-4'>
-        <div className='rounded-sm bg-white dark:bg-[#232323E5] h-[600px]'>
+        <div className='rounded-sm bg-white dark:bg-[#232323E5] h-auto px-4 pb-4'>
           <StaticOverview overviewData={overviewData} />
         </div>
       </div>

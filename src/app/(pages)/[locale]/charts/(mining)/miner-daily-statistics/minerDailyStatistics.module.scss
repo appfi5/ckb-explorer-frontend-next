@@ -142,3 +142,42 @@
     }
   }
 }
+
+.minerList{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  .minerItem{
+    display: flex;
+    align-items: center;
+    gap:11px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: #c0cbc84d;
+    cursor: pointer;
+    border: 2px solid transparent;
+
+    &[data-closed="false"] {
+      border-color:transparent;
+    }
+
+    &[data-closed="true"] {
+      border-color:#D9D9D9;
+      background: transparent !important;
+    }
+
+    .minerItemColor{
+      width: 10px;
+      height: 10px;
+      background: #ccc;
+      border-radius: 14px;
+    }
+    .minerItemName{
+      color:#000000;
+      font-size: 12px;
+    }
+  }
+}
