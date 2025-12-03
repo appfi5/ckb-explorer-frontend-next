@@ -54,13 +54,13 @@ const DatePickerDateComponent = ({ timeRange, setSelectedDate, selectedDate }: {
       <div className={`${styles.chartDetailTitleBtn}`}>
         <PixelBorderBlock
           pixelSize="2px"
-          apperanceClassName="*:data-[slot=border]:bg-[#D9D9D9] *:dark:data-[slot=border]:bg-[#4C4C4C] hover:*:data-[slot=bg]:bg-[#ffffff14]"
+          apperanceClassName="*:data-[slot=border]:bg-[#D9D9D9] *:dark:data-[slot=border]:bg-[#4C4C4C] *:dark:data-[slot=bg]:bg-[#303030] hover:*:data-[slot=bg]:bg-[#ffffff14]"
           className="cursor-pointer w-full h-[32px]!"
           contentClassName="h-full flex items-center justify-left px-[9px] text-[14px] leading-[22px]"
         >
-          <div className="w-full flex justify-between items-center text-[#232323] dark:text-[#fff]" onClick={() => setIsOpen(!isOpen)}>
+          <div className="w-full flex justify-between items-center text-[#232323] dark:text-[#999999]" onClick={() => setIsOpen(!isOpen)}>
             {formattedDate}
-            <CalendarIcon />
+            <CalendarIcon className={styles.icons} />
           </div>
         </PixelBorderBlock>
       </div>

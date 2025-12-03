@@ -26,25 +26,6 @@ export const useChartTheme = () => {
         daoColors: ["#00CC9B", "#5700FF", "#232323"],
         secondaryIssuanceColors: ["#484E4E", "#5700FF", "#00CC9B"],
         liquidityColors: ["#5700FF", "#484E4E", "#00CC9B"],
-        pieColors: [
-            "#001611",
-            "#002D22",
-            "#004333",
-            "#005A44",
-            "#007055",
-            "#008766",
-            "#009D77",
-            "#00B488",
-            "#00CC9B",
-            "#1FD2A7",
-            "#3BD8B2",
-            "#57DDBD",
-            "#73E3C8",
-            "#8FE9D3",
-            "#ABEEDE",
-            "#C7F4E9",
-            "#E3F9F4"
-        ]
     };
     const DarkChartColor = {
         areaColor: "#00CC9B",
@@ -66,24 +47,6 @@ export const useChartTheme = () => {
         daoColors: ["#00CC9B", "#9672FA", "#EDF2F2"],
         secondaryIssuanceColors: ["#484E4E", "#9672FA", "#00CC9B"],
         liquidityColors: ["#9672FA", "#484E4E", "#00CC9B"],
-        pieColors: [
-            "#211937",
-            "#322653",
-            "#42326E",
-            "#533F8A",
-            "#634BA5",
-            "#7458C1",
-            "#8464DC",
-            "#9672FA",
-            "#A383FB",
-            "#AE92FB",
-            "#BAA2FC",
-            "#C5B1FC",
-            "#D1C1FD",
-            "#DCD0FD",
-            "#E8E0FE",
-            "#F3EFFF"
-        ]
     }
 
     const lightPieColor = ['#5700FF', '#6839fb', '#794ffb', '#8a65fc', '#9a7bfc', '#ab91fd'];
@@ -94,7 +57,13 @@ export const useChartTheme = () => {
 
     const ChartColor = isDarkTheme ? DarkChartColor : LightChartColor;
 
-    const DaoChartPieColor = [isDarkTheme ? "#EDF2F2" : "#232323", "#5700FF", isTestnet ? "#9672FA" : "#00CC9B"]
+    const DaoChartPieColor = [isDarkTheme ? "#EDF2F2" : "#232323", "#5700FF", isTestnet ? "#9672FA" : "#00CC9B"];
+
+    const morePieColors = ["#F7BB00","#BE9002","#6D5200","#FF890B","#9E4900","#F44222","#8F1C00"]
+    const pieMainNetColors = ["#002D22","#007055","#00CC9B","#00E1D6","#33ADBB","#4ACEFF","#328DD2","#0267B5","#89A39D","#CFECE5","#008F6C","#9672FA"]
+    const pieTestNetColors = ["#322753","#523E99","#9672FA","#6B3CEC","#B8ABD9","#7F6EAC","#9B18EF","#5030BF","#7678E8","#C9CAFF","#0004FF","#00CC9B"]
+
+    const pieColors = isTestnet ? pieTestNetColors : pieMainNetColors;
 
     return {
         axisLabelColor: isDarkTheme ? '#999999' : '#484D4E',
@@ -117,5 +86,6 @@ export const useChartTheme = () => {
         feeColors: ['#0099FF', '#00CC9B', '#FF4545'],
         AreaStyleColors: isTestnet ? testnetAreaStyle : mainnetAreaStyle,
         DaoChartPieColor: DaoChartPieColor,
+        chartPieColors: [...pieColors, ...morePieColors],
     };
 };
