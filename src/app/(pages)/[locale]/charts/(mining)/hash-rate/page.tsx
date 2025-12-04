@@ -141,7 +141,16 @@ export const HashRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }
       description={t('glossary.hash_rate')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticHashRate}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "avg_hash_rate" })}
+      fetchData={async () => {
+        const resList = await server.explorer("GET /daily_statistics/{indicator}", { indicator: "avg_hash_rate" });
+        return resList?.reduce((oList, item) => {
+          if(!+item.avgHashRate) return oList;
+          const iItem = item as unknown as ChartItem.HashRate;
+          item.avgHashRate = new BigNumber(item.avgHashRate).multipliedBy(1000).toString()
+          oList.push(iItem)
+          return oList;
+        }, [] as ChartItem.HashRate[]) ?? [];
+      }}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticHashRate"
