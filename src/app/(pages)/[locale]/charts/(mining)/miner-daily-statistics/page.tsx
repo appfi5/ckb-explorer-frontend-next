@@ -158,15 +158,15 @@ const MinerCardGroup = ({ miners }: { miners: ChartItem.MinerRewardInfo[] }) => 
     },
     {
       title: `${t('statistic.user_reward', { defaultValue: '' })}(CKB)`,
-      content: (miners: ChartItem.MinerRewardInfo) => Number(miners.userReward) / 100000000,
+      content: (miners: ChartItem.MinerRewardInfo) => new BigNumber(miners.userReward).dividedBy(100000000).toString(),
     },
     {
       title: `${t('statistic.miner_percent', { defaultValue: '' })}(%)`,
-      content: (miners: ChartItem.MinerRewardInfo) => (Number(miners.percent) * 100).toFixed(1),
+      content: (miners: ChartItem.MinerRewardInfo) => (new BigNumber(miners.percent).multipliedBy(100)).toFixed(1),
     },
     {
       title: t('statistic.user_hash_rate'),
-      content: (miners: ChartItem.MinerRewardInfo) => Number(miners.userHashRate) * 1000,
+      content: (miners: ChartItem.MinerRewardInfo) => new BigNumber(miners.userHashRate).multipliedBy(1000).toString(),
     }
   ]
 
@@ -243,7 +243,24 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
     )
   }
 
-  const totalBlocks = Number(overviewData.maxBlockNumber) - Number(overviewData.minBlockNumber) > 0 ? Number(overviewData.maxBlockNumber) - Number(overviewData.minBlockNumber) + 1 : 0;
+  const toBigNumber = (value:string | number | BigNumber) => {
+    try {
+      return new BigNumber(value || 0).integerValue();
+    } catch (error) {
+      console.warn('区块号转换失败：', error);
+      return new BigNumber(0);
+    }
+  };
+
+  const maxBlockBN = toBigNumber(overviewData.maxBlockNumber);
+  const minBlockBN = toBigNumber(overviewData.minBlockNumber);
+
+  const blockDiffBN = maxBlockBN.minus(minBlockBN);
+  const totalBlocksBN = blockDiffBN.isGreaterThan(0)
+    ? blockDiffBN.plus(1)
+    : new BigNumber(0);
+
+  const totalBlocks = totalBlocksBN.toNumber();
 
   return (
     <div className='container bg-[white] dark:bg-[#232323E5] dark:border-2 dark:border-[#282B2C] md:shadow-[0_2px_8px_0_rgba(0,0,0,0.1)] rounded-lg p-3 sm:p-5 my-5!'>
@@ -263,11 +280,11 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
           </div>
           <div className={classNames(styles.cellborder)}>
             <div className={styles.title}>{t('statistic.total_reward')}</div>
-            <div>{Number(overviewData.totalReward) / 100000000} CKB</div>
+            <div>{new BigNumber(overviewData.totalReward).dividedBy(100000000).toString()} CKB</div>
           </div>
           <div className={classNames(styles.cellborder)}>
             <div className={styles.title}>{t('statistic.total_hashrate')}</div>
-            <div>{Number(overviewData.totalHashRate) * 1000}</div>
+            <div>{new BigNumber(overviewData.totalHashRate).multipliedBy(1000).toString()}</div>
           </div>
           <div className={classNames(styles.cellborder, styles.px32)}>
             <div className={styles.title}>{t('statistic.miner_daily_avgRor')}</div>
@@ -304,9 +321,9 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
                         </Link>
                       </td>
                       <td className='font-hash'>{data.count}</td>
-                      <td className='font-hash'>{Number(data.userReward) / 100000000}</td>
-                      <td className='font-hash'>{(Number(data.percent) * 100).toFixed(1)}</td>
-                      <td className='font-hash'>{Number(data.userHashRate) * 1000}</td>
+                      <td className='font-hash'>{new BigNumber(data.userReward).dividedBy(100000000).toString()}</td>
+                      <td className='font-hash'>{(new BigNumber(data.percent).multipliedBy(100)).toFixed(1)}</td>
+                      <td className='font-hash'>{new BigNumber(data.userHashRate).multipliedBy(1000).toString()}</td>
                     </tr>
                   )
                 })}

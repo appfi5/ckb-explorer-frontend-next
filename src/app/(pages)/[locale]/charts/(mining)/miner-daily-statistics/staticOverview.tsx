@@ -8,6 +8,7 @@ import { useChartTheme } from '@/hooks/useChartTheme';
 import { useTheme } from '@/components/Theme';
 import { type ChartItem } from '@/server/dataTypes';
 import { localeNumberString } from "@/utils/number";
+import BigNumber from 'bignumber.js'
 
 const formatMinerAddress = (address: string): string => {
     if (address.length <= 12) return address;
@@ -23,7 +24,7 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
     const chartData = miners.map((miner, index) => ({
         name: formatMinerAddress(miner.miner),
         rawData: miner,
-        value: (miner.percent * 100).toFixed(1),
+        value: new BigNumber(miner.percent).multipliedBy(100).toFixed(1),
     }));
 
     return {
@@ -55,8 +56,8 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
                 return `
                 ${t('statistic.miner')}：${name}<br/>
                 ${t('statistic.block_total')}：${localeNumberString(rawData.count)}<br/>
-                ${t('statistic.total_reward')}：${Number(rawData.userReward) / 100000000} CKB<br/>
-                ${t('statistic.total_hashrate')}：${Number(rawData.userHashRate) * 1000}<br/>
+                ${t('statistic.total_reward')}：${new BigNumber(rawData.userReward).dividedBy(100000000).toString()} CKB<br/>
+                ${t('statistic.total_hashrate')}：${new BigNumber(rawData.userHashRate).multipliedBy(1000).toString()}<br/>
                 `;
             },
             backgroundColor: 'rgba(50, 50, 50, 0.7)',
