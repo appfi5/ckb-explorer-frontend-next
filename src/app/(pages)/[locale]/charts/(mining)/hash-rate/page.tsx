@@ -123,7 +123,7 @@ const useOption = (
     dataset: {
       source: statisticHashRates.map(data => [
         dayjs(+data.createdAtUnixtimestamp * 1000).format('YYYY/MM/DD'),
-        new BigNumber(data.avgHashRate).toNumber() * 1000,
+        new BigNumber(data.avgHashRate).toNumber(),
       ]),
       dimensions: ['timestamp', 'value'],
     },
