@@ -157,16 +157,16 @@ const MinerCardGroup = ({ miners }: { miners: ChartItem.MinerRewardInfo[] }) => 
       content: (miners: ChartItem.MinerRewardInfo) => miners.count,
     },
     {
-      title: `${t('statistic.user_reward', { defaultValue: '' })} (CKB)`,
-      content: (miners: ChartItem.MinerRewardInfo) => miners.userReward,
+      title: `${t('statistic.user_reward', { defaultValue: '' })}(CKB)`,
+      content: (miners: ChartItem.MinerRewardInfo) => Number(miners.userReward) / 100000000,
     },
     {
-      title: `${t('statistic.miner_percent', { defaultValue: '' })} (%)`,
-      content: (miners: ChartItem.MinerRewardInfo) => miners.percent,
+      title: `${t('statistic.miner_percent', { defaultValue: '' })}(%)`,
+      content: (miners: ChartItem.MinerRewardInfo) => (Number(miners.percent) * 100).toFixed(1),
     },
     {
       title: t('statistic.user_hash_rate'),
-      content: (miners: ChartItem.MinerRewardInfo) => miners.userHashRate,
+      content: (miners: ChartItem.MinerRewardInfo) => Number(miners.userHashRate) * 1000,
     }
   ]
 
@@ -263,11 +263,11 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
           </div>
           <div className={classNames(styles.cellborder)}>
             <div className={styles.title}>{t('statistic.total_reward')}</div>
-            <div>{overviewData.totalReward} CKB</div>
+            <div>{Number(overviewData.totalReward) / 100000000} CKB</div>
           </div>
           <div className={classNames(styles.cellborder)}>
             <div className={styles.title}>{t('statistic.total_hashrate')}</div>
-            <div>{overviewData.totalHashRate}</div>
+            <div>{Number(overviewData.totalHashRate) * 1000}</div>
           </div>
           <div className={classNames(styles.cellborder, styles.px32)}>
             <div className={styles.title}>{t('statistic.miner_daily_avgRor')}</div>
@@ -290,7 +290,7 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
                   <th className='h-[46px] text-sm! '>{t('statistic.miner')}</th>
                   <th className='h-[46px] text-sm! '>{t('statistic.count')}</th>
                   <th className='h-[46px] text-sm! '>{t('statistic.user_reward')}</th>
-                  <th className='h-[46px] text-sm! '>{t('statistic.miner_percent')} (%)</th>
+                  <th className='h-[46px] text-sm! '>{t('statistic.miner_percent')}(%)</th>
                   <th className='h-[46px] text-sm! '>{t('statistic.user_hash_rate')}</th>
                 </tr>
               </thead>
@@ -304,9 +304,9 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
                         </Link>
                       </td>
                       <td className='font-hash'>{data.count}</td>
-                      <td className='font-hash'>{data.userReward}</td>
-                      <td className='font-hash'>{data.percent}</td>
-                      <td className='font-hash'>{data.userHashRate}</td>
+                      <td className='font-hash'>{Number(data.userReward) / 100000000}</td>
+                      <td className='font-hash'>{(Number(data.percent) * 100).toFixed(1)}</td>
+                      <td className='font-hash'>{Number(data.userHashRate) * 1000}</td>
                     </tr>
                   )
                 })}
