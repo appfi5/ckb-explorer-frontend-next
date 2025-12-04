@@ -240,7 +240,17 @@ export const DifficultyHashRateChart = ({ isThumbnail = false }: { isThumbnail?:
       title={`${t('block.difficulty')} & ${t('block.hash_rate')} & ${t('block.uncle_rate')}`}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticDifficultyHashRate}      
-      fetchData={() => server.explorer("GET /epoch_statistics/{indicator}", { indicator: "difficulty-uncle_rate-hash_rate" })}
+      fetchData={async () => {
+        const resList = await server.explorer("GET /epoch_statistics/{indicator}", { indicator: "difficulty-uncle_rate-hash_rate" });
+        return resList?.reduce((oList, item) => {
+          const iItem = item as unknown as ChartItem.DifficultyHashRate;
+          iItem.epochNumber = item.epochNumber.toString();
+          iItem.uncleRate = new BigNumber(item.uncleRate).toFixed(4);
+          iItem.hashRate = new BigNumber(item.hashRate).multipliedBy(1000).toString();
+          oList.push(iItem)
+          return oList;
+        }, [] as ChartItem.DifficultyHashRate[]) ?? [];
+      }}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticDifficultyHashRate"
