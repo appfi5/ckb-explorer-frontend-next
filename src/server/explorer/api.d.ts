@@ -57,6 +57,8 @@ declare namespace APIExplorer {
 
     holdersCount: number;
 
+    typeScriptResponse: TypeScriptResponse;
+
   }
 
 
@@ -1307,6 +1309,23 @@ declare namespace APIExplorer {
   }
 
 
+  interface TypeScriptResponse {
+
+    type: string;
+
+    args: string;
+
+    codeHash: string;
+
+    hashType: string;
+
+    verifiedScriptName: string;
+
+    scriptHash: string;
+
+  }
+
+
   interface UdtTransactionPageResponse {
 
     /** 主键Id */
@@ -1598,40 +1617,6 @@ declare namespace APIExplorer {
     verifiedScriptName: string;
 
     tags: Array<string>;
-
-  }
-
-
-  interface LockScriptResponse {
-
-    type: string;
-
-    args: string;
-
-    codeHash: string;
-
-    hashType: string;
-
-    verifiedScriptName: string;
-
-    tags: Array<string>;
-
-  }
-
-
-  interface TypeScriptResponse {
-
-    type: string;
-
-    args: string;
-
-    codeHash: string;
-
-    hashType: string;
-
-    verifiedScriptName: string;
-
-    scriptHash: string;
 
   }
 

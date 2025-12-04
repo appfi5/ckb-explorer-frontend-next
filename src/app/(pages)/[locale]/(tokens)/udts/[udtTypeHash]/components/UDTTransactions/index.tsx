@@ -11,11 +11,12 @@ import classNames from "classnames"
 import { useRouter } from "next/navigation"
 import type { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
+import type { UDTDetail } from "../../utils"
 
 
 
 type AddressTransactionsProps = {
-  udtInfo: APIExplorer.UdtDetailResponse & { typeScriptHash: string }
+  udtInfo: UDTDetail
 }
 
 export default function UDTTransactions(props: AddressTransactionsProps) {
@@ -95,7 +96,7 @@ export default function UDTTransactions(props: AddressTransactionsProps) {
                     showBlockInfo
                   />
                 ))}
-                {txList.length === 0 ? <Empty className="mt-3 sm:mt-5 min-h-[40px] gap-2" message={t(`transaction.no_records`)} /> : null}
+                {txList.length === 0 ? <Empty className="mt-3 sm:mt-5 min-h-10 gap-2" message={t(`transaction.no_records`)} /> : null}
               </div>
               <Pagination
                 total={total}
@@ -120,7 +121,7 @@ function Tabs<T extends string>({ currentTab, tabs, onTabChange }: { currentTab:
       {tabs.map((tab) => (
         <div
           key={tab.key}
-          className={classNames("text-base sm:text-[18px] leading-[24px]", "relative cursor-pointer", currentTab !== tab.key ? "text-[#999]" : "font-medium")}
+          className={classNames("text-base sm:text-[18px] leading-6", "relative cursor-pointer", currentTab !== tab.key ? "text-[#999]" : "font-medium")}
           onClick={() => onTabChange(tab.key)}
         >
           {tab.label}
