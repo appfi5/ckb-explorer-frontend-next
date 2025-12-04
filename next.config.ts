@@ -125,6 +125,14 @@ const config: NextConfig = {
     return config;
   },
 
+  rewrites: process.env.NODE_ENV === "development" ? async function () {
+    return [
+      {
+        source: "/api/:path*",
+        destination: `${process.env.NEXT_PUBLIC_EXPLORER_SERVICE_URL}/api/:path*`,
+      },
+    ];
+  } : undefined,
   // compiler: {
   //   removeConsole: IS_PROD ? { exclude: ["error"] } : false,
   // }
