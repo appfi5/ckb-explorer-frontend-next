@@ -35,12 +35,12 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
             left: 'center',
             icon: "circle",
             textStyle: {
-                color: isDarkTheme ? '#fff' : '#232323', 
-                fontSize: isMobile ? 10 : 12, 
+                color: isDarkTheme ? '#fff' : '#232323',
+                fontSize: isMobile ? 10 : 12,
             },
-            itemWidth: 12, 
-            itemHeight: 12, 
-            itemGap: 12, 
+            itemWidth: 12,
+            itemHeight: 12,
+            itemGap: 12,
             formatter: (name) => {
                 if (name.length > 15) return `${name.slice(0, 8)}...${name.slice(-4)}`;
                 return name;
@@ -55,8 +55,8 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
                 return `
                 ${t('statistic.miner')}：${name}<br/>
                 ${t('statistic.block_total')}：${localeNumberString(rawData.count)}<br/>
-                ${t('statistic.total_reward')}：${localeNumberString(rawData.userReward)} CKB<br/>
-                ${t('statistic.total_hashrate')}：${localeNumberString(rawData.userHashRate)}<br/>
+                ${t('statistic.total_reward')}：${Number(rawData.userReward) / 100000000} CKB<br/>
+                ${t('statistic.total_hashrate')}：${Number(rawData.userHashRate) * 1000}<br/>
                 `;
             },
             backgroundColor: 'rgba(50, 50, 50, 0.7)',
@@ -74,7 +74,7 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
                     position: 'outside',
                     align: 'center',
                     color: isDarkTheme ? '#fff' : '#232323',
-                    formatter: '{b}: {c}%', 
+                    formatter: '{b}: {c}%',
                     fontSize: isMobile ? 9 : 12,
                     overflow: 'truncate',
                     // width: isMobile ? 80 : 120,
