@@ -260,8 +260,6 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
     ? blockDiffBN.plus(1)
     : new BigNumber(0);
 
-  const totalBlocks = totalBlocksBN.toNumber();
-
   return (
     <div className='container bg-[white] dark:bg-[#232323E5] dark:border-2 dark:border-[#282B2C] md:shadow-[0_2px_8px_0_rgba(0,0,0,0.1)] rounded-lg p-3 sm:p-5 my-5!'>
       <div className="flex items-center gap-[34px]">
@@ -275,7 +273,7 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
             <div>{t('statistic.block_range_total', {
               min: overviewData.minBlockNumber,
               max: overviewData.maxBlockNumber,
-              total: totalBlocks
+              total: totalBlocksBN
             })}</div>
           </div>
           <div className={classNames(styles.cellborder)}>
