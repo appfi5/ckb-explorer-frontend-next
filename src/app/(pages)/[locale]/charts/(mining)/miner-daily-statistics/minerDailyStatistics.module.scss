@@ -1,0 +1,183 @@
+@use '@/styles/variables.module';
+
+.dateContainer{
+  :global(.rdp-root) {
+    --rdp-accent-color: var(--color-primary);
+    --rdp-accent-background-color: var(--color-primary); 
+  }
+}
+
+.chartDetailTitleBtn{
+  width: 180px;
+  height: 32px;
+  &:hover{
+    path{
+      fill: var(--color-primary);
+    }
+    .chartDesc{
+      color: var(--color-primary);
+    }
+    i{
+      background: var(--color-primary);
+    }
+  }
+
+  .icons{
+    path {
+      fill: #484D4E;
+    }
+
+    @variant dark {
+      path {
+        fill: #999999;
+      }
+    }
+  }
+}
+.list {
+  cursor: default;
+
+  table {
+    background: #fff;
+    font-family: var(--font-hash);
+    margin-bottom: 30px;
+    max-width: 100%;
+    width: 100%;
+    table-layout: fixed;
+    text-align: left;
+    th {
+      line-height: 2;
+    }
+
+    th,
+    td {
+      padding: 0 20px;
+      line-height: 2;
+
+      @media (width <= 480px) {
+        padding: 0 4px;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+    }
+
+    th:nth-child(1),
+    td:nth-child(1) {
+      // width: 300px;
+    }
+
+    @variant dark {
+      background: transparent;
+    }
+
+  }
+
+}
+
+
+.address {
+  a > div {
+    font-family: var(--font-hash) !important;
+  }
+
+  &:hover{
+    color: var(--color-primary) !important;
+  }
+}
+
+.minerCardGroupSty{
+  div{
+    background: transparent;
+  }
+}
+
+.overviewCell{
+  padding: 32px 30px;
+  border-radius: 4px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+
+  @variant dark {
+    background: #232323E5;
+  }
+
+  .cellborder {
+    border-left: 1px solid #d9d9d9;
+    padding-left: 32px;
+    padding-right: 32px;
+    @variant dark {
+      border-left: 1px solid #4C4C4C;
+    }
+  }
+  .px32{
+    padding-right: 0;
+  }
+
+  .title{
+    color: #666666;
+    margin-bottom: 12px;
+    @variant dark {
+      color: #999999;
+    }
+  }
+
+  @media (width <= variables.$extraLargeBreakPoint) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+    .cellborder{
+      border-left: none;
+      padding: 0;
+    }
+  }
+
+  @media (width <= variables.$mobileBreakPoint) {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 30px;
+    .cellborder{
+      border-left: none;
+      padding: 0;
+    }
+  }
+}
+
+.minerList{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  .minerItem{
+    display: flex;
+    align-items: center;
+    gap:11px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: #c0cbc84d;
+    cursor: pointer;
+    border: 2px solid transparent;
+
+    &[data-closed="false"] {
+      border-color:transparent;
+    }
+
+    &[data-closed="true"] {
+      border-color:#D9D9D9;
+      background: transparent !important;
+    }
+
+    .minerItemColor{
+      width: 10px;
+      height: 10px;
+      background: #ccc;
+      border-radius: 14px;
+    }
+    .minerItemName{
+      color:#000000;
+      font-size: 12px;
+    }
+  }
+}

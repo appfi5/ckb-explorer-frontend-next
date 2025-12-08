@@ -47,3 +47,5 @@ yarn-error.log*
 
 # sitemap
 /public/sitemap*.xml
+
+/api-scripts

@@ -14,7 +14,9 @@ import server from "@/server";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
 import Tooltip from "@/components/Tooltip";
 import { DialogTitle } from "@radix-ui/react-dialog";
-export default function UDTHolders({ udtInfo }: { udtInfo: APIExplorer.UdtDetailResponse & { typeScriptHash: string } }) {
+import type { UDTDetail } from "../../utils";
+
+export default function UDTHolders({ udtInfo }: { udtInfo: UDTDetail }) {
   const { data: holderCategory, isLoading } = useQuery({
     queryKey: ['udt-holder-list', udtInfo.typeScriptHash],
     queryFn: async () => {
@@ -49,7 +51,7 @@ export default function UDTHolders({ udtInfo }: { udtInfo: APIExplorer.UdtDetail
 }
 
 
-function UDTHoldersInner({ holderCategory, udtInfo }: { udtInfo: APIExplorer.UdtDetailResponse, holderCategory: { btcCount: number, ckbList: APIExplorer.UdtHolderAllocationsResponse[], ckbCount: number } }) {
+function UDTHoldersInner({ holderCategory, udtInfo }: { udtInfo: UDTDetail, holderCategory: { btcCount: number, ckbList: APIExplorer.UdtHolderAllocationsResponse[], ckbCount: number } }) {
   const btcHoldersCount = holderCategory.btcCount;
   const ckbHoldersCount = holderCategory.ckbCount;
   const { t } = useTranslation();
@@ -114,8 +116,8 @@ function ModalContent({ ckbHoldersCount, btcHoldersCount, ckbLockHashes }: {
         })}
       </div>
       <div className="max-h-[50vh] overflow-y-auto">
-        <div className="border border-[#eee] dark:border-[#4c4c4c] rounded-[8px] w-auto md:w-[420px]  m-auto">
-          <div className="rounded-t-[8px] bg-[#F5F9FB] dark:bg-[#363839] flex flex-row items-center justify-between p-3">
+        <div className="border border-[#eee] dark:border-[#4c4c4c] rounded-lg w-auto md:w-[420px]  m-auto">
+          <div className="rounded-t-lg bg-[#F5F9FB] dark:bg-[#363839] flex flex-row items-center justify-between p-3">
             <span className="font-medium">{t("xudt.lock_hash")}</span>
             <span className="font-medium">{t("xudt.count")}</span>
           </div>
