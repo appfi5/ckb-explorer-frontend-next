@@ -11,7 +11,7 @@ import server from "@/server";
 import { useChartTheme } from "@/hooks/useChartTheme";
 import BigNumber from 'bignumber.js'
 import dayjs from 'dayjs'
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import "react-day-picker/style.css";
 import { useQuery } from '@tanstack/react-query';
 import StaticOverview from './staticOverview';
@@ -19,9 +19,10 @@ import styles from './minerDailyStatistics.module.scss';
 import Link from 'next/link';
 import TextEllipsis from '@/components/TextEllipsis'
 import { type CardCellFactory, CardListWithCellsList } from '@/components/CardList'
-import { useMediaQuery, useIsMobile } from '@/hooks'
+import { useMediaQuery } from '@/hooks'
 import DatePickerDateComponent from './datePickerDateComponent'
 import classNames from 'classnames'
+import { handleHashRate } from "@/utils/number";
 
 const useOption = (
   minerDailyStatistics: ChartItem.DailyStatistics[],
@@ -166,7 +167,7 @@ const MinerCardGroup = ({ miners }: { miners: ChartItem.MinerRewardInfo[] }) => 
     },
     {
       title: t('statistic.user_hash_rate'),
-      content: (miners: ChartItem.MinerRewardInfo) => new BigNumber(miners.userHashRate).multipliedBy(1000).toString(),
+      content: (miners: ChartItem.MinerRewardInfo) => miners.userHashRate ? handleHashRate(new BigNumber(miners.userHashRate).multipliedBy(1000).toString()) : '-',
     }
   ]
 
@@ -183,7 +184,6 @@ const MinerCardGroup = ({ miners }: { miners: ChartItem.MinerRewardInfo[] }) => 
 export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const [t] = useTranslation()
   const isMaxW = useMediaQuery(`(max-width: 1100px)`)
-  const isMobile = useIsMobile();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
 
   const timeRangeQuery = useQuery({
@@ -235,7 +235,13 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
       <SmartChartPage
         title={t('statistic.miner_daily_statistics')}
         isThumbnail={isThumbnail}
-        fetchData={() => server.explorer("GET /miner_daily_statistics/avg_ror")}
+        fetchData={async () => {
+          const result = await server.explorer("GET /miner_daily_statistics/avg_ror");
+          const sortedData = result?.length ? result.sort((a, b) => {
+            return a.createdAtUnixtimestamp - b.createdAtUnixtimestamp;
+          }) : [];
+          return sortedData;
+        }}
         getEChartOption={useOption}
         toCSV={toCSV}
         queryKey="fetchMinerDailyStatistics"
@@ -243,11 +249,10 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
     )
   }
 
-  const toBigNumber = (value:string | number | BigNumber) => {
+  const toBigNumber = (value: string | number | BigNumber) => {
     try {
       return new BigNumber(value || 0).integerValue();
     } catch (error) {
-      console.warn('区块号转换失败：', error);
       return new BigNumber(0);
     }
   };
@@ -282,7 +287,7 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
           </div>
           <div className={classNames(styles.cellborder)}>
             <div className={styles.title}>{t('statistic.total_hashrate')}</div>
-            <div>{new BigNumber(overviewData.totalHashRate).multipliedBy(1000).toString()}</div>
+            <div>{overviewData.totalHashRate ? handleHashRate(new BigNumber(overviewData.totalHashRate).multipliedBy(1000).toString()) : '-'}</div>
           </div>
           <div className={classNames(styles.cellborder, styles.px32)}>
             <div className={styles.title}>{t('statistic.miner_daily_avgRor')}</div>
@@ -304,7 +309,7 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
                 <tr>
                   <th className='h-[46px] text-sm! '>{t('statistic.miner')}</th>
                   <th className='h-[46px] text-sm! '>{t('statistic.count')}</th>
-                  <th className='h-[46px] text-sm! '>{t('statistic.user_reward')}</th>
+                  <th className='h-[46px] text-sm! '>{t('statistic.user_reward')}(CKB)</th>
                   <th className='h-[46px] text-sm! '>{t('statistic.miner_percent')}(%)</th>
                   <th className='h-[46px] text-sm! '>{t('statistic.user_hash_rate')}</th>
                 </tr>
@@ -321,7 +326,7 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
                       <td className='font-hash'>{data.count}</td>
                       <td className='font-hash'>{new BigNumber(data.userReward).dividedBy(100000000).toString()}</td>
                       <td className='font-hash'>{(new BigNumber(data.percent).multipliedBy(100)).toFixed(1)}</td>
-                      <td className='font-hash'>{new BigNumber(data.userHashRate).multipliedBy(1000).toString()}</td>
+                      <td className='font-hash'>{data.userHashRate ? handleHashRate(new BigNumber(data.userHashRate).multipliedBy(1000).toString()) : '-'}</td>
                     </tr>
                   )
                 })}

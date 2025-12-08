@@ -26,7 +26,6 @@ const DatePickerDateComponent = ({ timeRange, setSelectedDate, selectedDate }: {
   const [isOpen, setIsOpen] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
 
-  // 格式化日期显示（输入框中）
   const formattedDate = selectedDate
     ? dayjs(selectedDate).format("YYYY-MM-DD")
     : "请选择日期";
@@ -36,8 +35,8 @@ const DatePickerDateComponent = ({ timeRange, setSelectedDate, selectedDate }: {
   };
 
   useEffect(() => {
-    setSelectedDate(new Date(startTimestamp));
-  }, [startTimestamp]);
+    setSelectedDate(new Date(endTimestamp));
+  }, [endTimestamp]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -77,7 +76,7 @@ const DatePickerDateComponent = ({ timeRange, setSelectedDate, selectedDate }: {
               setIsOpen(false);
             }}
             captionLayout="dropdown"
-            defaultMonth={new Date(startTimestamp)}
+            defaultMonth={new Date(endTimestamp)}
             startMonth={new Date(startTimestamp)}
             endMonth={new Date(endTimestamp)}
           />

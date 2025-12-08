@@ -9,6 +9,7 @@ import { useTheme } from '@/components/Theme';
 import { type ChartItem } from '@/server/dataTypes';
 import { localeNumberString } from "@/utils/number";
 import BigNumber from 'bignumber.js'
+import { handleHashRate } from "@/utils/number";
 
 const formatMinerAddress = (address: string): string => {
     if (address.length <= 12) return address;
@@ -57,7 +58,7 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
                 ${t('statistic.miner')}：${name}<br/>
                 ${t('statistic.block_total')}：${localeNumberString(rawData.count)}<br/>
                 ${t('statistic.total_reward')}：${new BigNumber(rawData.userReward).dividedBy(100000000).toString()} CKB<br/>
-                ${t('statistic.total_hashrate')}：${new BigNumber(rawData.userHashRate).multipliedBy(1000).toString()}<br/>
+                ${t('statistic.total_hashrate')}：${rawData.userHashRate ? handleHashRate(new BigNumber(rawData.userHashRate).multipliedBy(1000).toString()) : '-'}<br/>
                 `;
             },
             backgroundColor: 'rgba(50, 50, 50, 0.7)',
