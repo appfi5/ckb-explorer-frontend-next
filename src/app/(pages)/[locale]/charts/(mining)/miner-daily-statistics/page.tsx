@@ -19,7 +19,7 @@ import styles from './minerDailyStatistics.module.scss';
 import Link from 'next/link';
 import TextEllipsis from '@/components/TextEllipsis'
 import { type CardCellFactory, CardListWithCellsList } from '@/components/CardList'
-import { useMediaQuery, useIsMobile } from '@/hooks'
+import { useMediaQuery } from '@/hooks'
 import DatePickerDateComponent from './datePickerDateComponent'
 import classNames from 'classnames'
 import { handleHashRate } from "@/utils/number";
