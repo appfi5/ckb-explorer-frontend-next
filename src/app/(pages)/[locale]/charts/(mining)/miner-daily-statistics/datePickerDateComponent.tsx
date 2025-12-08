@@ -26,7 +26,6 @@ const DatePickerDateComponent = ({ timeRange, setSelectedDate, selectedDate }: {
   const [isOpen, setIsOpen] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
 
-  // 格式化日期显示（输入框中）
   const formattedDate = selectedDate
     ? dayjs(selectedDate).format("YYYY-MM-DD")
     : "请选择日期";

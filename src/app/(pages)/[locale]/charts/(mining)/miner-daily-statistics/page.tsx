@@ -11,7 +11,7 @@ import server from "@/server";
 import { useChartTheme } from "@/hooks/useChartTheme";
 import BigNumber from 'bignumber.js'
 import dayjs from 'dayjs'
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import "react-day-picker/style.css";
 import { useQuery } from '@tanstack/react-query';
 import StaticOverview from './staticOverview';
@@ -184,7 +184,6 @@ const MinerCardGroup = ({ miners }: { miners: ChartItem.MinerRewardInfo[] }) => 
 export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const [t] = useTranslation()
   const isMaxW = useMediaQuery(`(max-width: 1100px)`)
-  const isMobile = useIsMobile();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
 
   const timeRangeQuery = useQuery({
@@ -230,8 +229,6 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
     }
     return minerDailyStatisticsQuery.data;
   }, [minerDailyStatisticsQuery.data]);
-
-
 
   if (isThumbnail) {
     return (
