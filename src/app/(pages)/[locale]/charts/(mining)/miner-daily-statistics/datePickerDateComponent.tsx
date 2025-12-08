@@ -36,8 +36,8 @@ const DatePickerDateComponent = ({ timeRange, setSelectedDate, selectedDate }: {
   };
 
   useEffect(() => {
-    setSelectedDate(new Date(startTimestamp));
-  }, [startTimestamp]);
+    setSelectedDate(new Date(endTimestamp));
+  }, [endTimestamp]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -77,7 +77,7 @@ const DatePickerDateComponent = ({ timeRange, setSelectedDate, selectedDate }: {
               setIsOpen(false);
             }}
             captionLayout="dropdown"
-            defaultMonth={new Date(startTimestamp)}
+            defaultMonth={new Date(endTimestamp)}
             startMonth={new Date(startTimestamp)}
             endMonth={new Date(endTimestamp)}
           />
