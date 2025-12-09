@@ -196,7 +196,7 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
   })
 
   const timeRange = useMemo(() => {
-    if (!timeRangeQuery.data) return { startTime: new Date(), endTime: new Date() }
+    if (!timeRangeQuery.data) return { startTime: '', endTime: '' }
     return {
       startTime: new Date(timeRangeQuery.data.startTime),
       endTime: new Date(timeRangeQuery.data.endTime),
