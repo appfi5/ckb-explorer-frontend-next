@@ -148,7 +148,7 @@ export function TokensCard({
 }) {
   const { t } = useTranslation()
   const filterList = createGetfilterList(isXudts)(t);
-  const sortParamByQuery = useSortParam<SortField>(undefined, 'transactions.desc')
+  const sortParamByQuery = useSortParam<SortField>(undefined, 'h24CkbTransactionsCount.desc')
   const { sortBy, orderBy, handleSortClick, updateOrderBy } = sortParam ?? sortParamByQuery
   return (
     <>
@@ -390,7 +390,7 @@ const UDTList = ({ isXudts, isPagination }: XudtsProps) => {
   const tags = searchParams.tags || ''
   const [isSubmitTokenInfoModalOpen, setIsSubmitTokenInfoModalOpen] = useState<boolean>(false)
   const { currentPage, pageSize: _pageSize, setPage, setPageSize } = usePaginationParamsInPage()
-  const sortParam = useSortParam<SortField>(undefined, 'transactions.desc')
+  const sortParam = useSortParam<SortField>(undefined, 'h24CkbTransactionsCount.desc')
   const { sort } = sortParam
 
 
