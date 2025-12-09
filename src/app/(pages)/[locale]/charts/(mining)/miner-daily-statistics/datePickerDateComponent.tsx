@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect,useCallback } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import dayjs from "dayjs";
@@ -36,7 +36,7 @@ const DatePickerDateComponent = ({ timeRange, setSelectedDate, selectedDate }: {
 
   useEffect(() => {
     setSelectedDate(new Date(endTimestamp));
-  }, [endTimestamp]);
+  }, [endTimestamp,setSelectedDate]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
