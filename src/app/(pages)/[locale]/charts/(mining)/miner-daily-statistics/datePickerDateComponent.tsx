@@ -20,8 +20,11 @@ const DatePickerDateComponent = ({ timeRange, setSelectedDate, selectedDate }: {
   const IsZhCN = i18n.language === "zh";
   const startTimestamp = Number(timeRange.startTime) * 1000;
   const startDate = new Date(startTimestamp);
-  const newStartDate =  startDate.setDate(startDate.getDate() - 1);
+  const newStartDate = startDate.setDate(startDate.getDate() - 1);
   const endTimestamp = Number(timeRange.endTime) * 1000;
+
+  const isStartValid = !!startTimestamp && !isNaN(startTimestamp);
+  const isEndValid = !!endTimestamp && !isNaN(endTimestamp);
 
   const [isOpen, setIsOpen] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
@@ -30,8 +33,13 @@ const DatePickerDateComponent = ({ timeRange, setSelectedDate, selectedDate }: {
     ? dayjs(selectedDate).format("YYYY-MM-DD")
     : "请选择日期";
 
+
   const disabledDate = (date: Date) => {
-    return date < new Date(newStartDate) || date > new Date(endTimestamp);
+    if (isStartValid && isEndValid) {
+      return date < new Date(newStartDate) || date > new Date(endTimestamp);
+    }
+
+    return false;
   };
 
   useEffect(() => {
@@ -78,9 +86,10 @@ const DatePickerDateComponent = ({ timeRange, setSelectedDate, selectedDate }: {
               setIsOpen(false);
             }}
             captionLayout="dropdown"
-            defaultMonth={new Date(endTimestamp)}
-            startMonth={new Date(startTimestamp)}
-            endMonth={new Date(endTimestamp)}
+            defaultMonth={isEndValid ? new Date(endTimestamp) : new Date()}
+            {...(isStartValid ? { startMonth: new Date(startTimestamp) } : {})}
+            {...(isEndValid ? { endMonth: new Date(endTimestamp) } : {})}
+
           />
         </div>
       )}
