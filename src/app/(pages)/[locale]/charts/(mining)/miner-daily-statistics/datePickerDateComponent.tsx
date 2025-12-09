@@ -89,7 +89,6 @@ const DatePickerDateComponent = ({ timeRange, setSelectedDate, selectedDate }: {
             defaultMonth={isEndValid ? new Date(endTimestamp) : new Date()}
             {...(isStartValid ? { startMonth: new Date(startTimestamp) } : {})}
             {...(isEndValid ? { endMonth: new Date(endTimestamp) } : {})}
-
           />
         </div>
       )}
