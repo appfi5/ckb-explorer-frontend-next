@@ -391,7 +391,20 @@
     "over_three_years": "> 3y",
     "ckb_hodl_wave": "CKB HODL Wave",
     "h24_transaction_count": "24hr Transaction Count",
-    "holder_count": "Holder Count"
+    "holder_count": "Holder Count",
+    "miner_daily_avgRor": "Avg ROR",
+    "miner_daily_statistics": "Miner Daily Statistics",
+    "block_total": "Block Total",
+    "total_reward": "Total Reward",
+    "total_hashrate": "Total Hashrate",
+    "miner": "Miner",
+    "count": "Count",
+    "user_reward": "User_Reward",
+    "miner_percent": "Percent",
+    "user_hash_rate": "User_Hash_Rate",
+    "relative_proportion": "Relative Proportion",
+    "abstract_information": "Abstract Information",
+    "block_range_total": "Blockno from {{min}} to {{max}}, total {{total}}" 
   },
   "home": {
     "height": "Height",
@@ -674,12 +687,12 @@
     "since": {
       "relative": {
         "epoch": "{{since}} epochs since committed",
-        "block": "{{since}} blocks since committed",
+        "blockNumber": "{{since}} blocks since committed",
         "timestamp": "{{since}} since committed"
       },
       "absolute": {
         "epoch": "epoch {{since}}",
-        "block": "block {{since}}",
+        "blockNumber": "block {{since}}",
         "timestamp": "{{since}}"
       }
     },

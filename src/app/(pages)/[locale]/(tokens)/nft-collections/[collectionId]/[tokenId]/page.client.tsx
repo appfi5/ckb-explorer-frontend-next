@@ -17,6 +17,9 @@ import type { ParsedTrait } from "@nervape/dob-render"
 import { getDob0Traits } from "@/utils/spore"
 import parseData from "@/components/Cell/dataDecoder"
 import { CellType } from "@/components/Cell/utils"
+import Tooltip from "@/components/Tooltip"
+import CellModal from "@/components/Cell/CellModal"
+import InfoIcon from '@/assets/icons/info.svg?component';
 
 type NFTDetail = APIExplorer.NftItemResponse & { traits?: ParsedTrait[] };
 const UNIQUE_ITEM_LABEL = 'Unique Item';
@@ -91,7 +94,7 @@ function NFTOverview({ detail, collection }: { detail: NFTDetail, collection: AP
         }
       </AssetContainer>
       <div className="flex-1">
-        <div className="font-medium text-[#000] dark:text-white text-base md:text-2xl break-all">
+        <div className="font-medium text-black dark:text-white text-base md:text-2xl break-all">
           {detail
             ? `${collection?.name ?? UNIQUE_ITEM_LABEL} ${formatNftDisplayId(detail.tokenId, "spore")}`
             : '-'}
@@ -141,7 +144,7 @@ function NFTOverview({ detail, collection }: { detail: NFTDetail, collection: AP
             DOB
           </DescItem>
 
-          <DOBTraits traits={detail.traits} />
+          <DOBTraits traits={detail.traits} tokenId={detail.tokenId} />
         </div>
 
       </div>
@@ -162,7 +165,7 @@ const HIDDEN_KEY = [
   'block_number', // unicorn
 ]
 
-function DOBTraits({ traits }: { traits?: ParsedTrait[] }) {
+function DOBTraits({ traits, tokenId }: { traits?: ParsedTrait[], tokenId: string }) {
   const { t } = useTranslation("tokens")
   const filteredTraits = traits?.filter(trait => !HIDDEN_KEY.includes(trait.name)) ?? []
   if (!filteredTraits?.length) return null;
@@ -172,15 +175,52 @@ function DOBTraits({ traits }: { traits?: ParsedTrait[] }) {
       <div className="flex flex-row flex-wrap gap-2">
         {filteredTraits
           .map(trait => (
-            <div
-              key={trait.name}
-              className="bg-[#F5F9FB] dark:bg-[#363839] flex-none p-3 rounded-lg max-w-[200px]"
-            >
-              <div className="text-xs text-[#909399] dark:text-[#999]">{trait.name}</div>
-              <div className="text-xs truncate">{trait.value as string}</div>
-            </div>
+            <TraitItem key={trait.name} trait={trait} tokenId={tokenId} />
           ))}
       </div>
     </DescItem>
+  )
+}
+
+
+function TraitItem({ trait, tokenId }: { trait: ParsedTrait, tokenId: string }) {
+  const { t } = useTranslation()
+
+  // Bescard related CKB | UDT Cell
+  const { data: cellId } = useQuery({
+    queryKey: ["trait", trait.name, trait.value],
+    queryFn: async () => {
+      const traitValue = await server.explorer("GET /nft/storeCell/{tokenId}", { tokenId })
+      return traitValue
+    },
+    enabled: trait.name === "StoredValue" && !!tokenId
+  })
+  return (
+    <div
+      key={trait.name}
+      className="bg-[#F5F9FB] dark:bg-[#363839] flex-none p-3 rounded-lg max-w-[200px] flex flex-row items-center gap-2"
+    >
+      <div>
+        <div className="text-xs text-[#909399] dark:text-[#999]">{trait.name}</div>
+        <div className="text-xs truncate">{trait.value as string}</div>
+      </div>
+      {
+        !!cellId && (
+          <Tooltip
+            asChild={false}
+            trigger={
+              <CellModal cell={{ id: cellId }}>
+                <div className="flex size-5">
+                  <InfoIcon width="100%" height="100%" className={styles.infoIcon} />
+                </div>
+              </CellModal>
+            }
+            placement="top"
+          >
+            {`${t("transaction.cell-info")} `}
+          </Tooltip>
+        )
+      }
+    </div>
   )
 }

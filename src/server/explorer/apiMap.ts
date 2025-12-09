@@ -5,7 +5,7 @@ import defineAPI from "./defineAPI";
 
 const apiMap = {
   /** UDT列表 */
-  "GET /udts": defineAPI<null, Array<APIExplorer.UdtsListResponse>>("/udts", "GET"),
+  "GET /udts": defineAPI<APIExplorer.UdtPageReq, APIExplorer.PageUdtsListResponse>("/udts", "GET"),
   /** UDT详情 */
   "GET /udts/{typeScriptHash}": defineAPI<{ typeScriptHash: string }, APIExplorer.UdtDetailResponse>("/udts/{typeScriptHash}", "GET", {divider: {"path":["typeScriptHash"]}}),
   /** Udt holder allocation */
@@ -20,6 +20,8 @@ const apiMap = {
   "GET /statistics": defineAPI<null, APIExplorer.IndexStatisticResponse>("/statistics", "GET"),
   /** 获取指定统计信息 */
   "GET /statistics/{fieldName}": defineAPI<{ fieldName: string }, APIExplorer.StatisticResponse>("/statistics/{fieldName}", "GET", {divider: {"path":["fieldName"]}}),
+  /** 获取store cell */
+  "GET /nft/storeCell/{tokenId}": defineAPI<{ tokenId: string }, number>("/nft/storeCell/{tokenId}", "GET", {divider: {"path":["tokenId"]}}),
   /** 获取collections列表 */
   "GET /nft/collections": defineAPI<APIExplorer.CollectionsPageReq, APIExplorer.PageCollectionsResp>("/nft/collections", "GET"),
   /** 获取collections详情 */
@@ -36,6 +38,12 @@ const apiMap = {
   "GET /nets/version": defineAPI<null, APIExplorer.NetInfoResponse>("/nets/version", "GET"),
   /**  */
   "GET /monetary_data/{indicator}": defineAPI<{ indicator: string }, APIExplorer.MonetaryDataResponse>("/monetary_data/{indicator}", "GET", {divider: {"path":["indicator"]}}),
+  /** 获取指定日期的统计数据 */
+  "GET /miner_daily_statistics/{date}": defineAPI<{ date: string }, APIExplorer.MinerDailyStatisticsResponse>("/miner_daily_statistics/{date}", "GET", {divider: {"path":["date"]}}),
+  /** 获取已统计的开始结束时间 */
+  "GET /miner_daily_statistics/start_end_time": defineAPI<null, APIExplorer.MinerDailyStatisticsStartEndTimeResponse>("/miner_daily_statistics/start_end_time", "GET"),
+  /** 获取矿工统计信息索引 */
+  "GET /miner_daily_statistics/avg_ror": defineAPI<null, Array<APIExplorer.MinerDailyStatisticsResponse>>("/miner_daily_statistics/avg_ror", "GET"),
   /**  */
   "GET /epoch_statistics/{indicator}": defineAPI<{ indicator: string,limit?: number }, Array<APIExplorer.EpochStatisticsResponse>>("/epoch_statistics/{indicator}", "GET", {divider: {"path":["indicator"]}}),
   /** 获取分布数据 */
@@ -58,10 +66,6 @@ const apiMap = {
   "GET /ckb_transactions/{txHash}/display_inputs": defineAPI<APIExplorer.BasePageReq & { txHash: string }, APIExplorer.PageCellInputResponse>("/ckb_transactions/{txHash}/display_inputs", "GET", {divider: {"path":["txHash"]}}),
   /** 获取首页交易列表 */
   "GET /ckb_transactions/homePage": defineAPI<{ pageSize: number }, Array<APIExplorer.TransactionPageResponse>>("/ckb_transactions/homePage", "GET"),
-  /** 获取CellOutput的type_script信息 */
-  "GET /cell_output_type_scripts/{id}": defineAPI<{ id: string }, APIExplorer.LockScriptResponse>("/cell_output_type_scripts/{id}", "GET", {divider: {"path":["id"]}}),
-  /** 获取CellOutput的lock_script信息 */
-  "GET /cell_output_lock_scripts/{id}": defineAPI<{ id: string }, APIExplorer.LockScriptResponse>("/cell_output_lock_scripts/{id}", "GET", {divider: {"path":["id"]}}),
   /** 获取CellOutput的数据 */
   "GET /cell_output_data/{id}": defineAPI<{ id: string }, APIExplorer.CellOutputDataResponse>("/cell_output_data/{id}", "GET", {divider: {"path":["id"]}}),
   /** 获取CellInfo的数据 */
