@@ -64,7 +64,7 @@
     "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.536.0",
-    "next": "^15.2.3",
+    "next": "^15.5.7",
     "next-i18n-router": "^5.5.3",
     "observable-hooks": "^4.2.4",
     "qrcode": "^1.5.4",

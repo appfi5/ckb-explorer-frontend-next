@@ -402,9 +402,22 @@
     "over_three_years": "> 3年",
     "ckb_hodl_wave": "CKB持有波动图",
     "h24_transaction_count": "交易数量（最近24小时）",
-    "holder_count": "持有人数量"
+    "holder_count": "持有人数量",
+    "miner_daily_avgRor": "单位算力日收益",
+    "miner_daily_statistics": "矿工每日统计",
+    "block_total": "区块数量",
+    "total_reward": "总奖励",
+    "total_hashrate": "全网总算力",
+    "miner": "矿工",
+    "count": "数量",
+    "user_reward": "用户奖励",
+    "miner_percent": "百分比",
+    "user_hash_rate": "用户算力",
+    "relative_proportion": "相对占比",
+    "abstract_information": "摘要信息",
+    "block_range_total": "区块号从 {{min}} 到 {{max}}，共 {{total}}"
   },
-  "home": {
+  "home": { 
     "height": "高度",
     "transactions": "交易",
     "blocks": "区块",
@@ -665,12 +678,12 @@
     "since": {
       "relative": {
         "epoch": "committed 之后 {{since}} Epochs",
-        "block": "committed 之后 {{since}} 个区块",
+        "blockNumber": "committed 之后 {{since}} 个区块",
         "timestamp": "committed 之后 {{since}}"
       },
       "absolute": {
         "epoch": "Epoch {{since}}",
-        "block": "区块 {{since}}",
+        "blockNumber": "区块 {{since}}",
         "timestamp": "{{since}}"
       }
     },

@@ -5,7 +5,7 @@ export const useChartTheme = () => {
     const [theme] = useTheme();
     const isDarkTheme = theme === "dark";
     const isTestnet = env.NEXT_PUBLIC_CHAIN_TYPE === "testnet";
-    
+
     const LightChartColor = {
         areaColor: "#00CC9B",
         colors: ["#5700FF", "#00CC9B", "#484E4E"],
@@ -52,12 +52,18 @@ export const useChartTheme = () => {
     const lightPieColor = ['#5700FF', '#6839fb', '#794ffb', '#8a65fc', '#9a7bfc', '#ab91fd'];
     const darkPieColor = ['#9672FA', '#AC8FFF', '#B79FFB', '#C7B3FF', '#D6C8FF', '#E9E1FF'];
 
-    const mainnetAreaStyle = ['#00CC9B4D', '#00CC9B00','#00CC9B'];
-    const testnetAreaStyle = ['#9672FA4D', '#9672FA00','#9672FA'];
+    const mainnetAreaStyle = ['#00CC9B4D', '#00CC9B00', '#00CC9B'];
+    const testnetAreaStyle = ['#9672FA4D', '#9672FA00', '#9672FA'];
 
     const ChartColor = isDarkTheme ? DarkChartColor : LightChartColor;
 
-    const DaoChartPieColor = [isDarkTheme ? "#EDF2F2" : "#232323","#5700FF",isTestnet ? "#9672FA" : "#00CC9B"]
+    const DaoChartPieColor = [isDarkTheme ? "#EDF2F2" : "#232323", "#5700FF", isTestnet ? "#9672FA" : "#00CC9B"];
+
+    const morePieColors = ["#F7BB00","#BE9002","#6D5200","#FF890B","#9E4900","#F44222","#8F1C00"]
+    const pieMainNetColors = ["#002D22","#007055","#00CC9B","#00E1D6","#33ADBB","#4ACEFF","#328DD2","#0267B5","#89A39D","#CFECE5","#008F6C","#9672FA"]
+    const pieTestNetColors = ["#322753","#523E99","#9672FA","#6B3CEC","#B8ABD9","#7F6EAC","#9B18EF","#5030BF","#7678E8","#C9CAFF","#0004FF","#00CC9B"]
+
+    const pieColors = isTestnet ? pieTestNetColors : pieMainNetColors;
 
     return {
         axisLabelColor: isDarkTheme ? '#999999' : '#484D4E',
@@ -80,5 +86,6 @@ export const useChartTheme = () => {
         feeColors: ['#0099FF', '#00CC9B', '#FF4545'],
         AreaStyleColors: isTestnet ? testnetAreaStyle : mainnetAreaStyle,
         DaoChartPieColor: DaoChartPieColor,
+        chartPieColors: [...pieColors, ...morePieColors],
     };
 };

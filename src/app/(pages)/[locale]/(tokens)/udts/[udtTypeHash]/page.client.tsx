@@ -21,11 +21,13 @@ import type { UDT } from "@/database/udts/tool";
 import BigNumber from "bignumber.js";
 import TokenTag from "@/components/TokenTag";
 import ScriptTag from "@/components/ScriptTag";
+import { ccc } from "@ckb-ccc/core";
+import type { UDTDetail } from "./utils";
+
 
 
 export default function UDTDetail({ udtTypeHash }: { udtTypeHash: string }) {
-  const { t } = useTranslation();
-  const xudtQuery = useQuery({
+  const udtQuery = useQuery({
     queryKey: ['udt', udtTypeHash],
     // queryFn: () => explorerService.api.fetchXudt(udtId)
     queryFn: async () => {
@@ -33,20 +35,20 @@ export default function UDTDetail({ udtTypeHash }: { udtTypeHash: string }) {
       const udtRegisterInfo = await clientDB.udt.get(udtTypeHash);
       if (!udtStatInfo) throw new Error('UDT not found');
 
-      const udtInfo = {
+      const udtInfo: UDTDetail = {
         ...udtStatInfo,
+        typeScript: udtStatInfo.typeScriptResponse ? ccc.Script.from(udtStatInfo.typeScriptResponse) : undefined,
         typeScriptHash: udtTypeHash,
         info: udtRegisterInfo,
       }
-
 
       return udtInfo;
     }
   })
 
   return (
-    <div className="container flex flex-col gap-4 sm:gap-5 py-[20px] min-h-page-height">
-      <QueryResult query={xudtQuery} defaultLoadingClassName='min-h-[400px]'>
+    <div className="container flex flex-col gap-4 sm:gap-5 py-5 min-h-page-height">
+      <QueryResult query={udtQuery} defaultLoadingClassName='min-h-[400px]'>
         {(udtInfo) => (
           <>
             <Head
@@ -76,7 +78,7 @@ function Head({ logo, name, hash, tags }: {
     <Card className="flex flex-col p-3 sm:p-6 gap-4">
       <div className="flex flex-col items-start sm:flex-row sm:items-center gap-3">
         <div className="flex-none flex flex-row items-center gap-3">
-          {logo && <div className="flex-none size-[32px] rounded-full">{logo}</div>}
+          {logo && <div className="flex-none size-8 rounded-full">{logo}</div>}
           <span className="font-medium text-xl mr-1 sm:mr-3">{name}</span>
         </div>
         <div className="flex-1 min-w-0 max-w-full flex flex-row items-center gap-1">
@@ -105,7 +107,7 @@ function Head({ logo, name, hash, tags }: {
 }
 
 
-function UDTOverview({ udtInfo }: { udtInfo: APIExplorer.UdtDetailResponse & { typeScriptHash: string, info?: UDT } }) {
+function UDTOverview({ udtInfo }: { udtInfo: UDTDetail }) {
   const { t } = useTranslation();
   const [showScript, setShowScript] = useState(false);
 
@@ -155,7 +157,7 @@ function UDTOverview({ udtInfo }: { udtInfo: APIExplorer.UdtDetailResponse & { t
       label: t('xudt.total_amount'),
       textDirection: "right",
       contentClassName: "flex sm:text-left sm:justify-start",
-      content: udtInfo?.totalAmount && udtInfo.info ? <span className="font-hash">{new BigNumber(udtInfo.totalAmount).dividedBy(10 ** (udtInfo.info.decimalPlaces ?? 0)).toString()}</span> : '-',
+      content: udtInfo?.totalAmount ? <span className="font-hash">{new BigNumber(udtInfo.totalAmount).dividedBy(10 ** (udtInfo.info?.decimalPlaces ?? 0)).toString()}</span> : '-',
     },
   ]
   return (
@@ -165,7 +167,7 @@ function UDTOverview({ udtInfo }: { udtInfo: APIExplorer.UdtDetailResponse & { t
         <div className="flex flex-row gap-1 sm:gap-2 items-center">
           <span className="text-[#909399]">Type Script {showScript ? "" : "Hash"}</span>
           <span
-            className="flex items-center justify-center size-[20px] rounded-[4px] bg-white dark:bg-[#ffffff1a] border-[#ddd] dark:border-[transparent] border-[1px] hover:text-primary hover:border-(--color-primary) cursor-pointer "
+            className="flex items-center justify-center size-5 rounded-sm bg-white dark:bg-[#ffffff1a] border-[#ddd] dark:border-[transparent] border-[1px] hover:text-primary hover:border-(--color-primary) cursor-pointer "
             onClick={() => setShowScript(v => !v)}
           >
             {
@@ -178,27 +180,27 @@ function UDTOverview({ udtInfo }: { udtInfo: APIExplorer.UdtDetailResponse & { t
           </span>
         </div>
         {
-          !!udtInfo.info && (
+          !!udtInfo.typeScript && (
             <div className="mt-2 bg-white dark:bg-[#232323e6] flex flex-col gap-4 sm:gap-2 px-4 py-2.5">
               {
                 !showScript ? (
-                  <div className="font-hash break-all">{udtInfo.info.typeHash}</div>
+                  <div className="font-hash break-all">{udtInfo.typeScript.hash()}</div>
                 ) : (
                   <>
                     <div className="flex flex-col sm:flex-row">
                       <span className="flex-none sm:basis-[104px] font-medium">{t("address.code_hash")}:</span>
                       <div className="flex flex-col xl:flex-row gap-1.5 xl:gap-3 xl:items-center">
-                        <span className="font-hash break-all">{udtInfo.info.type.codeHash}</span>
-                        <ScriptTag category="type" script={udtInfo.info.type} />
+                        <span className="font-hash break-all">{udtInfo.typeScript.codeHash}</span>
+                        <ScriptTag category="type" script={udtInfo.typeScript} />
                       </div>
                     </div>
                     <div className="flex flex-col sm:flex-row">
                       <span className="flex-none sm:basis-[104px] font-medium">{t("address.hash_type")}:</span>
-                      <span className="font-hash">{udtInfo.info.type.hashType}</span>
+                      <span className="font-hash">{udtInfo.typeScript.hashType}</span>
                     </div>
                     <div className="flex flex-col sm:flex-row">
                       <span className="flex-none sm:basis-[104px] font-medium">{t("address.args")}: </span>
-                      <span className="font-hash break-all">{udtInfo.info.type.args}</span>
+                      <span className="font-hash break-all">{udtInfo.typeScript.args}</span>
                     </div>
                   </>
                 )

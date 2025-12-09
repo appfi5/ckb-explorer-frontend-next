@@ -49,7 +49,7 @@ const useOption = (
           let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0].data as string[])[0]
             }</div>`
           result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('block.hash_rate'))} ${handleHashRate(
-            (dataList[0].data as string[])[1],
+            Number(((dataList[0]).data as string[])[1])
           )}</div>`
           return result
         },
