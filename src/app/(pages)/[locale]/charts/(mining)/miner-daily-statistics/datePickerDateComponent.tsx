@@ -35,7 +35,9 @@ const DatePickerDateComponent = ({ timeRange, setSelectedDate, selectedDate }: {
   };
 
   useEffect(() => {
-    setSelectedDate(new Date(endTimestamp));
+    if(!!endTimestamp){
+      setSelectedDate(new Date(endTimestamp));
+    }
   }, [endTimestamp,setSelectedDate]);
 
   useEffect(() => {
