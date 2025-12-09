@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import type { FC } from 'react'
 import type { ReactNode } from 'react'
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo, useState } from 'react'
 import dayjs from 'dayjs'
 import classNames from 'classnames'
 import type { TFunction } from 'i18next'
@@ -21,7 +21,6 @@ import Loading from '@/components/Loading'
 import styles from './styles.module.scss'
 import { usePaginationParamsInPage, useSearchParams as useCustomSearchParams, useSortParam } from '@/hooks'
 import { QueryResult } from '@/components/QueryResult'
-// import { SubmitTokenInfo } from '@/components/SubmitTokenInfo'
 import { BooleanT } from '@/utils/array'
 import FtFallbackIcon from '@/assets/ft_fallback_icon.png'
 import Tooltip from '@/components/Tooltip'
@@ -148,7 +147,7 @@ export function TokensCard({
 }) {
   const { t } = useTranslation()
   const filterList = createGetfilterList(isXudts)(t);
-  const sortParamByQuery = useSortParam<SortField>(undefined, 'transactions.desc')
+  const sortParamByQuery = useSortParam<SortField>(undefined, 'h24CkbTransactionsCount.desc')
   const { sortBy, orderBy, handleSortClick, updateOrderBy } = sortParam ?? sortParamByQuery
   return (
     <>
@@ -390,7 +389,7 @@ const UDTList = ({ isXudts, isPagination }: XudtsProps) => {
   const tags = searchParams.tags || ''
   const [isSubmitTokenInfoModalOpen, setIsSubmitTokenInfoModalOpen] = useState<boolean>(false)
   const { currentPage, pageSize: _pageSize, setPage, setPageSize } = usePaginationParamsInPage()
-  const sortParam = useSortParam<SortField>(undefined, 'transactions.desc')
+  const sortParam = useSortParam<SortField>(undefined, 'h24CkbTransactionsCount.desc')
   const { sort } = sortParam
 
 

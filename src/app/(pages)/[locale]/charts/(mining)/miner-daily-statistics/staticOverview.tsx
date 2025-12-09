@@ -79,7 +79,6 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
                     formatter: '{b}: {c}%',
                     fontSize: isMobile ? 9 : 12,
                     overflow: 'truncate',
-                    // width: isMobile ? 80 : 120,
                 },
                 labelLine: {
                     length: 4,
