@@ -15,7 +15,7 @@ import type { UDT } from "@/database/udts/tool";
 import BigNumber from "bignumber.js";
 import TwoSizeAmount from "@/components/TwoSizeAmount";
 import { useTranslation } from "react-i18next";
-
+import InteImage from "@/components/InteImage";
 
 
 export default function UDTs({ addressInfo }: { addressInfo: APIExplorer.AddressResponse }) {
@@ -108,18 +108,18 @@ function UDTCard({ udt, address }: { udt: APIExplorer.AccountUdtBalanceResponse 
           </div>
         </div>
         <div className="flex flex-row gap-2 bg-[#fbfbfb] dark:bg-[#363839] border border-[#eee] dark:border-[#4C4C4C] rounded-b-sm px-2 pt-3 pb-4">
-          <div className="size-[48px] rounded-full">
-            {<img src={udt.icon || "/assets/udt/BTCPP.png"} className="w-full h-full" alt={udt.name} />}
+          <div className="size-[48px] rounded-full flex-shrink-0">
+            <InteImage src={udt.icon || "/assets/udt/default.png"} className="w-full h-full" alt={udt.name} />
           </div>
           <div>
             <div className="text-lg font-medium flex flex-row items-center gap-1 leading-[26px]">
               {udt.symbol || `Unknown ${udt.typeScriptHash.slice(-4)}`}
             </div>
             <TwoSizeAmount
+              integerClassName="block w-[160px] truncate"
               decimalClassName="text-[12px]"
               amount={new BigNumber(udt.amount).dividedBy(10 ** (udt.decimalPlaces ?? 0)).toString()}
             />
-            
             {/* {content} */}
           </div>
         </div>
