@@ -1,0 +1,47 @@
+@use '@/styles/variables.module';
+
+.chartDetailTitleBtn{
+    width: 180px;
+    height: 32px;
+    &:hover{
+        path{
+        fill: var(--color-primary);
+        }
+        .chartDesc{
+        color: var(--color-primary);
+        }
+        i{
+        background: var(--color-primary);
+        }
+    }
+
+    .icons{
+        path {
+        fill: #484D4E;
+        }
+
+        @variant dark {
+        path {
+            fill: #999999;
+        }
+        }
+    }
+}
+
+.arrowicons{
+    cursor: pointer;
+    path {
+        stroke: #000000;
+    }
+    &[data-disabled="true"] {
+        cursor:not-allowed;
+        path{
+            stroke: #999999;
+        }
+    }
+    @variant dark {
+        path {
+            stroke: #fff;
+        }
+    }
+}

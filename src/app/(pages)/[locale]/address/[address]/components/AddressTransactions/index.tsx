@@ -9,8 +9,11 @@ import { useQuery } from "@tanstack/react-query"
 import classNames from "classnames"
 import type { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
-
-
+import MonthPickerComponent from "@/components/MonthPickerComponent"
+import { useState, useEffect } from "react"
+import QuestionIcon from "@/assets/icons/question.svg?component"
+import Tips from "@/components/Tips";
+import dayjs from "dayjs";
 
 type AddressTransactionsProps = {
   addressInfo: APIExplorer.AddressResponse
@@ -21,18 +24,52 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
   const address = addressInfo.addressHash;
   const { t } = useTranslation();
   const { currentPage, pageSize, setPage, setPageSize } = usePaginationParamsInListPage()
+  const [selectedMonth, setSelectedMonth] = useState<Date | undefined>(new Date());
+  const [monthDateRange, setMonthDateRange] = useState<{ startDate: string, endDate: string }>({ startDate: '', endDate: '' });
+
+  const getMonthDateRange = (date: Date) => {
+    const startDate = new Date(date.getFullYear(), date.getMonth(), 1);
+    const endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    return {
+      startDate: dayjs(startDate).format('YYYY-MM-DD'),
+      endDate: dayjs(endDate).format('YYYY-MM-DD'),
+    };
+  };
+
+  useEffect(() => {
+    setMonthDateRange(getMonthDateRange(selectedMonth || new Date()));
+    setPage(1)
+  }, [selectedMonth,setPage])
+
   const txsQuery = useQuery({
-    queryKey: ['address_transactions', address, currentPage, pageSize],
-    queryFn: () => server.explorer("GET /address_transactions/{address}", { page: currentPage, pageSize, sort: "", address })
+    queryKey: ['address_transactions', address, currentPage, pageSize, monthDateRange],
+    queryFn: () => server.explorer("GET /address_transactions/{address}", { startTime: monthDateRange.startDate, endTime: monthDateRange.endDate, page: currentPage, pageSize, sort: "", address })
   })
 
   return (
     <Card className="p-3 sm:p-6">
-      <Tabs
-        currentTab="tx"
-        tabs={[{ key: 'tx', label: <>{t("transaction.24h_transactions")}{txsQuery.isLoading ? "" : `(${txsQuery.data?.total ?? 0})`}</> }]}
-        onTabChange={() => { }}
-      />
+      <div className="flex justify-between items-start">
+        <Tabs
+          currentTab="tx"
+          tabs={[{ key: 'tx', label: <>{t("transaction.24h_transactions")}{txsQuery.isLoading ? "" : `(${txsQuery.data?.total ?? 0})`}</> }]}
+          onTabChange={() => { }}
+        />
+        <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-[5px]">
+            <div>{t("address.history_search")}</div>
+            <Tips
+              placement="top"
+              trigger={
+                <QuestionIcon className="text-[#999999] hover:text-primary cursor-pointer" />
+              }
+            >
+              {t("address.history_search_description")}
+            </Tips>
+            <span>:</span>
+          </div>
+          <MonthPickerComponent selectedMonth={selectedMonth} onSelect={setSelectedMonth} />
+        </div>
+      </div>
       <QueryResult query={txsQuery}>
         {(txResponse) => {
           const { total, records: txList = [] } = txResponse || {};
@@ -67,11 +104,11 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
                 setPageSize={setPageSize}
                 // totalPages={totalPages}
                 onChange={setPage}
-                // rear={null
-                //   // isPendingListActive ? null : (
-                //   //   <CsvExport link={`/export-transactions?type=address_transactions&id=${address}`} />
-                //   // )
-                // }
+              // rear={null
+              //   // isPendingListActive ? null : (
+              //   //   <CsvExport link={`/export-transactions?type=address_transactions&id=${address}`} />
+              //   // )
+              // }
               />
             </>
           );
