@@ -10,7 +10,7 @@ import classNames from "classnames"
 import type { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 import MonthPickerComponent from "@/components/MonthPickerComponent"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import QuestionIcon from "@/assets/icons/question.svg?component"
 import Tips from "@/components/Tips";
 import dayjs from "dayjs";
@@ -25,7 +25,6 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
   const { t } = useTranslation();
   const { currentPage, pageSize, setPage, setPageSize } = usePaginationParamsInListPage()
   const [selectedMonth, setSelectedMonth] = useState<Date | undefined>(new Date());
-  const [monthDateRange, setMonthDateRange] = useState<{ startDate: string, endDate: string }>({ startDate: '', endDate: '' });
 
   const getMonthDateRange = (date: Date) => {
     const startDate = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -36,10 +35,9 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
     };
   };
 
-  useEffect(() => {
-    setMonthDateRange(getMonthDateRange(selectedMonth || new Date()));
-    setPage(1)
-  }, [selectedMonth,setPage])
+  const monthDateRange = useMemo(() => {
+    return getMonthDateRange(selectedMonth || new Date());
+  }, [selectedMonth]);
 
   const txsQuery = useQuery({
     queryKey: ['address_transactions', address, currentPage, pageSize, monthDateRange],
@@ -51,7 +49,7 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
       <div className="flex justify-between items-start">
         <Tabs
           currentTab="tx"
-          tabs={[{ key: 'tx', label: <>{t("transaction.24h_transactions")}{txsQuery.isLoading ? "" : `(${txsQuery.data?.total ?? 0})`}</> }]}
+          tabs={[{ key: 'tx', label: <>{dayjs(selectedMonth).format('YYYY-MM')} {t("transaction.transactions")} {txsQuery.isLoading ? "" : `(${txsQuery.data?.total ?? 0})`}</> }]}
           onTabChange={() => { }}
         />
         <div className="flex items-center gap-1.5">
@@ -67,7 +65,7 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
             </Tips>
             <span>:</span>
           </div>
-          <MonthPickerComponent selectedMonth={selectedMonth} onSelect={setSelectedMonth} />
+          <MonthPickerComponent selectedMonth={selectedMonth} onSelect={(date) => { setSelectedMonth(date); setPage(1); }} />
         </div>
       </div>
       <QueryResult query={txsQuery}>
