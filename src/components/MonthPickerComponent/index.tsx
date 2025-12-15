@@ -62,7 +62,7 @@ const MonthPickerComponent = ({
             </div>
 
             {isOpen && (
-                <div className="absolute right-0 mt-2 rounded-lg backdrop-blur-[50px] shadow-[0_0_12px_2px_rgba(0,0,0,0.08)] dark:shadow-[0_0_12px_2px_#00000040] bg-white dark:bg-[#303030] p-4 z-10">
+                <div className="absolute right-0 mt-2 rounded-lg backdrop-blur-[50px] shadow-[0_0_12px_2px_rgba(0,0,0,0.08)] dark:shadow-[0_0_12px_2px_#00000040] bg-white dark:bg-[#303030] p-2 z-10">
                     <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#D9D9D9] dark:border-[#4C4C4C]">
                         <Tooltip
                             trigger={<LeftArrowIcon
@@ -91,7 +91,7 @@ const MonthPickerComponent = ({
                         </Tooltip>
                     </div>
 
-                    <div className="w-[280px] grid grid-cols-3 gap-2">
+                    <div className="w-[270px] grid grid-cols-3 gap-2">
                         {monthNames.map((month, index) => {
                             const isSelected = selectedMonth
                                 && selectedMonth.getFullYear() === currentYear
