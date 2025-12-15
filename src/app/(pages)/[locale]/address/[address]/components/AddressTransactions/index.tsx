@@ -14,6 +14,7 @@ import { useState, useEffect, useMemo } from "react"
 import QuestionIcon from "@/assets/icons/question.svg?component"
 import Tips from "@/components/Tips";
 import dayjs from "dayjs";
+import styles from "./index.module.scss"
 
 type AddressTransactionsProps = {
   addressInfo: APIExplorer.AddressResponse
@@ -46,7 +47,7 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
 
   return (
     <Card className="p-3 sm:p-6">
-      <div className="flex justify-between items-start">
+      <div className={styles.headerCon}>
         <Tabs
           currentTab="tx"
           tabs={[{ key: 'tx', label: <>{dayjs(selectedMonth).format('YYYY-MM')} {t("transaction.transactions")} {txsQuery.isLoading ? "" : `(${txsQuery.data?.total ?? 0})`}</> }]}

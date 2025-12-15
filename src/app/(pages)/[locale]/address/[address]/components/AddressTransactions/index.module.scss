@@ -1,0 +1,11 @@
+@use '@/styles/variables.module';
+.headerCon {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+
+    @media (width <= variables.$mobileBreakPoint) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
