@@ -10,7 +10,7 @@ import classNames from "classnames"
 import type { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 import MonthPickerComponent from "@/components/MonthPickerComponent"
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, useRef } from "react"
 import QuestionIcon from "@/assets/icons/question.svg?component"
 import Tips from "@/components/Tips";
 import dayjs from "dayjs";
@@ -20,6 +20,15 @@ type AddressTransactionsProps = {
   addressInfo: APIExplorer.AddressResponse
 }
 
+const getMonthDateRange = (date: Date) => {
+  const startDate = new Date(date.getFullYear(), date.getMonth(), 1);
+  const endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  return {
+    startDate: dayjs(startDate).format('YYYY-MM-DD'),
+    endDate: dayjs(endDate).format('YYYY-MM-DD'),
+  };
+};
+
 export default function AddressTransactions(props: AddressTransactionsProps) {
   const { addressInfo } = props;
   const address = addressInfo.addressHash;
@@ -27,23 +36,63 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
   const { currentPage, pageSize, setPage, setPageSize } = usePaginationParamsInListPage()
   const [selectedMonth, setSelectedMonth] = useState<Date | undefined>(new Date());
 
-  const getMonthDateRange = (date: Date) => {
-    const startDate = new Date(date.getFullYear(), date.getMonth(), 1);
-    const endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    return {
-      startDate: dayjs(startDate).format('YYYY-MM-DD'),
-      endDate: dayjs(endDate).format('YYYY-MM-DD'),
-    };
-  };
+  const queryParamsRef = useRef({
+    page: currentPage,
+    month: selectedMonth
+  });
+
+  const [isQueryReady, setIsQueryReady] = useState(false);
+
+  useEffect(() => {
+    const isMonthChanged = queryParamsRef.current.month && selectedMonth &&
+      (queryParamsRef.current.month.getMonth() !== selectedMonth.getMonth() ||
+        queryParamsRef.current.month.getFullYear() !== selectedMonth.getFullYear());
+
+    if (isMonthChanged) {
+      queryParamsRef.current = {
+        page: 1,
+        month: selectedMonth
+      };
+
+      setPage(1);
+      setIsQueryReady(true);
+    } else if (queryParamsRef.current.page !== currentPage) {
+      queryParamsRef.current = {
+        ...queryParamsRef.current,
+        page: currentPage
+      };
+
+      setIsQueryReady(true);
+    }
+  }, [selectedMonth, currentPage, setPage]);
+
+  useEffect(() => {
+    if (isQueryReady) {
+      setIsQueryReady(false);
+    }
+  }, [isQueryReady]);
 
   const monthDateRange = useMemo(() => {
-    return getMonthDateRange(selectedMonth || new Date());
-  }, [selectedMonth]);
+    return getMonthDateRange(queryParamsRef.current.month || new Date());
+  }, [queryParamsRef.current.month]);
 
   const txsQuery = useQuery({
-    queryKey: ['address_transactions', address, currentPage, pageSize, monthDateRange],
-    queryFn: () => server.explorer("GET /address_transactions/{address}", { startTime: monthDateRange.startDate, endTime: monthDateRange.endDate, page: currentPage, pageSize, sort: "", address })
+    queryKey: ['address_transactions', address, queryParamsRef.current.page, pageSize, monthDateRange],
+    queryFn: () => server.explorer("GET /address_transactions/{address}", {
+      startTime: monthDateRange.startDate,
+      endTime: monthDateRange.endDate,
+      page: queryParamsRef.current.page,
+      pageSize,
+      sort: "",
+      address
+    }),
+    enabled: isQueryReady
   })
+
+  // 初始加载时触发一次查询
+  useEffect(() => {
+    setIsQueryReady(true);
+  }, []);
 
   return (
     <Card className="p-3 sm:p-6">
@@ -66,26 +115,17 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
             </Tips>
             <span>:</span>
           </div>
-          <MonthPickerComponent selectedMonth={selectedMonth} onSelect={(date) => { setSelectedMonth(date); setPage(1); }} />
+          <MonthPickerComponent selectedMonth={selectedMonth} onSelect={setSelectedMonth} />
         </div>
       </div>
       <QueryResult query={txsQuery}>
         {(txResponse) => {
           const { total, records: txList = [] } = txResponse || {};
           return (
-
             <>
               <div>
                 {txList.map((transaction, index) => (
                   <>
-                    {/* <TransactionItem
-                      address={address}
-                      transaction={transaction}
-                      key={transaction.transactionHash}
-                      circleCorner={{
-                        bottom: index === txList.length - 1 && totalPages === 1,
-                      }}
-                    /> */}
                     <TransactionItemWithCells
                       key={transaction.transactionHash}
                       currentAddress={address}
@@ -101,13 +141,7 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
                 currentPage={currentPage}
                 pageSize={pageSize}
                 setPageSize={setPageSize}
-                // totalPages={totalPages}
                 onChange={setPage}
-              // rear={null
-              //   // isPendingListActive ? null : (
-              //   //   <CsvExport link={`/export-transactions?type=address_transactions&id=${address}`} />
-              //   // )
-              // }
               />
             </>
           );
@@ -128,7 +162,6 @@ function Tabs<T extends string>({ currentTab, tabs, onTabChange }: { currentTab:
           onClick={() => onTabChange(tab.key)}
         >
           {tab.label}
-          {/* <div className={classNames("absolute left-0 right-0 mx-auto bottom-[-10px] w-[64px] h-[4px] bg-primary", currentTab !== tab.key ? "hidden" : "")} /> */}
         </div>
       ))}
     </div>
