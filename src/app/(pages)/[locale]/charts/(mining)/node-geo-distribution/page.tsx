@@ -34,7 +34,16 @@ type Line = [Point, Point]
 
 const fetchData = async (): Promise<{ lines: Line[]; points: Point[] }> => {
   const list: RawPeer[] = await getPeers()
-  const points: Point[] = list.map(peer => [peer.longitude, peer.latitude, peer.city])
+  const cityMap:Record<string, true> = {};
+  const points = [];
+  list.forEach(peer => {
+    if(!peer.latitude || !peer.longitude) return;
+    const city = peer.city;
+    if (cityMap[city]) return;
+    points.push([peer.longitude, peer.latitude, peer.city]);
+    cityMap[city] = true;
+  })
+  // const points: Point[] = list.map(peer => [peer.longitude, peer.latitude, peer.city])
   const lines: Line[] = []
   for (let i = 0; i < points.length - 1; i++) {
     for (let j = i + 1; j < points.length; j++) {
