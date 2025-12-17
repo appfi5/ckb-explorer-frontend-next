@@ -10,7 +10,7 @@ import { IS_MAINNET } from "@/constants/common";
 
 export const getPeers = async (): Promise<RawPeer[]> => {
   const params = new URLSearchParams({
-    network: IS_MAINNET ? "main" : "testnet", // "minara" : "pudge",
+    network: IS_MAINNET ? "main" : "test", // "minara" : "pudge",
     offline_timeout: "10080",
     unknown_offline_timeout: "10080",
   });
