@@ -64,7 +64,7 @@ const useOption = (
     tooltip,
     grid: isThumbnail ? gridThumbnail : grid,
     legend: {
-      show:!isThumbnail &&  !isMobile,
+      show: !isThumbnail && !isMobile,
       // right: 40,
       // top: 40,
       icon: 'circle',
@@ -86,7 +86,7 @@ const useOption = (
           },
         },
         label: {
-          color: axisLabelColor, 
+          color: axisLabelColor,
         },
         data: list.slice(0, isThumbnail ? 10 : undefined).map(data => {
           const country = data.country === 'others' ? t(`statistic.others`) : data.country
@@ -104,15 +104,39 @@ const useOption = (
 const fetchData = async (): Promise<CountryRecord[]> => {
   const list: RawPeer[] = await getPeers()
   const result: { key: string; value: number } = list.reduce((acc: any, cur: any) => {
+    if (!cur.country) return acc;
     acc[cur.country] = (acc[cur.country] || 0) + 1
     return acc
   }, {})
-  return Object.entries(result)
+  // const sortedList = Object.entries(result)
+  //   .sort((a, b) => +b[1] - +a[1])
+  //   .map(v => ({
+  //     country: v[0],
+  //     percent: +(((v[1] as number) * 100) / list.length).toFixed(2),
+  //   }))
+  let headNinePercent = 0
+  const sortedList = Object.entries(result)
     .sort((a, b) => +b[1] - +a[1])
-    .map(v => ({
-      country: v[0],
-      percent: +(((v[1] as number) * 100) / list.length).toFixed(2),
-    }))
+    .reduce((acc, item, index) => {
+      if (index < 9) {
+        const percent = +(((item[1] as number) * 100) / list.length).toFixed(2)
+        headNinePercent += percent
+        acc.push({
+          country: item[0],
+          percent: percent,
+        })
+        return acc;
+      }
+      if(index === 9) {
+        acc.push({
+          country: "Others",
+          percent: +(100 - headNinePercent).toFixed(2),
+        })
+        return acc;
+      }
+      return acc;
+    }, [] as Array<{ country: string; percent: number }>)
+  return sortedList
 }
 
 const toCSV = (countryList: CountryRecord[]) => countryList?.map(r => [r.country, `${r.percent}%`]) ?? []
