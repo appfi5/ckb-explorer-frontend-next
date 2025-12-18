@@ -111,12 +111,13 @@ function UDTCard({ udt, address }: { udt: APIExplorer.AccountUdtBalanceResponse 
           <div className="size-[48px] rounded-full flex-shrink-0">
             <InteImage src={udt.icon || "/assets/udt/default.png"} className="w-full h-full" alt={udt.name} />
           </div>
-          <div>
+          <div className="min-w-0">
             <div className="text-lg font-medium flex flex-row items-center gap-1 leading-[26px]">
               {udt.symbol || `Unknown ${udt.typeScriptHash.slice(-4)}`}
             </div>
             <TwoSizeAmount
-              integerClassName="block w-[160px] truncate"
+              title={new BigNumber(udt.amount).dividedBy(10 ** (udt.decimalPlaces ?? 0)).toString()}
+              className="truncate"
               decimalClassName="text-[12px]"
               amount={new BigNumber(udt.amount).dividedBy(10 ** (udt.decimalPlaces ?? 0)).toString()}
             />
