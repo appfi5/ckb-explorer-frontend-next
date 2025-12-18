@@ -1,9 +1,10 @@
 import BigNumber from "bignumber.js"
 import classNames from "classnames"
-import { useMemo, type CSSProperties, type ReactNode } from "react"
+import { useMemo, type ComponentProps, type CSSProperties, type ReactNode } from "react"
 
 type TwoSizeAmountProps = {
   className?: string
+  title?: ComponentProps<"div">['title']
   style?: CSSProperties
   amount: string | number
   unit?: ReactNode
@@ -14,7 +15,7 @@ type TwoSizeAmountProps = {
 }
 
 export default function TwoSizeAmount(props: TwoSizeAmountProps) {
-  const { amount, unit, className, style, integerClassName, decimalClassName, format } = props
+  const { title, amount, unit, className, style, integerClassName, decimalClassName, format } = props
   // const [decimalPlaces, roundingMode, bigFormat] = format || [];
   const [int, dec] = useMemo(() => {
     const c = new BigNumber(amount);
@@ -24,7 +25,7 @@ export default function TwoSizeAmount(props: TwoSizeAmountProps) {
     return [int, dec];
   }, [amount])
   return (
-    <div className={classNames(className)} style={style}>
+    <div className={classNames(className)} style={style} title={title}>
       <span className={classNames("font-hash",integerClassName)}>{int}{!!dec && "."}</span>
       <span className={classNames("font-hash",decimalClassName)}>{dec}</span>
       {unit}
