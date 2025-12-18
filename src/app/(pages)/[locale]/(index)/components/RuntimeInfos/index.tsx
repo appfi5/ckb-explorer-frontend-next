@@ -54,8 +54,8 @@ export default function RuntimeInfos() {
       content:
         !!statistics.epochInfo.index ? (
           <>
-            {statistics.epochInfo.index}
-            <span className="font-hash font-normal ml-[6px] text-[14px]">/ {statistics.epochInfo.epochLength}</span>
+            {statistics.epochInfo.epochNumber}
+            <span className="font-hash font-normal ml-3 text-[14px]">{statistics.epochInfo.index}/{statistics.epochInfo.epochLength}</span>
           </>
         )
           : "-"
