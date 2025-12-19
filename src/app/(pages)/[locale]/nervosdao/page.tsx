@@ -11,7 +11,7 @@ import DaoBanner from './components/DaoBanner'
 import { QueryResult } from '@/components/QueryResult'
 import { defaultNervosDaoInfo } from './state'
 import styles from './index.module.scss'
-import { useRouter } from 'next/navigation'
+import { useRouter,useSearchParams as useNextSearchParams } from 'next/navigation'
 // import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import DownloadIcon from '@/components/icons/download'
 import PixelBorderBlock from '@/components/PixelBorderBlock'
@@ -24,9 +24,10 @@ export const NervosDao = () => {
   const router = useRouter();
   const [t] = useTranslation()
   const isMobile = useIsMobile()
-  const [activeTab, setActiveTab] = useState<'transactions' | 'depositors'>('transactions')
-  const { currentPage, pageSize, setPage, setPageSize } = usePaginationParamsInListPage()
   const params = useSearchParams('filter')
+  const initialTab = useSearchParams('tab').tab
+  const [activeTab, setActiveTab] = useState<'transactions' | 'depositors'>(initialTab || 'transactions')
+  const { currentPage, pageSize, setPage, setPageSize } = usePaginationParamsInListPage()
 
   const queryNervosDao = useQuery({
     queryKey: ['nervos-dao'],
@@ -52,7 +53,7 @@ export const NervosDao = () => {
     },
     enabled: !activeTab || activeTab === 'transactions'
   })
-  
+
   const queryNervosDaoDepositors = useQuery({
     queryKey: ['nervos-dao-depositors'],
     queryFn: async () => {
@@ -61,7 +62,6 @@ export const NervosDao = () => {
     },
     enabled: activeTab === 'depositors'
   })
-
 
   return (
     <Content>
@@ -77,7 +77,7 @@ export const NervosDao = () => {
                 { key: "depositors", label: t('nervos_dao.dao_tab_depositors') },
               ]}
               onTabChange={(value) => setActiveTab(value)}
-            > 
+            >
             </Tabs>
             {/* <Tabs
               type="underline"
@@ -147,6 +147,16 @@ export default NervosDao
 
 
 function Tabs<T extends string>({ currentTab, tabs, onTabChange }: { currentTab: T; tabs: readonly { key: T, label: ReactNode }[]; onTabChange: (tab: T) => void }) {
+  const router = useRouter();
+  const params = useNextSearchParams();
+
+  const handleTabChange = (tabKey: T) => {
+    onTabChange(tabKey)
+    const nextParams = new URLSearchParams(params);
+    nextParams.set("tab", tabKey);
+    router.push(`?${nextParams.toString()}`, { scroll: false });
+  }
+
   return (
     <div className="pb-[8px] max-w-full h-[34px] overflow-hidden">
       <div className="pb-4 flex gap-8 w-full  overflow-x-auto overlfow-y-hidden">
@@ -154,7 +164,7 @@ function Tabs<T extends string>({ currentTab, tabs, onTabChange }: { currentTab:
           <div
             key={tab.key}
             className={classNames("text-[16px] sm:text-[18px] leading-[24px]", "flex-none relative cursor-pointer", currentTab !== tab.key ? "text-[#999]" : "font-medium")}
-            onClick={() => onTabChange(tab.key)}
+            onClick={() => handleTabChange(tab.key)}
           >
             {tab.label}
             <div className={classNames("absolute left-0 right-0 mx-auto bottom-[-8px] m-w-[64px] h-1 bg-primary", currentTab !== tab.key ? "hidden" : "")} />
