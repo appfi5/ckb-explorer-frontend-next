@@ -563,7 +563,7 @@
     "view-asset": "View Asset",
     "cell-info": "Cell Info",
     "history_search": "History search",
-    "history_search_description": "Please select a month to view past transactions."
+    "history_search_description": "Select a month to view the corresponding historical transaction records (times are in UTC)."
   },
   "rgbpp": {
     "assets": {

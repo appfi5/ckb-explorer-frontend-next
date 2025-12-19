@@ -554,7 +554,7 @@
     "view-asset": "查看资产",
     "cell-info": "Cell详情",
     "history_search": "历史搜索",
-    "history_search_description": "请选择一个月查看过往交易记录。"
+    "history_search_description": "选择月份，查看对应历史交易记录（时间为 UTC 世界标准时间）。"
   },
   "rgbpp": {
     "assets": {
