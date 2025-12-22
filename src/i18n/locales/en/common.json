@@ -561,7 +561,9 @@
     "detail": "Detail",
     "asset": "Asset",
     "view-asset": "View Asset",
-    "cell-info": "Cell Info"
+    "cell-info": "Cell Info",
+    "history_search": "History search",
+    "history_search_description": "Select a month to view the corresponding historical transaction records (times are in UTC)."
   },
   "rgbpp": {
     "assets": {
@@ -1317,5 +1319,28 @@
         "note": "Higher bandwidth reduces initial sync time"
       }
     }
+  },
+  "date_info": {
+    "year": "Year",
+    "month": "Month",
+    "week": "Week",
+    "day": "Day",
+    "months": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "months_placeholder": "Select month",
+    "arrow_left_desc":"Data is only available from 2019 onward.",
+    "arrow_right_desc":"Data is only available from 2019 up to this year."
   }
 }
