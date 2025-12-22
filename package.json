@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "update-labels": "node ./scripts/generate-builtin-informations.mjs",
     "build": "next build && next-sitemap",
     "check": "next lint && tsc --noEmit",
     "dev": "next dev",
