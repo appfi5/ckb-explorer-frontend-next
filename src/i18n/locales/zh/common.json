@@ -552,7 +552,9 @@
     "detail": "详情",
     "asset": "资产",
     "view-asset": "查看资产",
-    "cell-info": "Cell详情"
+    "cell-info": "Cell详情",
+    "history_search": "历史搜索",
+    "history_search_description": "选择月份，查看对应历史交易记录（时间为 UTC 世界标准时间）。"
   },
   "rgbpp": {
     "assets": {
@@ -1302,5 +1304,28 @@
         "note": "更高的带宽可缩短初始同步时间"
       }
     }
+  },
+  "date_info": {
+    "year": "年",
+    "month": "月",
+    "week": "周",
+    "day": "日",
+    "months": [
+      "一月",
+      "二月",
+      "三月",
+      "四月",
+      "五月",
+      "六月",
+      "七月",
+      "八月",
+      "九月",
+      "十月",
+      "十一月",
+      "十二月"
+    ],
+    "months_placeholder": "选择月份",
+    "arrow_left_desc":"数据从 2019 年起才开始有相关记录。",
+    "arrow_right_desc":"数据仅从 2019 年起有，直到今年。"
   }
 }
