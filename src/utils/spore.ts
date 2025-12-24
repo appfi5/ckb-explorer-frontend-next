@@ -123,7 +123,7 @@ export const getSporeImg = async ({
   data: hexData,
   id: sporeId,
 }: {
-  data: string;
+  data?: string;
   id: string;
 }): Promise<string> => {
   const DEFAULT_URL = "/images/spore_placeholder.svg";

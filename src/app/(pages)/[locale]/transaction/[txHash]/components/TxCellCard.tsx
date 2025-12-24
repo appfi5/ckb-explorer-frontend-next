@@ -17,6 +17,26 @@ import Tips from "@/components/Tips";
 import { Button } from "@/components/shadcn/button";
 import { parseSimpleDate } from "@/utils/date";
 import BigNumber from "bignumber.js";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import ScriptTag from "@/components/ScriptTag";
+import { useQuery } from "@tanstack/react-query";
+import { ccc, ClientPublicMainnet, ClientPublicTestnet } from "@ckb-ccc/core";
+import { env } from "@/env";
+import TxCellRichDisplay from "./TxCellRichDisplay";
+
+function ScriptTagFromAddress({ address }: { address: string }) {
+  const { data: script } = useQuery({
+    queryKey: ['scriptFromAddress', address],
+    queryFn: async () => {
+      const network = env.NEXT_PUBLIC_CHAIN_TYPE;
+      const addressObj = await ccc.Address.fromString(address, network === "testnet" ? new ClientPublicTestnet() : new ClientPublicMainnet());
+      const script = addressObj.script;
+      return script;
+    }
+  })
+  return script ? <div data-clickable><ScriptTag category="lock" script={script} /></div> : null;
+}
 
 type TxCellCardProps = {
   cell: APIExplorer.CellInputResponse | APIExplorer.CellOutputResponse,
@@ -29,18 +49,19 @@ export default function TxCellCard({ since, cell, showStatus = true, seq }: TxCe
   return (
     <CellModal cell={cell}>
       <div className={styles.txCellCard}>
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex gap-2 items-center">
+        <div className="flex items-start justify-between mb-5">
+          <div className="flex gap-2 flex-wrap items-center" onClick={(e) => { e.stopPropagation() }}>
             <div className="size-6 rounded-full">
               <Image src={NervosBlackImg} alt="" />
             </div>
-            <OutLink
-              className={styles.address}
+            <Link
+              className={cn(styles.address, "underline hover:text-primary")}
               href={`/address/${cell.addressHash}`}
-              onClick={(e) => { e.stopPropagation() }}
+              data-clickable
             >
               <TextEllipsis text={cell.addressHash} ellipsis="address" />
-            </OutLink>
+            </Link>
+            <ScriptTagFromAddress address={cell.addressHash} />
           </div>
           {
             since
@@ -50,7 +71,11 @@ export default function TxCellCard({ since, cell, showStatus = true, seq }: TxCe
 
         </div>
 
-        <div className="flex flex-col gap-2 bg-[#fbfbfb] dark:bg-[#232323e6] rounded-[8px] p-[12px]">
+        <div className="bg-[#fbfbfb] dark:bg-[#232323e6] rounded-sm border border-[#d9d9d9] dark:border-[#4c4c4c] px-5 py-4">
+          <TxCellRichDisplay cell={cell} />
+        </div>
+
+        {/* <div className="flex flex-col gap-2 bg-[#fbfbfb] dark:bg-[#232323e6] rounded-[8px] p-[12px]">
           <Info label={t("cell.declared")}>
             <TwoSizeAmount
               amount={shannonToCkb(cell.capacity)}
@@ -70,7 +95,7 @@ export default function TxCellCard({ since, cell, showStatus = true, seq }: TxCe
           <Info when={showStatus} label={t("cell.state")}>
             <CellStatusBadge status={(cell as APIExplorer.CellOutputResponse).status} />
           </Info>
-        </div>
+        </div> */}
       </div>
     </CellModal>
   )

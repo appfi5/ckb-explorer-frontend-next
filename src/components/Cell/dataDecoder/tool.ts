@@ -18,7 +18,7 @@ export const littleEndianToBigEndian = (v: string, keepHexPrefix = true) => {
 
 
 export type DPUMatchParams = {
-  cellType: CellType // APIExplorer.CellInfoResponse['cellType']
+  cellType?: CellType // APIExplorer.CellInfoResponse['cellType']
   typeScript?: APIExplorer.ScriptResponse
   typeHash?: string
 }

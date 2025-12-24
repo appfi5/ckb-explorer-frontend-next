@@ -7,7 +7,7 @@ import TxCellCard from "./TxCellCard";
 import classNames from "classnames";
 import server from "@/server";
 import LoadMore from "@/components/LoadMore";
-
+import RightArrowIcon from '@/assets/icons/pixel-arrow-right.svg?component';
 
 
 const PAGE_SIZE = 10;
@@ -20,16 +20,20 @@ export default function TransactionCells({ transaction }: { transaction: APIExpl
   return (
     <Card className="mt-[12px] md:mt-[20px] p-3 md:p-6">
       <div className="text-base md:text-lg mb-3 md:mb-6">{t('transaction.transaction_details')}</div>
-
-      <CellsPanel
-        dir="input"
-        className="mb-[20px]"
-        txHash={transaction.transactionHash}
-      />
-      <CellsPanel
-        dir="output"
-        txHash={transaction.transactionHash}
-      />
+      <div className="flex flex-row gap-6 items-stretch">
+        <CellsPanel
+          dir="input"
+          className="flex-1"
+          // className="mb-[20px]"
+          txHash={transaction.transactionHash}
+        />
+        <RightArrowIcon className={classNames("flex-none text-[#484D4E] dark:text-[#999]")} />
+        <CellsPanel
+          dir="output"
+          className="flex-1"
+          txHash={transaction.transactionHash}
+        />
+      </div>
     </Card>
   )
 }
@@ -70,13 +74,13 @@ function CellsPanel({ dir, txHash, className }: { className?: string, dir: "inpu
   const cells = data?.pages.map(page => page.data).flat() ?? []
   const total = data?.pages[0]?.total ?? 0
 
-  if (!total) return null;
+  // if (!total) return null;
 
   return (
     <CardPanel className={classNames("pl-3 md:pl-4 pt-5", className)}>
       <div className="text-base md:text-lg mb-5">{isInput ? t("transaction.input") : t("transaction.output")} ({total})</div>
       <div className="@container">
-        <div className="grid grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-3 @6xl:grid-cols-4 @8xl:grid-cols-5 gap-[16px] px-3 md:px-5 pt-0 pb-5 -ml-3 md:-ml-5  max-h-[254px] overflow-y-auto">
+        <div className="flex flex-col gap-5 px-3 md:px-5 pt-0 pb-5 -ml-3 md:-ml-5  max-h-[800px] overflow-y-auto">
           {
             cells.map((cell, index) => (
               <TxCellCard
