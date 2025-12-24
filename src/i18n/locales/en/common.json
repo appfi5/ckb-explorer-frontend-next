@@ -605,6 +605,7 @@
     "cell-info": "Cell Info",
     "view_rgbpp_digest": "View RGB++ Digest",
     "transaction": "Transaction",
+    "transaction_bytes": "Bytes",
     "24h_transactions": "24 hours Transactions",
     "transactions": "Transactions",
     "pending_transactions": "Pending Transactions",
