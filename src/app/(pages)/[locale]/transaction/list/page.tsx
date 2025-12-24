@@ -10,7 +10,6 @@ import Pagination from '@/components/Pagination'
 import Capacity from '@/components/Capacity'
 import AddressText from '@/components/AddressText'
 import { useIsMobile, usePaginationParamsInListPage, useSearchParams, useSortParam, useMediaQuery } from '@/hooks'
-// import { explorerService } from '@/services/ExplorerService'
 import { Tabs } from './Tabs'
 import styles from './index.module.scss'
 import { QueryResult } from '@/components/QueryResult'
@@ -193,52 +192,44 @@ const TransactionTable: FC<{
     },
   ]
 
-  // const pendingColumns: Column<Transaction>[] = [
-  //   colHash,
-  //   {
-  //     key: 'time',
-  //     title: (
-  //       <>
-  //         <div>{t('transaction.time')}</div>
-  //         {/* {sortButton('time')} */}
-  //       </>
-  //     ),
-  //     width: '20%',
-  //     textDirection: 'left',
-  //     render: transaction => {
-  //       assert(transaction.createTimestamp != null)
-  //       return parseSimpleDate(transaction.createTimestamp)
-  //     },
-  //   },
-  //   {
-  //     key: 'capacity',
-  //     title: (
-  //       <>
-  //         <div>{t('transaction.capacity')}</div>
-  //         {/* {sortButton('capacity')} */}
-  //       </>
-  //     ),
-  //     width: '20%',
-  //     textDirection: 'right',
-  //     render: transaction => (
-  //       <Capacity capacity={shannonToCkb(transaction.capacityInvolved)} layout="responsive" unit={null} />
-  //     ),
-  //   },
-  //   {
-  //     key: 'fee',
-  //     title: (
-  //       <>
-  //         <div>{t('transaction.transaction_fee')}</div>
-  //         {/* {sortButton('fee')} */}
-  //       </>
-  //     ),
-  //     width: '20%',
-  //     textDirection: 'right',
-  //     render: transaction => <Capacity capacity={shannonToCkb(transaction.transactionFee)} layout="responsive" />,
-  //   },
-  // ]
+  const pendingColumns: Column<Transaction>[] = [
+    {
+      key: 'hash',
+      title: t('transaction.transaction_hash'),
+      className: styles.colHash,
+      width: '50%',
+      textDirection: 'left',
+      getLinkProps: transaction => ({ href: `/transaction/${transaction.transactionHash}` }),
+      render: transaction => <AddressText disableTooltip>{transaction.transactionHash}</AddressText>,
+    },
+    {
+      key: 'time',
+      title: (
+        <>
+          <div>{t('transaction.time')}</div>
+        </>
+      ),
+      width: '30%',
+      textDirection: 'left',
+      render: transaction => {
+        assert(transaction.createTimestamp != null)
+        return parseSimpleDate(transaction.createTimestamp)
+      },
+    },
+    {
+      key: 'bytes',
+      title: (
+        <>
+          <div>{t('transaction.transaction_bytes')}</div>
+        </>
+      ),
+      width: '20%',
+      textDirection: 'left',
+      render: transaction => transaction.bytes
+    },
+  ]
 
-  const columns = confirmedColumns; // type === 'confirmed' ? confirmedColumns : pendingColumns
+  const columns = type === 'confirmed' ? confirmedColumns : pendingColumns
   return (
     <Table
       className={styles.transactionTable}
@@ -264,17 +255,15 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
     queryFn: async ({ queryKey }) => {
       const [, type] = queryKey
       switch (type) {
-        // case 'pending': {
-        //   const { transactions, total } = await explorerService.api.fetchPendingTransactions(
-        //     currentPage,
-        //     pageSize,
-        //     sort,
-        //   )
-        //   return { transactions, total }
-        // }
+        case 'pending': {
+          const res: any = await server.explorer("GET /ckb_pending_transactions", { page: currentPage, pageSize: pageSize })
+          return {
+            transactions: res?.records ?? [],
+            total: res?.total ?? 0,
+          }
+        }
         case 'confirmed':
         default: {
-          // const { transactions, total } = await explorerService.api.fetchTransactions(currentPage, pageSize, sort)
           const res: any = await server.explorer("GET /ckb_transactions", { page: currentPage, pageSize: pageSize, sort: "" })
           return {
             transactions: res?.records ?? [],
@@ -340,17 +329,22 @@ const TransactionsPage: FC = () => {
   const [t] = useTranslation()
   const { tab } = useSearchParams('tab')
 
-  // const { data } = useQuery({
-  //   queryKey: ['transactions-count'],
-  //   queryFn: explorerService.api.fetchPendingTransactionsCount
-  // })
+  const { data } = useQuery({
+    queryKey: ['transactions-count',tab],
+    queryFn: async () => {
+      const res: any = await server.explorer("GET /ckb_pending_transactions", { page: 1, pageSize: 1 })
+      return {
+        total: res?.total ?? 0,
+      }
+    },
+    enabled: tab === 'pending'
+  })
 
   return (
     <Content>
       <div className={`${styles.transactionPanel} container`}>
-        <div className="font-medium text-[20px]">{t("home.transactions")}</div>
-        <TransactionsPanel key="confirmed" type="confirmed" />
-        {/* <Tabs
+        {/* <div className="font-medium text-[20px]">{t("home.transactions")}</div> */}
+        <Tabs
           activeKey={tab}
           getItemLink={key => `/transaction/list?tab=${key}`}
           items={[
@@ -360,12 +354,12 @@ const TransactionsPage: FC = () => {
               children: <TransactionsPanel key="confirmed" type="confirmed" />,
             },
             {
-              label: `Pending Transactions${data == null ? '' : `(${data.toLocaleString('en')})`}`,
+              label: `Pending Transactions${!data?.total ? '' : `(${data.total.toLocaleString('en')})`}`,
               key: 'pending',
               children: <TransactionsPanel key="pending" type="pending" />,
             },
           ]}
-        /> */}
+        />
       </div>
     </Content>
   )

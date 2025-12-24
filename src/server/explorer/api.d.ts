@@ -205,6 +205,9 @@ declare namespace APIExplorer {
     /** 排序 {"example":"block_timestamp.desc"} */
     sort: string;
 
+    /** 类型 {"example":"spore,m_nft"} */
+    standard: string;
+
   }
 
 
@@ -276,6 +279,12 @@ declare namespace APIExplorer {
 
     /** cell id */
     cellId: number;
+
+    /** icon_url */
+    iconUrl: string;
+
+    /** standard */
+    standard: string;
 
   }
 
@@ -392,6 +401,10 @@ declare namespace APIExplorer {
     data: string;
 
     creator: string;
+
+    standard: string;
+
+    iconUrl: string;
 
   }
 
@@ -883,6 +896,38 @@ declare namespace APIExplorer {
   }
 
 
+  interface PagePendingTransactionPageResponse {
+
+    records: Array<PendingTransactionPageResponse>;
+
+    total: number;
+
+    size: number;
+
+    current: number;
+
+    /** {"writeOnly":true} */
+    orders: Array<OrderItem>;
+
+    optimizeCountSql: PagePendingTransactionPageResponse;
+
+    searchCount: PagePendingTransactionPageResponse;
+
+    /** {"writeOnly":true} */
+    optimizeJoinOfCountSql: boolean;
+
+    /** {"writeOnly":true} */
+    maxLimit: number;
+
+    /** {"writeOnly":true} */
+    countId: string;
+
+    /** {"deprecated":true} */
+    pages: number;
+
+  }
+
+
   interface CellOutputDataResponse {
 
     type: string;
@@ -1066,6 +1111,15 @@ declare namespace APIExplorer {
   }
 
 
+  interface Last7DaysCkbNodeVersionResponse {
+
+    version: string;
+
+    count: number;
+
+  }
+
+
   interface BlockTransactionPageReq {
 
     /** 当前页面数据量 {"minimum":1,"example":10} */
@@ -1206,6 +1260,12 @@ declare namespace APIExplorer {
 
     /** 排序方式，默认为time.desc {"example":"time.desc"} */
     sort: string;
+
+    /** 开始时间 {"format":"date"} */
+    startTime: string;
+
+    /** 结束时间 {"format":"date"} */
+    endTime: string;
 
   }
 
@@ -1427,6 +1487,10 @@ declare namespace APIExplorer {
     /** cell data */
     data: string;
 
+    standard: string;
+
+    iconUrl: string;
+
   }
 
 
@@ -1450,6 +1514,10 @@ declare namespace APIExplorer {
     collectionId: number;
 
     creator: string;
+
+    standard: string;
+
+    iconUrl: string;
 
   }
 
@@ -1600,6 +1668,21 @@ declare namespace APIExplorer {
     typeScript: ScriptResponse;
 
     data: string;
+
+  }
+
+
+  interface PendingTransactionPageResponse {
+
+    type: string;
+
+    transactionHash: string;
+
+    bytes: number;
+
+    createdAt: number;
+
+    createTimestamp: number;
 
   }
 
