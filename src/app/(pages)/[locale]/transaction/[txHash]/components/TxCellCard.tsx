@@ -23,57 +23,66 @@ type TxCellCardProps = {
   showStatus?: boolean,
   seq?: number
   since?: string
+  transactionType: string
 }
-export default function TxCellCard({ since, cell, showStatus = true, seq }: TxCellCardProps) {
+export default function TxCellCard({ since, cell, showStatus = true, seq, transactionType }: TxCellCardProps) {
   const { t } = useTranslation();
-  return (
-    <CellModal cell={cell}>
-      <div className={styles.txCellCard}>
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex gap-2 items-center">
-            <div className="size-6 rounded-full">
-              <Image src={NervosBlackImg} alt="" />
-            </div>
-            <OutLink
-              className={styles.address}
-              href={`/address/${cell.addressHash}`}
-              onClick={(e) => { e.stopPropagation() }}
-            >
-              <TextEllipsis text={cell.addressHash} ellipsis="address" />
-            </OutLink>
+  const shouldShowModal = transactionType !== 'pending';
+
+  const cellCardContent = (
+    <div className={styles.txCellCard}>
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex gap-2 items-center">
+          <div className="size-6 rounded-full">
+            <Image src={NervosBlackImg} alt="" />
           </div>
-          {
-            since
-              ? <SinceDesc since={since} />
-              : <span className="text-[#909399]">{!isNil(seq) ? `#${seq}` : ""}</span>
-          }
-
+          <OutLink
+            className={styles.address}
+            href={`/address/${cell.addressHash}`}
+            onClick={(e) => { e.stopPropagation() }}
+          >
+            <TextEllipsis text={cell.addressHash} ellipsis="address" />
+          </OutLink>
         </div>
+        {
+          since
+            ? <SinceDesc since={since} />
+            : <span className="text-[#909399]">{!isNil(seq) ? `#${seq}` : ""}</span>
+        }
 
-        <div className="flex flex-col gap-2 bg-[#fbfbfb] dark:bg-[#232323e6] rounded-[8px] p-[12px]">
-          <Info label={t("cell.declared")}>
-            <TwoSizeAmount
-              amount={shannonToCkb(cell.capacity)}
-              integerClassName="text-[14px]"
-              decimalClassName="text-[12px]"
-              unit={<span className="ml-1 text-[14px]">CKBytes</span>}
-            />
-          </Info>
-          <Info label={t("cell.occupied")}>
-            <TwoSizeAmount
-              amount={shannonToCkb(cell.occupiedCapacity)}
-              integerClassName="text-[14px]"
-              decimalClassName="text-[12px]"
-              unit={<span className="ml-1 text-[14px]">CKBytes</span>}
-            />
-          </Info>
-          <Info when={showStatus} label={t("cell.state")}>
-            <CellStatusBadge status={(cell as APIExplorer.CellOutputResponse).status} />
-          </Info>
-        </div>
       </div>
-    </CellModal>
+
+      <div className="flex flex-col gap-2 bg-[#fbfbfb] dark:bg-[#232323e6] rounded-[8px] p-[12px]">
+        <Info label={t("cell.declared")}>
+          <TwoSizeAmount
+            amount={shannonToCkb(cell.capacity)}
+            integerClassName="text-[14px]"
+            decimalClassName="text-[12px]"
+            unit={<span className="ml-1 text-[14px]">CKBytes</span>}
+          />
+        </Info>
+        <Info label={t("cell.occupied")}>
+          <TwoSizeAmount
+            amount={shannonToCkb(cell.occupiedCapacity)}
+            integerClassName="text-[14px]"
+            decimalClassName="text-[12px]"
+            unit={<span className="ml-1 text-[14px]">CKBytes</span>}
+          />
+        </Info>
+        <Info when={showStatus} label={t("cell.state")}>
+          <CellStatusBadge status={(cell as APIExplorer.CellOutputResponse).status} />
+        </Info>
+      </div>
+    </div>
   )
+
+  return shouldShowModal ? (
+    <CellModal cell={cell}>
+      {cellCardContent}
+    </CellModal>
+  ) : (
+    cellCardContent
+  );
 }
 
 

@@ -7,8 +7,6 @@ import { ArrowDownWideNarrow, ArrowUpNarrowWide } from 'lucide-react'
 import type { NFTCollection } from '@/server/dataTypes'
 import SortButton from '@/components/SortButton'
 import SelectedCheckIcon from '@/assets/selected_check_icon.svg'
-import FilterIcon from './filter.svg'
-
 import { useSearchParams, useMediaQuery, useSortParam } from '@/hooks'
 import styles from './styles.module.scss'
 import { useNFTCollectionsSortParam } from './util'
@@ -28,6 +26,7 @@ import { useRouter } from "next/navigation";
 import Loading from '@/components/Loading'
 import TokenTag from '@/components/TokenTag'
 import DateTime from '@/components/DateTime'
+import FilterListIcon from "@/components/icons/filterList"
 
 function useFilterList(): Record<'title' | 'value', string>[] {
   const { t } = useTranslation()
@@ -40,14 +39,14 @@ function useFilterList(): Record<'title' | 'value', string>[] {
       value: 'm_nft',
       title: t('nft.m_nft'),
     },
-    {
-      value: 'nrc721',
-      title: t('nft.nrc_721'),
-    },
-    {
-      value: 'cota',
-      title: t('nft.cota'),
-    },
+    // {
+    //   value: 'nrc721',
+    //   title: t('nft.nrc_721'),
+    // },
+    // {
+    //   value: 'cota',
+    //   title: t('nft.cota'),
+    // },
     {
       value: 'spore',
       title: t('nft.dobs'),
@@ -113,24 +112,27 @@ export const isTxFilterType = (s?: string): boolean => {
 
 const TypeFilter = () => {
   const { t } = useTranslation()
-  const { type } = useSearchParams('type')
-  const isActive = isTxFilterType(type)
-  const list = useFilterList()
+  const { standard = 'all' } = useSearchParams('standard');
+  const list = useFilterList();
+  const isFilterActive = isTxFilterType(standard);
   return (
-    <div className={styles.typeFilter} data-is-active={isActive}>
-      {t('nft.standard')}
-      <Popover trigger={<InteImage src={FilterIcon} className={styles.filter} />}>
+    <div className={styles.typeFilter} data-is-active={isFilterActive}>
+      <span className="mr-1">{t('nft.standard')}</span>
+      <Popover trigger={<FilterListIcon sortDirection={!!isFilterActive} />}>
         <div className={styles.filterItems}>
-          {list.map(f => (
-            <Link
-              key={f.value}
-              href={`/nft-collections?${new URLSearchParams({ type: f.value })}`}
-              data-is-active={f.value === type}
-            >
-              {f.title}
-              <InteImage src={SelectedCheckIcon} />
-            </Link>
-          ))}
+          {list.map((f) => {
+            const isItemSelected = f.value === standard;
+            return (
+              <Link
+                key={f.value}
+                href={`/nft-collections?${new URLSearchParams({ standard: f.value })}`}
+                data-is-active={isItemSelected}
+              >
+                {f.title}
+                {isItemSelected && <InteImage src={SelectedCheckIcon} />}
+              </Link>
+            );
+          })}
         </div>
       </Popover>
     </div>
@@ -249,18 +251,18 @@ const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: 
   const displayTagSet = new Set(displayTagList);
   return [
     {
-      width: '18%',
+      width: '14%',
       textDirection: 'left',
       isTextActive: true,
       bold: true,
       content: <div className='flex items-center gap-2 pr-4'>
-        <InteImage
+        {/* <InteImage
           src={nftItem.icon_url || '/images/spore_placeholder.svg'}
           alt={nftItem.name}
           width={48}
           height={48}
           className="rounded-[4px] object-scale-down"
-        />
+        /> */}
         <div className='truncate min-w-0'>
           {/* {
             nftItem.standard === 'spore' && nftItem.creator === '' ? 'Unique items' : nftItem.name.length > 12 ? <Tooltip
@@ -290,12 +292,25 @@ const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: 
       textDirection: 'left',
     },
     {
-      width: '14%',
+      width: '8%',
+      textDirection: 'left',
+      content: nftItem.standard ? <div>
+        {nftItem.standard === 'spore' && 'DOB'}
+        {nftItem.standard === 'm_nft' && <InteImage
+          src={nftItem.iconUrl || '/images/spore_placeholder.svg'}
+          width={48}
+          height={48}
+          className="rounded-[4px] object-scale-down"
+        />}
+      </div> : '-'
+    },
+    {
+      width: '12%',
       content: `${nftItem.h24CkbTransactionsCount}`,
       textDirection: 'left',
     },
     {
-      width: '15%',
+      width: '13%',
       content: `${(nftItem.holdersCount ?? 0).toLocaleString('en')}/${(nftItem.itemsCount ?? 0).toLocaleString(
         'en',
       )}`,
@@ -337,7 +352,7 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
     () => [
       {
         title: t('nft.collection_name'),
-        width: '18%',
+        width: '14%',
         textDirection: 'left',
       },
       {
@@ -346,14 +361,19 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
         textDirection: 'left',
       },
       {
+        title: <TypeFilter />,
+        width: '8%',
+        textDirection: 'left',
+      },
+      {
         title: t('nft.transactions'),
-        width: '14%',
+        width: '12%',
         sortRule: 'h24_ckb_transactions_count',
         textDirection: 'left',
       },
       {
         title: <HolderMinterSort />,
-        width: '15%',
+        width: '13%',
         textDirection: 'left',
       },
       {
@@ -427,6 +447,7 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
               <MultiFilterButton filterName="tags" key="" filterList={getFilterList(t)} />
             </span>
           </div>
+          <div className="flex flex-nowrap items-center max-w-full mr-auto"><TypeFilter /></div>
           <div className="flex items-center">
             <Select
               value={sortBy}
@@ -498,6 +519,18 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
               </dl>
               <div className={styles.name} />
             </div>
+            <dl className={styles.tokenInfo}>
+              <dt className='text-[#909399]'>{t('nft.standard')}</dt>
+              <dd>{item.standard ? <div>
+                {item.standard === 'spore' && 'DOB'}
+                {item.standard === 'm_nft' && <InteImage
+                  src={item.iconUrl || '/images/spore_placeholder.svg'}
+                  width={48}
+                  height={48}
+                  className="rounded-[4px] object-scale-down"
+                />}
+              </div> : '-'}</dd>
+            </dl>
             <dl className={styles.tokenInfo}>
               <dt className='text-[#909399]'>{`${t('nft.holder')}/${t('nft.minted')}`}</dt>
               <dd>

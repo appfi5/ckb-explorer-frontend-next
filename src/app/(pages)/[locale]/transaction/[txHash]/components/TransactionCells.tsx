@@ -25,6 +25,7 @@ export default function TransactionCells({ transaction }: { transaction: APIExpl
         dir="input"
         className="mb-[20px]"
         txHash={transaction.transactionHash}
+        transactionType={transaction.txStatus}
       />
       <CellsPanel
         dir="output"
@@ -33,7 +34,7 @@ export default function TransactionCells({ transaction }: { transaction: APIExpl
     </Card>
   )
 }
-function CellsPanel({ dir, txHash, className }: { className?: string, dir: "input" | "output", txHash: string }) {
+function CellsPanel({ dir, txHash, className, transactionType }: { className?: string, dir: "input" | "output", txHash: string, transactionType: string }) {
   const { t } = useTranslation()
   const isInput = dir === "input"
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
@@ -85,6 +86,7 @@ function CellsPanel({ dir, txHash, className }: { className?: string, dir: "inpu
                 cell={cell}
                 showStatus={!isInput}
                 seq={!isInput ? index : undefined}
+                transactionType={transactionType}
               />
             ))
           }

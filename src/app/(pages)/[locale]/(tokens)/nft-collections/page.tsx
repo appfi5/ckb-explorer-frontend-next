@@ -5,7 +5,7 @@ import Content from '@/components/Content'
 import { ListOnDesktop, ListOnMobile, isTxFilterType } from './List'
 import Pagination from '@/components/Pagination'
 import { udtSubmitEmail } from '@/utils/util'
-import { useSearchParams,useMediaQuery,usePaginationParamsInListPage } from '@/hooks'
+import { useSearchParams, useMediaQuery, usePaginationParamsInListPage } from '@/hooks'
 import styles from './styles.module.scss'
 import { useNFTCollectionsSortParam } from './util'
 import server from '@/server';
@@ -15,18 +15,18 @@ const submitTokenInfoUrl = udtSubmitEmail()
 const NftCollections = () => {
   const isMobile = useMediaQuery(`(max-width: 900px)`);
   const { t } = useTranslation()
-  const { page = '1', type, tags } = useSearchParams('page', 'type', 'tags')
+  const { page = '1', type, tags, standard } = useSearchParams('page', 'type', 'tags', 'standard')
   const { sort } = useNFTCollectionsSortParam()
   const { currentPage, pageSize, setPage, setPageSize } = usePaginationParamsInListPage()
 
   const isValidFilter = isTxFilterType(type) && type !== 'all'
 
   const query = useQuery({
-    queryKey: ['nft-collections', currentPage,pageSize, sort, type, tags, 'true'],
+    queryKey: ['nft-collections', currentPage, pageSize, sort, type, tags, standard, 'true'],
     // queryFn: () =>
     //   explorerService.api.fetchNFTCollections(page, sort, isValidFilter ? type : undefined, tags, 'true'),
     queryFn: async () => {
-      const res = await server.explorer("GET /nft/collections", { page: currentPage, pageSize: pageSize, sort: sort ?? '',  tags: tags ?? '' })
+      const res = await server.explorer("GET /nft/collections", { page: currentPage, pageSize: pageSize, sort: sort ?? '', tags: tags ?? '', standard: standard ?? '' })
       return {
         nftData: res?.records ?? [],
         total: res?.total ?? 0,
@@ -57,7 +57,7 @@ const NftCollections = () => {
         </div>
 
         {
-          isMobile ? <ListOnMobile isLoading={isLoading} list={nftData} />:<ListOnDesktop isLoading={isLoading} list={nftData} />
+          isMobile ? <ListOnMobile isLoading={isLoading} list={nftData} /> : <ListOnDesktop isLoading={isLoading} list={nftData} />
         }
 
         <Pagination

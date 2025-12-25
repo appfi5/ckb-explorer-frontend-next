@@ -41,7 +41,8 @@ export default function CellInfo({ cellId, suffix }: { cellId: APIExplorer.CellO
         }
       }
       return cellInfoRes;
-    }
+    },
+    enabled: !!cellId,
   });
 
 
