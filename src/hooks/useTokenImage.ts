@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getSporeImg } from "@/utils/spore";
+import { getSporeImg, resolveImageUrl, SPORE_PlACEHOLDER_IMG } from "@/utils/spore";
 
 
 type Config = {
@@ -9,8 +9,6 @@ type Config = {
   clusterId?: string | number,
   tokenId?: string;
 }
-const SPORE_PlACEHOLDER_IMG = "/images/spore_placeholder.svg";
-const LOAD_FAILED_IMG = "/images/image_failed.svg"
 
 export default function useTokenImage({ type, data: dataOrUrl, clusterId, tokenId }: Config) {
 
@@ -30,14 +28,3 @@ export default function useTokenImage({ type, data: dataOrUrl, clusterId, tokenI
     isLoading
   }
 }
-
-const resolveImageUrl = (url?: string) => new Promise<string>((r) => {
-  if (!url) {
-    r(LOAD_FAILED_IMG);
-    return;
-  }
-  const img = new Image();
-  img.onload = () => r(url);
-  img.onerror = () => r(LOAD_FAILED_IMG);
-  img.src = url;
-})

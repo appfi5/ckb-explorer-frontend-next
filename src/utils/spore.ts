@@ -36,6 +36,8 @@ export const setupDobConfig = () => {
 
 setupDobConfig();
 
+export const SPORE_PlACEHOLDER_IMG = "/images/spore_placeholder.svg";
+export const LOAD_FAILED_IMG = "/images/image_failed.svg"
 
 export async function dobDecode(tokenId: string): Promise<DobDecodeResponse> {
   const response = await fetch(config.dobDecodeServerURL, {
@@ -112,7 +114,7 @@ const base64ImgFromSporeId = memoize(async (sporeId: string) => {
     // console.error(error);
   }
   
-  return "/images/image_failed.svg";
+  return LOAD_FAILED_IMG;
 })
 
 /*
@@ -126,13 +128,13 @@ export const getSporeImg = async ({
   data?: string;
   id: string;
 }): Promise<string> => {
-  const DEFAULT_URL = "/images/spore_placeholder.svg";
-  if (!hexData || hexData.length < 3) return DEFAULT_URL;
+  if (!hexData || hexData.length < 3) return SPORE_PlACEHOLDER_IMG;
   // if (!hexData && !sporeId) {
   //   return DEFAULT_URL;
   // }
 
   const { contentType, content } = parseSporeCellData(hexData);
+  console.log({ content, contentType })
   if (contentType.startsWith("image")) {
     const base64Data = hexToBase64(content);
     return `data:${contentType};base64,${base64Data}`;
@@ -141,18 +143,18 @@ export const getSporeImg = async ({
     try {
       const raw: any = JSON.parse(hexToUtf8(`0x${content}`));
       if (raw?.resource?.type?.startsWith("image")) {
-        return raw.resource?.url ?? DEFAULT_URL;
+        return resolveImageUrl(raw.resource?.url ?? SPORE_PlACEHOLDER_IMG);
       }
     } catch {
-      return DEFAULT_URL;
+      return SPORE_PlACEHOLDER_IMG;
     }
   }
   if (contentType.startsWith("dob/")) {
-    if (!sporeId) return DEFAULT_URL;
+    if (!sporeId) return SPORE_PlACEHOLDER_IMG;
     const base64Img = await base64ImgFromSporeId(sporeId);
     return base64Img;
   }
-  return DEFAULT_URL;
+  return SPORE_PlACEHOLDER_IMG;
 };
 
 export const isDob0 = (item: {
@@ -181,3 +183,16 @@ export async function getDob0Traits(tokenId: string) {
   const { traits } = traitsParser(dob0Data.render_output);
   return traits
 }
+
+
+
+export const resolveImageUrl = (url?: string) => new Promise<string>((r) => {
+  if (!url) {
+    r(LOAD_FAILED_IMG);
+    return;
+  }
+  const img = new Image();
+  img.onload = () => r(url);
+  img.onerror = () => r(LOAD_FAILED_IMG);
+  img.src = url;
+})
