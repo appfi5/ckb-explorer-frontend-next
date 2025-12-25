@@ -66,6 +66,8 @@ const apiMap = {
   "GET /ckb_transactions/{txHash}/display_inputs": defineAPI<APIExplorer.BasePageReq & { txHash: string }, APIExplorer.PageCellInputResponse>("/ckb_transactions/{txHash}/display_inputs", "GET", {divider: {"path":["txHash"]}}),
   /** 获取首页交易列表 */
   "GET /ckb_transactions/homePage": defineAPI<{ pageSize: number }, Array<APIExplorer.TransactionPageResponse>>("/ckb_transactions/homePage", "GET"),
+  /** 获取Pending交易列表 */
+  "GET /ckb_pending_transactions": defineAPI<APIExplorer.BasePageReq, APIExplorer.PagePendingTransactionPageResponse>("/ckb_pending_transactions", "GET"),
   /** 获取CellOutput的数据 */
   "GET /cell_output_data/{id}": defineAPI<{ id: string }, APIExplorer.CellOutputDataResponse>("/cell_output_data/{id}", "GET", {divider: {"path":["id"]}}),
   /** 获取CellInfo的数据 */
@@ -76,6 +78,8 @@ const apiMap = {
   "GET /blocks/{id}": defineAPI<{ id: string }, APIExplorer.BlockResponse>("/blocks/{id}", "GET", {divider: {"path":["id"]}}),
   /** 获取首页块列表 */
   "GET /blocks/homePage": defineAPI<{ pageSize: number }, Array<APIExplorer.BlockListResponse>>("/blocks/homePage", "GET"),
+  /** 获取CKB矿工的节点版本 */
+  "GET /blocks/ckb_node_versions": defineAPI<null, Array<APIExplorer.Last7DaysCkbNodeVersionResponse>>("/blocks/ckb_node_versions", "GET"),
   /** 获取区块内的交易列表 */
   "GET /block_transactions/{id}": defineAPI<APIExplorer.BlockTransactionPageReq & { id: string }, APIExplorer.PageBlockTransactionPageResponse>("/block_transactions/{id}", "GET", {divider: {"path":["id"]}}),
   /** 获取地址详情 */
