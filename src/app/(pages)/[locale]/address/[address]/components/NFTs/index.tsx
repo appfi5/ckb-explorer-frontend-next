@@ -8,8 +8,8 @@ import { QueryResult } from "@/components/QueryResult";
 import { useTranslation } from "react-i18next";
 import CellModal from "@/components/Cell/CellModal";
 import TooltipMoreIcon from "@/assets/icons/tooltip.more.svg?component";
-import useDOBRender from "@/hooks/useDOBRender";
 import TextEllipsis from "@/components/TextEllipsis";
+import useTokenImage from "@/hooks/useTokenImage";
 
 
 export default function NFTs({ addressInfo }: { addressInfo: APIExplorer.AddressResponse }) {
@@ -54,32 +54,48 @@ export default function NFTs({ addressInfo }: { addressInfo: APIExplorer.Address
 
 
 function NFTCard({ item }: { item: APIExplorer.AccountNftResponse }) {
-  const { data: itemCover, isLoading } = useDOBRender({ type: "dob", data: item.nftIconFile, id: item.tokenId })
-
+  const { isLoading, data: itemCover } = useTokenImage({
+    type: item.standard,
+    data: item.nftIconFile,
+    clusterId: item.collectionTypeHash,
+    tokenId: item.tokenId
+  })
   return (
     <Link href={`/nft-collections/${item.collectionTypeHash}/${item.tokenId}`}>
       <div className={classNames(styles.card, "rounded-md cursor-pointer")}>
         <div className="flex items-center justify-between bg-[#232323] dark:bg-primary rounded-t-sm p-2">
           <div className="flex flex-row font-medium items-center gap-1 text-base text-[#fff]">
-            DOB
+            {item.standard}
           </div>
-          <div className={classNames(styles.cells, "bg-white text-[#232323] size-[20px] leading-0 rounded-[4px]")} onClick={(e) => e.preventDefault()}>
+          <div
+            data-clickable
+            className={classNames("bg-white text-[#232323] size-5 leading-0 rounded-sm")}
+            onClick={(e) => e.preventDefault()}
+          >
             <CellModal cell={{ id: item.cellId }}>
-              <div className="flex items-center justify-center size-[20px] rounded-[4px] bg-white dark:bg-[#ffffff1a] border-[#ddd] dark:border-[transparent] border-[1px] hover:text-primary hover:border-(--color-primary) cursor-pointer ">
+              <div className="flex items-center justify-center size-5 rounded-sm bg-white dark:bg-[#ffffff1a] border-[#ddd] dark:border-[transparent] border-[1px] hover:text-primary hover:border-(--color-primary) cursor-pointer ">
                 <TooltipMoreIcon />
               </div>
             </CellModal>
           </div>
         </div>
         <div className="flex flex-row items-center gap-2 bg-[#fbfbfb] dark:bg-[#363839] border border-[#eee] dark:border-[#4C4C4C] rounded-b-sm px-2 pt-3 pb-4">
-          <div className="size-[48px] rounded-sm bg-[#eee] dark:bg-[#303030]">
-            { !isLoading && <img src={itemCover || "/images/spore_placeholder.svg"} className="w-full h-full object-scale-down rounded-sm" alt={item.collectionName} />}
+          <div className="flex-none size-12 rounded-sm bg-[#eee] dark:bg-[#303030]">
+            {!isLoading && <img src={itemCover || "/images/spore_placeholder.svg"} className="w-full h-full object-scale-down rounded-sm" alt={item.collectionName} />}
           </div>
-          <div>
+          <div className="flex-1 min-w-0">
             {
               !!item.collectionName && (
-                <Link href={`/nft-collections/${item.collectionTypeHash}`}>
-                  <div className="text-lg font-medium flex flex-row items-center gap-1 leading-[26px]">
+                <Link
+                  data-clickable
+                  className="hover:underline"
+                  href={`/nft-collections/${item.collectionTypeHash}`}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div  
+                    title={item.collectionName}
+                    className="text-lg font-medium items-center gap-1 leading-[26px] truncate"
+                  >
                     {item.collectionName}
                   </div>
                 </Link>

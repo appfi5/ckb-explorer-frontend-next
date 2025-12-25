@@ -1247,6 +1247,10 @@ declare namespace APIExplorer {
     /** cell id */
     cellId: number;
 
+    standard: string;
+
+    iconUrl: string;
+
   }
 
 

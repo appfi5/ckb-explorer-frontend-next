@@ -1,6 +1,6 @@
 .card {
   border: 2px solid transparent;
-  &:not(:has(.cells:hover)):hover {
+  &:not(:has([data-clickable=true]:hover)):hover {
     border: 2px solid var(--color-primary);
     box-shadow: 0px 2px 12px 0px rgb(from var(--color-primary) r g b / 30%);
   }

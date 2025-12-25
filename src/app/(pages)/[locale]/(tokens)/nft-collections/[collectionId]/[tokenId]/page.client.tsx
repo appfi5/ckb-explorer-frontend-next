@@ -12,7 +12,6 @@ import classNames from "classnames"
 import NFTTransactionsHistory from "./TransactionsHistory"
 import AssetContainer from "@/components/AssetContainer"
 import { formatNftDisplayId } from "@/utils/util"
-import useDOBRender from "@/hooks/useDOBRender"
 import type { ParsedTrait } from "@nervape/dob-render"
 import { getDob0Traits } from "@/utils/spore"
 import parseData from "@/components/Cell/dataDecoder"
@@ -20,6 +19,7 @@ import { CellType } from "@/components/Cell/utils"
 import Tooltip from "@/components/Tooltip"
 import CellModal from "@/components/Cell/CellModal"
 import InfoIcon from '@/assets/icons/info.svg?component';
+import useTokenImage from "@/hooks/useTokenImage"
 
 type NFTDetail = APIExplorer.NftItemResponse & { traits?: ParsedTrait[] };
 const UNIQUE_ITEM_LABEL = 'Unique Item';
@@ -78,7 +78,12 @@ export default function NFTDetail({ collectionId, tokenId }: { collectionId: str
 
 function NFTOverview({ detail, collection }: { detail: NFTDetail, collection: APIExplorer.CollectionsResp | undefined }) {
   const { t } = useTranslation("tokens");
-  const { data: nftCoverImg, isLoading } = useDOBRender({ type: "dob", data: detail.data, id: detail.tokenId })
+  const { data: nftCoverImg, isLoading } = useTokenImage({
+    type: detail.standard,
+    data: detail.iconUrl || detail.data,
+    clusterId: collection?.typeScriptHash,
+    tokenId: detail.tokenId,
+  })
   return (
     <Card className={classNames("p-3 sm:p-6 flex flex-col md:flex-row flex-wrap gap-6", styles.overview)}>
       <AssetContainer className="flex-none flex justify-center items-center max-w-full md:size-[360px] xl:size-[480px] rounded-lg overflow-hidden">
@@ -96,7 +101,7 @@ function NFTOverview({ detail, collection }: { detail: NFTDetail, collection: AP
       <div className="flex-1">
         <div className="font-medium text-black dark:text-white text-base md:text-2xl break-all">
           {detail
-            ? `${collection?.name ?? UNIQUE_ITEM_LABEL} ${formatNftDisplayId(detail.tokenId, "spore")}`
+            ? `${collection?.name ?? UNIQUE_ITEM_LABEL} ${formatNftDisplayId(detail.tokenId, detail.standard)}`
             : '-'}
         </div>
         {/* <div className="block h-[1px] bg-[#ccc] md:hidden"></div> */}
@@ -141,7 +146,7 @@ function NFTOverview({ detail, collection }: { detail: NFTDetail, collection: AP
           </DescItem>
 
           <DescItem layout="flex-col gap-1" label={t("field.type")} >
-            DOB
+            {detail.standard}
           </DescItem>
 
           <DOBTraits traits={detail.traits} tokenId={detail.tokenId} />

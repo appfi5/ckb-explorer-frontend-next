@@ -26,9 +26,9 @@ import type { sporeDataParseUnit } from "@/components/Cell/dataDecoder/dpu.spore
 import { withNetwork } from "@/utils/withNetwork";
 import Link from "next/link";
 import AssetContainer from "@/components/AssetContainer";
-import useDOBRender from "@/hooks/useDOBRender";
 import { SearchRangeCode } from "@/components/Search/SearchRangeSelect";
 import type { sporeClusterDataParseUnit } from "@/components/Cell/dataDecoder/dpu.sporeCluster";
+import useTokenImage from "@/hooks/useTokenImage";
 
 type ParsedData<T> = T extends DataParseUnit ? ReturnType<T["parse"]> : never
 
@@ -318,7 +318,7 @@ function TxCellSporeCluster({ cell }: Pick<TxCellRichDisplayProps, "cell">) {
 }
 
 function DOBCover({ cellData, tokenId }: { cellData?: string, tokenId: string }) {
-  const { data: nftCoverImg, isLoading } = useDOBRender({ type: "dob", data: cellData, id: tokenId })
+  const { data: nftCoverImg, isLoading } = useTokenImage({ type: "spore", data: cellData, tokenId })
   return (
     <AssetContainer className="size-25 rounded-lg">
       {
