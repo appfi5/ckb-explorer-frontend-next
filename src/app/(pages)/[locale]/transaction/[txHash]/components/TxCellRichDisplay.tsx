@@ -174,7 +174,7 @@ function TxCellSpore({ cell }: Pick<TxCellRichDisplayProps, "cell">) {
       {
         expanded
           ? (
-            <div className="flex flex-row gap-6 mt-4">
+            <div className="flex flex-row flex-wrap gap-6 mt-4">
               <DOBCover cellData={cellData} tokenId={tokenId} />
               <div className="flex flex-col gap-4">
                 <ScriptTag category="type" script={cell.typeScript} />
@@ -256,7 +256,7 @@ function TxCellSporeCluster({ cell }: Pick<TxCellRichDisplayProps, "cell">) {
           expanded
             ? (<span className="text-[#999999]">Detail</span>)
             : (
-              <div className="flex flex-row gap-2.5 items-center">
+              <div className="flex flex-row flex-wrap gap-2.5 items-center">
                 {
                   clusterTypeHash ? (
                     <Link
@@ -453,7 +453,7 @@ function TxCellDAO({ cell, ckbValue }: CommonCellProps) {
   const decodeContent = parseData({ typeScript: cell.typeScript }, cell.data);
   const decodedData = decodeContent?.content as ParsedData<typeof daoDataParseUnit>;
   return (
-    <div className="flex flex-row items-center justify-between">
+    <div className="flex flex-row flex-wrap items-center justify-between">
       <div className="flex flex-row items-center gap-2.5">
         {!!decodedData.blockNumber ? "DAO Withdraw" : "DAO Deposit"}
         <ScriptTag category="type" script={cell.typeScript} />

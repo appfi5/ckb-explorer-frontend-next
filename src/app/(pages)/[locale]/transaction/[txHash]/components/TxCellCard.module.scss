@@ -1,5 +1,3 @@
-
-
 .tx-cell-card {
   // box-sizing: border-box;
   border: 0px solid #eee;
@@ -17,6 +15,13 @@
     border: 3px solid var(--color-primary);
     padding: 17px;
     box-shadow: 0px 2px 12px 0px rgb(from var(--color-primary) r g b / 30%);
+  }
+  @media (width <=48rem) {
+    padding: 10px;
+
+    &:not(:has([data-clickable=true]:hover)):hover {
+      padding: 7px;
+    }
   }
 }
 

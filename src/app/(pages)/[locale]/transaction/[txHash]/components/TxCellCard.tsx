@@ -35,7 +35,7 @@ function ScriptTagFromAddress({ address }: { address: string }) {
       return script;
     }
   })
-  return script ? <div data-clickable><ScriptTag category="lock" script={script} /></div> : null;
+  return script ? <div data-clickable onClick={(e) => { e.stopPropagation() }}><ScriptTag category="lock" script={script} /></div> : null;
 }
 
 type TxCellCardProps = {
@@ -49,8 +49,8 @@ export default function TxCellCard({ since, cell, showStatus = true, seq }: TxCe
   return (
     <CellModal cell={cell}>
       <div className={styles.txCellCard}>
-        <div className="flex items-start justify-between mb-5">
-          <div className="flex gap-2 flex-wrap items-center" onClick={(e) => { e.stopPropagation() }}>
+        <div className="flex items-start justify-between mb-3.5 md:mb-5">
+          <div className="flex gap-x-2 gap-y-3.5 flex-wrap items-center">
             <div className="size-6 rounded-full">
               <Image src={NervosBlackImg} alt="" />
             </div>
@@ -58,6 +58,7 @@ export default function TxCellCard({ since, cell, showStatus = true, seq }: TxCe
               className={cn(styles.address, "underline hover:text-primary")}
               href={`/address/${cell.addressHash}`}
               data-clickable
+              onClick={(e) => { e.stopPropagation() }}
             >
               <TextEllipsis text={cell.addressHash} ellipsis="address" />
             </Link>
@@ -71,7 +72,7 @@ export default function TxCellCard({ since, cell, showStatus = true, seq }: TxCe
 
         </div>
 
-        <div className="bg-[#fbfbfb] dark:bg-[#232323e6] rounded-sm border border-[#d9d9d9] dark:border-[#4c4c4c] px-5 py-4">
+        <div className="bg-[#fbfbfb] dark:bg-[#232323e6] rounded-sm border border-[#d9d9d9] dark:border-[#4c4c4c] px-5 py-3 md:py-4">
           <TxCellRichDisplay cell={cell} />
         </div>
 
@@ -121,39 +122,43 @@ function SinceDesc({ since: sinceRaw }: { since: string }) {
   const { t } = useTranslation();
   if (!since) return null;
   return (
-    <Tips
-      contentClassName={classNames(styles.sinceTooltip, "max-w-[240px]! p-4 rounded-lg ")}
-      trigger={
-        <div
-          onClick={e => e.stopPropagation()}
-          className="flex size-5 items-center justify-center bg-[#ffb041] rounded-sm text-white"
-        >
-          <SinceLockIcon />
-        </div>
-      }
+    <div
+      onClick={e => e.stopPropagation()}
+      data-clickable
     >
-      <div className="text-black" onClick={(e) => e.stopPropagation()}>
-        <div className="flex flex-row items-center text-sm gap-2 mb-2.5">
-          <SinceLockIcon />
-          <span>Restricted by Since</span>
+      <Tips
+        contentClassName={classNames(styles.sinceTooltip, "max-w-[240px]! p-4 rounded-lg ")}
+        trigger={
+          <div
+            className="flex size-5 items-center justify-center bg-[#ffb041] rounded-sm text-white"
+          >
+            <SinceLockIcon />
+          </div>
+        }
+      >
+        <div className="text-black" onClick={(e) => e.stopPropagation()}>
+          <div className="flex flex-row items-center text-sm gap-2 mb-2.5">
+            <SinceLockIcon />
+            <span>Restricted by Since</span>
+          </div>
+          <div className="text-[#999] text-xs leading-5 break-normal">
+            {t("transaction.tags.since_locked.description", {
+              time: t(`transaction.since.${since.relative}.${since.metric}`, { since: since.value }),
+            })}
+          </div>
+          <Button
+            variant="outline"
+            className="rounded-sm py-1.5 px-2 text-xs w-16 h-auto border-[#ccc] hover:bg-primary hover:text-white hover:border-primary mt-2.5"
+            onClick={() => {
+              window.open("https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0017-tx-valid-since/0017-tx-valid-since.md", "_blank", "noreferrer")
+            }}
+          >
+            {t("scripts.detail")}
+            <ArrowRightIcon style={{ width: 4, height: 8 }} />
+          </Button>
         </div>
-        <div className="text-[#999] text-xs leading-5 break-normal">
-          {t("transaction.tags.since_locked.description", {
-            time: t(`transaction.since.${since.relative}.${since.metric}`, { since: since.value }),
-          })}
-        </div>
-        <Button
-          variant="outline"
-          className="rounded-sm py-1.5 px-2 text-xs w-16 h-auto border-[#ccc] hover:bg-primary hover:text-white hover:border-primary mt-2.5"
-          onClick={() => {
-            window.open("https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0017-tx-valid-since/0017-tx-valid-since.md", "_blank", "noreferrer")
-          }}
-        >
-          {t("scripts.detail")}
-          <ArrowRightIcon style={{ width: 4, height: 8 }} />
-        </Button>
-      </div>
-    </Tips>
+      </Tips>
+    </div>
   )
 }
 
