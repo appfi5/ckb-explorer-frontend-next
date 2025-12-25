@@ -5,6 +5,7 @@ import styles from './styles.module.scss'
 import { useChartTheme } from "@/hooks/useChartTheme";
 import { FeeRateIconOne, FeeRateIconTwo, FeeRateIconThree } from '@/components/icons/feeRateIcon'
 import classNames from 'classnames';
+import { useMemo } from 'react';
 const getWeightedMedian = (tfrs: APIExplorer.TransactionFeeRates[]): number => {
   if (tfrs?.length === 0) {
     return 0
@@ -62,7 +63,7 @@ function parseFeeRates(feeRates: APIExplorer.TransactionFeeRates[]) {
 const FeeRateViewCard = ({ transactionFeeRates }: { transactionFeeRates: APIExplorer.TransactionFeeRates[] }) => {
   const { feeColors } = useChartTheme()
   const { t } = useTranslation()
-  const { low, medium, high } = parseFeeRates(transactionFeeRates);
+  const { low, medium, high } = useMemo(() => parseFeeRates(transactionFeeRates), [transactionFeeRates]);
 
   const feeRateCards: any[] = [
     {
