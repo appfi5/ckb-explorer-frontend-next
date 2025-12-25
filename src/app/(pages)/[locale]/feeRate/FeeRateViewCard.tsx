@@ -5,76 +5,83 @@ import styles from './styles.module.scss'
 import { useChartTheme } from "@/hooks/useChartTheme";
 import { FeeRateIconOne, FeeRateIconTwo, FeeRateIconThree } from '@/components/icons/feeRateIcon'
 import classNames from 'classnames';
-const getWeightedMedian = (tfrs: FeeRateTracker.TransactionFeeRate[]): number => {
+const getWeightedMedian = (tfrs: APIExplorer.TransactionFeeRates[]): number => {
   if (tfrs?.length === 0) {
     return 0
   }
+  const arrLen = tfrs.length;
   return tfrs.length % 2 === 0
-    ? (tfrs[tfrs.length / 2 - 1].confirmationTime + tfrs[tfrs.length / 2].confirmationTime) / 2
-    : tfrs[(tfrs.length - 1) / 2].confirmationTime
+    ? (+tfrs[arrLen / 2 - 1]!.confirmationTime + +tfrs[arrLen / 2]!.confirmationTime) / 2
+    : +tfrs[(arrLen - 1) / 2]!.confirmationTime
 }
 
-const calcFeeRate = (tfrs: FeeRateTracker.TransactionFeeRate[]): string =>
+const calcFeeRate = (tfrs: APIExplorer.TransactionFeeRates[]): string =>
   tfrs.length === 0
     ? '0'
-    : Math.round(tfrs.reduce((acc, cur) => acc + cur.feeRate * 1000, 0) / tfrs.length).toLocaleString('en')
+    : Math.round(tfrs.reduce((acc, cur) => acc + +cur.feeRate * 1000, 0) / tfrs.length).toLocaleString('en')
 
-
-const FeeRateViewCard = ({ transactionFeeRates }: { transactionFeeRates: FeeRateTracker.TransactionFeeRate[] }) => {
-  const { feeColors } = useChartTheme()
-  const { t } = useTranslation()
-  let allFrs = transactionFeeRates.sort((a, b) => a.confirmationTime - b.confirmationTime)
-  const minFeeRate = allFrs.reduce((min, current) => Math.min(min, current.feeRate), Infinity)
-
+function parseFeeRates(feeRates: APIExplorer.TransactionFeeRates[]) {
+  let sortedFeeRates = feeRates.sort((a, b) => +a.confirmationTime - +b.confirmationTime)
+  const minFeeRate = sortedFeeRates.reduce((min, current) => Math.min(min, +current.feeRate), Infinity)
   const SCALING_FACTOR = 5
-
-  const sampleWithinScale = allFrs.filter(r => r.feeRate <= minFeeRate * SCALING_FACTOR)
-  if (sampleWithinScale.length * 3 > allFrs.length) {
+  const sampleWithinScale = sortedFeeRates.filter(r => +r.feeRate <= minFeeRate * SCALING_FACTOR)
+  if (sampleWithinScale.length * 3 > sortedFeeRates.length) {
     // When more than 1/3 of transactions have fee rates within 5x of the minimum,
     // we consider the network to have sufficient bandwidth. In this case,
     // we filter out transactions with unusually high fee rates to provide
     // more accurate fee rate recommendations.
-    allFrs = sampleWithinScale
+    sortedFeeRates = sampleWithinScale
   }
 
-  const avgConfirmationTime = getWeightedMedian(allFrs)
+  const avgConfirmationTime = getWeightedMedian(sortedFeeRates)
 
-  // const lowFrs = allFrs.filter(r => r.confirmationTime >= avgConfirmationTime)
-  // const lowConfirmationTime = getWeightedMedian(lowFrs)
+  const lowFrs = sortedFeeRates.filter(r => +r.confirmationTime >= avgConfirmationTime)
+  const lowConfirmationTime = getWeightedMedian(lowFrs)
 
-  // const highFrs = allFrs.filter(r => r.confirmationTime < avgConfirmationTime)
-  // const highConfirmationTime = getWeightedMedian(highFrs)
-  // const list = [lowFrs, allFrs, highFrs].map(calcFeeRate)
-  // let low = list[0]
-  // let medium = list[1]
-  // const high = list[2]
+  const highFrs = sortedFeeRates.filter(r => +r.confirmationTime < avgConfirmationTime)
+  const highConfirmationTime = getWeightedMedian(highFrs)
+  const list = [lowFrs, sortedFeeRates, highFrs].map(calcFeeRate)
+  let low = list[0]!
+  let medium = list[1]!
+  const high = list[2]!
 
-  // if (+medium.replace(/,/g, '') > +high.replace(/,/g, '')) {
-  //   medium = high
-  // }
-  // if (+low.replace(/,/g, '') > +medium.replace(/,/g, '')) {
-  //   low = medium
-  // }
-  const medium = calcFeeRate(allFrs)
+  if (+medium.replace(/,/g, '') > +high.replace(/,/g, '')) {
+    medium = high
+  }
+  if (+low.replace(/,/g, '') > +medium.replace(/,/g, '')) {
+    low = medium
+  }
+
+  return {
+    low: { feeRate: low, confirmationTime: lowConfirmationTime },
+    medium: { feeRate: medium, confirmationTime: avgConfirmationTime },
+    high: { feeRate: high, confirmationTime: highConfirmationTime },
+  }
+}
+
+const FeeRateViewCard = ({ transactionFeeRates }: { transactionFeeRates: APIExplorer.TransactionFeeRates[] }) => {
+  const { feeColors } = useChartTheme()
+  const { t } = useTranslation()
+  const { low, medium, high } = parseFeeRates(transactionFeeRates);
 
   const feeRateCards: any[] = [
     {
       priority: t('fee_rate_tracker.low'),
       icon: <FeeRateIconOne />,
-      feeRate: medium,
-      confirmationTime: avgConfirmationTime,
+      feeRate: low.feeRate,
+      confirmationTime: low.confirmationTime,
     },
     {
       priority: t('fee_rate_tracker.average'),
       icon: <FeeRateIconTwo />,
-      feeRate: medium,
-      confirmationTime: avgConfirmationTime,
+      feeRate: medium.feeRate,
+      confirmationTime: medium.confirmationTime,
     },
     {
       priority: t('fee_rate_tracker.high'),
       icon: <FeeRateIconThree />,
-      feeRate: medium,
-      confirmationTime: avgConfirmationTime,
+      feeRate: high.feeRate,
+      confirmationTime: high.confirmationTime,
     },
   ]
 

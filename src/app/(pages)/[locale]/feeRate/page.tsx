@@ -28,7 +28,7 @@ const FeeRateTrackerPage = () => {
   const isMobile = useIsMobile()
   const { statistics } = useBlockChainInfo()
 
-  const { data: transactionFeesStatistic } = useQuery<FeeRateTracker.TransactionFeesStatistic>({
+  const { data: transactionFeesStatistic } = useQuery({
     queryKey: ['statistics-transaction_fees'],
     queryFn: async () => {
       const res = await server.explorer("GET /statistics/{fieldName}", { fieldName: "transaction_fees" });

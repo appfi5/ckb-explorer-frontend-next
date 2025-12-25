@@ -134,11 +134,11 @@ export const parseInterval = (max: number, min: number) => {
 // https://github.com/Magickbase/ckb-explorer-public-issues/issues/394
 // TODO: add tests for the sample function
 export const getFeeRateSamples = (
-  feeRates: FeeRateTracker.TransactionFeeRate[],
+  feeRates: APIExplorer.TransactionFeeRates[] | undefined, // FeeRateTracker.TransactionFeeRate[],
   TPM: number,
   avgBlockTime = 12,
 ) => {
-  if (feeRates && feeRates.length === 0) return feeRates;
+  if (!feeRates?.length) return feeRates;
 
   const SAMPLES_MIN_COUNT = 100;
 
@@ -148,12 +148,12 @@ export const getFeeRateSamples = (
   );
   const validSamples = feeRates
     .filter((i) => i.confirmationTime)
-    .sort((a, b) => a.feeRate - b.feeRate);
+    .sort((a, b) => +a.feeRate - +b.feeRate);
 
   // check if lowest fee rate has ideal confirmation time
   const lowests = validSamples.slice(0, sampleCount);
   const avgOfLowests =
-    lowests.reduce((acc, cur) => acc + cur.confirmationTime, 0) /
+    lowests.reduce((acc, cur) => acc + +cur.confirmationTime, 0) /
     lowests.length;
 
   const ACCEPTABLE_CONFIRMATION_TIME = 2 * avgBlockTime;
@@ -167,8 +167,8 @@ export const getFeeRateSamples = (
   // Calculate the first and third quartiles (Q1 and Q3)
   const q1Index = Math.floor(validSamples.length * 0.25);
   const q3Index = Math.floor(validSamples.length * 0.75);
-  const q1 = validSamples[q1Index].feeRate;
-  const q3 = validSamples[q3Index].feeRate;
+  const q1 = +validSamples[q1Index]!.feeRate;
+  const q3 = +validSamples[q3Index]!.feeRate;
 
   // Calculate the Interquartile Range (IQR)
   const iqr = q3 - q1;
@@ -178,19 +178,19 @@ export const getFeeRateSamples = (
 
   // Filter out the outliers
   const filteredData = validSamples.filter(
-    (item) => item.feeRate >= lowerBound && item.feeRate <= upperBound,
+    (item) => +item.feeRate >= lowerBound && +item.feeRate <= upperBound,
   );
 
   const samples = filteredData
-    .sort((a, b) => a.confirmationTime - b.confirmationTime)
-    .reduce<FeeRateTracker.TransactionFeeRate[]>((acc, cur) => {
+    .sort((a, b) => +a.confirmationTime - +b.confirmationTime)
+    .reduce((acc, cur) => {
       const last = acc[acc.length - 1];
-      if (!last || last.feeRate + 1.5 * iqr >= cur.feeRate) {
+      if (!last || +last.feeRate + 1.5 * iqr >= +cur.feeRate) {
         return [...acc, cur];
       }
       return acc;
-    }, [])
-    .sort((a, b) => b.timestamp - a.timestamp)
+    }, [] as APIExplorer.TransactionFeeRates[])
+    .sort((a, b) => +b.timestamp - +a.timestamp)
     .slice(0, sampleCount);
 
   return samples;
