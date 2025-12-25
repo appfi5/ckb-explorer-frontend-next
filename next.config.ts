@@ -27,10 +27,10 @@ const config: NextConfig = {
           {
             key: "Content-Security-Policy",
             value: [
-              "default-src 'self'",
+              "default-src *",
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live",
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: https://raw.githubusercontent.com",
+              "img-src *",
               // `connect-src 'self' ${combinedUrl}`,
               "connect-src *",
               "font-src 'self'",
