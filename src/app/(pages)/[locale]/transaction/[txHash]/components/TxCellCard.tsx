@@ -49,9 +49,9 @@ export default function TxCellCard({ since, cell, isInput = true, seq, isPending
   const { t } = useTranslation();
   // 可以显示的情况：1.isPendingData 为false时；2.当isPendingData为true时：isInput为true，cell.id有值可以显示。
   // 不可以显示的情况：1.当isPendingData为true时：isInput为false，不可以显示
-  const isShowModal =
-    !isPendingData ||  // 情况1: 非pending数据时总是显示
-    (isPendingData && isInput && !!cell.id);  // 情况2: pending数据且为输入单元格且有cell.id时显示
+  const isShowModal = !isPendingData
+    // !isPendingData ||  // 情况1: 非pending数据时总是显示
+    // (isPendingData && isInput && !!cell.id);  // 情况2: pending数据且为输入单元格且有cell.id时显示
 
   const cellCardContent = (
     <div className={styles.txCellCard}>
