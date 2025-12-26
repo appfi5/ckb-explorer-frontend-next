@@ -596,6 +596,7 @@
     "cell-info": "Cell 详情",
     "view_rgbpp_digest": "查看 RGB++ 摘要",
     "transaction": "交易",
+    "transaction_bytes": "字节",
     "24h_transactions": "24小时交易",
     "transactions": "交易",
     "pending_transactions": "待处理交易",

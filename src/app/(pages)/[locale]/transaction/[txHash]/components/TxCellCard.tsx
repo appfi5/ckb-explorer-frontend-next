@@ -43,40 +43,42 @@ type TxCellCardProps = {
   showStatus?: boolean,
   seq?: number
   since?: string
+  isPendingData: boolean
 }
-export default function TxCellCard({ since, cell, showStatus = true, seq }: TxCellCardProps) {
+export default function TxCellCard({ since, cell, showStatus = true, seq, isPendingData }: TxCellCardProps) {
   const { t } = useTranslation();
-  return (
-    <CellModal cell={cell}>
-      <div className={styles.txCellCard}>
-        <div className="flex items-start justify-between mb-3.5 md:mb-5">
-          <div className="flex gap-x-2 gap-y-3.5 flex-wrap items-center">
-            <div className="size-6 rounded-full">
-              <Image src={NervosBlackImg} alt="" />
-            </div>
-            <Link
-              className={cn(styles.address, "underline hover:text-primary")}
-              href={`/address/${cell.addressHash}`}
-              data-clickable
-              onClick={(e) => { e.stopPropagation() }}
-            >
-              <TextEllipsis text={cell.addressHash} ellipsis="address" />
-            </Link>
-            <ScriptTagFromAddress address={cell.addressHash} />
+  const isShowModal = !isPendingData || !!cell.id
+
+  const cellCardContent = (
+    <div className={styles.txCellCard}>
+      <div className="flex items-start justify-between mb-3.5 md:mb-5">
+        <div className="flex gap-x-2 gap-y-3.5 flex-wrap items-center">
+          <div className="size-6 rounded-full">
+            <Image src={NervosBlackImg} alt="" />
           </div>
-          {
-            since
-              ? <SinceDesc since={since} />
-              : <span className="text-[#909399]">{!isNil(seq) ? `#${seq}` : ""}</span>
-          }
-
+          <Link
+            className={cn(styles.address, "underline hover:text-primary")}
+            href={`/address/${cell.addressHash}`}
+            data-clickable
+            onClick={(e) => { e.stopPropagation() }}
+          >
+            <TextEllipsis text={cell.addressHash} ellipsis="address" />
+          </Link>
+          <ScriptTagFromAddress address={cell.addressHash} />
         </div>
+        {
+          since
+            ? <SinceDesc since={since} />
+            : <span className="text-[#909399]">{!isNil(seq) ? `#${seq}` : ""}</span>
+        }
 
-        <div className="bg-[#fbfbfb] dark:bg-[#232323e6] rounded-sm border border-[#d9d9d9] dark:border-[#4c4c4c] px-5 py-3 md:py-4">
-          <TxCellRichDisplay cell={cell} />
-        </div>
+      </div>
 
-        {/* <div className="flex flex-col gap-2 bg-[#fbfbfb] dark:bg-[#232323e6] rounded-[8px] p-[12px]">
+      <div className="bg-[#fbfbfb] dark:bg-[#232323e6] rounded-sm border border-[#d9d9d9] dark:border-[#4c4c4c] px-5 py-3 md:py-4">
+        <TxCellRichDisplay cell={cell} />
+      </div>
+
+      {/* <div className="flex flex-col gap-2 bg-[#fbfbfb] dark:bg-[#232323e6] rounded-[8px] p-[12px]">
           <Info label={t("cell.declared")}>
             <TwoSizeAmount
               amount={shannonToCkb(cell.capacity)}
@@ -97,9 +99,16 @@ export default function TxCellCard({ since, cell, showStatus = true, seq }: TxCe
             <CellStatusBadge status={(cell as APIExplorer.CellOutputResponse).status} />
           </Info>
         </div> */}
-      </div>
-    </CellModal>
+    </div>
   )
+
+  return isShowModal ? (
+    <CellModal cell={cell}>
+      {cellCardContent}
+    </CellModal>
+  ) : (
+    cellCardContent
+  );
 }
 
 

@@ -15,18 +15,18 @@ const submitTokenInfoUrl = udtSubmitEmail()
 const NftCollections = () => {
   const isMobile = useMediaQuery(`(max-width: 900px)`);
   const { t } = useTranslation()
-  const { page = '1', type, tags } = useSearchParams('page', 'type', 'tags')
+  const { page = '1', type, tags, standard } = useSearchParams('page', 'type', 'tags','standard')
   const { sort } = useNFTCollectionsSortParam()
   const { currentPage, pageSize, setPage, setPageSize } = usePaginationParamsInListPage()
 
   const isValidFilter = isTxFilterType(type) && type !== 'all'
 
   const query = useQuery({
-    queryKey: ['nft-collections', currentPage,pageSize, sort, type, tags, 'true'],
+    queryKey: ['nft-collections', currentPage,pageSize, sort, type, tags, 'true', standard],
     // queryFn: () =>
     //   explorerService.api.fetchNFTCollections(page, sort, isValidFilter ? type : undefined, tags, 'true'),
     queryFn: async () => {
-      const res = await server.explorer("GET /nft/collections", { page: currentPage, pageSize: pageSize, sort: sort ?? '',  tags: tags ?? '' })
+      const res = await server.explorer("GET /nft/collections", { page: currentPage, pageSize: pageSize, sort: sort ?? '',  tags: tags ?? '',standard: standard ?? '' })
       return {
         nftData: res?.records ?? [],
         total: res?.total ?? 0,
