@@ -134,7 +134,7 @@ export const getSporeImg = async ({
   // }
 
   const { contentType, content } = parseSporeCellData(hexData);
-  console.log({ content, contentType })
+
   if (contentType.startsWith("image")) {
     const base64Data = hexToBase64(content);
     return `data:${contentType};base64,${base64Data}`;

@@ -138,7 +138,7 @@ export const getFeeRateSamples = (
   TPM: number,
   avgBlockTime = 12,
 ) => {
-  if (!feeRates?.length) return feeRates;
+  if (!feeRates?.length) return feeRates || [];
 
   const SAMPLES_MIN_COUNT = 100;
 
