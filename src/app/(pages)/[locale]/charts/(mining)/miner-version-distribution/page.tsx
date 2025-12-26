@@ -105,12 +105,12 @@ const useOption = (
 }
 
 const fetchData = async () => {
-  // const { data: list } = await explorerService.api.fetchStatisticMinerVersionDistribution()
-  // const totalBlocks = list.reduce((acc, cur) => acc + cur.blocksCount, 0)
-  // return list.map(v => ({
-  //   version: v.version,
-  //   percent: +((100 * v.blocksCount) / totalBlocks).toFixed(2),
-  // }))
+  const result: any[] = await server.explorer("GET /blocks/ckb_node_versions")
+  const totalBlocks = result?.length > 0 && result.reduce((acc, cur) => acc + cur.count, 0)
+  return result?.length > 0 && result.map(v => ({
+    version: v.version,
+    percent: +((100 * v.count) / totalBlocks).toFixed(2),
+  }))
 }
 
 const toCSV = (versionList: VersionRecord[]) => versionList?.map(r => [r.version, `${r.percent}%`]) ?? []
