@@ -279,7 +279,7 @@ const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: 
       </div>
     },
     {
-      width: '17%',
+      width: '15%',
       content: nftItem.tags ? <div className={styles.tags}>
         {nftItem.tags?.map(tag => (
           displayTagSet.has(tag) ? (
@@ -292,7 +292,7 @@ const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: 
       textDirection: 'left',
     },
     {
-      width: '5%',
+      width: '7%',
       textDirection: 'left',
       content: nftItem.standard ? <div>
         {nftItem.standard === 'spore' ? 'dobs' : 'm-nft'}
@@ -351,12 +351,12 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
       },
       {
         title: <Tags />,
-        width: '17%',
+        width: '14%',
         textDirection: 'left',
       },
       {
         title: <TypeFilter />,
-        width: '5%',
+        width: '8%',
         textDirection: 'left',
       },
       {

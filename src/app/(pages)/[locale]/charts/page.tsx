@@ -213,11 +213,11 @@ const useChartsData = () => {
         //   chart: <MinerAddressDistributionChart isThumbnail />,
         //   path: '/charts/miner-address-distribution',
         // },
-        // {
-        //   title: `${t('statistic.miner_version_distribution')}`,
-        //   chart: <MinerVersionDistributionChart isThumbnail />,
-        //   path: '/charts/miner-version-distribution',
-        // },
+        {
+          title: `${t('statistic.miner_version_distribution')}`,
+          chart: <MinerVersionDistributionChart isThumbnail />,
+          path: '/charts/miner-version-distribution',
+        },
         {
           title: `${t('statistic.node_country_distribution')}`,
           chart: <NodeCountryDistributionChart isThumbnail />,
