@@ -294,7 +294,7 @@ const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
         />
         <div>{item.title}</div>
       </div>
-      <div className="w-[40px] break-all pl-4">{item.content}</div>
+      <div className="break-all pl-4">{item.content}</div>
     </div>
     {/* <div className={styles.nervosDaoPieItemPanel}>
       <div
