@@ -114,7 +114,7 @@ function CellsPanel({ dir, txHash, className, isPendingData }: { className?: str
                 since={cell.since?.raw}
                 key={cell.id}
                 cell={cell}
-                showStatus={!isInput}
+                isInput={isInput}
                 seq={!isInput ? index : undefined}
                 isPendingData={isPendingData}
               />
