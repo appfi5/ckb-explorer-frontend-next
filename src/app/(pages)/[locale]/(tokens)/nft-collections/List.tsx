@@ -295,7 +295,7 @@ const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: 
       width: '7%',
       textDirection: 'left',
       content: nftItem.standard ? <div>
-        {nftItem.standard === 'spore' ? 'dobs' : 'm-nft'}
+        {nftItem.standard === 'spore' ? 'dobs' : nftItem.standard}
       </div> : '-'
     },
     {
@@ -351,12 +351,12 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
       },
       {
         title: <Tags />,
-        width: '14%',
+        width: '15%',
         textDirection: 'left',
       },
       {
         title: <TypeFilter />,
-        width: '8%',
+        width: '7%',
         textDirection: 'left',
       },
       {
@@ -516,7 +516,7 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
             <dl className={styles.tokenInfo}>
               <dt className='text-[#909399]'>{t('nft.standard')}</dt>
               <dd>{item.standard ? <div>
-                {item.standard === 'spore' ? 'dobs' : 'm_nft'}
+                {item.standard === 'spore' ? 'dobs' : item.standard}
               </div> : '-'}</dd>
             </dl>
             <dl className={styles.tokenInfo}>
