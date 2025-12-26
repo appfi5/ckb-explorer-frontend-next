@@ -30,7 +30,7 @@ const config: NextConfig = {
               "default-src *",
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live",
               "style-src 'self' 'unsafe-inline'",
-              "img-src https: data:",
+              `img-src ${process.env.NODE_ENV === "development" ? "*" : "https:"} data:`,
               // `connect-src 'self' ${combinedUrl}`,
               "connect-src *",
               "font-src 'self'",
