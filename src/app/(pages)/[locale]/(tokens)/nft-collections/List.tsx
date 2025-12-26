@@ -27,6 +27,8 @@ import Loading from '@/components/Loading'
 import TokenTag from '@/components/TokenTag'
 import DateTime from '@/components/DateTime'
 import FilterListIcon from "@/components/icons/filterList"
+import useTokenImage from "@/hooks/useTokenImage"
+import AssetContainer from "@/components/AssetContainer"
 
 function useFilterList(): Record<'title' | 'value', string>[] {
   const { t } = useTranslation()
@@ -336,6 +338,123 @@ const LoadingComponent = () => (
   <div className='w-full min-h-[200px] flex items-center justify-center'><Loading show /></div>
 )
 
+const TableRow: React.FC<{ 
+  item: NFTCollection; 
+  index: number;
+  isMaxW: boolean;
+  t: TFunction<"common", undefined>;
+  router: ReturnType<typeof useRouter>;
+}> = ({ item, index, isMaxW, t, router }) => {
+  const { isLoading: coverLoading, data: coverImg } = useTokenImage({
+    type: item.standard,
+    data: item.iconUrl,
+    clusterId: item.typeScriptHash
+  });
+
+  const displayTagSet = new Set(displayTagList);
+
+  const tableData = [
+    {
+      width: '17%',
+      textDirection: 'left',
+      isTextActive: true,
+      bold: true,
+      content: <div className='flex items-center gap-2 pr-4'>
+        <AssetContainer className="flex-none size-[48px] rounded-sm">
+          {
+            !coverLoading && coverImg && (
+              <img
+                className="w-full h-full object-scale-down"
+                src={coverImg}
+              />
+            )
+          }
+        </AssetContainer>
+        <div className='truncate min-w-0'>
+          <Tooltip
+            asChild={true}
+            trigger={<span className='font-hash min-w-0'>{item.name}</span>}
+            placement="top"
+          >{item.name}</Tooltip>
+        </div>
+      </div>
+    },
+    {
+      width: '15%',
+      content: item.tags ? <div className={styles.tags}>
+        {item.tags?.map(tag => (
+          displayTagSet.has(tag) ? (
+            <TokenTag key={tag} tagName={tag} />
+          ) : (
+            <span key={tag}>-</span>
+          )
+        ))}
+      </div> : '-',
+      textDirection: 'left',
+    },
+    {
+      width: '7%',
+      textDirection: 'left',
+      content: item.standard ? <div>
+        {item.standard === 'spore' ? 'dobs' : item.standard}
+      </div> : '-'
+    },
+    {
+      width: '12%',
+      content: `${item.h24CkbTransactionsCount}`,
+      textDirection: 'left',
+    },
+    {
+      width: '13%',
+      content: `${(item.holdersCount ?? 0).toLocaleString('en')}/${(item.itemsCount ?? 0).toLocaleString(
+        'en',
+      )}`,
+      textDirection: 'left',
+    },
+    {
+      width: '19%',
+      content: item.blockTimestamp
+        ? (
+          <div className="inline-block max-w-full w-[100%] break-all whitespace-normal pr-[10px]">
+            <DateTime date={item.blockTimestamp} showRelative />
+          </div>
+        )
+        : '-'
+      ,
+      textDirection: 'left',
+    },
+    {
+      width: '17%',
+      content: item.creator ? item.creator : '-',
+      textDirection: 'left',
+      textWidth: isMaxW ? '140px' : '200px',
+    }
+  ];
+
+  return (
+    <TableContentRow 
+      key={index} 
+      className="hover:bg-[#F5F5F5] dark:hover:bg-[#363839] cursor-pointer" 
+      onClick={() => router.push(`/nft-collections/${item.typeScriptHash}`, { scroll: true })}
+    >
+      {tableData.map(
+        (data: any, dataIndex: number) => {
+          const key = dataIndex
+          return (
+            <Fragment key={key}>
+              {data.content === item.creator ? (
+                <TableMinerContentItem width={data.width} content={data.content} textWidth={data.textWidth} linkType="address" textCenter />
+              ) : (
+                <TableContentItem width={data.width} content={data.content} to={data.to} textDirection={data.textDirection} bold={data.bold} isTextActive={data.isTextActive} />
+              )}
+            </Fragment>
+          )
+        },
+      )}
+    </TableContentRow>
+  );
+};
+
 export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[] }> = ({ list, isLoading }) => {
   const { t } = useTranslation()
   const router = useRouter();
@@ -399,7 +518,7 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
           ))
         }
       </TableTitleRow>
-      {
+      {/* {
         isLoading ? <LoadingComponent /> : list.length ? list.map(
           (item, itemIndex) =>
             item && (
@@ -420,6 +539,19 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
                 )}
               </TableContentRow>
             ),
+        ) : <div className={styles.noRecord}>{t(`nft.no_record`)}</div>
+      } */}
+      {
+        isLoading ? <LoadingComponent /> : list.length ? list.map(
+          (item, itemIndex) =>
+            item && <TableRow 
+              key={itemIndex} 
+              item={item} 
+              index={itemIndex} 
+              isMaxW={isMaxW}
+              t={t}
+              router={router}
+            />
         ) : <div className={styles.noRecord}>{t(`nft.no_record`)}</div>
       }
     </div>
