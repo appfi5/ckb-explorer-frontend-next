@@ -30,6 +30,7 @@ export default function TransactionCells({ transaction }: { transaction: APIExpl
   const [tabKey, setTabKey] = useState<(typeof tabItems)[number]['key']>(tabItems[0].key)
   // const layout = useTxLaytout();
   // const isLite = layout === LayoutLiteProfessional.Lite;
+  const isPendingData = transaction.txStatus === "pending"
   return (
     <Card className="relative mt-3 md:mt-5 p-3 md:p-6">
       <div className="text-base md:text-lg mb-3 md:mb-6">{t('transaction.transaction_details')}</div>
@@ -41,6 +42,7 @@ export default function TransactionCells({ transaction }: { transaction: APIExpl
           className="flex-1"
           // className="mb-[20px]"
           txHash={transaction.transactionHash}
+          isPendingData={isPendingData}
         />
       </div>
       <div className="hidden md:flex flex-row gap-6 items-stretch">
@@ -49,18 +51,20 @@ export default function TransactionCells({ transaction }: { transaction: APIExpl
           className="flex-1"
           // className="mb-[20px]"
           txHash={transaction.transactionHash}
+          isPendingData={isPendingData}
         />
         <RightArrowIcon className={classNames("flex-none text-[#484D4E] dark:text-[#999]")} />
         <CellsPanel
           dir="output"
           className="flex-1"
           txHash={transaction.transactionHash}
+          isPendingData={isPendingData}
         />
       </div>
     </Card>
   )
 }
-function CellsPanel({ dir, txHash, className }: { className?: string, dir: "input" | "output", txHash: string }) {
+function CellsPanel({ dir, txHash, className, isPendingData }: { className?: string, dir: "input" | "output", txHash: string, isPendingData:boolean }) {
   const { t } = useTranslation()
   const isInput = dir === "input"
   const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery({
@@ -112,6 +116,7 @@ function CellsPanel({ dir, txHash, className }: { className?: string, dir: "inpu
                 cell={cell}
                 showStatus={!isInput}
                 seq={!isInput ? index : undefined}
+                isPendingData={isPendingData}
               />
             ))
           }

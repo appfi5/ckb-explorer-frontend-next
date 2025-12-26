@@ -40,11 +40,11 @@ export function Table<T>({
 
     return [
       {
-        width: '30%',
+        width: !!isTransactionFree ? '30%' : '50%',
         to: `/block/${transaction.transactionHash}`,
         content: transaction.transactionHash,
         textDirection: 'left',
-        textWidth: isMaxW ? '150px' : '300px',
+        textWidth: !!isTransactionFree ? (isMaxW ? '150px' : '300px') : (isMaxW ? '300px' : '500px'),
         isTextActive: true,
         linkType: 'transaction'
       },
@@ -60,16 +60,21 @@ export function Table<T>({
         content: <div className="inline-block max-w-full w-[100%] break-all whitespace-normal font-hash"><DateTime date={transaction.blockTimestamp} showRelative /></div>,
       },
       !isTransactionFree && {
-        width: '25%',
+        width: '30%',
         to: `/block/${transaction.createTimestamp}`,
         textDirection: 'left',
         content: <div className="inline-block max-w-full w-[100%] break-all whitespace-normal font-hash"><DateTime date={transaction.createTimestamp!} showRelative /></div>,
       },
-      {
+      !!isTransactionFree && {
         width: '25%',
         content: blockReward,
         textDirection: 'right',
         bold: true,
+      },
+      !isTransactionFree && {
+        width: '20%',
+        textDirection: 'left',
+        content: <div className="inline-block max-w-full w-[100%] break-all whitespace-normal font-hash">{transaction.bytes!}</div>,
       },
       // !isTransactionFree && {
       //   width: '20%',

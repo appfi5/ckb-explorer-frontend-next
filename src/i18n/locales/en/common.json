@@ -607,6 +607,7 @@
     "transaction": "Transaction",
     "24h_transactions": "24 hours Transactions",
     "transactions": "Transactions",
+    "transaction_bytes": "Bytes",
     "pending_transactions": "Pending Transactions",
     "transaction_fee": "Transaction Fee",
     "fee_rate": "Fee Rate",
