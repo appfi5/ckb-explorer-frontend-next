@@ -634,7 +634,7 @@
     "related_transaction": "相关交易",
     "transaction_hash": "交易哈希",
     "height": "区块高度",
-    "time": "时间戳",
+    "time": "时间",
     "capacity_change": "Capacity 变化",
     "transaction_parameters": "交易参数",
     "raw_transaction": "原始数据",
