@@ -839,7 +839,8 @@
     "years": "年",
     "day": "天",
     "done": "完成",
-    "view_apc_trending": "预计年化补贴率(APC)"
+    "view_apc_trending": "预计年化补贴率(APC)",
+    "detail": "详情"
   },
   "error": {
     "maintain": "最新区块为 {{tip}}, 当前同步高度落后 {{lag}} 区块. ",

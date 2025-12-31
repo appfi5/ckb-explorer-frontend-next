@@ -1,0 +1,21 @@
+@use '@/styles/variables.module';
+
+.daoList{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.daoDataList{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    @media screen and (width <= variables.$extraLargeBreakPoint) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
