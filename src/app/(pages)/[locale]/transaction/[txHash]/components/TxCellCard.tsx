@@ -75,7 +75,7 @@ export default function TxCellCard({ since, cell, isInput = true, seq, isPending
       </div>
 
       <div className="bg-[#fbfbfb] dark:bg-[#232323e6] rounded-sm border border-[#d9d9d9] dark:border-[#4c4c4c] px-5 py-3 md:py-4">
-        <TxCellRichDisplay cell={cell} />
+        <TxCellRichDisplay cell={cell} isInput={isInput} />
       </div>
 
       {/* <div className="flex flex-col gap-2 bg-[#fbfbfb] dark:bg-[#232323e6] rounded-[8px] p-[12px]">

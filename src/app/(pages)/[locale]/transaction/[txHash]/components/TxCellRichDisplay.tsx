@@ -29,6 +29,11 @@ import AssetContainer from "@/components/AssetContainer";
 import { SearchRangeCode } from "@/components/Search/SearchRangeSelect";
 import type { sporeClusterDataParseUnit } from "@/components/Cell/dataDecoder/dpu.sporeCluster";
 import useTokenImage from "@/hooks/useTokenImage";
+import { t } from "i18next";
+import { parseDiffDate } from "@/utils/date";
+import { localeNumberString } from "@/utils/number";
+import ArrowDaoIcon from '@/components/icons/arrowDaoIcon'
+import styles from "./TxCellRichDisplay.module.scss"
 
 type ParsedData<T> = T extends DataParseUnit ? ReturnType<T["parse"]> : never
 
@@ -38,15 +43,17 @@ type TxCellRichDisplayProps = {
   // txHash: string
   // seq: number
   // since?: string
+  isInput: boolean
 }
 
 type CommonCellProps = {
   cell: APIExplorer.CellInputResponse | APIExplorer.CellOutputResponse
   ckbValue: string
+  isInput: boolean
 }
 
 export default function TxCellRichDisplay(props: TxCellRichDisplayProps) {
-  const { cell } = props
+  const { cell, isInput } = props
   const decodeType = parseType({ typeScript: cell.typeScript });
   const ckbVal = shannonToCkb(cell.capacity);
 
@@ -62,7 +69,7 @@ export default function TxCellRichDisplay(props: TxCellRichDisplayProps) {
     case "spore-cluster":
       return <TxCellSporeCluster cell={cell} />
     case "dao":
-      return <TxCellDAO cell={cell} ckbValue={ckbVal} />
+      return <TxCellDAO cell={cell} ckbValue={ckbVal} isInput={isInput} />
     default:
       return <TxCellUnknownType ckbValue={ckbVal} />
   }
@@ -449,20 +456,75 @@ function TxCellUDT({ cell }: Pick<TxCellRichDisplayProps, "cell">) {
   )
 }
 
-function TxCellDAO({ cell, ckbValue }: CommonCellProps) {
+function TxCellDAO({ cell, ckbValue, isInput }: CommonCellProps) {
   const decodeContent = parseData({ typeScript: cell.typeScript }, cell.data);
   const decodedData = decodeContent?.content as ParsedData<typeof daoDataParseUnit>;
+  const [isExpanded, setIsExpanded] = useState(false);
+  const nervosDaoInfo = cell?.nervosDaoInfo;
+  const toggleExpand = (e: React.MouseEvent) => {
+    e.stopPropagation(); 
+    setIsExpanded(!isExpanded);
+  };
+
   return (
-    <div className="flex flex-row flex-wrap items-center justify-between">
-      <div className="flex flex-row items-center gap-2.5">
-        {!!decodedData.blockNumber ? "DAO Withdraw" : "DAO Deposit"}
+    <div>
+      {!isExpanded && <div className="flex flex-row flex-wrap items-center justify-between">
+        <div className="flex flex-row items-center gap-2.5">
+          {!!decodedData.blockNumber ? "DAO Withdraw" : "DAO Deposit"}
+          <ScriptTag category="type" script={cell.typeScript} />
+        </div>
+        {!isInput && <TwoSizeAmount
+          amount={ckbValue}
+          unit={<span className="ml-1">CKB</span>}
+        />}
+        {!!isInput && <ArrowDaoIcon className="cursor-pointer" onClick={toggleExpand} />}
+      </div>}
+      {!!isExpanded && <div className="flex flex-col gap-5">
+        <div className="flex flex-row items-center justify-between">
+          <span className="text-[#999999]">{t("nervos_dao.detail")}</span>
+          <ArrowDaoIcon className="cursor-pointer transform rotate-180" onClick={toggleExpand} />
+        </div>
         <ScriptTag category="type" script={cell.typeScript} />
+        <div className={styles.daoList}>
+          <span>{!!decodedData.blockNumber ? "DAO Withdraw" : "DAO Deposit"}</span>
+          <TwoSizeAmount
+            amount={ckbValue}
+            unit={<span className="ml-1">CKB</span>}
+          />
+        </div>
+        <div className={classNames(styles.daoDataList, "gap-7")}>
+          <span className="text-[#000000] dark:text-[#FFFFFF] font-medium">{t("nervos_dao.withdraw_request_tooltip")}</span>
+          <span className="w-full flex-1 border-t border-[#D9D9D9] dark:border-[#4C4C4C]"></span>
+        </div>
+        <div className={styles.daoDataList}>
+          <span>{t("nervos_dao.deposit_capacity")}:</span>
+          <TwoSizeAmount
+            amount={shannonToCkb(cell.capacity)}
+            unit={<span className="ml-1">CKB</span>}
+          />
+        </div>
+        <div className={styles.daoDataList}>
+          <span>{t("nervos_dao.unissued_compensation")}:</span>
+          <TwoSizeAmount
+            amount={nervosDaoInfo ? shannonToCkb(nervosDaoInfo.interest) : 0}
+            unit={<span className="ml-1">CKB</span>}
+          />
+        </div>
+        <div className={styles.daoDataList}>
+          <span>{t("nervos_dao.compensation_period")}:</span>
+          <div className="flex flex-row gap-1">
+            <span>Block</span>
+            <Link href={`/block/${nervosDaoInfo.compensationStartedBlockNumber}`} className="text-primary">{nervosDaoInfo ? localeNumberString(nervosDaoInfo.compensationStartedBlockNumber) : '-'}</Link>
+            <span>-</span>
+            <Link href={`/block/${nervosDaoInfo.compensationEndedBlockNumber}`} className="text-primary">{nervosDaoInfo ? localeNumberString(nervosDaoInfo.compensationEndedBlockNumber) : '-'}</Link>
+          </div>
+        </div>
+        <div className={styles.daoDataList}>
+          <span>{t("nervos_dao.compensation_time")}:</span>
+          <div>{nervosDaoInfo ? parseDiffDate(nervosDaoInfo.compensationStartedTimestamp, nervosDaoInfo.compensationEndedTimestamp) : '-'}</div>
+        </div>
       </div>
-      <TwoSizeAmount
-        // format={[8]}
-        amount={ckbValue}
-        unit={<span className="ml-1">CKB</span>}
-      />
+      }
     </div>
   )
 }

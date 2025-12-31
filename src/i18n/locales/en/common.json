@@ -847,7 +847,8 @@
     "years": "Years",
     "day": "Days",
     "done": "Done",
-    "view_apc_trending": "Nominal APC"
+    "view_apc_trending": "Nominal APC",
+    "detail": "Detail"
   },
   "error": {
     "maintain": "The tip block number {{tip}}, the current synced block lagging behind by {{lag}} blocks.",
