@@ -17,6 +17,7 @@ import NFTCollectionActivtyList from "./components/ActivityList"
 import NFTCollectionHolderList from "./components/HolderList"
 import useSearchParamState from "@/hooks/useSearchParamState"
 import NFTCollectionTokenList from "./components/TokenList"
+import useTokenImage from "@/hooks/useTokenImage"
 
 
 export default function NFTCollectionDetail({ collectionId }: { collectionId: string }) {
@@ -56,7 +57,7 @@ export default function NFTCollectionDetail({ collectionId }: { collectionId: st
               />
               {
                 tabKey === "activity" && (
-                  <NFTCollectionActivtyList collectionId={collectionId} />
+                  <NFTCollectionActivtyList collectionInfo={collectionInfo} />
                 )
               }
               {
@@ -66,7 +67,7 @@ export default function NFTCollectionDetail({ collectionId }: { collectionId: st
               }
               {
                 tabKey === "inventory" && (
-                  <NFTCollectionTokenList collectionId={collectionId} />
+                  <NFTCollectionTokenList collectionInfo={collectionInfo} />
                 )
               }
             </Card>
@@ -80,17 +81,26 @@ export default function NFTCollectionDetail({ collectionId }: { collectionId: st
 
 function NFTCollectionOverview({ collectionInfo }: { collectionInfo: APIExplorer.CollectionsResp }) {
   const { t } = useTranslation("tokens");
+  const { isLoading, data: coverImg } = useTokenImage({
+    type: collectionInfo.standard,
+    data: collectionInfo.iconUrl,
+    clusterId: collectionInfo.typeScriptHash
+  })
   return (
     <>
       <Card className={classNames("p-3 sm:p-6 flex flex-row gap-5", styles.overview)}>
         <AssetContainer className="flex-none size-[120px] rounded-sm">
-          <img
-            className="w-full h-full object-scale-down"
-            src="/images/spore_placeholder.svg"
-          />
+          {
+            !isLoading && (
+              <img
+                className="w-full h-full object-scale-down"
+                src={coverImg}
+              />
+            )
+          }
         </AssetContainer>
         <div className="flex flex-col gap-3">
-          <div className="font-medium text-[#000] break-all dark:text-white text-xl">
+          <div className="font-medium text-black break-all dark:text-white text-xl">
             {collectionInfo.name}
           </div>
           {
@@ -116,7 +126,7 @@ function NFTCollectionOverview({ collectionInfo }: { collectionInfo: APIExplorer
             {
               key: 'type',
               label: t("field.type"),
-              content: "DOB",
+              content: collectionInfo.standard,
               textDirection: "right",
               contentClassName: "flex sm:text-left sm:justify-start",
             },

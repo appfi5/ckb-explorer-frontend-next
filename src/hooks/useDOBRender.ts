@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 type Config = {
   type: string;
-  data: string;
+  data?: string;
   id: string;
 }
 

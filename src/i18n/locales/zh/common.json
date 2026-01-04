@@ -596,6 +596,7 @@
     "cell-info": "Cell 详情",
     "view_rgbpp_digest": "查看 RGB++ 摘要",
     "transaction": "交易",
+    "transaction_bytes": "字节",
     "24h_transactions": "24小时交易",
     "transactions": "交易",
     "pending_transactions": "待处理交易",
@@ -633,7 +634,7 @@
     "related_transaction": "相关交易",
     "transaction_hash": "交易哈希",
     "height": "区块高度",
-    "time": "时间戳",
+    "time": "时间",
     "capacity_change": "Capacity 变化",
     "transaction_parameters": "交易参数",
     "raw_transaction": "原始数据",
@@ -838,7 +839,8 @@
     "years": "年",
     "day": "天",
     "done": "完成",
-    "view_apc_trending": "预计年化补贴率(APC)"
+    "view_apc_trending": "预计年化补贴率(APC)",
+    "detail": "详情"
   },
   "error": {
     "maintain": "最新区块为 {{tip}}, 当前同步高度落后 {{lag}} 区块. ",

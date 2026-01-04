@@ -1,15 +1,12 @@
 "use client"
 import { useQuery } from '@tanstack/react-query'
-import Card from '@/components/Card'
-import TransactionIcon from '@/assets/icons/transaction.svg?component'
 import { useTranslation } from 'react-i18next'
-import CopyButton from '@/components/CopyButton'
 import TransactionInfo from './components/TransactionInfo'
 import TransactionCells from './components/TransactionCells'
 import server from '@/server'
 import { QueryResult } from '@/components/QueryResult'
-import TextEllipsis from '@/components/TextEllipsis'
 import HashCardHeader from '@/components/Card/HashCardHeader'
+import ToTopButton from '@/components/ToTopButton'
 
 export default function TransactionDetail({ txHash }: { txHash: string }) {
   const { t } = useTranslation();
@@ -28,7 +25,7 @@ export default function TransactionDetail({ txHash }: { txHash: string }) {
 
   return (
     <>
-      <div className="container pb-[40px]">
+      <div className="container pb-10">
         <HashCardHeader hash={txHash} type="transaction" />
         {
           <QueryResult query={query} defaultLoadingClassName='min-h-[400px]'>
@@ -41,6 +38,7 @@ export default function TransactionDetail({ txHash }: { txHash: string }) {
           </QueryResult>
         }
       </div>
+      <ToTopButton />
     </>
   )
 }
