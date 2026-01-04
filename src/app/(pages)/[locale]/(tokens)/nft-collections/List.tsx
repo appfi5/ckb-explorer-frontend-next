@@ -7,8 +7,6 @@ import { ArrowDownWideNarrow, ArrowUpNarrowWide } from 'lucide-react'
 import type { NFTCollection } from '@/server/dataTypes'
 import SortButton from '@/components/SortButton'
 import SelectedCheckIcon from '@/assets/selected_check_icon.svg'
-import FilterIcon from './filter.svg'
-
 import { useSearchParams, useMediaQuery, useSortParam } from '@/hooks'
 import styles from './styles.module.scss'
 import { useNFTCollectionsSortParam } from './util'
@@ -28,6 +26,9 @@ import { useRouter } from "next/navigation";
 import Loading from '@/components/Loading'
 import TokenTag from '@/components/TokenTag'
 import DateTime from '@/components/DateTime'
+import FilterListIcon from "@/components/icons/filterList"
+import useTokenImage from "@/hooks/useTokenImage"
+import AssetContainer from "@/components/AssetContainer"
 
 function useFilterList(): Record<'title' | 'value', string>[] {
   const { t } = useTranslation()
@@ -40,14 +41,14 @@ function useFilterList(): Record<'title' | 'value', string>[] {
       value: 'm_nft',
       title: t('nft.m_nft'),
     },
-    {
-      value: 'nrc721',
-      title: t('nft.nrc_721'),
-    },
-    {
-      value: 'cota',
-      title: t('nft.cota'),
-    },
+    // {
+    //   value: 'nrc721',
+    //   title: t('nft.nrc_721'),
+    // },
+    // {
+    //   value: 'cota',
+    //   title: t('nft.cota'),
+    // },
     {
       value: 'spore',
       title: t('nft.dobs'),
@@ -113,24 +114,27 @@ export const isTxFilterType = (s?: string): boolean => {
 
 const TypeFilter = () => {
   const { t } = useTranslation()
-  const { type } = useSearchParams('type')
-  const isActive = isTxFilterType(type)
-  const list = useFilterList()
+  const { standard = 'all' } = useSearchParams('standard');
+  const list = useFilterList();
+  const isFilterActive = isTxFilterType(standard);
   return (
-    <div className={styles.typeFilter} data-is-active={isActive}>
-      {t('nft.standard')}
-      <Popover trigger={<InteImage src={FilterIcon} className={styles.filter} />}>
+    <div className={styles.typeFilter} data-is-active={isFilterActive}>
+      <span className="mr-1">{t('nft.standard')}</span>
+      <Popover trigger={<FilterListIcon sortDirection={!!isFilterActive} />}>
         <div className={styles.filterItems}>
-          {list.map(f => (
-            <Link
-              key={f.value}
-              href={`/nft-collections?${new URLSearchParams({ type: f.value })}`}
-              data-is-active={f.value === type}
-            >
-              {f.title}
-              <InteImage src={SelectedCheckIcon} />
-            </Link>
-          ))}
+          {list.map((f) => {
+            const isItemSelected = f.value === standard;
+            return (
+              <Link
+                key={f.value}
+                href={`/nft-collections?${new URLSearchParams({ standard: f.value })}`}
+                data-is-active={isItemSelected}
+              >
+                {f.title}
+                {isItemSelected && <InteImage src={SelectedCheckIcon} />}
+              </Link>
+            );
+          })}
         </div>
       </Popover>
     </div>
@@ -247,20 +251,20 @@ const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: 
   // const annotation = DEPRECATED_DOB_COLLECTION.find(i => i.id === typeHash)
 
   const displayTagSet = new Set(displayTagList);
+
   return [
     {
-      width: '18%',
+      width: '17%',
       textDirection: 'left',
       isTextActive: true,
       bold: true,
       content: <div className='flex items-center gap-2 pr-4'>
-        <InteImage
-          src={nftItem.icon_url || '/images/spore_placeholder.svg'}
-          alt={nftItem.name}
-          width={48}
-          height={48}
-          className="rounded-[4px] object-scale-down"
-        />
+        <div className="w-12 h-12 flex-none overflow-hidden rounded-sm bg-[#eeeeee] dark:bg-[#303030]">
+          <img
+            src={nftItem.iconUrl || '/images/spore_placeholder.svg'}
+            className="w-12 h-12 rounded-sm object-scale-down"
+          />
+        </div>
         <div className='truncate min-w-0'>
           {/* {
             nftItem.standard === 'spore' && nftItem.creator === '' ? 'Unique items' : nftItem.name.length > 12 ? <Tooltip
@@ -277,7 +281,7 @@ const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: 
       </div>
     },
     {
-      width: '17%',
+      width: '15%',
       content: nftItem.tags ? <div className={styles.tags}>
         {nftItem.tags?.map(tag => (
           displayTagSet.has(tag) ? (
@@ -290,12 +294,19 @@ const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: 
       textDirection: 'left',
     },
     {
-      width: '14%',
+      width: '7%',
+      textDirection: 'left',
+      content: nftItem.standard ? <div>
+        {nftItem.standard === 'spore' ? 'dobs' : nftItem.standard}
+      </div> : '-'
+    },
+    {
+      width: '12%',
       content: `${nftItem.h24CkbTransactionsCount}`,
       textDirection: 'left',
     },
     {
-      width: '15%',
+      width: '13%',
       content: `${(nftItem.holdersCount ?? 0).toLocaleString('en')}/${(nftItem.itemsCount ?? 0).toLocaleString(
         'en',
       )}`,
@@ -327,6 +338,123 @@ const LoadingComponent = () => (
   <div className='w-full min-h-[200px] flex items-center justify-center'><Loading show /></div>
 )
 
+const TableRow: React.FC<{ 
+  item: NFTCollection; 
+  index: number;
+  isMaxW: boolean;
+  t: TFunction<"common", undefined>;
+  router: ReturnType<typeof useRouter>;
+}> = ({ item, index, isMaxW, t, router }) => {
+  const { isLoading: coverLoading, data: coverImg } = useTokenImage({
+    type: item.standard,
+    data: item.iconUrl,
+    clusterId: item.typeScriptHash
+  });
+
+  const displayTagSet = new Set(displayTagList);
+
+  const tableData = [
+    {
+      width: '17%',
+      textDirection: 'left',
+      isTextActive: true,
+      bold: true,
+      content: <div className='flex items-center gap-2 pr-4'>
+        <AssetContainer className="flex-none size-[48px] rounded-sm">
+          {
+            !coverLoading && coverImg && (
+              <img
+                className="w-full h-full object-scale-down"
+                src={coverImg}
+              />
+            )
+          }
+        </AssetContainer>
+        <div className='truncate min-w-0'>
+          <Tooltip
+            asChild={true}
+            trigger={<span className='font-hash min-w-0'>{item.name}</span>}
+            placement="top"
+          >{item.name}</Tooltip>
+        </div>
+      </div>
+    },
+    {
+      width: '15%',
+      content: item.tags ? <div className={styles.tags}>
+        {item.tags?.map(tag => (
+          displayTagSet.has(tag) ? (
+            <TokenTag key={tag} tagName={tag} />
+          ) : (
+            <span key={tag}>-</span>
+          )
+        ))}
+      </div> : '-',
+      textDirection: 'left',
+    },
+    {
+      width: '7%',
+      textDirection: 'left',
+      content: item.standard ? <div>
+        {item.standard === 'spore' ? 'dobs' : item.standard}
+      </div> : '-'
+    },
+    {
+      width: '12%',
+      content: `${item.h24CkbTransactionsCount}`,
+      textDirection: 'left',
+    },
+    {
+      width: '13%',
+      content: `${(item.holdersCount ?? 0).toLocaleString('en')}/${(item.itemsCount ?? 0).toLocaleString(
+        'en',
+      )}`,
+      textDirection: 'left',
+    },
+    {
+      width: '19%',
+      content: item.blockTimestamp
+        ? (
+          <div className="inline-block max-w-full w-[100%] break-all whitespace-normal pr-[10px]">
+            <DateTime date={item.blockTimestamp} showRelative />
+          </div>
+        )
+        : '-'
+      ,
+      textDirection: 'left',
+    },
+    {
+      width: '17%',
+      content: item.creator ? item.creator : '-',
+      textDirection: 'left',
+      textWidth: isMaxW ? '140px' : '200px',
+    }
+  ];
+
+  return (
+    <TableContentRow 
+      key={index} 
+      className="hover:bg-[#F5F5F5] dark:hover:bg-[#363839] cursor-pointer" 
+      onClick={() => router.push(`/nft-collections/${item.typeScriptHash}`, { scroll: true })}
+    >
+      {tableData.map(
+        (data: any, dataIndex: number) => {
+          const key = dataIndex
+          return (
+            <Fragment key={key}>
+              {data.content === item.creator ? (
+                <TableMinerContentItem width={data.width} content={data.content} textWidth={data.textWidth} linkType="address" textCenter />
+              ) : (
+                <TableContentItem width={data.width} content={data.content} to={data.to} textDirection={data.textDirection} bold={data.bold} isTextActive={data.isTextActive} />
+              )}
+            </Fragment>
+          )
+        },
+      )}
+    </TableContentRow>
+  );
+};
+
 export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[] }> = ({ list, isLoading }) => {
   const { t } = useTranslation()
   const router = useRouter();
@@ -337,23 +465,28 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
     () => [
       {
         title: t('nft.collection_name'),
-        width: '18%',
-        textDirection: 'left',
-      },
-      {
-        title: <Tags />,
         width: '17%',
         textDirection: 'left',
       },
       {
+        title: <Tags />,
+        width: '15%',
+        textDirection: 'left',
+      },
+      {
+        title: <TypeFilter />,
+        width: '7%',
+        textDirection: 'left',
+      },
+      {
         title: t('nft.transactions'),
-        width: '14%',
+        width: '12%',
         sortRule: 'h24_ckb_transactions_count',
         textDirection: 'left',
       },
       {
         title: <HolderMinterSort />,
-        width: '15%',
+        width: '13%',
         textDirection: 'left',
       },
       {
@@ -385,7 +518,7 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
           ))
         }
       </TableTitleRow>
-      {
+      {/* {
         isLoading ? <LoadingComponent /> : list.length ? list.map(
           (item, itemIndex) =>
             item && (
@@ -407,6 +540,19 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
               </TableContentRow>
             ),
         ) : <div className={styles.noRecord}>{t(`nft.no_record`)}</div>
+      } */}
+      {
+        isLoading ? <LoadingComponent /> : list.length ? list.map(
+          (item, itemIndex) =>
+            item && <TableRow 
+              key={itemIndex} 
+              item={item} 
+              index={itemIndex} 
+              isMaxW={isMaxW}
+              t={t}
+              router={router}
+            />
+        ) : <div className={styles.noRecord}>{t(`nft.no_record`)}</div>
       }
     </div>
   )
@@ -427,6 +573,7 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
               <MultiFilterButton filterName="tags" key="" filterList={getFilterList(t)} />
             </span>
           </div>
+          <div className="flex flex-nowrap items-center max-w-full mr-auto"><TypeFilter /></div>
           <div className="flex items-center">
             <Select
               value={sortBy}
@@ -498,6 +645,12 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
               </dl>
               <div className={styles.name} />
             </div>
+            <dl className={styles.tokenInfo}>
+              <dt className='text-[#909399]'>{t('nft.standard')}</dt>
+              <dd>{item.standard ? <div>
+                {item.standard === 'spore' ? 'dobs' : item.standard}
+              </div> : '-'}</dd>
+            </dl>
             <dl className={styles.tokenInfo}>
               <dt className='text-[#909399]'>{`${t('nft.holder')}/${t('nft.minted')}`}</dt>
               <dd>

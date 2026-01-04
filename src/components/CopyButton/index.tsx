@@ -10,9 +10,11 @@ import { toast } from 'sonner';
 
 type CopyProps = ComponentProps<"div"> & {
   text: string;
+  /** tailwind css size */
+  size?: string;
 }
 export default function CopyButton(props: CopyProps) {
-  const { text, className, ...divProps } = props;
+  const { text, className, size = "size-4 sm:size-5", ...divProps } = props;
   const { t } = useTranslation();
   const setToast = useSetToast();
   return (
@@ -30,7 +32,7 @@ export default function CopyButton(props: CopyProps) {
             });
           }}
         >
-          <div className="size-[16px] sm:size-[20px]">
+          <div className={size}>
             <CopyIcon width="100%" height="100%" />
           </div>
         </div>

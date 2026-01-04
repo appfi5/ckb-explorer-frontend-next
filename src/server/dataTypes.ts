@@ -500,6 +500,7 @@ export interface NFTCollection {
   tags: string[];
   sn: string;
   blockTimestamp: number;
+  iconUrl: string
 }
 
 export interface NFTItem {

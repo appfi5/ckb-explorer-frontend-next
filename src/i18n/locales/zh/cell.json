@@ -21,7 +21,9 @@
   },
   "message": {
     "data_too_large": "Cell Data过大",
-    "get_cell_data_failed": "获取Cell Data失败"
+    "get_cell_data_failed": "获取Cell Data失败",
+    "ckb_cell_with_data": "该 CKB Cell 包含data数据",
+    "cell_unknown": "未知类型的Cell"
   },
   "action": {
     "download_source": "下载原文",

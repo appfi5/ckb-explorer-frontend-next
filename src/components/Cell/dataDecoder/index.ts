@@ -1,4 +1,4 @@
-import { ckbfsDataParseUnit } from "./dpu.ckbfs";
+// import { ckbfsDataParseUnit } from "./dpu.ckbfs";
 import { daoDataParseUnit } from "./dpu.dao";
 import { sporeDataParseUnit } from "./dpu.spore";
 import { sporeClusterDataParseUnit } from "./dpu.sporeCluster";
@@ -11,12 +11,19 @@ type ExtractTypeAndParseResult<T = any> = T extends DataParseUnit ? {
   content: ReturnType<T["parse"]>;
 } : never;
 
-export type DPUPaseResult = undefined
+type ExtractType<T = any> = T extends DataParseUnit ? T["type"] : never;
+
+export type DPUParseResult = undefined
   | ExtractTypeAndParseResult<typeof udtDataParseUnit>
   | ExtractTypeAndParseResult<typeof sporeDataParseUnit>
   | ExtractTypeAndParseResult<typeof sporeClusterDataParseUnit>
   | ExtractTypeAndParseResult<typeof daoDataParseUnit>
-  | ExtractTypeAndParseResult<typeof ckbfsDataParseUnit>
+  // | ExtractTypeAndParseResult<typeof ckbfsDataParseUnit>
+export type DPUParseType = undefined
+  | ExtractType<typeof udtDataParseUnit>
+  | ExtractType<typeof sporeDataParseUnit>
+  | ExtractType<typeof sporeClusterDataParseUnit>
+  | ExtractType<typeof daoDataParseUnit>
 
 class DataParser {
   public dpuList: DataParseUnit[] = []
@@ -25,7 +32,7 @@ class DataParser {
     return this;
   }
 
-  parse(params: DPUMatchParams, hexData: string): DPUPaseResult {
+  parse(params: DPUMatchParams, hexData: string): DPUParseResult {
     if (!hexData || hexData === "0x") {
       return;
     }
@@ -35,14 +42,14 @@ class DataParser {
         return {
           type: dpu.type,
           content: dpu.parse(noPrefixData, params)
-        } as unknown as NonNullable<DPUPaseResult>
+        } as unknown as NonNullable<DPUParseResult>
       }
     }
   }
-  parseType(params: DPUMatchParams) {
+  parseType(params: DPUMatchParams): DPUParseType {
     for (const dpu of this.dpuList) {
       if (dpu.match(params)) {
-        return dpu.type;
+        return dpu.type as DPUParseType;
       }
     }
   }
@@ -55,7 +62,7 @@ parser
   .add(sporeDataParseUnit)
   .add(sporeClusterDataParseUnit)
   .add(daoDataParseUnit)
-  .add(ckbfsDataParseUnit)
+  // .add(ckbfsDataParseUnit)
 
 
 

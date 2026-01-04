@@ -11,13 +11,14 @@ import AssetContainer from "@/components/AssetContainer";
 import DescItem from "@/components/Card/DescItem";
 import TextEllipsis from "@/components/TextEllipsis";
 import Link from "next/link";
-import useDOBRender from "@/hooks/useDOBRender";
+import useTokenImage from "@/hooks/useTokenImage";
 
 
-export default function NFTCollectionTokenList({ collectionId }: { collectionId: string }) {
+export default function NFTCollectionTokenList({ collectionInfo }: { collectionInfo: APIExplorer.CollectionsResp }) {
   const { t } = useTranslation("tokens");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
+  const collectionId = collectionInfo.typeScriptHash;
   const query = useQuery({
     queryKey: ["nft-collection-tokens", page, pageSize, collectionId],
     queryFn: async () => {
@@ -53,6 +54,7 @@ export default function NFTCollectionTokenList({ collectionId }: { collectionId:
             <TokenCard
               key={item.tokenId}
               item={item}
+              collectionInfo={collectionInfo}
             />
           </Link>
 
@@ -79,9 +81,14 @@ export default function NFTCollectionTokenList({ collectionId }: { collectionId:
 
 
 
-function TokenCard({ item }: { item: APIExplorer.NftItemDetailResponse }) {
+function TokenCard({ item, collectionInfo }: { item: APIExplorer.NftItemDetailResponse, collectionInfo: APIExplorer.CollectionsResp }) {
   const { t } = useTranslation("tokens");
-  const { data: imgSrc, isLoading } = useDOBRender({ type: "dob", id: item.tokenId, data: item.data })
+  const { data: imgData, isLoading } = useTokenImage({
+      type: item.standard, 
+      data: item.iconUrl || item.data,
+      clusterId: collectionInfo.typeScriptHash,
+      tokenId: item.tokenId 
+    })
   return (
     <div className={styles.tokenCard}>
       <AssetContainer className="flex-none size-[264px] rounded-lg overflow-hidden">
@@ -89,7 +96,7 @@ function TokenCard({ item }: { item: APIExplorer.NftItemDetailResponse }) {
           !isLoading && (
             <img
               className="w-full h-full object-scale-down"
-              src={imgSrc}
+              src={imgData}
             />
           )
         }

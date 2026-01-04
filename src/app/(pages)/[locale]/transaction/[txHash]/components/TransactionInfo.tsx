@@ -79,10 +79,12 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
       textDirection: "right",
       contentClassName: "flex sm:text-left sm:justify-start",
       content: (
-        <span className="font-hash whitespace-pre">{new BigNumber(transactionFee).multipliedBy(1000).dividedToIntegerBy(bytes).toFormat({
-          groupSeparator: ',',
-          groupSize: 3,
-        })} shannons/kB</span>
+        transactionFee && bytes ? <span className="font-hash whitespace-pre">{
+          new BigNumber(transactionFee).multipliedBy(1000).dividedToIntegerBy(bytes).toFormat({
+            groupSeparator: ',',
+            groupSize: 3,
+          })
+        } shannons/kB</span> : '-'
       ),
     }, {
       key: "status",

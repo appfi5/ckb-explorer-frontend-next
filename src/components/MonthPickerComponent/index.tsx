@@ -66,24 +66,30 @@ const MonthPickerComponent = ({
                     <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#D9D9D9] dark:border-[#4C4C4C]">
                         <Tooltip
                             trigger={<LeftArrowIcon
-                            className={styles.arrowicons}
-                            data-disabled={currentYear <= startYear}
-                            onClick={() => setCurrentYear(prev => Math.max(prev - 1, startYear))}
-                        />}
+                                className={styles.arrowicons}
+                                data-disabled={currentYear <= startYear}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setCurrentYear(prev => Math.max(prev - 1, startYear))
+                                }}
+                            />}
                             placement="top"
                             disabled={currentYear > startYear}
                         >
                             {t("date_info.arrow_left_desc")}
                         </Tooltip>
-                        
+
                         <span className="mx-2 font-medium select-none">{currentYear}</span>
-                        
+
                         <Tooltip
                             trigger={<RightArrowIcon
-                            className={styles.arrowicons}
-                            data-disabled={currentYear >= currentFullYear}
-                            onClick={() => setCurrentYear(prev => Math.min(prev + 1, currentFullYear))}
-                        />}
+                                className={styles.arrowicons}
+                                data-disabled={currentYear >= currentFullYear}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setCurrentYear(prev => Math.min(prev + 1, currentFullYear))
+                                }}
+                            />}
                             placement="top"
                             disabled={currentYear < currentFullYear}
                         >

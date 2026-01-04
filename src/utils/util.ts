@@ -481,6 +481,8 @@ export const formatNftDisplayId = (id: string, type: string | null) => {
     case "spore": {
       return `0x${BigNumber(id).toString(16).padStart(64, "0")}`;
     }
+    case "m_nft":
+      return `#${id}`
     default: {
       return id;
     }
