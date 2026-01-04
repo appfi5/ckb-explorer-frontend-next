@@ -231,7 +231,7 @@ const mainnetUDTList: UDT[] = [
   },
   {
     name: "RUSD",
-    icon: "/assets/udt/default.png",
+    icon: "https://raw.githubusercontent.com/stablepp/media-kit/refs/heads/main/stablecoin-RUSD.svg",
     symbol: "RUSD",
     decimalPlaces: 8,
     type: {

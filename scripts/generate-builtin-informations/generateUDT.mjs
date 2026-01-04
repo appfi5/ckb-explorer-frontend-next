@@ -39,6 +39,7 @@ function genereateSingleNetworkUDTInfos(network, famousOnly = false) {  // testn
         jsonObj.icon = `/assets/udt/${network}/${folderName}/${iconVal}`;
       }
     } else {
+      console.log(`UDT ${network} ${jsonObj.name} ${jsonObj.typeHash} no icon`)
       jsonObj.icon = `/assets/udt/default.png`;
     }
     udtList.push(jsonObj);
