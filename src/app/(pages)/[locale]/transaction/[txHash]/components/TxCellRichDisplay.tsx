@@ -472,6 +472,7 @@ function TxCellDAO({ cell, ckbValue, isInput }: CommonCellProps) {
         <div className="flex flex-row items-center gap-2.5">
           {!!decodedData.blockNumber ? "DAO Withdraw" : "DAO Deposit"}
           <ScriptTag category="type" script={cell.typeScript} />
+          {!!isInput && <span className={styles.tags}>{cell.cellType === 1 ? t("nervos_dao.withdraw_request_tooltip") : t("nervos_dao.withdraw_tooltip")}</span>}
         </div>
         {!isInput && <TwoSizeAmount
           amount={ckbValue}
@@ -493,7 +494,7 @@ function TxCellDAO({ cell, ckbValue, isInput }: CommonCellProps) {
           />
         </div>
         <div className={classNames(styles.daoDataList, "gap-7")}>
-          <span className="text-[#000000] dark:text-[#FFFFFF] font-medium">{t("nervos_dao.withdraw_request_tooltip")}</span>
+          <span className="text-[#000000] dark:text-[#FFFFFF] font-medium">{cell.cellType === 1 ? t("nervos_dao.withdraw_request_tooltip") : t("nervos_dao.withdraw_tooltip")}</span>
           <span className="w-full flex-1 border-t border-[#D9D9D9] dark:border-[#4C4C4C]"></span>
         </div>
         <div className={styles.daoDataList}>
