@@ -28,7 +28,7 @@ const FeeRateTrackerPage = () => {
   const isMobile = useIsMobile()
   const { statistics } = useBlockChainInfo()
 
-  const { data: transactionFeesStatistic } = useQuery<FeeRateTracker.TransactionFeesStatistic>({
+  const { data: transactionFeesStatistic } = useQuery({
     queryKey: ['statistics-transaction_fees'],
     queryFn: async () => {
       const res = await server.explorer("GET /statistics/{fieldName}", { fieldName: "transaction_fees" });
@@ -74,12 +74,7 @@ const FeeRateTrackerPage = () => {
         <div className={classNames(styles.charts, "gap-4 md:gap-5")}>
           <div className={classNames(styles.feeRateChart, "p-5 sm:p-6")}>
             <div className={styles.chartTitle}>
-              {`${t('fee_rate_tracker.confirmation_time_x_avg_fee_rate')}${isMobile ? '\n' : ' '}(${t(
-                'fee_rate_tracker.last_n_transactions',
-                {
-                  c: localeNumberString(10000),
-                },
-              )})`}
+              {`${t('fee_rate_tracker.confirmation_time_x_avg_fee_rate')}`}
             </div>
             <div className={styles.chart}>
               {transactionFeesStatistic && transactionFeesStatistic?.transactionFeeRates ? (

@@ -27,10 +27,10 @@ const config: NextConfig = {
           {
             key: "Content-Security-Policy",
             value: [
-              "default-src 'self'",
+              "default-src *",
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live",
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: https://raw.githubusercontent.com",
+              `img-src ${process.env.NODE_ENV === "development" ? "*" : "https:"} data:`,
               // `connect-src 'self' ${combinedUrl}`,
               "connect-src *",
               "font-src 'self'",
@@ -124,15 +124,14 @@ const config: NextConfig = {
     fileLoaderRule.exclude = /\.svg$/i;
     return config;
   },
-
-  rewrites: process.env.NODE_ENV === "development" ? async function () {
-    return [
-      {
-        source: "/api/:path*",
-        destination: `${process.env.NEXT_PUBLIC_EXPLORER_SERVICE_URL}/api/:path*`,
-      },
-    ];
-  } : undefined,
+  // rewrites: process.env.NODE_ENV === "development" ? async function () {
+  //   return [
+  //     {
+  //       source: "/api/:path*",
+  //       destination: `${process.env.NEXT_PUBLIC_EXPLORER_SERVICE_URL}/api/:path*`,
+  //     },
+  //   ];
+  // } : undefined,
   // compiler: {
   //   removeConsole: IS_PROD ? { exclude: ["error"] } : false,
   // }

@@ -5,22 +5,26 @@ import MultiFilterButton from "@/components/MultiFilterButton";
 import Pagination from "@/components/Pagination";
 import TanstackTable from "@/components/TanstackTable";
 import TextEllipsis from "@/components/TextEllipsis";
-import useDOBRender from "@/hooks/useDOBRender";
+import useTokenImage from "@/hooks/useTokenImage";
 // import { useSearchParams } from "@/hooks";
 import server from "@/server";
 import { addPrefixForHash } from "@/utils/string";
 import { isTxHash } from "@/utils/validator";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
-import dayjs from "dayjs";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 
-function DOBCover({ data, tokenId }: { tokenId: string, data: string }) {
-  const { data: imgData, isLoading } = useDOBRender({ type: 'dob', data, id: tokenId })
+function TokenCover({ tokenInfo, collectionInfo }: { tokenInfo: APIExplorer.NftTransfersResp, collectionInfo: APIExplorer.CollectionsResp }) {
+  const { data: imgData, isLoading } = useTokenImage({
+    type: tokenInfo.standard, 
+    data: tokenInfo.iconUrl || tokenInfo.data,
+    clusterId: collectionInfo.typeScriptHash,
+    tokenId: tokenInfo.tokenId 
+  })
 
   return (
     <div className="flex-none size-12 bg-[#eee] dark:bg-[#303030] rounded-sm overflow-hidden">
@@ -36,7 +40,7 @@ function DOBCover({ data, tokenId }: { tokenId: string, data: string }) {
   )
 }
 
-export default function NFTCollectionActivtyList({ collectionId }: { collectionId: string }) {
+export default function NFTCollectionActivtyList({ collectionInfo }: { collectionInfo: APIExplorer.CollectionsResp }) {
   const { t } = useTranslation("tokens");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
@@ -45,6 +49,7 @@ export default function NFTCollectionActivtyList({ collectionId }: { collectionI
   const router = useRouter();
   const filter = params.get("filter");
   const actions = params.get("action");
+  const collectionId = collectionInfo.typeScriptHash;
   const query = useQuery({
     queryKey: ["nft-collections-transactions", page, pageSize, collectionId, filter, actions],
     queryFn: async () => {
@@ -82,7 +87,7 @@ export default function NFTCollectionActivtyList({ collectionId }: { collectionI
         const { tokenId, data } = row.original;
         return (
           <Link className="flex flex-row items-center gap-2 w-50 group" href={`/nft-collections/${collectionId}/${tokenId}`}>
-            <DOBCover tokenId={tokenId} data={data} />
+            <TokenCover tokenInfo={row.original} collectionInfo={collectionInfo} />
             <span className="font-hash truncate underline group-hover:text-primary">{tokenId}</span>
           </Link>
         )

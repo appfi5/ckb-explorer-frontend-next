@@ -30,6 +30,8 @@
 
 .arrowicons{
     cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none; 
     path {
         stroke: #000000;
     }

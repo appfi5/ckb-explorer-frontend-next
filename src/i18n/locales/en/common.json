@@ -607,6 +607,7 @@
     "transaction": "Transaction",
     "24h_transactions": "24 hours Transactions",
     "transactions": "Transactions",
+    "transaction_bytes": "Bytes",
     "pending_transactions": "Pending Transactions",
     "transaction_fee": "Transaction Fee",
     "fee_rate": "Fee Rate",
@@ -846,7 +847,8 @@
     "years": "Years",
     "day": "Days",
     "done": "Done",
-    "view_apc_trending": "Nominal APC"
+    "view_apc_trending": "Nominal APC",
+    "detail": "Detail"
   },
   "error": {
     "maintain": "The tip block number {{tip}}, the current synced block lagging behind by {{lag}} blocks.",

@@ -190,7 +190,7 @@ const NervosDaoOverviewLeftComp: FC<{ nervosDao: NervosDaoInfo }> = ({ nervosDao
 
   return (
     <>
-      <div className={classnames(styles.daoOverviewLeftPanel,viewPortStyles)}>
+      <div className={classnames(styles.daoOverviewLeftPanel, viewPortStyles)}>
         {leftItems.map((item) => (
           <NervosDaoLeftItem item={item} key={item.title} />
         ))}
@@ -199,38 +199,44 @@ const NervosDaoOverviewLeftComp: FC<{ nervosDao: NervosDaoInfo }> = ({ nervosDao
   )
 }
 
-const useOption = (nervosDao: NervosDaoInfo, colors: string[], isMobile: boolean): EChartsOption => {
+const valueToPercentStr = (value: number, sum: number) => `${(value / sum * 100).toFixed(1)}%`
+
+const useOption = (nervosDao: NervosDaoInfo, isMobile: boolean): EChartsOption => {
   const { t } = useTranslation()
   const [theme] = useTheme();
   const isDarkTheme = theme === "dark";
   const { miningReward, depositCompensation, treasuryAmount } = nervosDao
-  const sum =
-    shannonToCkbDecimal(miningReward) + shannonToCkbDecimal(depositCompensation) + shannonToCkbDecimal(treasuryAmount)
-  const names = [
-    `${((shannonToCkbDecimal(miningReward) / sum) * 100).toFixed(1)}%`,
-    `${((shannonToCkbDecimal(depositCompensation) / sum) * 100).toFixed(1)}%`,
-    `${((shannonToCkbDecimal(treasuryAmount) / sum) * 100).toFixed(1)}%`,
-  ]
+  const miningRewardCKB = shannonToCkbDecimal(miningReward)
+  const depositCompensationCKB = shannonToCkbDecimal(depositCompensation)
+  const treasuryAmountCKB = shannonToCkbDecimal(treasuryAmount)
+  const sum = miningRewardCKB + depositCompensationCKB + treasuryAmountCKB
 
   const { DaoChartPieColor } = useChartTheme()
 
   const seriesData = [
     {
-      name: names[0],
-      value: shannonToCkbDecimal(miningReward),
+      name: valueToPercentStr(miningRewardCKB, sum),
+      value: 0,
+      realValue: miningRewardCKB,
       title: t('nervos_dao.mining_reward'),
     },
     {
-      name: names[1],
-      value: shannonToCkbDecimal(depositCompensation),
+      name: valueToPercentStr(depositCompensationCKB, sum),
+      value: 0,
+      realValue: depositCompensationCKB,
       title: t('nervos_dao.deposit_compensation'),
     },
     {
-      name: names[2],
-      value: shannonToCkbDecimal(treasuryAmount),
+      name: valueToPercentStr(treasuryAmountCKB, sum),
+      value: 0,
+      realValue: treasuryAmountCKB,
       title: t('nervos_dao.burnt'),
     },
-  ]
+  ].sort((a, b) => a.realValue - b.realValue)
+
+  seriesData[0]!.value = Math.max(seriesData[0]!.realValue / sum * 100, 1);
+  seriesData[1]!.value = Math.max(seriesData[1]!.realValue / sum * 100, 1);
+  seriesData[2]!.value = +(100 - seriesData[0]!.value - seriesData[1]!.value).toFixed(1);
 
   return {
     color: DaoChartPieColor,
@@ -238,7 +244,7 @@ const useOption = (nervosDao: NervosDaoInfo, colors: string[], isMobile: boolean
       trigger: 'item',
       formatter: (value: any) => {
         assertNotArray(value)
-        return `${value.data?.title}: ${localeNumberString(value.data.value)} ${t('common.ckb_unit')} (${value.data.name
+        return `${value.data?.title}: ${localeNumberString(value.data.realValue)} ${t('common.ckb_unit')} (${value.data.name
           })`
       },
       backgroundColor: 'rgba(50, 50, 50, 0.7)',
@@ -254,7 +260,7 @@ const useOption = (nervosDao: NervosDaoInfo, colors: string[], isMobile: boolean
         type: 'pie',
         radius: ['40%', '75%'],
         center: ['50%', '50%'],
-        data: seriesData.sort((a, b) => a.value - b.value),
+        data: seriesData,
         label: {
           position: 'outside',
           align: 'center',
@@ -294,7 +300,7 @@ const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
         />
         <div>{item.title}</div>
       </div>
-      <div className="w-[40px] break-all pl-4">{item.content}</div>
+      <div className="break-all pl-4">{item.content}</div>
     </div>
     {/* <div className={styles.nervosDaoPieItemPanel}>
       <div
@@ -314,7 +320,8 @@ const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
 const NervosDaoOverviewPanel = ({ nervosDao }: { nervosDao: NervosDaoInfo }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
-  const { DaoChartPieColor, chartThemeColor } = useChartTheme()
+  const { DaoChartPieColor } = useChartTheme()
+  const chartOption = useOption(nervosDao, isMobile)
 
   const nervosDaoPieItemContents = useCallback(
     (nervosDao: NervosDaoInfo): NervosDaoPieItemContent[] => {
@@ -357,7 +364,7 @@ const NervosDaoOverviewPanel = ({ nervosDao }: { nervosDao: NervosDaoInfo }) => 
           </div>
           <div className={styles.daoOverviewPieChartSty}>
             <ReactChartCore
-              option={useOption(nervosDao, chartThemeColor.daoColors, isMobile)}
+              option={chartOption}
               notMerge
               lazyUpdate
               style={{

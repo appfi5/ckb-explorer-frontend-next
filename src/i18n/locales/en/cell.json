@@ -21,7 +21,9 @@
   },
   "message": {
     "data_too_large": "Data too large",
-    "get_cell_data_failed": "Get cell data failed"
+    "get_cell_data_failed": "Get cell data failed",
+    "ckb_cell_with_data": "This CKB Cell contains data",
+    "cell_unknown": "Unknown Cell Type"
   },
   "action": {
     "download_source": "Download Source",
