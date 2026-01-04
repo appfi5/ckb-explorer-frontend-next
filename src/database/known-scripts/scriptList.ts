@@ -6,6 +6,33 @@ import type { KnownScriptDepolyment, KnownScriptInfo } from "./tool";
 const knownScriptInfoList: KnownScriptInfo[] = [
 
   {
+    name: "AlwaysSuccess",
+    description: "A simple script that always succeeds.",
+    rfc: "",
+    website: "",
+    sourceUrl: "https://github.com/ckb-devrel/ckb-proxy-locks",
+    verified: true,
+    cellTypeTag: undefined,
+    deployments: withNetwork<KnownScriptDepolyment[]>({
+      mainnet: [{
+        tag: "",
+        hashType: "data1",
+        dataHash: "0x3b521cc4b552f109d092d8cc468a8048acb53c5952dbe769d2b2f9cf6e47f7f1",
+        typeHash: "",
+        codeHash: "0x3b521cc4b552f109d092d8cc468a8048acb53c5952dbe769d2b2f9cf6e47f7f1",
+        deprecated: false,
+      }],
+      testnet: [{
+        tag: "",
+        hashType: "data1",
+        dataHash: "0x3b521cc4b552f109d092d8cc468a8048acb53c5952dbe769d2b2f9cf6e47f7f1",
+        typeHash: "",
+        codeHash: "0x3b521cc4b552f109d092d8cc468a8048acb53c5952dbe769d2b2f9cf6e47f7f1",
+        deprecated: false,
+      }],
+    }, [])
+  },
+  {
     name: "Anyone-Can-Pay Lock",
     description: "anyone_can_pay allows a recipient to provide cell capacity in asset transfer.",
     rfc: "https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0026-anyone-can-pay/0026-anyone-can-pay.md",
@@ -62,6 +89,33 @@ const knownScriptInfoList: KnownScriptInfo[] = [
         dataHash: "0xd3db94edf2a2d040fb4f0fc93f21e721ef181719717384598c536fd1cfc3ad58",
         typeHash: "0x80a09eca26d77cea1f5a69471c59481be7404febf40ee90f886c36a948385b55",
         codeHash: "0x80a09eca26d77cea1f5a69471c59481be7404febf40ee90f886c36a948385b55",
+        deprecated: false,
+      }],
+    }, [])
+  },
+  {
+    name: "ccBTC Asset",
+    description: "ccBTC is a token backed 1:1 by Bitcoin reserves",
+    rfc: "",
+    website: "https://www.crosschain.network/assets",
+    sourceUrl: "https://github.com/ccTokens/Smart-Contract-Nervos",
+    verified: true,
+    cellTypeTag: undefined,
+    deployments: withNetwork<KnownScriptDepolyment[]>({
+      mainnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0xa99494ada9bc23cdc018141222640d0e698f29ce3684054e85bf8add7cc9ae2c",
+        typeHash: "0x092c2c4a26ea475a8e860c29cf00502103add677705e2ccd8d6fe5af3caa5ae3",
+        codeHash: "0x092c2c4a26ea475a8e860c29cf00502103add677705e2ccd8d6fe5af3caa5ae3",
+        deprecated: false,
+      }],
+      testnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0x6c788630f7f08b77c46558b6d37e149032528023a9cbf39fbfff7fc7897e615d",
+        typeHash: "0x98701eaf939113606a8a70013fd2e8f27b8f1e234acdc329f3d71f9e9d3d3233",
+        codeHash: "0x98701eaf939113606a8a70013fd2e8f27b8f1e234acdc329f3d71f9e9d3d3233",
         deprecated: false,
       }],
     }, [])
@@ -135,6 +189,154 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     }, [])
   },
   {
+    name: "COTA",
+    description: "A Compact Token Aggregator Standard for Extremely Low Cost NFTs and FTs",
+    rfc: "https://www.cotadev.io/docs/protocols/cota_main",
+    website: "https://www.cotadev.io/",
+    sourceUrl: "https://github.com/nervina-labs",
+    verified: true,
+    cellTypeTag: undefined,
+    deployments: withNetwork<KnownScriptDepolyment[]>({
+      mainnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0xeafc5d23a45ce68e5fd9e50cfb85664c5832519292577caf9a51bdde6c5729b3",
+        typeHash: "0x1122a4fb54697cf2e6e3a96c9d80fd398a936559b90954c6e88eb7ba0cf652df",
+        codeHash: "0x1122a4fb54697cf2e6e3a96c9d80fd398a936559b90954c6e88eb7ba0cf652df",
+        deprecated: false,
+      }],
+      testnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0xc62a0a74809b40a7be31a62143efb556c78ffeacf4b7ce734dd317b04359101d",
+        typeHash: "0x89cd8003a0eaf8e65e0c31525b7d1d5c1becefd2ea75bb4cff87810ae37764d8",
+        codeHash: "0x89cd8003a0eaf8e65e0c31525b7d1d5c1becefd2ea75bb4cff87810ae37764d8",
+        deprecated: false,
+      }],
+    }, [])
+  },
+  {
+    name: "COTA Registry",
+    description: "A Compact Token Aggregator Standard for Extremely Low Cost NFTs and FTs",
+    rfc: "https://www.cotadev.io/docs/protocols/cota_main",
+    website: "https://www.cotadev.io/",
+    sourceUrl: "https://github.com/nervina-labs",
+    verified: true,
+    cellTypeTag: undefined,
+    deployments: withNetwork<KnownScriptDepolyment[]>({
+      mainnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0x63d7d30b877bbe94692825e0ba587a44ac3a404655b5191110ac0cdee598aa7e",
+        typeHash: "0x90ca618be6c15f5857d3cbd09f9f24ca6770af047ba9ee70989ec3b229419ac7",
+        codeHash: "0x90ca618be6c15f5857d3cbd09f9f24ca6770af047ba9ee70989ec3b229419ac7",
+        deprecated: false,
+      }],
+      testnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0x07f7a67b58ab7ffef08fd0d33fd6f0a1286081486963ac6181f21802949f0b4f",
+        typeHash: "0x9302db6cc1344b81a5efee06962abcb40427ecfcbe69d471b01b2658ed948075",
+        codeHash: "0x9302db6cc1344b81a5efee06962abcb40427ecfcbe69d471b01b2658ed948075",
+        deprecated: false,
+      }],
+    }, [])
+  },
+  {
+    name: "DAS Lock",
+    description: "Unified DID, access from anywhere, use it everywhere.",
+    rfc: "",
+    website: "https://d.id/id-protocol/bit",
+    sourceUrl: "",
+    verified: true,
+    cellTypeTag: undefined,
+    deployments: withNetwork<KnownScriptDepolyment[]>({
+      mainnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0x1e78d78de1b8e1c0ad45459a1caddf2c27dde8a3399d2736bd148e3d9d9e9200",
+        typeHash: "0x9376c3b5811942960a846691e16e477cf43d7c7fa654067c9948dfcd09a32137",
+        codeHash: "0x9376c3b5811942960a846691e16e477cf43d7c7fa654067c9948dfcd09a32137",
+        deprecated: false,
+      }],
+      testnet: [],
+    }, [])
+  },
+  {
+    name: "DID Cell",
+    description: "Unified DID, access from anywhere, use it everywhere.",
+    rfc: "",
+    website: "https://d.id/id-protocol/bit",
+    sourceUrl: "",
+    verified: true,
+    cellTypeTag: undefined,
+    deployments: withNetwork<KnownScriptDepolyment[]>({
+      mainnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0x45721f0b3b48458087f4316410c4118d4d58b20b9de408073f8f59c745e1d6cd",
+        typeHash: "0xcfba73b58b6f30e70caed8a999748781b164ef9a1e218424a6fb55ebf641cb33",
+        codeHash: "0xcfba73b58b6f30e70caed8a999748781b164ef9a1e218424a6fb55ebf641cb33",
+        deprecated: false,
+      }],
+      testnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0x076696859964804a0c984062d9c3bfe983f8632e084d9e230cb84a012aa75927",
+        typeHash: "0x0b1f412fbae26853ff7d082d422c2bdd9e2ff94ee8aaec11240a5b34cc6e890f",
+        codeHash: "0x0b1f412fbae26853ff7d082d422c2bdd9e2ff94ee8aaec11240a5b34cc6e890f",
+        deprecated: false,
+      }],
+    }, [])
+  },
+  {
+    name: "DID Account",
+    description: "Unified DID, access from anywhere, use it everywhere.",
+    rfc: "",
+    website: "https://d.id/id-protocol/bit",
+    sourceUrl: "",
+    verified: true,
+    cellTypeTag: undefined,
+    deployments: withNetwork<KnownScriptDepolyment[]>({
+      mainnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0xef8f439fbb5838e9f935774b640781969929c47f6cc9fcc51be0a5f9e1b43166",
+        typeHash: "0x4f170a048198408f4f4d36bdbcddcebe7a0ae85244d3ab08fd40a80cbfc70918",
+        codeHash: "0x4f170a048198408f4f4d36bdbcddcebe7a0ae85244d3ab08fd40a80cbfc70918",
+        deprecated: false,
+      }],
+      testnet: [],
+    }, [])
+  },
+  {
+    name: "EasyToDiscoverType",
+    description: "Reveals cell data through type script arguments.",
+    rfc: "",
+    website: "",
+    sourceUrl: "https://github.com/ckb-devrel/ckb-proxy-locks",
+    verified: true,
+    cellTypeTag: undefined,
+    deployments: withNetwork<KnownScriptDepolyment[]>({
+      mainnet: [{
+        tag: "",
+        hashType: "data1",
+        dataHash: "0xaba4430cc7110d699007095430a1faa72973edf2322ddbfd4d1d219cacf237af",
+        typeHash: "",
+        codeHash: "0xaba4430cc7110d699007095430a1faa72973edf2322ddbfd4d1d219cacf237af",
+        deprecated: false,
+      }],
+      testnet: [{
+        tag: "",
+        hashType: "data1",
+        dataHash: "0xaba4430cc7110d699007095430a1faa72973edf2322ddbfd4d1d219cacf237af",
+        typeHash: "",
+        codeHash: "0xaba4430cc7110d699007095430a1faa72973edf2322ddbfd4d1d219cacf237af",
+        deprecated: false,
+      }],
+    }, [])
+  },
+  {
     name: "FlashSigner",
     description: "",
     rfc: "",
@@ -190,7 +392,14 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     verified: true,
     cellTypeTag: undefined,
     deployments: withNetwork<KnownScriptDepolyment[]>({
-      mainnet: [],
+      mainnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0xbaaae1cc39656301d65d2ac8151a21f967b344a18c9d6e967ac0945761401efd",
+        typeHash: "0x628b5f956b46ae27b50819a9ebab79ce5f957e6899ba0c75b8e142de2ed0dcd2",
+        codeHash: "0x628b5f956b46ae27b50819a9ebab79ce5f957e6899ba0c75b8e142de2ed0dcd2",
+        deprecated: false,
+      }],
       testnet: [{
         tag: "",
         hashType: "type",
@@ -264,7 +473,14 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     verified: true,
     cellTypeTag: undefined,
     deployments: withNetwork<KnownScriptDepolyment[]>({
-      mainnet: [],
+      mainnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0x685ae74d35fdbffe2ac08b46c428f89136fd3b10d170f1c0570ddd0b28199235",
+        typeHash: "0x096df264f38fff07f3acd318995abc2c71ae0e504036fe32bc38d5b6037364d4",
+        codeHash: "0x096df264f38fff07f3acd318995abc2c71ae0e504036fe32bc38d5b6037364d4",
+        deprecated: false,
+      }],
       testnet: [{
         tag: "",
         hashType: "type",
@@ -384,6 +600,33 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     }, [])
   },
   {
+    name: "InputTypeProxyLock",
+    description: "Unlocks when a specific type script appears in transaction inputs.",
+    rfc: "",
+    website: "",
+    sourceUrl: "https://github.com/ckb-devrel/ckb-proxy-locks",
+    verified: true,
+    cellTypeTag: undefined,
+    deployments: withNetwork<KnownScriptDepolyment[]>({
+      mainnet: [{
+        tag: "",
+        hashType: "data1",
+        dataHash: "0x5123908965c711b0ffd8aec642f1ede329649bda1ebdca6bd24124d3796f768a",
+        typeHash: "",
+        codeHash: "0x5123908965c711b0ffd8aec642f1ede329649bda1ebdca6bd24124d3796f768a",
+        deprecated: false,
+      }],
+      testnet: [{
+        tag: "",
+        hashType: "data1",
+        dataHash: "0x5123908965c711b0ffd8aec642f1ede329649bda1ebdca6bd24124d3796f768a",
+        typeHash: "",
+        codeHash: "0x5123908965c711b0ffd8aec642f1ede329649bda1ebdca6bd24124d3796f768a",
+        deprecated: false,
+      }],
+    }, [])
+  },
+  {
     name: "JoyID",
     description: "An universal Account Protocol for Web3 Mass-adoption.",
     rfc: "",
@@ -411,6 +654,33 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     }, [])
   },
   {
+    name: "LockProxyLock",
+    description: "Delegates unlocking authority to another lock script.",
+    rfc: "",
+    website: "",
+    sourceUrl: "https://github.com/ckb-devrel/ckb-proxy-locks",
+    verified: true,
+    cellTypeTag: undefined,
+    deployments: withNetwork<KnownScriptDepolyment[]>({
+      mainnet: [{
+        tag: "",
+        hashType: "data1",
+        dataHash: "0x5d41e32e224c15f152b7e6529100ebeac83b162f5f692a5365774dad2c1a1d02",
+        typeHash: "",
+        codeHash: "0x5d41e32e224c15f152b7e6529100ebeac83b162f5f692a5365774dad2c1a1d02",
+        deprecated: false,
+      }],
+      testnet: [{
+        tag: "",
+        hashType: "data1",
+        dataHash: "0x5d41e32e224c15f152b7e6529100ebeac83b162f5f692a5365774dad2c1a1d02",
+        typeHash: "",
+        codeHash: "0x5d41e32e224c15f152b7e6529100ebeac83b162f5f692a5365774dad2c1a1d02",
+        deprecated: false,
+      }],
+    }, [])
+  },
+  {
     name: "M-NFT",
     description: "",
     rfc: "",
@@ -419,7 +689,14 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     verified: true,
     cellTypeTag: undefined,
     deployments: withNetwork<KnownScriptDepolyment[]>({
-      mainnet: [],
+      mainnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0xf677aac8b653741126c760f1c76a24bd9f49e01949cb68f67f998cf62ac350df",
+        typeHash: "0x2b24f0d644ccbdd77bbf86b27c8cca02efa0ad051e447c212636d9ee7acaaec9",
+        codeHash: "0x2b24f0d644ccbdd77bbf86b27c8cca02efa0ad051e447c212636d9ee7acaaec9",
+        deprecated: false,
+      }],
       testnet: [{
         tag: "",
         hashType: "type",
@@ -439,7 +716,14 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     verified: true,
     cellTypeTag: undefined,
     deployments: withNetwork<KnownScriptDepolyment[]>({
-      mainnet: [],
+      mainnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0xc9aa394982bf0b7b1f8b19fbbbae42a5437516f8d908c84e87778eb19cd95125",
+        typeHash: "0xd51e6eaf48124c601f41abe173f1da550b4cbca9c6a166781906a287abbb3d9a",
+        codeHash: "0xd51e6eaf48124c601f41abe173f1da550b4cbca9c6a166781906a287abbb3d9a",
+        deprecated: false,
+      }],
       testnet: [{
         tag: "",
         hashType: "type",
@@ -459,7 +743,14 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     verified: true,
     cellTypeTag: undefined,
     deployments: withNetwork<KnownScriptDepolyment[]>({
-      mainnet: [],
+      mainnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0xb274adecfb9c1cc07838359fabff1956bbe202239e77961b84aa617758ec7337",
+        typeHash: "0x24b04faf80ded836efc05247778eec4ec02548dab6e2012c0107374aa3f68b81",
+        codeHash: "0x24b04faf80ded836efc05247778eec4ec02548dab6e2012c0107374aa3f68b81",
+        deprecated: false,
+      }],
       testnet: [{
         tag: "",
         hashType: "type",
@@ -566,6 +857,33 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     }, [])
   },
   {
+    name: "OutputTypeProxyLock",
+    description: "Unlocks when a specific type script appears in transaction outputs.",
+    rfc: "",
+    website: "",
+    sourceUrl: "https://github.com/ckb-devrel/ckb-proxy-locks",
+    verified: true,
+    cellTypeTag: undefined,
+    deployments: withNetwork<KnownScriptDepolyment[]>({
+      mainnet: [{
+        tag: "",
+        hashType: "data1",
+        dataHash: "0x2df53b592db3ae3685b7787adcfef0332a611edb83ca3feca435809964c3aff2",
+        typeHash: "",
+        codeHash: "0x2df53b592db3ae3685b7787adcfef0332a611edb83ca3feca435809964c3aff2",
+        deprecated: false,
+      }],
+      testnet: [{
+        tag: "",
+        hashType: "data1",
+        dataHash: "0x2df53b592db3ae3685b7787adcfef0332a611edb83ca3feca435809964c3aff2",
+        typeHash: "",
+        codeHash: "0x2df53b592db3ae3685b7787adcfef0332a611edb83ca3feca435809964c3aff2",
+        deprecated: false,
+      }],
+    }, [])
+  },
+  {
     name: "PW Lock",
     description: "Forked from CKB's system scripts, and currently supports signature generated by personalSign and signTypedData from ethereum wallets.",
     rfc: "",
@@ -663,6 +981,13 @@ const knownScriptInfoList: KnownScriptInfo[] = [
         codeHash: "0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8",
         deprecated: false,
       }, {
+        tag: "@d1a9f877",
+        hashType: "type",
+        dataHash: "0x50c8623ef5112510ccdf2d8e480d02d0de7288eb9968f8b019817340c3991145",
+        typeHash: "0xd1a9f877aed3f5e07cb9c52b61ab96d06f250ae6883cc7f0a2423db0976fc821",
+        codeHash: "0xd1a9f877aed3f5e07cb9c52b61ab96d06f250ae6883cc7f0a2423db0976fc821",
+        deprecated: false,
+      }, {
         tag: "@36c971b8",
         hashType: "data1",
         dataHash: "0x36c971b8d41fbd94aabca77dc75e826729ac98447b46f91e00796155dddb0d29",
@@ -676,6 +1001,13 @@ const knownScriptInfoList: KnownScriptInfo[] = [
         dataHash: "0x43400de165f0821abf63dcac299bbdf7fd73898675ee4ddb099b0a0d8db63bfb",
         typeHash: "0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8",
         codeHash: "0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8",
+        deprecated: false,
+      }, {
+        tag: "@765b3ed6",
+        hashType: "type",
+        dataHash: "0x50c8623ef5112510ccdf2d8e480d02d0de7288eb9968f8b019817340c3991145",
+        typeHash: "0x765b3ed6ae264b335d07e73ac332bf2c0f38f8d3340ed521cb447b4c42dd5f09",
+        codeHash: "0x765b3ed6ae264b335d07e73ac332bf2c0f38f8d3340ed521cb447b4c42dd5f09",
         deprecated: false,
       }, {
         tag: "@36c971b8",
@@ -930,6 +1262,60 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     }, [])
   },
   {
+    name: "TimeLock",
+    description: "Since-based lock (time/block/epoch) with additional lock script verification.",
+    rfc: "",
+    website: "",
+    sourceUrl: "https://github.com/ckb-devrel/ckb-proxy-locks",
+    verified: true,
+    cellTypeTag: undefined,
+    deployments: withNetwork<KnownScriptDepolyment[]>({
+      mainnet: [{
+        tag: "",
+        hashType: "data1",
+        dataHash: "0x6fac4b2e89360a1e692efcddcb3a28656d8446549fb83da6d896db8b714f4451",
+        typeHash: "",
+        codeHash: "0x6fac4b2e89360a1e692efcddcb3a28656d8446549fb83da6d896db8b714f4451",
+        deprecated: false,
+      }],
+      testnet: [{
+        tag: "",
+        hashType: "data1",
+        dataHash: "0x6fac4b2e89360a1e692efcddcb3a28656d8446549fb83da6d896db8b714f4451",
+        typeHash: "",
+        codeHash: "0x6fac4b2e89360a1e692efcddcb3a28656d8446549fb83da6d896db8b714f4451",
+        deprecated: false,
+      }],
+    }, [])
+  },
+  {
+    name: "TypeBurnLock",
+    description: "Unlocks when a specific type script is burned (appears in inputs but not outputs).",
+    rfc: "",
+    website: "",
+    sourceUrl: "https://github.com/ckb-devrel/ckb-proxy-locks",
+    verified: true,
+    cellTypeTag: undefined,
+    deployments: withNetwork<KnownScriptDepolyment[]>({
+      mainnet: [{
+        tag: "",
+        hashType: "data1",
+        dataHash: "0xff78bae0abf17d7a404c0be0f9ad9c9185b3f88dcc60403453d5ba8e1f22f53a",
+        typeHash: "",
+        codeHash: "0xff78bae0abf17d7a404c0be0f9ad9c9185b3f88dcc60403453d5ba8e1f22f53a",
+        deprecated: false,
+      }],
+      testnet: [{
+        tag: "",
+        hashType: "data1",
+        dataHash: "0xff78bae0abf17d7a404c0be0f9ad9c9185b3f88dcc60403453d5ba8e1f22f53a",
+        typeHash: "",
+        codeHash: "0xff78bae0abf17d7a404c0be0f9ad9c9185b3f88dcc60403453d5ba8e1f22f53a",
+        deprecated: false,
+      }],
+    }, [])
+  },
+  {
     name: "Type ID",
     description: "",
     rfc: "",
@@ -1038,6 +1424,60 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     }, [])
   },
   {
+    name: "USDI Asset",
+    description: "Stablecoin issued by InterpayStellar",
+    rfc: "",
+    website: "https://www.interpaystellar.com/",
+    sourceUrl: "https://github.com/interpaystellar",
+    verified: true,
+    cellTypeTag: undefined,
+    deployments: withNetwork<KnownScriptDepolyment[]>({
+      mainnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0x50bd8d6680b8b9cf98b73f3c08faf8b2a21914311954118ad6609be6e78a1b95",
+        typeHash: "0xbfa35a9c38a676682b65ade8f02be164d48632281477e36f8dc2f41f79e56bfc",
+        codeHash: "0xbfa35a9c38a676682b65ade8f02be164d48632281477e36f8dc2f41f79e56bfc",
+        deprecated: false,
+      }],
+      testnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0x28a734e118e2f972004f44063a2e795088ca2ed1340dc48ad85ac9d84dcc94d8",
+        typeHash: "0xcc9dc33ef234e14bc788c43a4848556a5fb16401a04662fc55db9bb201987037",
+        codeHash: "0xcc9dc33ef234e14bc788c43a4848556a5fb16401a04662fc55db9bb201987037",
+        deprecated: false,
+      }],
+    }, [])
+  },
+  {
+    name: "Web5 DID",
+    description: "Decentralized Identifier (DID) method specification that utilizes the Nervos CKB (Common Knowledge Base) blockchain for creating, updating, and deactivating DIDs.",
+    rfc: "https://github.com/web5fans/web5-wips",
+    website: "https://web5.fans",
+    sourceUrl: "https://github.com/web5fans/did-ckb",
+    verified: true,
+    cellTypeTag: undefined,
+    deployments: withNetwork<KnownScriptDepolyment[]>({
+      mainnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0x079bb8c1dfb249f60d932f4b1a60fa5cb2a36af3653ac09464f262e2f3f682a9",
+        typeHash: "0x4a06164dc34dccade5afe3e847a97b6db743e79f5477fa3295acf02849c5984a",
+        codeHash: "0x4a06164dc34dccade5afe3e847a97b6db743e79f5477fa3295acf02849c5984a",
+        deprecated: false,
+      }],
+      testnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0x079bb8c1dfb249f60d932f4b1a60fa5cb2a36af3653ac09464f262e2f3f682a9",
+        typeHash: "0x510150477b10d6ab551a509b71265f3164e9fd4137fcb5a4322f49f03092c7c5",
+        codeHash: "0x510150477b10d6ab551a509b71265f3164e9fd4137fcb5a4322f49f03092c7c5",
+        deprecated: false,
+      }],
+    }, [])
+  },
+  {
     name: "WR Owned-Owner",
     description: "WR Owned-Owner enable to create Withdrawals Request from NervosDAO deposits locked with zero length args locks, developed as part of iCKB.",
     rfc: "https://github.com/ickb/proposal#owned-owner-script",
@@ -1074,13 +1514,6 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     cellTypeTag: undefined,
     deployments: withNetwork<KnownScriptDepolyment[]>({
       mainnet: [{
-        tag: "@bfa35a9c",
-        hashType: "type",
-        dataHash: "0x50bd8d6680b8b9cf98b73f3c08faf8b2a21914311954118ad6609be6e78a1b95",
-        typeHash: "0xbfa35a9c38a676682b65ade8f02be164d48632281477e36f8dc2f41f79e56bfc",
-        codeHash: "0xbfa35a9c38a676682b65ade8f02be164d48632281477e36f8dc2f41f79e56bfc",
-        deprecated: false,
-      }, {
         tag: "@50bd8d66",
         hashType: "data1",
         dataHash: "0x50bd8d6680b8b9cf98b73f3c08faf8b2a21914311954118ad6609be6e78a1b95",
@@ -1094,13 +1527,6 @@ const knownScriptInfoList: KnownScriptInfo[] = [
         dataHash: "0x50bd8d6680b8b9cf98b73f3c08faf8b2a21914311954118ad6609be6e78a1b95",
         typeHash: "0x25c29dc317811a6f6f3985a7a9ebc4838bd388d19d0feeecf0bcd60f6c0975bb",
         codeHash: "0x25c29dc317811a6f6f3985a7a9ebc4838bd388d19d0feeecf0bcd60f6c0975bb",
-        deprecated: false,
-      }, {
-        tag: "@cc9dc33e",
-        hashType: "type",
-        dataHash: "0x50bd8d6680b8b9cf98b73f3c08faf8b2a21914311954118ad6609be6e78a1b95",
-        typeHash: "0xcc9dc33ef234e14bc788c43a4848556a5fb16401a04662fc55db9bb201987037",
-        codeHash: "0xcc9dc33ef234e14bc788c43a4848556a5fb16401a04662fc55db9bb201987037",
         deprecated: false,
       }],
     }, [])

@@ -8,12 +8,12 @@ const __dirname = dirname(__filename);
 
 
 export function generateUDTInfos() {
-  genereateSingleNetworkUDTInfos("mainnet")
-  genereateSingleNetworkUDTInfos("testnet")
+  genereateSingleNetworkUDTInfos("mainnet", true)
+  genereateSingleNetworkUDTInfos("testnet", true)
 }
 
 
-function genereateSingleNetworkUDTInfos(network) {  // testnet | mainnet
+function genereateSingleNetworkUDTInfos(network, famousOnly = false) {  // testnet | mainnet
   const srcPath = path.resolve(__dirname, "../..", "ckb-labels", "information", "udt", network);
   const dstFilePath = path.resolve(__dirname, "../..", "src", "database", "udts", `udts.${network}.ts`);
   const assetFolderPath = path.resolve(__dirname, "../..", "public", "assets", "udt", network);
@@ -27,14 +27,17 @@ function genereateSingleNetworkUDTInfos(network) {  // testnet | mainnet
     const folderName = fileName
     const json = fs.readFileSync(path.resolve(srcPath, folderName, "index.json"))
     const jsonObj = JSON.parse(json)
-    if(jsonObj.icon) {
+    
+    if (famousOnly && !jsonObj.famous) return;
+    if (jsonObj.icon) {
       const iconVal = jsonObj.icon;
-      if(iconVal.startsWith("http")) return;
-      const iconFilePath = path.resolve(srcPath, folderName, iconVal);
-      const targetIconFolderPath = path.resolve(assetFolderPath, folderName);
-      fs.mkdirSync(targetIconFolderPath, { recursive: true });
-      fs.copyFileSync(iconFilePath, path.resolve(targetIconFolderPath, iconVal));
-      jsonObj.icon = `/assets/udt/${network}/${folderName}/${iconVal}`;
+      if (!(iconVal.startsWith("http") || iconVal.startsWith("data:"))) {
+        const iconFilePath = path.resolve(srcPath, folderName, iconVal);
+        const targetIconFolderPath = path.resolve(assetFolderPath, folderName);
+        fs.mkdirSync(targetIconFolderPath, { recursive: true });
+        fs.copyFileSync(iconFilePath, path.resolve(targetIconFolderPath, iconVal));
+        jsonObj.icon = `/assets/udt/${network}/${folderName}/${iconVal}`;
+      }
     } else {
       jsonObj.icon = `/assets/udt/default.png`;
     }
@@ -63,7 +66,7 @@ ${udtList.map(udtInfo => `
     },
     typeHash: "${udtInfo.typeHash}",
     manager: "${udtInfo.manager}",
-    tags: [${udtInfo.tags.map(str => `"${str}"`).join(", ")}],
+    tags: [${udtInfo.tags?.map(str => `"${str}"`).join(", ") ?? ""}],
   },`).join("")}
 ];
 export default ${network}UDTList;
