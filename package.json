@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "update-labels": "node ./scripts/generate-builtin-informations.mjs",
-    "build": "next build && next-sitemap",
+    "update-labels": "git submodule update --remote && node ./scripts/generate-builtin-informations.mjs",
+    "build": "npm run update-labels && next build && next-sitemap",
     "check": "next lint && tsc --noEmit",
     "dev": "next dev",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
