@@ -434,14 +434,14 @@ function TxCellUDT({ cell }: Pick<TxCellRichDisplayProps, "cell">) {
   return (
     <div className="flex flex-row items-center justify-between">
       <div className="flex flex-row items-center gap-2.5">
-        {udtInfo?.name ? (
+        {udtInfo?.symbol ? (
           <>
             <img
               src={udtInfo.icon}
               alt={udtInfo.name}
               className="size-7.5 rounded-full"
             />
-            {udtInfo.name}
+            {udtInfo.symbol}
           </>
         ) : (
           <div>Unknown UDT (#<span className="font-hash">{typeHash.slice(-4)}</span>)</div>
