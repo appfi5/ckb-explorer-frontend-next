@@ -100,7 +100,7 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     website: "https://www.crosschain.network/assets",
     sourceUrl: "https://github.com/ccTokens/Smart-Contract-Nervos",
     verified: true,
-    cellTypeTag: undefined,
+    cellTypeTag: "udt",
     deployments: withNetwork<KnownScriptDepolyment[]>({
       mainnet: [{
         tag: "",
@@ -154,7 +154,7 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     website: "https://talk.nervos.org/t/ckbfs-protocol-a-standard-for-witnesses-based-content-storage-system/8342",
     sourceUrl: "https://github.com/code-monad/ckbfs",
     verified: true,
-    cellTypeTag: undefined,
+    cellTypeTag: "ckbfs",
     deployments: withNetwork<KnownScriptDepolyment[]>({
       mainnet: [{
         tag: "v2",
@@ -269,7 +269,7 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     website: "https://d.id/id-protocol/bit",
     sourceUrl: "",
     verified: true,
-    cellTypeTag: undefined,
+    cellTypeTag: "spore-cluster",
     deployments: withNetwork<KnownScriptDepolyment[]>({
       mainnet: [{
         tag: "",
@@ -768,7 +768,7 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     website: "",
     sourceUrl: "https://github.com/nervosnetwork/ckb-system-scripts/blob/master/c/dao.c",
     verified: true,
-    cellTypeTag: undefined,
+    cellTypeTag: "dao",
     deployments: withNetwork<KnownScriptDepolyment[]>({
       mainnet: [{
         tag: "",
@@ -1026,7 +1026,7 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     website: "",
     sourceUrl: "https://github.com/nervosnetwork/ckb-production-scripts/blob/e570c11aff3eca12a47237c21598429088c610d5/c/simple_udt.c",
     verified: true,
-    cellTypeTag: undefined,
+    cellTypeTag: "udt",
     deployments: withNetwork<KnownScriptDepolyment[]>({
       mainnet: [{
         tag: "",
@@ -1080,7 +1080,7 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     website: "https://spore.pro/",
     sourceUrl: "https://github.com/sporeprotocol/spore-contract",
     verified: true,
-    cellTypeTag: undefined,
+    cellTypeTag: "spore",
     deployments: withNetwork<KnownScriptDepolyment[]>({
       mainnet: [{
         tag: "",
@@ -1114,7 +1114,7 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     website: "",
     sourceUrl: "",
     verified: true,
-    cellTypeTag: undefined,
+    cellTypeTag: "spore-cluster",
     deployments: withNetwork<KnownScriptDepolyment[]>({
       mainnet: [{
         tag: "",
@@ -1188,7 +1188,7 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     website: "https://www.stablepp.xyz/stablecoin",
     sourceUrl: "",
     verified: true,
-    cellTypeTag: undefined,
+    cellTypeTag: "udt",
     deployments: withNetwork<KnownScriptDepolyment[]>({
       mainnet: [{
         tag: "",
@@ -1198,7 +1198,14 @@ const knownScriptInfoList: KnownScriptInfo[] = [
         codeHash: "0x26a33e0815888a4a0614a0b7d09fa951e0993ff21e55905510104a0b1312032b",
         deprecated: false,
       }],
-      testnet: [],
+      testnet: [{
+        tag: "",
+        hashType: "type",
+        dataHash: "0x94a0675388999ac5eaa7d1b7497fd989f712d2c15a021e61c5848ec4f5e999cf",
+        typeHash: "0x1142755a044bf2ee358cba9f2da187ce928c91cd4dc8692ded0337efa677d21a",
+        codeHash: "0x1142755a044bf2ee358cba9f2da187ce928c91cd4dc8692ded0337efa677d21a",
+        deprecated: false,
+      }],
     }, [])
   },
   {
@@ -1430,7 +1437,7 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     website: "https://www.interpaystellar.com/",
     sourceUrl: "https://github.com/interpaystellar",
     verified: true,
-    cellTypeTag: undefined,
+    cellTypeTag: "udt",
     deployments: withNetwork<KnownScriptDepolyment[]>({
       mainnet: [{
         tag: "",
@@ -1457,7 +1464,7 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     website: "https://web5.fans",
     sourceUrl: "https://github.com/web5fans/did-ckb",
     verified: true,
-    cellTypeTag: undefined,
+    cellTypeTag: "web5-did",
     deployments: withNetwork<KnownScriptDepolyment[]>({
       mainnet: [{
         tag: "",
@@ -1511,7 +1518,7 @@ const knownScriptInfoList: KnownScriptInfo[] = [
     website: "https://blog.cryptape.com/enhance-sudts-programmability-with-xudt#heading-xudt-cell",
     sourceUrl: "https://github.com/nervosnetwork/ckb-production-scripts/blob/master/c/xudt_rce.c",
     verified: true,
-    cellTypeTag: undefined,
+    cellTypeTag: "udt",
     deployments: withNetwork<KnownScriptDepolyment[]>({
       mainnet: [{
         tag: "@50bd8d66",

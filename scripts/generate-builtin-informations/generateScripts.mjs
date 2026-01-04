@@ -40,7 +40,7 @@ ${scriptList.map(script => `
     website: "${script.website}",
     sourceUrl: "${script.sourceUrl}",
     verified: true,
-    cellTypeTag: ${script.cellTypeTag ? `"${script.cellTypeTag}"` : "undefined"},
+    cellTypeTag: ${script.decoderType ? `"${script.decoderType}"` : "undefined"},
     deployments: withNetwork<KnownScriptDepolyment[]>({
       mainnet: [${script.deployments.mainnet.map(scriptDeploymentToTemplate).join(", ")}],
       testnet: [${script.deployments.testnet.map(scriptDeploymentToTemplate).join(", ")}],
