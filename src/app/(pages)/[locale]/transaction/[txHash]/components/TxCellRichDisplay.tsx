@@ -462,7 +462,7 @@ function TxCellDAO({ cell, ckbValue, isInput }: CommonCellProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const nervosDaoInfo = cell?.nervosDaoInfo;
   const toggleExpand = (e: React.MouseEvent) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     setIsExpanded(!isExpanded);
   };
 
@@ -523,6 +523,23 @@ function TxCellDAO({ cell, ckbValue, isInput }: CommonCellProps) {
           <span>{t("nervos_dao.compensation_time")}:</span>
           <div>{nervosDaoInfo ? parseDiffDate(nervosDaoInfo.compensationStartedTimestamp, nervosDaoInfo.compensationEndedTimestamp) : '-'}</div>
         </div>
+        {
+          cell.cellType === 2 && <>
+            <div className={styles.daoDataList}>
+              <span>{t("nervos_dao.locked_period")}:</span>
+              <div className="flex flex-row gap-1">
+                <span>Block</span>
+                <Link href={`/block/${nervosDaoInfo.compensationStartedBlockNumber}`} className="text-primary">{nervosDaoInfo ? localeNumberString(nervosDaoInfo.compensationStartedBlockNumber) : '-'}</Link>
+                <span>-</span>
+                <Link href={`/block/${nervosDaoInfo.lockedUntilBlockNumber}`} className="text-primary">{nervosDaoInfo ? localeNumberString(nervosDaoInfo.lockedUntilBlockNumber) : '-'}</Link>
+              </div>
+            </div>
+            <div className={styles.daoDataList}>
+              <span>{t("nervos_dao.locked_time")}:</span>
+              <div>{nervosDaoInfo ? parseDiffDate(nervosDaoInfo.compensationStartedTimestamp, nervosDaoInfo.lockedUntilBlockTimestamp) : '-'}</div>
+            </div>
+          </>
+        }
       </div>
       }
     </div>
