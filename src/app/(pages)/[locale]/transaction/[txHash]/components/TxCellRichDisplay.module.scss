@@ -19,3 +19,14 @@
         gap: 10px;
     }
 }
+
+.tags{
+    $color: #FFB041;
+    color: $color;
+    background-color: rgb(from $color r g b / 16%);
+    border-radius: 4px;
+    height: 22px;
+    line-height: 22px;
+    padding: 0 4px;
+    font-size: 12px;
+}
