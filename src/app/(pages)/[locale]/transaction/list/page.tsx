@@ -96,7 +96,7 @@ const TransactionCardGroup: FC<{
 
   const pendingItems: SortItemCardData<Transaction>[] = [
     itemHash,
-    itemCapacity,
+    // itemCapacity,
     {
       title: t('transaction.time'),
       sortRule: 'time',
@@ -106,9 +106,10 @@ const TransactionCardGroup: FC<{
       }
     },
     {
-      title: t('transaction.transaction_fee'),
-      sortRule: 'fee',
-      content: transaction => <Capacity capacity={shannonToCkb(transaction.transactionFee)} layout="responsive" />,
+      title: t('transaction.transaction_bytes'),
+      content: transaction => transaction.bytes && (
+        <span className="font-hash">{`${(transaction.bytes - 4).toLocaleString('en')} Bytes`}</span>
+      )
     },
   ]
 
@@ -227,7 +228,9 @@ const TransactionTable: FC<{
       ),
       width: '20%',
       textDirection: 'left',
-      render: transaction => transaction.bytes
+      render: transaction => transaction.bytes && (
+        <span className="font-hash">{`${(transaction.bytes - 4).toLocaleString('en')} Bytes`}</span>
+      )
     },
   ]
 
@@ -333,7 +336,7 @@ const TransactionsPage: FC = () => {
   const { tab } = useSearchParams('tab')
 
   const { data } = useQuery({
-    queryKey: ['transactions-count',tab],
+    queryKey: ['transactions-count', tab],
     queryFn: async () => {
       const res: any = await server.explorer("GET /ckb_pending_transactions", { page: 1, pageSize: 1 })
       return {

@@ -74,7 +74,7 @@ export function Table<T>({
       !isTransactionFree && {
         width: '20%',
         textDirection: 'left',
-        content: <div className="inline-block max-w-full w-[100%] break-all whitespace-normal font-hash">{transaction.bytes!}</div>,
+        content: <div className="inline-block max-w-full w-[100%] break-all whitespace-normal font-hash">{`${(transaction.bytes - 4).toLocaleString('en')} Bytes`}</div>,
       },
       // !isTransactionFree && {
       //   width: '20%',
