@@ -157,7 +157,17 @@ function UDTOverview({ udtInfo }: { udtInfo: UDTDetail }) {
       label: t('xudt.total_amount'),
       textDirection: "right",
       contentClassName: "flex sm:text-left sm:justify-start",
-      content: udtInfo?.totalAmount ? <span className="font-hash">{new BigNumber(udtInfo.totalAmount).dividedBy(10 ** (udtInfo.info?.decimalPlaces ?? 0)).toString()}</span> : '-',
+      content: udtInfo?.totalAmount
+        ? (
+          <span className="font-hash">
+            {
+              udtInfo.info?.decimalPlaces
+                ? new BigNumber(udtInfo.totalAmount).dividedBy(10 ** (udtInfo.info.decimalPlaces)).toFixed(udtInfo.info.decimalPlaces)
+                : udtInfo.totalAmount
+            }
+          </span>
+        )
+        : '-',
     },
   ]
   return (
