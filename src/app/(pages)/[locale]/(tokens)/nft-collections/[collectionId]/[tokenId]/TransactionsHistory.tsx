@@ -22,6 +22,7 @@ import Loading from "@/components/Loading";
 import Empty from "@/components/Empty";
 import server from "@/server";
 import DateTime from "@/components/DateTime";
+import CKBAddress from "@/components/CKBAddress";
 
 
 type DataType = any;
@@ -94,8 +95,8 @@ function HisTable({ loading, list }: { loading: boolean, list: DataType[] }) {
           <Link
             href={`/address/${fromAddr}`}
           >
-            <TextEllipsis
-              text={fromAddr}
+            <CKBAddress
+              address={fromAddr}
               className="inline underline hover:text-primary"
               ellipsis="address"
             />
@@ -114,8 +115,8 @@ function HisTable({ loading, list }: { loading: boolean, list: DataType[] }) {
           <Link
             href={`/address/${toAddr}`}
           >
-            <TextEllipsis
-              text={toAddr}
+            <CKBAddress
+              address={toAddr}
               className="inline underline hover:text-primary"
               ellipsis="address"
             />

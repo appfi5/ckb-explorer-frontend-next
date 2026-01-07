@@ -20,6 +20,7 @@ import Tooltip from "@/components/Tooltip"
 import CellModal from "@/components/Cell/CellModal"
 import InfoIcon from '@/assets/icons/info.svg?component';
 import useTokenImage from "@/hooks/useTokenImage"
+import CKBAddress from "@/components/CKBAddress"
 
 type NFTDetail = APIExplorer.NftItemResponse & { traits?: ParsedTrait[] };
 const UNIQUE_ITEM_LABEL = 'Unique Item';
@@ -108,8 +109,8 @@ function NFTOverview({ detail, collection }: { detail: NFTDetail, collection: AP
         <div className="flex flex-col gap-5 mt-3">
           <DescItem layout="flex-col gap-1" label={t("field.owner")} >
             <OutLink className="underline" href={`/address/${detail.owner}`}>
-              <TextEllipsis
-                text={detail.owner}
+              <CKBAddress
+                address={detail.owner}
                 ellipsis={{ head: 18, tail: -18 }}
               />
             </OutLink>
@@ -119,8 +120,8 @@ function NFTOverview({ detail, collection }: { detail: NFTDetail, collection: AP
             {
               !!collection?.creator ? (
                 <OutLink className="underline" href={`/address/${collection.creator}`}>
-                  <TextEllipsis
-                    text={collection.creator}
+                  <CKBAddress
+                    address={collection.creator}
                     ellipsis={{ head: 18, tail: -18 }}
                   />
                 </OutLink>
