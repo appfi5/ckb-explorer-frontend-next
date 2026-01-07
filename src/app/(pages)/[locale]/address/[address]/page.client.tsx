@@ -30,8 +30,8 @@ export default function AddressDetail({ address }: { address: string }) {
         actions={[<Qrcode text={address} />]}
         extra={
           !!dasAccount && (
-            <a className="flex-none flex flex-row items-center gap-1 py-2 px-2.5 border ml-1 border-[#999] bg-[#FBFBFB] dark:bg-[#303030] rounded-sm" href={`https://data.did.id/${dasAccount}`} target="_blank" rel="noreferrer">
-              <img className="size-5" src={`https://display.did.id/identicon/${dasAccount}`} alt={dasAccount} />
+            <a className="flex-none flex flex-row items-center gap-1.5 py-[5px] px-2.5 border ml-1 border-[#d9d9d9] dark:border-[#4c4c4c] bg-[#FBFBFB] dark:bg-[#303030] rounded-sm" href={`https://data.did.id/${dasAccount}`} target="_blank" rel="noreferrer">
+              <img className="size-6" src={`https://display.did.id/identicon/${dasAccount}`} alt={dasAccount} />
               <TextEllipsis
                 className="underline leading-[1em] hover:text-primary"
                 text={dasAccount}
