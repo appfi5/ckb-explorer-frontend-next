@@ -18,6 +18,7 @@ import NFTCollectionHolderList from "./components/HolderList"
 import useSearchParamState from "@/hooks/useSearchParamState"
 import NFTCollectionTokenList from "./components/TokenList"
 import useTokenImage from "@/hooks/useTokenImage"
+import CKBAddress from "@/components/CKBAddress"
 
 
 export default function NFTCollectionDetail({ collectionId }: { collectionId: string }) {
@@ -142,9 +143,9 @@ function NFTCollectionOverview({ collectionInfo }: { collectionInfo: APIExplorer
               label: t("field.minter_address"),
               content: collectionInfo.creator ? (
                 <OutLink href={`/address/${collectionInfo.creator}`}>
-                  <TextEllipsis
+                  <CKBAddress
                     className="underline"
-                    text={collectionInfo.creator}
+                    address={collectionInfo.creator}
                     ellipsis="address"
                   />
                 </OutLink>

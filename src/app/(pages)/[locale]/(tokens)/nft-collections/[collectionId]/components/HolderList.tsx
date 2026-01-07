@@ -1,9 +1,9 @@
+import CKBAddress from "@/components/CKBAddress";
 import Filter from "@/components/Filter";
 import Loading from "@/components/Loading";
 import Pagination from "@/components/Pagination";
 import TanstackTable from "@/components/TanstackTable";
 import SortButton, { type SortValue } from "@/components/TanstackTable/SortButton";
-import TextEllipsis from "@/components/TextEllipsis";
 // import { useSearchParams } from "@/hooks";
 import server from "@/server";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -64,9 +64,9 @@ export default function NFTCollectionHolderList({ collectionId }: { collectionId
             className="flex min-w-0 max-w-[60vw] font-hash underline hover:text-primary"
             href={`/address/${fromAddr}`}
           >
-            <TextEllipsis
+            <CKBAddress
               className="min-w-0"
-              text={fromAddr}
+              address={fromAddr}
               ellipsis={{ tail: -8 }}
             />
           </Link>

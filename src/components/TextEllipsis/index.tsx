@@ -9,6 +9,7 @@ import styles from "./index.module.scss";
 
 export type TextEllipsisProps = ComponentProps<"div"> & {
   text?: string;
+  tooltipText?: string;
   ellipsis: 'address' | 'transaction' | { head?: number, tail: number };
   showTooltip?: boolean;
 }
@@ -37,8 +38,10 @@ const processDisplayText = (hash: string | undefined, ellipsis: TextEllipsisProp
 
       return (
       <div {...divProps} className={classNames("flex flex-row items-center", haveUnderline ? styles.underline : "", fixedClassName)}>
+        {/*  select-none relative */}
         <span className="font-hash flex-1 min-w-0 flex-nowrap truncate break-all">{hash.slice(0, tail)}</span>
         <span className="font-hash flex-none" >{hash.slice(tail)}</span>
+        {/* <div className="absolute left-0 right-0 select-text overflow-hidden text-transparent">{hash}</div> */}
       </div>
     )
   }
@@ -59,11 +62,11 @@ const processDisplayText = (hash: string | undefined, ellipsis: TextEllipsisProp
   )
 }
 export default function TextEllipsis(props: TextEllipsisProps) {
-  const { text, ellipsis, showTooltip = true, ...divProps } = props;
+  const { text, tooltipText = text, ellipsis, showTooltip = true, ...divProps } = props;
 
   const dom = processDisplayText(text, ellipsis, divProps);
 
-  if (!text) {
+  if (!text || !tooltipText) {
     return null;
   }
 
@@ -74,7 +77,7 @@ export default function TextEllipsis(props: TextEllipsisProps) {
       trigger={dom}
       asChild={true}
     >
-      <CopyTooltipText content={text} />
+      <CopyTooltipText content={tooltipText} />
     </Tooltip>
   )
 }

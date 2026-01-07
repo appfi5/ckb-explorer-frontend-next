@@ -11,12 +11,12 @@ import styles from './LatestBlocks.module.scss';
 import { shannonToCkb } from "@/utils/util";
 import BigNumber from "bignumber.js";
 import server from "@/server";
-import TextEllipsis from "@/components/TextEllipsis";
 import TwoSizeAmount from "@/components/TwoSizeAmount";
 import { useBlockChainInfo } from "@/store/useBlockChainInfo";
 import { useTheme } from "@/components/Theme";
 import OutLink from "@/components/OutLink";
 import DateTime from "@/components/DateTime";
+import CKBAddress from "@/components/CKBAddress";
 export default function LatestBlocks() {
   const { t } = useTranslation();
   const blocksQuery = useQuery({
@@ -95,9 +95,9 @@ function BlockItem({ block }: { block: APIExplorer.BlockListResponse }) {
             className="hover:text-primary"
             href={`/address/${block.minerHash}`}
           >
-            <TextEllipsis
+            <CKBAddress
               className="underline"
-              text={block.minerHash}
+              address={block.minerHash}
               ellipsis="address"
             />
           </Link>

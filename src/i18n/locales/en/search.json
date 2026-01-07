@@ -6,7 +6,7 @@
   },
   "placeholder": {
     "input": "Please Enter",
-    "base": "Block / Transaction / Address",
+    "base": "Block / Transaction / Address / DID",
     "udt": "Name / Symbol / Type Hash",
     "nft":"Cluster Id / Name / Type Hash / Token Id"
   }
