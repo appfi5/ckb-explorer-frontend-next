@@ -1,4 +1,5 @@
 "use client"
+import { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
@@ -15,7 +16,7 @@ import { shannonToCkb, shannonToCkbDecimal } from '@/utils/util'
 import { isMainnet } from '@/utils/chain'
 import { tooltipColor, tooltipWidth, type SeriesItem, SmartChartPage } from '../../components/common'
 import { type ChartItem } from '@/server/dataTypes'
-import { type ChartColorConfig } from '@/constants/common'
+import { type ChartColorConfig, MAX_CHART_COUNT } from '@/constants/common'
 import server from "@/server";
 import { useChartTheme } from "@/hooks/useChartTheme";
 
@@ -48,7 +49,7 @@ const useOption = (
 
   isThumbnail = false,
 ): EChartsOption => {
-  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme()
   const gridThumbnail = {
     left: '4%',
     right: '10%',
@@ -60,7 +61,7 @@ const useOption = (
     left: '4%',
     right: isMobile ? '6%' : '3%',
     top: isMobile ? '15%' : '10%',
-    bottom: '5%',
+    bottom: '10%',
     containLabel: true,
   }
   const { t } = useTranslation()
@@ -106,10 +107,23 @@ const useOption = (
           },
         ],
     },
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
+      ...config,
+      showDataShadow: false,
+      backgroundColor: 'transparent',
+      dataBackgroundColor: dataZoomColor[1],
+      fillerColor: dataZoomColor[0],
+      handleStyle: {
+        color: dataZoomColor[1],
+        borderColor: dataZoomColor[1]
+      },
+      bottom: 15,
+      height: 40,
+    })),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('statistic.date'),
+        // name: isMobile || isThumbnail ? '' : t('statistic.date'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -224,16 +238,20 @@ const toCSV = (statisticTotalDaoDeposits: ChartItem.TotalDaoDeposit[]) =>
 
 export const TotalDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const [t] = useTranslation()
+  const [selectedRange, setSelectedRange] = useState<number>(MAX_CHART_COUNT)
   return (
     <SmartChartPage
       title={t('statistic.total_dao_deposit_depositor')}
       description={t('statistic.total_dao_deposit_description')}
       note={isMainnet() ? `${t('common.note')}1GB = 1,000,000,000 CKBytes` : undefined}
       isThumbnail={isThumbnail}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "total_depositors_count-total_dao_deposit" })}
+      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "total_depositors_count-total_dao_deposit", limit: selectedRange })}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticTotalDaoDeposit"
+      showTimeRange={true}
+      onSelectedRangeChange={setSelectedRange}
+      selectedRange={selectedRange}
     />
   )
 }

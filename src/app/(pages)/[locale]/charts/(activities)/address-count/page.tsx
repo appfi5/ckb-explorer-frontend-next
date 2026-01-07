@@ -7,9 +7,10 @@ import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '@/utils/chart'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../../components/common'
 import { type ChartItem } from '@/server/dataTypes'
 import { useCurrentLanguage } from '@/utils/i18n'
-import { type ChartColorConfig } from '@/constants/common'
+import { type ChartColorConfig, MAX_CHART_COUNT } from '@/constants/common'
 import server from "@/server";
 import { useChartTheme } from "@/hooks/useChartTheme";
+import { useState } from "react";
 
 const useOption = (
   statisticAddressCounts: ChartItem.AddressCount[],
@@ -19,7 +20,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor,chartThemeColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme()
 
   const gridThumbnail = {
     left: '4%',
@@ -32,32 +33,44 @@ const useOption = (
     left: '3%',
     right: isMobile ? '9%' : '3%',
     top: isMobile ? '3%' : '8%',
-    bottom: '5%',
+    bottom: '10%',
     containLabel: true,
   }
   return {
     color: chartThemeColor.colors,
     tooltip: !isThumbnail
       ? {
-          confine: true,
-          trigger: 'axis',
-          formatter: dataList => {
-            assertIsArray(dataList)
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 155 : 110)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${
-              (dataList[0].data as string[])[0]
+        confine: true,
+        trigger: 'axis',
+        formatter: dataList => {
+          assertIsArray(dataList)
+          const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 155 : 110)
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0].data as string[])[0]
             }</div>`
-            result += `<div>${tooltipColor(chartThemeColor.colors[0])}\
+          result += `<div>${tooltipColor(chartThemeColor.colors[0])}\
           ${widthSpan(t('statistic.address_count'))} ${handleAxis((dataList[0].data as string[])[1], 2)}</div>`
-            return result
-          }, 
-        }
+          return result
+        },
+      }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
+      ...config,
+      showDataShadow: false,
+      backgroundColor: 'transparent',
+      dataBackgroundColor: dataZoomColor[1],
+      fillerColor: dataZoomColor[0],
+      handleStyle: {
+        color: dataZoomColor[1],
+        borderColor: dataZoomColor[1]
+      },
+      bottom: 15,
+      height: 40,
+    })),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('statistic.date'),
+        // name: isMobile || isThumbnail ? '' : t('statistic.date'),
         nameTextStyle: {
           color: axisLabelColor
         },
@@ -73,12 +86,12 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         }
       },
@@ -99,18 +112,18 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         splitLine: {
           show: true,
           lineStyle: {
-            color: axisLineColor, 
+            color: axisLineColor,
             type: 'dashed',
           }
         }
@@ -139,16 +152,20 @@ const toCSV = (statisticAddressCounts?: ChartItem.AddressCount[]) =>
 
 export const AddressCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const [t] = useTranslation()
+  const [selectedRange, setSelectedRange] = useState<number>(MAX_CHART_COUNT)
   return (
     <SmartChartPage
       title={t('statistic.address_count')}
       description={t('statistic.address_count_description')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticAddressCount}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "addresses_count" })}
+      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "addresses_count", limit: selectedRange })}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticAddressCount"
+      showTimeRange={true}
+      onSelectedRangeChange={setSelectedRange}
+      selectedRange={selectedRange}
     />
   )
 }

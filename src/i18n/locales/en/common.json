@@ -1343,6 +1343,7 @@
     ],
     "months_placeholder": "Select month",
     "arrow_left_desc":"Data is only available from 2019 onward.",
-    "arrow_right_desc":"Data is only available from 2019 up to this year."
+    "arrow_right_desc":"Data is only available from 2019 up to this year.",
+    "time_range": "Time Range"
   }
 }

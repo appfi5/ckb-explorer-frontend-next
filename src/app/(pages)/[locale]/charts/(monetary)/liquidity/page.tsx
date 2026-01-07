@@ -1,4 +1,5 @@
 "use client"
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 import type { EChartsOption } from 'echarts'
@@ -12,8 +13,8 @@ import {
   parseNumericAbbr,
 } from '@/utils/chart'
 import { shannonToCkb, shannonToCkbDecimal } from '@/utils/util'
-import { type ChartItem } from'@/server/dataTypes'
-import { type ChartColorConfig } from '@/constants/common'
+import { type ChartItem } from '@/server/dataTypes'
+import { type ChartColorConfig, MAX_CHART_COUNT } from '@/constants/common'
 import server from "@/server";
 import BigNumber from "bignumber.js";
 import { useChartTheme } from "@/hooks/useChartTheme";
@@ -35,7 +36,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme()
 
   const gridThumbnail = {
     left: '4%',
@@ -46,9 +47,9 @@ const useOption = (
   }
   const grid = {
     left: '4%',
-    right:  isMobile ? '10%' : '3%',
+    right: isMobile ? '10%' : '3%',
     top: isMobile ? '25%' : '8%',
-    bottom: '5%',
+    bottom: '10%',
     containLabel: true,
   }
 
@@ -123,10 +124,23 @@ const useOption = (
         ],
     },
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
+      ...config,
+      showDataShadow: false,
+      backgroundColor: 'transparent',
+      dataBackgroundColor: dataZoomColor[1],
+      fillerColor: dataZoomColor[0],
+      handleStyle: {
+        color: dataZoomColor[1],
+        borderColor: dataZoomColor[1]
+      },
+      bottom: 15,
+      height: 40,
+    })),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('statistic.date'),
+        // name: isMobile || isThumbnail ? '' : t('statistic.date'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -239,14 +253,18 @@ const toCSV = (statisticLiquidity: ChartItem.Liquidity[]) =>
 
 export const LiquidityChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const [t] = useTranslation()
+  const [selectedRange, setSelectedRange] = useState<number>(MAX_CHART_COUNT)
   return (
     <SmartChartPage
       title={t('statistic.liquidity')}
       isThumbnail={isThumbnail}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "circulating_supply-liquidity" })}
+      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "circulating_supply-liquidity", limit: selectedRange })}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticLiquidity"
+      showTimeRange={true}
+      onSelectedRangeChange={setSelectedRange}
+      selectedRange={selectedRange}
     />
   )
 }

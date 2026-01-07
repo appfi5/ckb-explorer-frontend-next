@@ -1,4 +1,5 @@
 "use client"
+import { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
@@ -13,7 +14,7 @@ import {
 } from '@/utils/chart'
 import { tooltipColor, tooltipWidth, type SeriesItem, SmartChartPage } from '../../components/common'
 import { type ChartItem } from '@/server/dataTypes'
-import { type ChartColorConfig } from '@/constants/common'
+import { type ChartColorConfig, MAX_CHART_COUNT } from '@/constants/common'
 import server from "@/server";
 import { useChartTheme } from "@/hooks/useChartTheme";
 
@@ -55,7 +56,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor,chartThemeColor } = useChartTheme();
+  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme();
 
   const gridThumbnail = {
     left: '4%',
@@ -68,7 +69,7 @@ const useOption = (
     left: '3%',
     right: isMobile ? '7%' : '3%',
     top: isMobile ? '15%' : '8%',
-    bottom: '5%',
+    bottom: '10%',
     containLabel: true,
   }
   const parseTooltip = useTooltip()
@@ -117,13 +118,26 @@ const useOption = (
         color: axisLabelColor
       },
       orient: 'horizontal',
-      left: 'center', 
+      left: 'center',
     },
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
+      ...config,
+      showDataShadow: false,
+      backgroundColor: 'transparent',
+      dataBackgroundColor: dataZoomColor[1],
+      fillerColor: dataZoomColor[0],
+      handleStyle: {
+        color: dataZoomColor[1],
+        borderColor: dataZoomColor[1]
+      },
+      bottom: 15,
+      height: 40,
+    })),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('statistic.date'),
+        // name: isMobile || isThumbnail ? '' : t('statistic.date'),
         nameTextStyle: {
           color: axisLabelColor
         },
@@ -245,12 +259,12 @@ const useOption = (
       source: statisticCellCounts.map(data => {
         const dead = new BigNumber(data.deadCellsCount);
         const live = new BigNumber(data.liveCellsCount);
-        const all = dead.plus(live); 
+        const all = dead.plus(live);
 
         return [
           dayjs(+data.createdAtUnixtimestamp * 1000).format('YYYY/MM/DD'),
-          all.toFixed(0),           
-          dead.toFixed(0),         
+          all.toFixed(0),
+          dead.toFixed(0),
           live.toFixed(0),
         ]
       }),
@@ -271,15 +285,19 @@ const toCSV = (statisticCellCounts: ChartItem.CellCount[]) =>
 
 export const CellCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const [t] = useTranslation()
+  const [selectedRange, setSelectedRange] = useState<number>(MAX_CHART_COUNT)
   return (
     <SmartChartPage
       title={t('statistic.cell_count')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticCellCount}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "live_cells_count-dead_cells_count" })}
+      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "live_cells_count-dead_cells_count", limit: selectedRange })}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticCellCount"
+      showTimeRange={true}
+      onSelectedRangeChange={setSelectedRange}
+      selectedRange={selectedRange}
     />
   )
 }

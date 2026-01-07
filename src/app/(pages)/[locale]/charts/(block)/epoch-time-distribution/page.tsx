@@ -30,7 +30,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme()
   const statisticEpochTimeData = toChangeData(statisticEpochTimeDistributions);
 
   const gridThumbnail = {
@@ -42,9 +42,9 @@ const useOption = (
   }
   const grid = {
     left: '5%',
-    right:  isMobile ? '5%' : '3%',
+    right: isMobile ? '5%' : '3%',
     top: isMobile ? '3%' : '8%',
-    bottom: '5%',
+    bottom: '10%',
     containLabel: true,
   }
   return {
@@ -68,10 +68,23 @@ const useOption = (
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
+      ...config,
+      showDataShadow: false,
+      backgroundColor: 'transparent',
+      dataBackgroundColor: dataZoomColor[1],
+      fillerColor: dataZoomColor[0],
+      handleStyle: {
+        color: dataZoomColor[1],
+        borderColor: dataZoomColor[1]
+      },
+      bottom: 15,
+      height: 40,
+    })),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('statistic.time_hour'),
+        // name: isMobile || isThumbnail ? '' : t('statistic.time_hour'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -83,12 +96,12 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         }
       },
@@ -108,18 +121,18 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         splitLine: {
           show: true,
           lineStyle: {
-            color: axisLineColor, 
+            color: axisLineColor,
             type: 'dashed',
           }
         }

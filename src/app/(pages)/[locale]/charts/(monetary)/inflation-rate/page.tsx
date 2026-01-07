@@ -10,19 +10,19 @@ import server from "@/server";
 import { useChartTheme } from "@/hooks/useChartTheme";
 
 const toChangeData = (data: any[]): { nominalApc: string[]; nominalInflationRate: string[]; realInflationRate: string[] }[] => {
-  const { nominalApc, nominalInflationRate, realInflationRate } = data.length > 0 ? data[0] : { nominalApc: [], nominalInflationRate: [], realInflationRate: [] };  
+  const { nominalApc, nominalInflationRate, realInflationRate } = data.length > 0 ? data[0] : { nominalApc: [], nominalInflationRate: [], realInflationRate: [] };
   const statisticInflationRates = [];
-      for (let i = 0; i < nominalApc.length; i++) {
-        if (i % 6 === 0 || i === nominalApc.length - 1) {
-          statisticInflationRates.push({
-            year: i % 6 === 0 ? Math.floor(i / 6) * 0.5 : 50,
-            nominalApc: nominalApc[i],
-            nominalInflationRate: nominalInflationRate[i],
-            realInflationRate: realInflationRate[i],
-          });
-        }
-      }
-      return statisticInflationRates;
+  for (let i = 0; i < nominalApc.length; i++) {
+    if (i % 6 === 0 || i === nominalApc.length - 1) {
+      statisticInflationRates.push({
+        year: i % 6 === 0 ? Math.floor(i / 6) * 0.5 : 50,
+        nominalApc: nominalApc[i],
+        nominalInflationRate: nominalInflationRate[i],
+        realInflationRate: realInflationRate[i],
+      });
+    }
+  }
+  return statisticInflationRates;
 }
 const useOption = (
   statisticInflationRates: ChartItem.InflationRate[],
@@ -32,7 +32,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme()
 
   const gridThumbnail = {
     left: '4%',
@@ -43,9 +43,9 @@ const useOption = (
   }
   const grid = {
     left: '4%',
-    right:  isMobile ? '6%' : '3%',
+    right: isMobile ? '6%' : '3%',
     top: '8%',
-    bottom: '5%',
+    bottom: '10%',
     containLabel: true,
   }
 
@@ -111,10 +111,23 @@ const useOption = (
         ],
     },
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
+      ...config,
+      showDataShadow: false,
+      backgroundColor: 'transparent',
+      dataBackgroundColor: dataZoomColor[1],
+      fillerColor: dataZoomColor[0],
+      handleStyle: {
+        color: dataZoomColor[1],
+        borderColor: dataZoomColor[1]
+      },
+      bottom: 15,
+      height: 40,
+    })),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('statistic.year'),
+        // name: isMobile || isThumbnail ? '' : t('statistic.year'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',

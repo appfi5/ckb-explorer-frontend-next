@@ -29,7 +29,7 @@ const getAddressWithRanking = (statisticAddressBalanceRanks: ChartItem.AddressBa
 const useOption = () => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme()
   return (
     statisticAddressBalanceRanks: ChartItem.AddressBalanceRank[],
     chartColor: ChartColorConfig,
@@ -48,7 +48,7 @@ const useOption = () => {
       left: '5%',
       right: '3%',
       top: isMobile ? '3%' : '8%',
-      bottom: '5%',
+      bottom: '10%',
       containLabel: true,
     }
     return {
@@ -73,10 +73,23 @@ const useOption = () => {
         }
         : undefined,
       grid: isThumbnail ? gridThumbnail : grid,
-      dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+      // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+      dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
+        ...config,
+        showDataShadow: false,
+        backgroundColor: 'transparent',
+        dataBackgroundColor: dataZoomColor[1],
+        fillerColor: dataZoomColor[0],
+        handleStyle: {
+          color: dataZoomColor[1],
+          borderColor: dataZoomColor[1]
+        },
+        bottom: 15,
+        height: 40,
+      })),
       xAxis: [
         {
-          name: isMobile || isThumbnail ? '' : t('statistic.rank'),
+          // name: isMobile || isThumbnail ? '' : t('statistic.rank'),
           nameTextStyle: {
             color: axisLabelColor
           },
