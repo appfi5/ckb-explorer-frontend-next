@@ -40,7 +40,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme()
 
   const gridThumbnail = {
     left: '4%',
@@ -53,7 +53,7 @@ const useOption = (
     left: '3%',
     right: '3%',
     top: isMobile ? '15%' : '10%',
-    bottom: '5%',
+    bottom: '10%',
     containLabel: true,
   }
 
@@ -64,6 +64,22 @@ const useOption = (
   const endValue = statisticChartData[statisticChartData.length - 1]?.epochNumber ?? '0'
   const startValue = Math.max(+endValue - COUNT_IN_THUMBNAIL, 0).toString()
   const parseTooltip = useTooltip()
+
+
+  const dataZoomList = [{
+    show: true,
+    realtime: true,
+    startValue,
+    endValue,
+    xAxisIndex: [0],
+  },
+  {
+    type: 'inside',
+    realtime: true,
+    startValue,
+    endValue,
+    xAxisIndex: [0],
+  },]
 
   return {
     color: chartThemeColor.moreColors,
@@ -102,28 +118,41 @@ const useOption = (
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail
-      ? []
-      : [
-        {
-          show: true,
-          realtime: true,
-          startValue,
-          endValue,
-          xAxisIndex: [0],
-        },
-        {
-          type: 'inside',
-          realtime: true,
-          startValue,
-          endValue,
-          xAxisIndex: [0],
-        },
-      ],
+    // dataZoom: isThumbnail
+    //   ? []
+    //   : [
+    // {
+    //   show: true,
+    //   realtime: true,
+    //   startValue,
+    //   endValue,
+    //   xAxisIndex: [0],
+    // },
+    // {
+    //   type: 'inside',
+    //   realtime: true,
+    //   startValue,
+    //   endValue,
+    //   xAxisIndex: [0],
+    // },
+    //   ],
+    dataZoom: isThumbnail ? [] : dataZoomList.map(config => ({
+      ...config,
+      showDataShadow: false,
+      backgroundColor: 'transparent',
+      dataBackgroundColor: dataZoomColor[1],
+      fillerColor: dataZoomColor[0],
+      handleStyle: {
+        color: dataZoomColor[1],
+        borderColor: dataZoomColor[1]
+      },
+      bottom: 15,
+      height: 40,
+    })),
 
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('block.epoch'),
+        // name: isMobile || isThumbnail ? '' : t('block.epoch'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',

@@ -56,7 +56,7 @@ const useOption = (
   const balanceDistributions = toChangeData(statisticBalanceDistributions)
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme();
+  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme();
 
   const gridThumbnail = {
     left: '4%',
@@ -69,7 +69,7 @@ const useOption = (
     left: '2%',
     right: '3%',
     top: '15%',
-    bottom: '6%',
+    bottom: '10%',
     containLabel: true,
   }
 
@@ -108,9 +108,9 @@ const useOption = (
           dataList.forEach(data => {
             assertSerialsItem(data)
             assertSerialsDataIsString(data)
-            if(isMobile){
+            if (isMobile) {
               mobileResult += parseTooltip({ ...data, currentLanguage, isMobile })
-            }else{
+            } else {
               result += parseTooltip({ ...data, currentLanguage, isMobile })
             }
           })
@@ -141,10 +141,23 @@ const useOption = (
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
+      ...config,
+      showDataShadow: false,
+      backgroundColor: 'transparent',
+      dataBackgroundColor: dataZoomColor[1],
+      fillerColor: dataZoomColor[0],
+      handleStyle: {
+        color: dataZoomColor[1],
+        borderColor: dataZoomColor[1]
+      },
+      bottom: 15,
+      height: 40,
+    })),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : `${t('statistic.addresses_balance')} (CKB)`,
+        // name: isMobile || isThumbnail ? '' : `${t('statistic.addresses_balance')} (CKB)`,
         nameTextStyle: {
           color: axisLabelColor
         },

@@ -1,4 +1,5 @@
 "use client"
+import { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
@@ -8,7 +9,7 @@ import { handleDifficulty } from '@/utils/number'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../../components/common'
 import { type ChartItem } from '@/server/dataTypes'
 import { useCurrentLanguage } from '@/utils/i18n'
-import { type ChartColorConfig } from '@/constants/common'
+import { type ChartColorConfig, MAX_CHART_COUNT } from '@/constants/common'
 import server from "@/server";
 import { useChartTheme } from "@/hooks/useChartTheme";
 
@@ -20,7 +21,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme()
 
   const gridThumbnail = {
     left: '4%',
@@ -33,7 +34,7 @@ const useOption = (
     left: '3%',
     right: isMobile ? '8%' : '3%',
     top: '5%',
-    bottom: '5%',
+    bottom: '10%',
     containLabel: true,
   }
   return {
@@ -54,10 +55,23 @@ const useOption = (
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
+              ...config,
+              showDataShadow: false, 
+              backgroundColor: 'transparent',
+              dataBackgroundColor: dataZoomColor[1],
+              fillerColor: dataZoomColor[0], 
+              handleStyle: {
+                color: dataZoomColor[1], 
+                borderColor: dataZoomColor[1] 
+              },
+              bottom: 15,
+              height: 40,
+            })),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('statistic.date'),
+        // name: isMobile || isThumbnail ? '' : t('statistic.date'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -137,15 +151,19 @@ const toCSV = (statisticDifficulties: ChartItem.Difficulty[]) =>
 
 export const DifficultyChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const [t] = useTranslation()
+  const [selectedRange, setSelectedRange] = useState<number>(MAX_CHART_COUNT)
   return (
     <SmartChartPage
       title={t('block.difficulty')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticDifficulty}      
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "avg_difficulty" })}
+      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "avg_difficulty", limit: selectedRange })}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticDifficulty"
+      showTimeRange={true}
+      onSelectedRangeChange={setSelectedRange}
+      selectedRange={selectedRange}
     />
   )
 }

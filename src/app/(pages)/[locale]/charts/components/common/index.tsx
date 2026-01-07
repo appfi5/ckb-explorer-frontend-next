@@ -7,6 +7,7 @@ import {
   useEffect,
   useMemo,
   useRef,
+  useState
 } from "react";
 import classNames from "classnames";
 import "echarts-gl";
@@ -48,6 +49,7 @@ import InteImage from "@/components/InteImage";
 import DownloadIcon from "@/assets/icons/download.svg?component";
 import PixelBorderBlock from "@/components/PixelBorderBlock";
 import { useTheme } from "@/components/Theme";
+import TimeRange from "@/components/TimeRange";
 
 echarts.use([
   TitleComponent,
@@ -66,6 +68,7 @@ echarts.use([
   PieChart,
   ScatterChart,
 ]);
+
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) =>
   isThumbnail ? <Loading /> : <Loading show />;
@@ -193,7 +196,9 @@ const ChartPage = ({
   data,
   style,
   queryNode,
-  isNoDefaultStyle
+  isNoDefaultStyle,
+  showTimeRange,
+  onSelectedRangeChange
 }: {
   style?: CSSProperties;
   title: string;
@@ -202,6 +207,8 @@ const ChartPage = ({
   data?: (string | number)[][];
   queryNode?: ReactNode;
   isNoDefaultStyle?: boolean;
+  showTimeRange?: boolean;
+  onSelectedRangeChange?: (range: number) => void
 }) => {
   const csv = dataToCsv(data);
   const { t } = useTranslation();
@@ -252,6 +259,11 @@ const ChartPage = ({
         </div>
         <div className="bg-[#F5F9FB] dark:bg-[#303030] rounded-[16px] p-3 sm:p-5">
           <div className="bg-white rounded-[4px] py-5 sm:py-10 dark:bg-[#363839]">
+            {showTimeRange && (
+              <div className={styles.timerangePanel}>
+                <TimeRange setSelectedValue={onSelectedRangeChange} />
+              </div>
+            )}
             {queryNode}
             {children}
           </div>
@@ -260,6 +272,7 @@ const ChartPage = ({
     </Content>
   );
 };
+
 
 export interface SmartChartPageProps<T> {
   title: string;
@@ -281,6 +294,9 @@ export interface SmartChartPageProps<T> {
   queryNode?: ReactNode;
   isNoDefaultStyle?: boolean;
   typeKey?: string;
+  showTimeRange?: boolean;
+  onSelectedRangeChange?: (range: number) => void;
+  selectedRange?: number;
 }
 
 const isNonNullPlainObject = (val: unknown): val is Record<string | number | symbol, unknown> => {
@@ -312,12 +328,15 @@ export function SmartChartPage<T>({
   style,
   queryNode,
   isNoDefaultStyle,
-  typeKey
+  typeKey,
+  showTimeRange,
+  onSelectedRangeChange,
+  selectedRange
 }: SmartChartPageProps<T>): ReactElement {
   const isMobile = useIsMobile();
 
   const query = useQuery({
-    queryKey: ["SmartChartPage", queryKey],
+    queryKey: ["SmartChartPage", queryKey, selectedRange],
     refetchOnWindowFocus: false,
     queryFn: () => fetchData(),
   });
@@ -369,6 +388,8 @@ export function SmartChartPage<T>({
       style={style}
       queryNode={queryNode}
       isNoDefaultStyle={isNoDefaultStyle}
+      showTimeRange={showTimeRange}
+      onSelectedRangeChange={onSelectedRangeChange}
     >
       {content}
       {note != null && <div className={styles.chartNotePanel}>{note}</div>}

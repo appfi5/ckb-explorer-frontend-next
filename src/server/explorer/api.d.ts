@@ -1673,6 +1673,8 @@ declare namespace APIExplorer {
 
     data: string;
 
+    nervosDaoInfo: NervosDaoInfoResponse;
+
   }
 
 
@@ -1902,6 +1904,25 @@ declare namespace APIExplorer {
     raw: string;
 
     medianTimestamp: number;
+
+  }
+
+
+  interface NervosDaoInfoResponse {
+
+    compensationStartedBlockNumber: number;
+
+    compensationStartedTimestamp: number;
+
+    compensationEndedBlockNumber: number;
+
+    compensationEndedTimestamp: number;
+
+    interest: number;
+
+    lockedUntilBlockNumber: number;
+
+    lockedUntilBlockTimestamp: number;
 
   }
 

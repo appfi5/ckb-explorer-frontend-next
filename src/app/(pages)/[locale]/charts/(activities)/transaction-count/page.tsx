@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '@/utils/chart'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../../components/common'
 import { type ChartItem } from '@/server/dataTypes'
-import { type ChartColorConfig, IS_MAINNET } from '@/constants/common'
+import { type ChartColorConfig, IS_MAINNET, MAX_CHART_COUNT } from '@/constants/common'
 import styles from '../styles.module.scss'
 import type { TFunction } from 'i18next'
 import server from "@/server";
@@ -23,7 +23,7 @@ const getOption =
 
       isThumbnail = false,
     ): EChartsOption => {
-      const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme();
+      const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme();
 
       const gridThumbnail = {
         left: '4%',
@@ -36,7 +36,7 @@ const getOption =
         left: '3%',
         right: '3%',
         top: isMobile ? '3%' : '8%',
-        bottom: '5%',
+        bottom: '10%',
         containLabel: true,
       }
       return {
@@ -58,10 +58,23 @@ const getOption =
           }
           : undefined,
         grid: isThumbnail ? gridThumbnail : grid,
-        dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+        // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+        dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
+          ...config,
+          showDataShadow: false, 
+          backgroundColor: 'transparent',
+          dataBackgroundColor: dataZoomColor[1],
+          fillerColor: dataZoomColor[0], 
+          handleStyle: {
+            color: dataZoomColor[1], 
+            borderColor: dataZoomColor[1] 
+          },
+          bottom: 15,
+          height: 40,
+        })),
         xAxis: [
           {
-            name: isMobile || isThumbnail ? '' : t('statistic.date'),
+            // name: isMobile || isThumbnail ? '' : t('statistic.date'),
             nameTextStyle: {
               color: axisLabelColor
             },
@@ -144,8 +157,8 @@ const toCSV = (statisticTransactionCounts: ChartItem.TransactionCount[]) =>
 
 export const TransactionCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { t, i18n } = useTranslation()
-
   const [scaleType, setScaleType] = useState<'linear' | 'log'>(IS_MAINNET ? 'log' : 'linear')
+  const [selectedRange, setSelectedRange] = useState<number>(MAX_CHART_COUNT)
 
   const onScaleTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setScaleType(e.target.value as 'linear' | 'log')
@@ -198,11 +211,14 @@ export const TransactionCountChart = ({ isThumbnail = false }: { isThumbnail?: b
         title={t('statistic.transaction_count')}
         isThumbnail={isThumbnail}
         // fetchData={explorerService.api.fetchStatisticTransactionCount}
-        fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "transactions_count" })}
+        fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "transactions_count", limit: selectedRange })}
         getEChartOption={getOption({ type: scaleType, t, language: i18n.language })}
         toCSV={toCSV}
         queryKey="fetchStatisticTransactionCount"
         queryNode={SearchNode}
+        showTimeRange={true}
+        onSelectedRangeChange={setSelectedRange}
+        selectedRange={selectedRange}
       />
     </div>
   )

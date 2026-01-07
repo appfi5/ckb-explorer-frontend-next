@@ -26,7 +26,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme()
   const gridThumbnail = {
     left: '4%',
     right: '4%',
@@ -38,7 +38,7 @@ const useOption = (
     left: '3%',
     right: '3%',
     top: isMobile ? '15%' : '12%',
-    bottom: '5%',
+    bottom: '10%',
     containLabel: true,
   })
 
@@ -98,10 +98,23 @@ const useOption = (
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid(),
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
+      ...config,
+      showDataShadow: false,
+      backgroundColor: 'transparent',
+      dataBackgroundColor: dataZoomColor[1],
+      fillerColor: dataZoomColor[0],
+      handleStyle: {
+        color: dataZoomColor[1],
+        borderColor: dataZoomColor[1]
+      },
+      bottom: 15,
+      height: 40,
+    })),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('block.epoch'),
+        // name: isMobile || isThumbnail ? '' : t('block.epoch'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
