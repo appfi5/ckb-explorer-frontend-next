@@ -1329,6 +1329,11 @@
     "months_placeholder": "选择月份",
     "arrow_left_desc":"数据从 2019 年起才开始有相关记录。",
     "arrow_right_desc":"数据仅从 2019 年起有，直到今年。",
-    "time_range": "时间范围"
+    "time_range": "时间范围",
+    "15D": "15天",
+    "1M": "1个月",
+    "6M": "6个月",
+    "1Y": "1年",
+    "ALL": "全部"
   }
 }

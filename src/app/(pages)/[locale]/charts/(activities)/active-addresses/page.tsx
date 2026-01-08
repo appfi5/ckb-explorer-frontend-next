@@ -4,9 +4,59 @@ import { useTranslation } from 'react-i18next'
 import type { EChartsOption } from 'echarts'
 import { type ChartColorConfig, MAX_CHART_COUNT } from '@/constants/common'
 import { SmartChartPage } from '../../components/common'
-import { DATA_ZOOM_CONFIG, handleAxis, variantColors } from '@/utils/chart'
+import { DATA_ZOOM_CONFIG, handleAxis } from '@/utils/chart'
 import server from "@/server";
 import { useChartTheme } from "@/hooks/useChartTheme";
+
+const allPossibleTypes = [
+  "SECP256K1/blake160",
+  "SECP256k1/Multisig(@5c5069eb)",
+  "SECP256k1/Multisig(@36c971b8)",
+  "iCKB Logic",
+  "AnyoneCanPay",
+  "CHEQUE",
+  "JoyId",
+  "OMNI Lock V2",
+  "OMNI Lock V1",
+  "PW Lock",
+  "Nostr",
+  "RgbppLock",
+  "BtcTimeLock",
+  "AlwaysSuccess",
+  "InputTypeProxyLock",
+  "OutputTypeProxyLock",
+  "LockProxyLock",
+  "Single Use Lock",
+  "TypeBurnLock",
+  "TimeLock"
+];
+
+const fixedColorMap: Record<string, string> = {
+  "SECP256K1/blake160": "#5700FF",
+  "SECP256k1/Multisig(@5c5069eb)": "#00CC9B",
+  "SECP256k1/Multisig(@36c971b8)": "#484E4E",
+  "iCKB Logic": "#FF5656",
+  "AnyoneCanPay": "#24C0F0",
+  "CHEQUE": "#BCCC00",
+  "JoyId": "#4661A6",
+  "OMNI Lock V2": "#EDAF36",
+  "OMNI Lock V1": "#E63ECB",
+  "PW Lock": "#69E63E",
+  "Nostr": "#FF5733",
+  "RgbppLock": "#FFC300",
+  "BtcTimeLock": "#DAF7A6",
+  "AlwaysSuccess": "#33FF57",
+  "InputTypeProxyLock": "#33C1FF",
+  "OutputTypeProxyLock": "#8A33FF",
+  "LockProxyLock": "#FF33A8",
+  "Single Use Lock": "#FF33F6",
+  "TypeBurnLock": "#FF8C33",
+  "TimeLock": "#FFE733",
+  "others": "#9672FA"
+};
+
+// 固定类型顺序（确保无论数据如何变化，类型顺序始终一致）
+const fixedTypeOrder = [...allPossibleTypes, "others"];
 
 const useOption = (
   activeAddresses: Array<APIExplorer.DailyStatisticResponse>,
@@ -47,11 +97,35 @@ const useOption = (
   }
 
   const xAxisData = dataset.map(item => formatDate(item.createdAtUnixtimestamp))
-  const allKeys = Array.from(new Set(dataset.flatMap(item => Object.keys(item.distribution)))).sort((a, b) => {
-    if (a === 'others') return 1
-    if (b === 'others') return -1
-    return a.localeCompare(b)
-  })
+  
+  // 处理数据，将不在配置中的类型合并为'others'
+  const processedDistribution = dataset.map(item => {
+    const distribution = { ...item.distribution };
+    const otherValue = Object.entries(distribution)
+      .filter(([key]) => !allPossibleTypes.includes(key))
+      .reduce((sum, [_, value]) => sum + Number(value), 0);
+    
+    // 移除不在配置中的类型
+    Object.keys(distribution).forEach(key => {
+      if (!allPossibleTypes.includes(key)) {
+        delete distribution[key];
+      }
+    });
+    
+    // 添加'others'类型（如果有值）
+    if (otherValue > 0) {
+      distribution['others'] = otherValue;
+    }
+    
+    return { ...item, distribution };
+  });
+  
+  // 始终使用固定的类型顺序，不根据动态数据筛选
+  const allKeys = fixedTypeOrder;
+  
+  // 根据固定颜色映射表生成颜色数组（与固定类型顺序完全对应）
+  const colors = allKeys.map(key => fixedColorMap[key] || fixedColorMap['others']);
+
   const series: EChartsOption['series'] = allKeys.map(key => ({
     name: key, // t(`statistic.address_label.${key}`),
     type: 'line',
@@ -64,9 +138,8 @@ const useOption = (
     emphasis: {
       focus: 'series',
     },
-    data: dataset.map(item => item.distribution[key] || 0),
+    data: processedDistribution.map(item => item.distribution[key] || 0),
   }))
-  const colors = variantColors(allKeys.length, baseColors)
 
   return {
     color: colors,
@@ -120,7 +193,9 @@ ${t('statistic.active_address_count')}: ${filteredParams.reduce(
     })),
     legend: {
       show: isMobile || isThumbnail ? false : true,
-      data: isThumbnail ? [] : allKeys,
+      data: isThumbnail ? [] : allKeys.filter(key => 
+        processedDistribution.some(item => item.distribution[key] || 0 > 0)
+      ),
       textStyle: {
         color: axisLabelColor
       },

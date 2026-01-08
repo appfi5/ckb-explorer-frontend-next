@@ -21,7 +21,7 @@ export default function TimeRange({
     setSelectedValue,
 }: TimeRangeProps) {
     const [currentRange, setCurrentRange] = useState<TimeRangeOption>('15D');
-    const { t } = useTranslation();
+    const [t] = useTranslation();
     const isMobile = useIsMobile();
     const handleRangeChange = (range: TimeRangeOption) => {
         const days = calculateDays[range];
@@ -46,7 +46,7 @@ export default function TimeRange({
                         )}
                         onClick={() => handleRangeChange(range)}
                     >
-                        {range}
+                        {t(`date_info.${range}`)}
                     </button>
                 ))}
             </div>
