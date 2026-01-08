@@ -67,6 +67,8 @@ export const useChartTheme = () => {
 
     const dataZoomColor = isTestnet ? ["#9672FA1A", "#9672FA"] : ["#00CC9B1A", "#00CC9B"]
 
+    const systemColor = isTestnet ? "#9672FA" : "#00CC9B";
+
     return {
         axisLabelColor: isDarkTheme ? '#999999' : '#484D4E',
         axisLineColor: isDarkTheme ? '#5B5B5B' : '#DDDDDD',
@@ -89,6 +91,7 @@ export const useChartTheme = () => {
         AreaStyleColors: isTestnet ? testnetAreaStyle : mainnetAreaStyle,
         DaoChartPieColor: DaoChartPieColor,
         chartPieColors: [...pieColors, ...morePieColors],
-        dataZoomColor: dataZoomColor
+        dataZoomColor: dataZoomColor,
+        systemColor: systemColor
     };
 };

@@ -55,7 +55,6 @@ const fixedColorMap: Record<string, string> = {
   "others": "#9672FA"
 };
 
-// 固定类型顺序（确保无论数据如何变化，类型顺序始终一致）
 const fixedTypeOrder = [...allPossibleTypes, "others"];
 
 const useOption = (
@@ -65,7 +64,7 @@ const useOption = (
   isThumbnail = false,
 ): EChartsOption => {
   const { t } = useTranslation()
-  const { axisLabelColor, axisLineColor, baseColors, dataZoomColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, baseColors, dataZoomColor, systemColor } = useChartTheme()
   const processedData = activeAddresses.map((item) => ({
     createdAtUnixtimestamp: item.createdAtUnixtimestamp,
     distribution: item.activityAddressContractDistribution || {},
@@ -97,34 +96,32 @@ const useOption = (
   }
 
   const xAxisData = dataset.map(item => formatDate(item.createdAtUnixtimestamp))
-  
-  // 处理数据，将不在配置中的类型合并为'others'
+
   const processedDistribution = dataset.map(item => {
-    const distribution = { ...item.distribution };
+    const distribution: any = { ...item.distribution };
     const otherValue = Object.entries(distribution)
       .filter(([key]) => !allPossibleTypes.includes(key))
       .reduce((sum, [_, value]) => sum + Number(value), 0);
-    
-    // 移除不在配置中的类型
+
     Object.keys(distribution).forEach(key => {
       if (!allPossibleTypes.includes(key)) {
         delete distribution[key];
       }
     });
-    
-    // 添加'others'类型（如果有值）
+
     if (otherValue > 0) {
-      distribution['others'] = otherValue;
+      distribution.others = otherValue;
     }
-    
+
     return { ...item, distribution };
   });
-  
-  // 始终使用固定的类型顺序，不根据动态数据筛选
+
   const allKeys = fixedTypeOrder;
-  
-  // 根据固定颜色映射表生成颜色数组（与固定类型顺序完全对应）
-  const colors = allKeys.map(key => fixedColorMap[key] || fixedColorMap['others']);
+
+  const colors = allKeys.map((key, index) => {
+    const color = fixedColorMap[key];
+    return color || baseColors?.[index % baseColors.length] || fixedColorMap.others || systemColor;
+  });
 
   const series: EChartsOption['series'] = allKeys.map(key => ({
     name: key, // t(`statistic.address_label.${key}`),
@@ -193,7 +190,7 @@ ${t('statistic.active_address_count')}: ${filteredParams.reduce(
     })),
     legend: {
       show: isMobile || isThumbnail ? false : true,
-      data: isThumbnail ? [] : allKeys.filter(key => 
+      data: isThumbnail ? [] : allKeys.filter(key =>
         processedDistribution.some(item => item.distribution[key] || 0 > 0)
       ),
       textStyle: {
@@ -262,7 +259,7 @@ const toCSV = (data: Array<APIExplorer.DailyStatisticResponse>) => {
     return []
   }
   return data.flatMap(item => {
-    return Object.entries(item.distribution ?? {}).map(([key, value]) => [item.createdAtUnixtimestamp, key, value.toString()])
+    return Object.entries(item.activityAddressContractDistribution ?? {}).map(([key, value]) => [item.createdAtUnixtimestamp, key, value.toString()])
   })
 }
 
