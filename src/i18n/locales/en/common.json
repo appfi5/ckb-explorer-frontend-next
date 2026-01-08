@@ -1344,6 +1344,11 @@
     "months_placeholder": "Select month",
     "arrow_left_desc":"Data is only available from 2019 onward.",
     "arrow_right_desc":"Data is only available from 2019 up to this year.",
-    "time_range": "Time Range"
+    "time_range": "Time Range",
+    "15D": "15D",
+    "1M": "1M",
+    "6M": "6M",
+    "1Y": "1Y",
+    "ALL": "ALL"
   }
 }
