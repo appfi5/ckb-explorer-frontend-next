@@ -32,16 +32,16 @@ export default function TimeRange({
     const timeRangeOptions: TimeRangeOption[] = ['15D', '1M', '6M', '1Y', 'ALL'];
 
     return (
-        <div className="flex items-center gap-3">
-            {!isMobile && <span className="text-[#999999] dart:text-[#D9D9D9] text-sm">
+        <div className="flex items-center gap-[12px]">
+            {!isMobile && <span className="text-[#999999] dart:text-[#D9D9D9] text-xs">
                 {t('date_info.time_range')}:
             </span>}
-            <div className="flex gap-1.5 rounded-sm bg-[#EDF2F2] dark:bg-[#232323E5] p-1.5">
+            <div className="flex gap-1.5 items-center h-[36px] px-1.5 rounded-sm bg-[#EDF2F2] dark:bg-[#232323E5]">
                 {timeRangeOptions.map((range) => (
                     <button
                         key={range}
                         className={cn(
-                            'outline-0 px-2 py-1.5 text-sm font-medium rounded-xs transition-all duration-200 cursor-pointer bg-[#FFFFFF] dark:bg-[#363839] shadow-[0_0_2px_0_rgba(0,0,0,0.1)] dark:text-[#999999]',
+                            'outline-none px-2 py-1 text-xs font-medium rounded-xs transition-all duration-200 cursor-pointer bg-[#FFFFFF] dark:bg-[#363839] shadow-[0_0_2px_0_rgba(0,0,0,0.1)] text-[#999999]',
                             currentRange === range && 'bg-primary! text-white! shadow-none'
                         )}
                         onClick={() => handleRangeChange(range)}

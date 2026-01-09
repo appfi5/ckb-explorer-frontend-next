@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import type { EChartsOption } from 'echarts'
 import type { YAXisOption } from 'echarts/types/dist/shared'
 import { useTranslation } from 'react-i18next'
-import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '@/utils/chart'
+import { getCustomDataZoomConfig, assertIsArray, handleAxis } from '@/utils/chart'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../../components/common'
 import { type ChartItem } from '@/server/dataTypes'
 import { type ChartColorConfig, IS_MAINNET, MAX_CHART_COUNT } from '@/constants/common'
@@ -23,7 +23,7 @@ const getOption =
 
       isThumbnail = false,
     ): EChartsOption => {
-      const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme();
+      const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme();
 
       const gridThumbnail = {
         left: '4%',
@@ -36,7 +36,7 @@ const getOption =
         left: '3%',
         right: '3%',
         top: isMobile ? '3%' : '8%',
-        bottom: '10%',
+        bottom: isMobile ? '20%' : '12%',
         containLabel: true,
       }
       return {
@@ -58,20 +58,7 @@ const getOption =
           }
           : undefined,
         grid: isThumbnail ? gridThumbnail : grid,
-        // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
-        dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
-          ...config,
-          showDataShadow: false, 
-          backgroundColor: 'transparent',
-          dataBackgroundColor: dataZoomColor[1],
-          fillerColor: dataZoomColor[0], 
-          handleStyle: {
-            color: dataZoomColor[1], 
-            borderColor: dataZoomColor[1] 
-          },
-          bottom: 15,
-          height: 40,
-        })),
+        dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail}),
         xAxis: [
           {
             // name: isMobile || isThumbnail ? '' : t('statistic.date'),

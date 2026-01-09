@@ -6,7 +6,7 @@ import type { EChartsOption } from 'echarts'
 import { parseSimpleDate, parseSimpleDateNoSecond } from '@/utils/date'
 import { tooltipColor, tooltipWidth, type SeriesItem, SmartChartPage } from '../../components/common'
 import { localeNumberString } from '@/utils/number'
-import { DATA_ZOOM_CONFIG, assertIsArray, assertSerialsItem, handleAxis } from '@/utils/chart'
+import { assertIsArray, assertSerialsItem, handleAxis, getCustomDataZoomConfig } from '@/utils/chart'
 import { type ChartItem } from '@/server/dataTypes'
 import { useCurrentLanguage } from '@/utils/i18n'
 import { type ChartColorConfig, MAX_CHART_COUNT } from '@/constants/common'
@@ -28,7 +28,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
   const gridThumbnail = {
     left: '3%',
     right: '3%',
@@ -40,7 +40,7 @@ const useOption = (
     left: '2%',
     right: '3%',
     top: isMobile ? '18%' : '10%',
-    bottom: '10%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
 
@@ -98,22 +98,7 @@ const useOption = (
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     /* Selection starts from 1% because the average block time is extremely high on launch */
-    // dataZoom: DATA_ZOOM_CONFIG.map(zoom => ({ ...zoom, show: !isThumbnail, start: 1 })),
-    dataZoom: DATA_ZOOM_CONFIG.map(config => ({
-      ...config,
-      show: !isThumbnail,
-      start: 1,
-      showDataShadow: false,
-      backgroundColor: 'transparent',
-      dataBackgroundColor: dataZoomColor[1],
-      fillerColor: dataZoomColor[0],
-      handleStyle: {
-        color: dataZoomColor[1],
-        borderColor: dataZoomColor[1]
-      },
-      bottom: 15,
-      height: 40,
-    })),
+    dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail, start: 1}),
     xAxis: [
       {
         // name: isMobile || isThumbnail ? '' : t('statistic.date'),

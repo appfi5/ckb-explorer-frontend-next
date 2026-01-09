@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import type { EChartsOption } from 'echarts'
 import { type ChartColorConfig, MAX_CHART_COUNT } from '@/constants/common'
 import { SmartChartPage } from '../../components/common'
-import { DATA_ZOOM_CONFIG, handleAxis } from '@/utils/chart'
+import { handleAxis, getCustomDataZoomConfig } from '@/utils/chart'
 import server from "@/server";
 import { useChartTheme } from "@/hooks/useChartTheme";
 
@@ -64,7 +64,7 @@ const useOption = (
   isThumbnail = false,
 ): EChartsOption => {
   const { t } = useTranslation()
-  const { axisLabelColor, axisLineColor, baseColors, dataZoomColor, systemColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, baseColors, systemColor } = useChartTheme()
   const processedData = activeAddresses.map((item) => ({
     createdAtUnixtimestamp: item.createdAtUnixtimestamp,
     distribution: item.activityAddressContractDistribution || {},
@@ -81,7 +81,7 @@ const useOption = (
     left: '4%',
     right: '8%',
     top: isMobile ? '8%' : '20%',
-    bottom: '10%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
 
@@ -174,20 +174,7 @@ ${t('statistic.active_address_count')}: ${filteredParams.reduce(
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
-      ...config,
-      showDataShadow: false,
-      backgroundColor: 'transparent',
-      dataBackgroundColor: dataZoomColor[1],
-      fillerColor: dataZoomColor[0],
-      handleStyle: {
-        color: dataZoomColor[1],
-        borderColor: dataZoomColor[1]
-      },
-      bottom: 15,
-      height: 40,
-    })),
+    dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail}),
     legend: {
       show: isMobile || isThumbnail ? false : true,
       data: isThumbnail ? [] : allKeys.filter(key =>
