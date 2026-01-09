@@ -3,7 +3,7 @@ import { type FC } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import type { EChartsOption } from 'echarts'
-import { assertIsArray, assertSerialsItem, handleAxis } from '@/utils/chart'
+import { assertIsArray, assertSerialsItem, handleAxis, getCustomDataZoomConfig } from '@/utils/chart'
 import { tooltipColor, tooltipWidth, type SeriesItem, SmartChartPage } from '../../components/common'
 import { parseHourFromMillisecond } from '@/utils/date'
 import { type ChartItem } from '@/server/dataTypes'
@@ -40,7 +40,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
 
   const gridThumbnail = {
     left: '4%',
@@ -53,7 +53,7 @@ const useOption = (
     left: '3%',
     right: '3%',
     top: isMobile ? '15%' : '10%',
-    bottom: '10%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
 
@@ -118,38 +118,7 @@ const useOption = (
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    // dataZoom: isThumbnail
-    //   ? []
-    //   : [
-    // {
-    //   show: true,
-    //   realtime: true,
-    //   startValue,
-    //   endValue,
-    //   xAxisIndex: [0],
-    // },
-    // {
-    //   type: 'inside',
-    //   realtime: true,
-    //   startValue,
-    //   endValue,
-    //   xAxisIndex: [0],
-    // },
-    //   ],
-    dataZoom: isThumbnail ? [] : dataZoomList.map(config => ({
-      ...config,
-      showDataShadow: false,
-      backgroundColor: 'transparent',
-      dataBackgroundColor: dataZoomColor[1],
-      fillerColor: dataZoomColor[0],
-      handleStyle: {
-        color: dataZoomColor[1],
-        borderColor: dataZoomColor[1]
-      },
-      bottom: 15,
-      height: 40,
-    })),
-
+    dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail,dataSource:dataZoomList}),
     xAxis: [
       {
         // name: isMobile || isThumbnail ? '' : t('block.epoch'),

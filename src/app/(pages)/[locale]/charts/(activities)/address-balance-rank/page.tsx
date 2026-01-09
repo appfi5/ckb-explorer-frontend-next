@@ -4,7 +4,7 @@ import type { CallbackDataParams } from 'echarts/types/dist/shared'
 import { useTranslation } from 'react-i18next'
 import type { EChartsOption } from 'echarts'
 import { useCurrentLanguage } from '@/utils/i18n'
-import { DATA_ZOOM_CONFIG, assertIsArray, parseNumericAbbr } from '@/utils/chart'
+import { DATA_ZOOM_CONFIG, assertIsArray, parseNumericAbbr, getCustomDataZoomConfig } from '@/utils/chart'
 import { shannonToCkb, shannonToCkbDecimal } from '@/utils/util'
 import { localeNumberString } from '@/utils/number'
 import { tooltipColor, tooltipWidth, SmartChartPage, type SmartChartPageProps } from '../../components/common'
@@ -48,7 +48,7 @@ const useOption = () => {
       left: '5%',
       right: '3%',
       top: isMobile ? '3%' : '8%',
-      bottom: '10%',
+      bottom: isMobile ? '20%' : '12%',
       containLabel: true,
     }
     return {
@@ -73,20 +73,7 @@ const useOption = () => {
         }
         : undefined,
       grid: isThumbnail ? gridThumbnail : grid,
-      // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
-      dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
-        ...config,
-        showDataShadow: false,
-        backgroundColor: 'transparent',
-        dataBackgroundColor: dataZoomColor[1],
-        fillerColor: dataZoomColor[0],
-        handleStyle: {
-          color: dataZoomColor[1],
-          borderColor: dataZoomColor[1]
-        },
-        bottom: 15,
-        height: 40,
-      })),
+      dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail}),
       xAxis: [
         {
           // name: isMobile || isThumbnail ? '' : t('statistic.rank'),

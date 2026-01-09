@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next'
 import type { EChartsOption } from 'echarts'
 import type { CallbackDataParams } from 'echarts/types/dist/shared'
 import {
-  DATA_ZOOM_CONFIG,
   assertIsArray,
   assertSerialsDataIsString,
   assertSerialsItem,
   handleAxis,
+  getCustomDataZoomConfig
 } from '@/utils/chart'
 import { handleDifficulty, handleHashRate } from '@/utils/number'
 import { tooltipColor, tooltipWidth, type SeriesItem, SmartChartPage } from '../../components/common'
@@ -26,7 +26,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme()
   const gridThumbnail = {
     left: '4%',
     right: '4%',
@@ -38,7 +38,7 @@ const useOption = (
     left: '3%',
     right: '3%',
     top: isMobile ? '15%' : '12%',
-    bottom: '10%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   })
 
@@ -98,20 +98,7 @@ const useOption = (
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid(),
-    // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
-      ...config,
-      showDataShadow: false,
-      backgroundColor: 'transparent',
-      dataBackgroundColor: dataZoomColor[1],
-      fillerColor: dataZoomColor[0],
-      handleStyle: {
-        color: dataZoomColor[1],
-        borderColor: dataZoomColor[1]
-      },
-      bottom: 15,
-      height: 40,
-    })),
+    dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail}),
     xAxis: [
       {
         // name: isMobile || isThumbnail ? '' : t('block.epoch'),

@@ -258,7 +258,7 @@ const ChartPage = ({
           </div>
         </div>
         <div className="bg-[#F5F9FB] dark:bg-[#303030] rounded-[16px] p-3 sm:p-5">
-          <div className="bg-white rounded-[4px] py-5 sm:py-10 dark:bg-[#363839]">
+          <div className="bg-white rounded-[4px] py-[24px] dark:bg-[#363839]">
             {showTimeRange && (
               <div className={styles.timerangePanel}>
                 <TimeRange setSelectedValue={onSelectedRangeChange} />

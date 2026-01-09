@@ -4,12 +4,12 @@ import { useTranslation } from 'react-i18next'
 import type { EChartsOption } from 'echarts'
 import { useCurrentLanguage } from '@/utils/i18n'
 import {
-  DATA_ZOOM_CONFIG,
   assertIsArray,
   assertSerialsDataIsString,
   assertSerialsItem,
   handleAxis,
   handleLogGroupAxis,
+  getCustomDataZoomConfig
 } from '@/utils/chart'
 import { tooltipColor, tooltipWidth, type SeriesItem, SmartChartPage } from '../../components/common'
 import { localeNumberString } from '@/utils/number'
@@ -56,7 +56,7 @@ const useOption = (
   const balanceDistributions = toChangeData(statisticBalanceDistributions)
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme();
+  const { axisLabelColor, axisLineColor, chartThemeColor } = useChartTheme();
 
   const gridThumbnail = {
     left: '4%',
@@ -69,7 +69,7 @@ const useOption = (
     left: '2%',
     right: '3%',
     top: '15%',
-    bottom: '10%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
 
@@ -141,20 +141,7 @@ const useOption = (
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
-      ...config,
-      showDataShadow: false,
-      backgroundColor: 'transparent',
-      dataBackgroundColor: dataZoomColor[1],
-      fillerColor: dataZoomColor[0],
-      handleStyle: {
-        color: dataZoomColor[1],
-        borderColor: dataZoomColor[1]
-      },
-      bottom: 15,
-      height: 40,
-    })),
+    dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail}),
     xAxis: [
       {
         // name: isMobile || isThumbnail ? '' : `${t('statistic.addresses_balance')} (CKB)`,

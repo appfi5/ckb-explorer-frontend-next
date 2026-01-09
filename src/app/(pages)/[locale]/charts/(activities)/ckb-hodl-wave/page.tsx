@@ -6,12 +6,12 @@ import type { EChartsOption } from 'echarts'
 import { type ChartColorConfig, MAX_CHART_COUNT } from '@/constants/common'
 import { useCurrentLanguage } from '@/utils/i18n'
 import {
-  DATA_ZOOM_CONFIG,
   assertIsArray,
   assertSerialsItem,
   assertSerialsDataIsStringArrayOf10,
   handleAxis,
   variantColors,
+  getCustomDataZoomConfig
 } from '@/utils/chart'
 import { tooltipColor, tooltipWidth, type SeriesItem, SmartChartPage } from '../../components/common'
 import { type ChartItem } from '@/server/dataTypes'
@@ -100,7 +100,6 @@ const useOption = (
   const currentLanguage = useCurrentLanguage()
   const { axisLabelColor, axisLineColor, baseColors, dataZoomColor } = useChartTheme()
 
-  // 数据过滤，确保数据有效
   const validData = statisticCkbHodlWaves.filter(data =>
     data.ckbHodlWave &&
     data.createdAtUnixtimestamp &&
@@ -118,7 +117,7 @@ const useOption = (
     left: '3%',
     right: '3%',
     top: '10%',
-    bottom: '10%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
   const parseTooltip = useTooltip()
@@ -195,20 +194,7 @@ const useOption = (
       show: !isMobile
     },
     grid: isThumbnail ? gridThumbnail : grid,
-    // dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(config => ({
-      ...config,
-      showDataShadow: false,
-      backgroundColor: 'transparent',
-      dataBackgroundColor: dataZoomColor[1],
-      fillerColor: dataZoomColor[0],
-      handleStyle: {
-        color: dataZoomColor[1],
-        borderColor: dataZoomColor[1]
-      },
-      bottom: 15,
-      height: 40,
-    })),
+    dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail}),
     xAxis: [
       {
         // name: isMobile || isThumbnail ? '' : t('statistic.date'),
