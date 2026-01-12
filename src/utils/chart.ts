@@ -34,20 +34,20 @@ export const getCustomDataZoomConfig = (props: {
   const dataZoomColor = isTestnet ? ["#9672FA1A", "#9672FA"] : ["#00CC9B1A", "#00CC9B"];
 
   return dataSource.map(config => ({
-  ...config,
-  start: start ?? config.start,
-  end: end ?? config.end,
-  showDataShadow: false,
-  backgroundColor: 'transparent',
-  dataBackgroundColor: dataZoomColor[1],
-  fillerColor: dataZoomColor[0],
-  handleStyle: {
-    color: dataZoomColor[1],
-    borderColor: dataZoomColor[1],
-  },
-  bottom: 15,
-  height: isMobile ? 30 : 40,
-  zoomOnMouseWheel: false,
+    ...config,
+    start: start ?? config.start,
+    end: end ?? config.end,
+    showDataShadow: false,
+    backgroundColor: 'transparent',
+    dataBackgroundColor: dataZoomColor[1],
+    fillerColor: dataZoomColor[0],
+    handleStyle: {
+      color: dataZoomColor[1],
+      borderColor: dataZoomColor[1],
+    },
+    bottom: 15,
+    height: isMobile ? 30 : 40,
+    zoomOnMouseWheel: false,
   }));
 };
 

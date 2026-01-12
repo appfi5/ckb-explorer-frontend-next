@@ -19,6 +19,7 @@ const MonthPickerComponent = ({
     const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const currentFullYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
     const startYear = 2019;
     const [currentYear, setCurrentYear] = useState(selectedMonth?.getFullYear() || currentFullYear);
     const pickerRef = useRef<HTMLDivElement>(null);
@@ -62,7 +63,7 @@ const MonthPickerComponent = ({
             </div>
 
             {isOpen && (
-                <div className="absolute right-0 mt-2 rounded-lg backdrop-blur-[50px] shadow-[0_0_12px_2px_rgba(0,0,0,0.08)] dark:shadow-[0_0_12px_2px_#00000040] bg-white dark:bg-[#303030] p-2 z-10">
+                <div className="absolute right-0 mt-2 rounded-lg backdrop-blur-[50px] shadow-[0_0_12px_2px_rgba(0,0,0,0.08)] dark:shadow-[0_0_12px_2px_#00000040] bg-white dark:bg-[#303030] p-2 z-10 select-none" onDoubleClick={(e) => e.preventDefault()}>
                     <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#D9D9D9] dark:border-[#4C4C4C]">
                         <Tooltip
                             trigger={<LeftArrowIcon
@@ -103,18 +104,25 @@ const MonthPickerComponent = ({
                                 && selectedMonth.getFullYear() === currentYear
                                 && selectedMonth.getMonth() === index;
 
+                             // 计算当前月份是否应该被禁用
+                            const isDisabled = currentYear === currentFullYear && index > currentMonth;
+
                             return (
                                 <button
                                     key={index}
                                     className={`select-none p-2 rounded-sm text-sm ${isSelected
                                         ? 'bg-[#D9D9D94D]'
-                                        : 'hover:bg-[#D9D9D94D] dark:hover:bg-gray-700'
+                                        : isDisabled
+                                            ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed hover:bg-transparent'
+                                            : 'hover:bg-[#D9D9D94D] dark:hover:bg-gray-700'
                                         }`}
                                     onClick={() => {
-                                        onSelect(new Date(currentYear, index));
-                                        setIsOpen(false);
+                                        if (!isDisabled) {
+                                            onSelect(new Date(currentYear, index));
+                                            setIsOpen(false);
+                                        }
                                     }}
-                                    disabled={currentYear >= currentFullYear && index > new Date().getMonth()}
+                                    disabled={isDisabled}
                                 >
                                     {month}
                                 </button>
