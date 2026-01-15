@@ -90,7 +90,7 @@ export default function AddressOverview({ addressInfo }: { addressInfo: APIExplo
             <TwoSizeAmount
               integerClassName="font-hash"
               decimalClassName="font-hash text-[12px]"
-              amount={shannonToCkb(new BigNumber(addressInfo.depositUnmadeCompensation).plus(addressInfo.phase1UnClaimedCompensation))}
+              amount={shannonToCkb(new BigNumber(addressInfo.depositUnmadeCompensation).plus(addressInfo.phase1UnClaimedCompensation).plus(addressInfo.interest))}
               unit={<span className="ml-1">CKB</span>}
             />
           </div>
