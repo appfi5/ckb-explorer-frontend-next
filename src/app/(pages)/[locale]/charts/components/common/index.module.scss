@@ -175,3 +175,15 @@
   padding: 6px 3%;
   text-align: left;
 }
+
+.timerangePanel{
+  display: flex;
+  justify-content: end;
+  padding-right: 30px;
+  margin-bottom: 24px;
+
+  @media (max-width: variables.$mobileBreakPoint) {
+    justify-content: center;
+    padding: 0;
+  }
+}

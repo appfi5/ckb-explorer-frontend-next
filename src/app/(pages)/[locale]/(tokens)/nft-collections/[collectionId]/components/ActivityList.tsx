@@ -1,3 +1,4 @@
+import CKBAddress from "@/components/CKBAddress";
 import DateTime from "@/components/DateTime";
 import Filter from "@/components/Filter";
 import Loading from "@/components/Loading";
@@ -166,8 +167,8 @@ export default function NFTCollectionActivtyList({ collectionInfo }: { collectio
           <Link
             href={`/address/${fromAddr}`}
           >
-            <TextEllipsis
-              text={fromAddr}
+            <CKBAddress
+              address={fromAddr}
               className="inline underline hover:text-primary"
               ellipsis="address"
             />
@@ -186,8 +187,8 @@ export default function NFTCollectionActivtyList({ collectionInfo }: { collectio
           <Link
             href={`/address/${toAddr}`}
           >
-            <TextEllipsis
-              text={toAddr}
+            <CKBAddress
+              address={toAddr}
               className="inline underline hover:text-primary"
               ellipsis="address"
             />

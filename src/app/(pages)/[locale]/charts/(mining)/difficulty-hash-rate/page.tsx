@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next'
 import type { EChartsOption } from 'echarts'
 import type { CallbackDataParams } from 'echarts/types/dist/shared'
 import {
-  DATA_ZOOM_CONFIG,
   assertIsArray,
   assertSerialsDataIsString,
   assertSerialsItem,
   handleAxis,
+  getCustomDataZoomConfig
 } from '@/utils/chart'
 import { handleDifficulty, handleHashRate } from '@/utils/number'
 import { tooltipColor, tooltipWidth, type SeriesItem, SmartChartPage } from '../../components/common'
@@ -38,7 +38,7 @@ const useOption = (
     left: '3%',
     right: '3%',
     top: isMobile ? '15%' : '12%',
-    bottom: '5%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   })
 
@@ -98,10 +98,10 @@ const useOption = (
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid(),
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail}),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('block.epoch'),
+        // name: isMobile || isThumbnail ? '' : t('block.epoch'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',

@@ -14,9 +14,10 @@ type HashCardHeaderProps = PropsWithChildren<{
   hash: string
   type: "block" | "transaction" | "address" | "script",
   actions?: ReactNode[]
+  extra?: ReactNode
 }>
 export default function HashCardHeader(props: HashCardHeaderProps) {
-  const { className, type, hash, actions, children } = props;
+  const { className, type, hash, actions, extra, children } = props;
   // const setToast = useSetToast()
   const { t } = useTranslation()
 
@@ -62,7 +63,7 @@ export default function HashCardHeader(props: HashCardHeaderProps) {
             {actions}
           </div>
         </div>
-
+        {extra}
       </div>
       {children}
     </Card>

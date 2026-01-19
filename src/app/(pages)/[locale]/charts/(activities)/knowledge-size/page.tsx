@@ -1,13 +1,14 @@
 "use client"
+import { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 import type { EChartsOption } from 'echarts'
-import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '@/utils/chart'
+import { assertIsArray, handleAxis, getCustomDataZoomConfig } from '@/utils/chart'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../../components/common'
 import { type ChartItem } from '@/server/dataTypes'
 import { useCurrentLanguage } from '@/utils/i18n'
-import { type ChartColorConfig } from '@/constants/common'
+import { type ChartColorConfig, MAX_CHART_COUNT } from '@/constants/common'
 import server from "@/server";
 import { shannonToCkb } from "@/utils/util";
 import { useChartTheme } from "@/hooks/useChartTheme";
@@ -35,7 +36,7 @@ const useOption = (
     left: '3%',
     right: isMobile ? '8%' : '3%',
     top: isMobile ? '3%' : '8%',
-    bottom: '5%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
   return {
@@ -56,10 +57,10 @@ const useOption = (
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: getCustomDataZoomConfig({ isMobile, isThumbnail }),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('statistic.date'),
+        // name: isMobile || isThumbnail ? '' : t('statistic.date'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -138,15 +139,19 @@ const toCSV = (statisticKnowledge?: ChartItem.KnowledgeSize[]) =>
 
 export const KnowledgeSizeChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const [t] = useTranslation()
+  const [selectedRange, setSelectedRange] = useState<number>(MAX_CHART_COUNT)
   return (
     <SmartChartPage
       title={t('statistic.knowledge_size')}
       description={t('statistic.knowledge_size_description')}
       isThumbnail={isThumbnail}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "knowledge_size" })}
+      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "knowledge_size", limit: selectedRange })}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticKnowledgeSize"
+      showTimeRange={true}
+      onSelectedRangeChange={setSelectedRange}
+      selectedRange={selectedRange}
     />
   )
 }

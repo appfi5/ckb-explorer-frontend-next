@@ -2,6 +2,7 @@ import BigNumber from "bignumber.js";
 import { ChartColor } from "@/constants/common";
 import type { SeriesItem } from "@/app/(pages)/[locale]/charts/components/common";
 import type { FeeRateTracker } from "@/server/dataTypes";
+import { env } from "@/env";
 
 export const DATA_ZOOM_CONFIG = [
   {
@@ -19,6 +20,36 @@ export const DATA_ZOOM_CONFIG = [
     xAxisIndex: [0],
   },
 ];
+
+export const getCustomDataZoomConfig = (props: {
+  isMobile: boolean,
+  isThumbnail: boolean,
+  start?: number,
+  end?: number,
+  dataSource?: any[],
+}) => {
+  const { isMobile, isThumbnail, start, end, dataSource = DATA_ZOOM_CONFIG } = props;
+  if (isThumbnail) return [];
+  const isTestnet = env.NEXT_PUBLIC_CHAIN_TYPE === "testnet";
+  const dataZoomColor = isTestnet ? ["#9672FA1A", "#9672FA"] : ["#00CC9B1A", "#00CC9B"];
+
+  return dataSource.map(config => ({
+    ...config,
+    start: start ?? config.start,
+    end: end ?? config.end,
+    showDataShadow: false,
+    backgroundColor: 'transparent',
+    dataBackgroundColor: dataZoomColor[1],
+    fillerColor: dataZoomColor[0],
+    handleStyle: {
+      color: dataZoomColor[1],
+      borderColor: dataZoomColor[1],
+    },
+    bottom: 15,
+    height: isMobile ? 30 : 40,
+    zoomOnMouseWheel: false,
+  }));
+};
 
 export const parseNumericAbbr = (
   value: BigNumber | string | number,
@@ -257,16 +288,16 @@ export const assertSerialsDataIsStringArrayOf4: (
 ) => asserts value is { data: [string, string, string, string] } = (
   value: unknown,
 ) => {
-  if (
-    typeof value !== "object" ||
-    value === null ||
-    !Array.isArray((value as any).data) ||
-    (value as any).data.length !== 4 ||
-    !(value as any).data.every((item: unknown) => typeof item === "string")
-  ) {
-    throw new Error("invalid SeriesItem length of 4");
-  }
-};
+    if (
+      typeof value !== "object" ||
+      value === null ||
+      !Array.isArray((value as any).data) ||
+      (value as any).data.length !== 4 ||
+      !(value as any).data.every((item: unknown) => typeof item === "string")
+    ) {
+      throw new Error("invalid SeriesItem length of 4");
+    }
+  };
 
 export const assertSerialsDataIsStringArrayOf10: (
   value: unknown,

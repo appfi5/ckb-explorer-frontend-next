@@ -13,7 +13,7 @@ const apiMap = {
   /** UDT交易列表 */
   "GET /udt_transactions/{typeScriptHash}": defineAPI<APIExplorer.UdtTransactionsPageReq & { typeScriptHash: string }, APIExplorer.PageUdtTransactionPageResponse>("/udt_transactions/{typeScriptHash}", "GET", {divider: {"path":["typeScriptHash"]}}),
   /**  */
-  "GET /udt_hourly_statistics": defineAPI<null, Array<APIExplorer.UdtDailyStatisticsResponse>>("/udt_hourly_statistics", "GET"),
+  "GET /udt_hourly_statistics": defineAPI<{ limit?: number }, Array<APIExplorer.UdtDailyStatisticsResponse>>("/udt_hourly_statistics", "GET"),
   /**  */
   "GET /suggest_queries": defineAPI<{ q: string,filterBy?: number }, {}>("/suggest_queries", "GET"),
   /** 获取统计信息索引 */
@@ -47,11 +47,11 @@ const apiMap = {
   /**  */
   "GET /epoch_statistics/{indicator}": defineAPI<{ indicator: string,limit?: number }, Array<APIExplorer.EpochStatisticsResponse>>("/epoch_statistics/{indicator}", "GET", {divider: {"path":["indicator"]}}),
   /** 获取分布数据 */
-  "GET /distribution_data/{indicator}": defineAPI<{ indicator: string }, APIExplorer.DistributionDataResponse>("/distribution_data/{indicator}", "GET", {divider: {"path":["indicator"]}}),
+  "GET /distribution_data/{indicator}": defineAPI<{ indicator: string,limit?: number }, APIExplorer.DistributionDataResponse>("/distribution_data/{indicator}", "GET", {divider: {"path":["indicator"]}}),
   /**  */
   "GET /dao_depositors": defineAPI<null, Array<APIExplorer.DaoDepositorResponse>>("/dao_depositors", "GET"),
   /**  */
-  "GET /daily_statistics/{indicator}": defineAPI<{ indicator: string }, Array<APIExplorer.DailyStatisticResponse>>("/daily_statistics/{indicator}", "GET", {divider: {"path":["indicator"]}}),
+  "GET /daily_statistics/{indicator}": defineAPI<{ indicator: string,limit?: number }, Array<APIExplorer.DailyStatisticResponse>>("/daily_statistics/{indicator}", "GET", {divider: {"path":["indicator"]}}),
   /**  */
   "GET /contracts/nervos_dao": defineAPI<null, APIExplorer.DaoContractResponse>("/contracts/nervos_dao", "GET"),
   /** 获取Dao相关的交易列表 */

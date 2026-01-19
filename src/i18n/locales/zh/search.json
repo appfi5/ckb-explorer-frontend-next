@@ -6,7 +6,7 @@
   },
   "placeholder": {
     "input": "请输入",
-    "base": "区块高度 / 交易 / 地址",
+    "base": "区块高度 / 交易 / 地址 / DID",
     "udt": "代币名称 / 代币符号 / Type Hash",
     "nft":"Cluster ID / 名称 / Type Hash / Token Id"
   }

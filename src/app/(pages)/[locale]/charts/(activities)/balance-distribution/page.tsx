@@ -4,12 +4,12 @@ import { useTranslation } from 'react-i18next'
 import type { EChartsOption } from 'echarts'
 import { useCurrentLanguage } from '@/utils/i18n'
 import {
-  DATA_ZOOM_CONFIG,
   assertIsArray,
   assertSerialsDataIsString,
   assertSerialsItem,
   handleAxis,
   handleLogGroupAxis,
+  getCustomDataZoomConfig
 } from '@/utils/chart'
 import { tooltipColor, tooltipWidth, type SeriesItem, SmartChartPage } from '../../components/common'
 import { localeNumberString } from '@/utils/number'
@@ -69,7 +69,7 @@ const useOption = (
     left: '2%',
     right: '3%',
     top: '15%',
-    bottom: '6%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
 
@@ -108,9 +108,9 @@ const useOption = (
           dataList.forEach(data => {
             assertSerialsItem(data)
             assertSerialsDataIsString(data)
-            if(isMobile){
+            if (isMobile) {
               mobileResult += parseTooltip({ ...data, currentLanguage, isMobile })
-            }else{
+            } else {
               result += parseTooltip({ ...data, currentLanguage, isMobile })
             }
           })
@@ -141,10 +141,10 @@ const useOption = (
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail}),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : `${t('statistic.addresses_balance')} (CKB)`,
+        // name: isMobile || isThumbnail ? '' : `${t('statistic.addresses_balance')} (CKB)`,
         nameTextStyle: {
           color: axisLabelColor
         },

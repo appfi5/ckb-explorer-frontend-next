@@ -1,16 +1,17 @@
 "use client"
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 import type { EChartsOption } from 'echarts'
-import type { ChartColorConfig } from '@/constants/common'
+import { type ChartColorConfig, MAX_CHART_COUNT } from '@/constants/common'
 import { useCurrentLanguage } from '@/utils/i18n'
 import {
-  DATA_ZOOM_CONFIG,
   assertIsArray,
   assertSerialsItem,
   assertSerialsDataIsStringArrayOf10,
   handleAxis,
   variantColors,
+  getCustomDataZoomConfig
 } from '@/utils/chart'
 import { tooltipColor, tooltipWidth, type SeriesItem, SmartChartPage } from '../../components/common'
 import { type ChartItem } from '@/server/dataTypes'
@@ -97,11 +98,10 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor, baseColors } = useChartTheme()
+  const { axisLabelColor, axisLineColor, baseColors, dataZoomColor } = useChartTheme()
 
-  // 数据过滤，确保数据有效
-  const validData = statisticCkbHodlWaves.filter(data => 
-    data.ckbHodlWave && 
+  const validData = statisticCkbHodlWaves.filter(data =>
+    data.ckbHodlWave &&
     data.createdAtUnixtimestamp &&
     typeof data.holderCount !== 'undefined'
   )
@@ -117,7 +117,7 @@ const useOption = (
     left: '3%',
     right: '3%',
     top: '10%',
-    bottom: '5%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
   const parseTooltip = useTooltip()
@@ -161,15 +161,15 @@ const useOption = (
           if (!Array.isArray(dataList) || dataList.length === 0) {
             return ''
           }
-          
+
           const firstData = dataList[0].data as string[]
           if (!firstData || !firstData[0]) {
             return ''
           }
-          
+
           let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)}
           ${firstData[0]}</div>`
-          
+
           dataList.forEach(data => {
             if (!data || !data.seriesName) {
               return
@@ -178,7 +178,7 @@ const useOption = (
             if (!Array.isArray(seriesData) || seriesData.length < 10) {
               return
             }
-            
+
             result += parseTooltip(data as any)
           })
           return result
@@ -194,10 +194,10 @@ const useOption = (
       show: !isMobile
     },
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail}),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('statistic.date'),
+        // name: isMobile || isThumbnail ? '' : t('statistic.date'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -207,12 +207,12 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         }
       },
@@ -228,18 +228,18 @@ const useOption = (
         },
         axisLine: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         axisTick: {
           lineStyle: {
-            color: axisLineColor 
+            color: axisLineColor
           }
         },
         splitLine: {
           show: true,
           lineStyle: {
-            color: axisLineColor, 
+            color: axisLineColor,
             type: 'dashed',
           }
         }
@@ -399,15 +399,19 @@ const toCSV = (statisticCkbHodlWaves: ChartItem.CkbHodlWaveHolderCount[]) =>
 
 export const CkbHodlWaveChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const [t] = useTranslation()
+  const [selectedRange, setSelectedRange] = useState<number>(MAX_CHART_COUNT)
   return (
     <SmartChartPage
       title={t('statistic.ckb_hodl_wave')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticCkbHodlWave}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "ckb_hodl_wave-holder_count" })}
+      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "ckb_hodl_wave-holder_count", limit: selectedRange })}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticCkbHodlWave"
+      showTimeRange={true}
+      onSelectedRangeChange={setSelectedRange}
+      selectedRange={selectedRange}
     />
   )
 }

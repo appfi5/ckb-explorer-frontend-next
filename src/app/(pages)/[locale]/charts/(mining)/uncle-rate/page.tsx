@@ -1,13 +1,14 @@
 "use client"
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 import type { EChartsOption } from 'echarts'
 import type { CallbackDataParams } from 'echarts/types/dist/shared'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../../components/common'
-import { DATA_ZOOM_CONFIG, assertIsArray } from '@/utils/chart'
+import { assertIsArray, getCustomDataZoomConfig } from '@/utils/chart'
 import { type ChartItem } from '@/server/dataTypes'
 import { useCurrentLanguage } from '@/utils/i18n'
-import { type ChartColorConfig } from '@/constants/common'
+import { type ChartColorConfig, MAX_CHART_COUNT } from '@/constants/common'
 import server from "@/server";
 import { useChartTheme } from "@/hooks/useChartTheme";
 
@@ -20,7 +21,7 @@ const useOption = (
 ): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  const { axisLabelColor, axisLineColor,chartThemeColor } = useChartTheme()
+  const { axisLabelColor, axisLineColor, chartThemeColor, dataZoomColor } = useChartTheme()
 
   const gridThumbnail = {
     left: '4%',
@@ -33,7 +34,7 @@ const useOption = (
     left: '3%',
     right: isMobile ? '12%' : '5%',
     top: '5%',
-    bottom: '5%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
   return {
@@ -55,10 +56,10 @@ const useOption = (
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     /* Selection starts from 1% because the uncle rate starts from 0 on launch */
-    dataZoom: DATA_ZOOM_CONFIG.map(zoom => ({ ...zoom, show: !isThumbnail, start: 1 })),
+    dataZoom: getCustomDataZoomConfig({ isMobile, isThumbnail, start: 1 }),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('statistic.date'),
+        // name: isMobile || isThumbnail ? '' : t('statistic.date'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -146,16 +147,21 @@ const toCSV = (statisticUncleRates: ChartItem.UncleRate[]) =>
 
 export const UncleRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const [t] = useTranslation()
+  const [selectedRange, setSelectedRange] = useState<number>(MAX_CHART_COUNT)
+
   return (
     <SmartChartPage
       title={t('block.uncle_rate')}
       description={t('statistic.uncle_rate_description')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticUncleRate}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "uncle_rate" })}
+      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "uncle_rate", limit: selectedRange })}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticUncleRate"
+      showTimeRange={true}
+      onSelectedRangeChange={setSelectedRange}
+      selectedRange={selectedRange}
     />
   )
 }
