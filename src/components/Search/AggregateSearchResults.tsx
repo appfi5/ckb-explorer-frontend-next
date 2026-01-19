@@ -16,10 +16,10 @@ import { HighlightText } from "./HighlightText";
 import { handleNftImgError, patchMibaoImg } from "@/utils/util";
 import { localeNumberString } from "@/utils/number";
 import styles from "./AggregateSearchResults.module.scss";
-import EllipsisMiddle from "../EllipsisMiddle";
 import Link from "next/link";
 import InteImage from "../InteImage";
 import Loading from "../Loading";
+import TextEllipsis from "../TextEllipsis";
 
 type Props = {
   keyword?: string;
@@ -342,32 +342,36 @@ export const SearchResultItem: FC<{
     );
   }
 
-  // if (item.type === SearchResultType.DID) {
-  //   return (
-  //     <Link
-  //       className={classNames(styles.searchResult, {
-  //         [styles.highlightedWhenHover]: highlightedWhenHover,
-  //       })}
-  //       href={to}
-  //     >
-  //       <div className={styles.content}>
-  //         <HighlightText
-  //           style={{ maxWidth: "min(200px, 60%)", marginRight: 8 }}
-  //           text={item.attributes.did}
-  //           keyword={keyword}
-  //         />
-  //         <EllipsisMiddle
-  //           className={classNames(styles.secondaryText, "font-hash")}
-  //           style={{ maxWidth: "min(200px, 40%)" }}
-  //           useTextWidthForPlaceholderWidth
-  //           title={item.attributes.address}
-  //         >
-  //           {item.attributes.address}
-  //         </EllipsisMiddle>
-  //       </div>
-  //     </Link>
-  //   );
-  // }
+  if (item.type === SearchResultType.DID) {
+    return (
+      <Link
+        className={classNames(styles.searchResult, {
+          [styles.highlightedWhenHover]: highlightedWhenHover,
+        })}
+        href={to}
+      >
+        <div className={styles.content}>
+          <HighlightText
+            style={{ minWidth: 60, marginRight: 8 }}
+            text={item.attributes.did}
+            keyword={keyword}
+          />
+          <TextEllipsis
+            text={item.attributes.address}
+            ellipsis="address"
+          />
+          {/* <EllipsisMiddle
+            className={classNames(styles.secondaryText, "font-hash")}
+            style={{ maxWidth: "min(200px, 40%)" }}
+            useTextWidthForPlaceholderWidth
+            title={item.attributes.address}
+          >
+            {item.attributes.address}
+          </EllipsisMiddle> */}
+        </div>
+      </Link>
+    );
+  }
 
   // if (item.type === SearchResultType.BtcTx) {
   //   return (

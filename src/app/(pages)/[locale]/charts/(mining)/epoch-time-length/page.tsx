@@ -3,7 +3,7 @@ import { type FC } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import type { EChartsOption } from 'echarts'
-import { assertIsArray, assertSerialsItem, handleAxis } from '@/utils/chart'
+import { assertIsArray, assertSerialsItem, handleAxis, getCustomDataZoomConfig } from '@/utils/chart'
 import { tooltipColor, tooltipWidth, type SeriesItem, SmartChartPage } from '../../components/common'
 import { parseHourFromMillisecond } from '@/utils/date'
 import { type ChartItem } from '@/server/dataTypes'
@@ -53,7 +53,7 @@ const useOption = (
     left: '3%',
     right: '3%',
     top: isMobile ? '15%' : '10%',
-    bottom: '5%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
 
@@ -64,6 +64,22 @@ const useOption = (
   const endValue = statisticChartData[statisticChartData.length - 1]?.epochNumber ?? '0'
   const startValue = Math.max(+endValue - COUNT_IN_THUMBNAIL, 0).toString()
   const parseTooltip = useTooltip()
+
+
+  const dataZoomList = [{
+    show: true,
+    realtime: true,
+    startValue,
+    endValue,
+    xAxisIndex: [0],
+  },
+  {
+    type: 'inside',
+    realtime: true,
+    startValue,
+    endValue,
+    xAxisIndex: [0],
+  },]
 
   return {
     color: chartThemeColor.moreColors,
@@ -102,28 +118,10 @@ const useOption = (
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail
-      ? []
-      : [
-        {
-          show: true,
-          realtime: true,
-          startValue,
-          endValue,
-          xAxisIndex: [0],
-        },
-        {
-          type: 'inside',
-          realtime: true,
-          startValue,
-          endValue,
-          xAxisIndex: [0],
-        },
-      ],
-
+    dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail,dataSource:dataZoomList}),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('block.epoch'),
+        // name: isMobile || isThumbnail ? '' : t('block.epoch'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',

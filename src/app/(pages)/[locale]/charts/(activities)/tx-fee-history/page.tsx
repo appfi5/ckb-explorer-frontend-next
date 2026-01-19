@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 import type { EChartsOption } from 'echarts'
 import type { YAXisOption } from 'echarts/types/dist/shared'
-import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '@/utils/chart'
+import { assertIsArray, handleAxis, getCustomDataZoomConfig } from '@/utils/chart'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../../components/common'
 import { shannonToCkbDecimal } from '@/utils/util'
 import { type ChartItem } from '@/server/dataTypes'
-import { type ChartColorConfig, IS_MAINNET } from '@/constants/common'
+import { type ChartColorConfig, IS_MAINNET, MAX_CHART_COUNT } from '@/constants/common'
 import styles from '../styles.module.scss'
 import type { TFunction } from 'i18next'
 import server from "@/server";
@@ -35,9 +35,9 @@ const getOption =
       }
       const grid = {
         left: '6%',
-        right:  isMobile ? '8%' : '3%',
+        right: isMobile ? '8%' : '3%',
         top: isMobile ? '4%' : '8%',
-        bottom: '5%',
+        bottom: isMobile ? '20%' : '12%',
         containLabel: true,
       }
       return {
@@ -59,10 +59,10 @@ const getOption =
           }
           : undefined,
         grid: isThumbnail ? gridThumbnail : grid,
-        dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+        dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail}),
         xAxis: [
           {
-            name: isMobile || isThumbnail ? '' : t('statistic.date'),
+            // name: isMobile || isThumbnail ? '' : t('statistic.date'),
             nameLocation: 'middle',
             nameGap: 30,
             type: 'category',
@@ -143,6 +143,7 @@ const toCSV = (statisticTxFeeHistories: ChartItem.TransactionFee[]) =>
 export const TxFeeHistoryChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const { t, i18n } = useTranslation()
   const [scaleType, setScaleType] = useState<'linear' | 'log'>(IS_MAINNET ? 'log' : 'linear')
+  const [selectedRange, setSelectedRange] = useState<number>(MAX_CHART_COUNT)
 
   const onScaleTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setScaleType(e.target.value as 'linear' | 'log')
@@ -198,11 +199,14 @@ export const TxFeeHistoryChart = ({ isThumbnail = false }: { isThumbnail?: boole
         description={t('statistic.tx_fee_description')}
         isThumbnail={isThumbnail}
         // fetchData={explorerService.api.fetchStatisticTxFeeHistory}
-        fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "total_tx_fee" })}
+        fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "total_tx_fee", limit: selectedRange })}
         getEChartOption={getOption({ type: scaleType, t, language: i18n.language })}
         toCSV={toCSV}
         queryKey="fetchStatisticTxFeeHistory"
         queryNode={SearchNode}
+        showTimeRange={true}
+        onSelectedRangeChange={setSelectedRange}
+        selectedRange={selectedRange}
       />
 
     </div>

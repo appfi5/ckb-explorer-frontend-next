@@ -6,12 +6,11 @@ import DescItem from "@/components/Card/DescItem"
 import CopyableText from "@/components/CopyableText"
 import { Button } from "@/components/shadcn/button"
 import { Textarea } from "@/components/shadcn/input"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/shadcn/tabs"
-import { env } from "@/env"
 import { NodeService } from "@/services/NodeService"
 import { getEnvChainNodes } from "@/utils/envVarHelper"
-import CKBRPC from "@nervosnetwork/ckb-sdk-rpc"
-import { useMemo, useRef, useState } from "react"
+import { toCamelcase } from "@/utils/util"
+// import CKBRPC from "@nervosnetwork/ckb-sdk-rpc"
+import { useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 
 
@@ -22,10 +21,10 @@ export default function BroadcastTx() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Partial<Record<'hash' | 'error', string>>>({});
 
-  const [formatter] = useMemo(() => {
-    const ins = new CKBRPC("");
-    return [ins.paramsFormatter];
-  }, []);
+  // const [formatter] = useMemo(() => {
+  //   const ins = new CKBRPC("");
+  //   return [ins.paramsFormatter];
+  // }, []);
   const handleBroadcast = async () => {
     const inputted = txInpRef.current!.value
     if (!inputted) {
@@ -37,9 +36,9 @@ export default function BroadcastTx() {
       setResult({})
       setLoading(true)
       let tx = JSON.parse(inputted.trim())
-      if ('cellDeps' in tx) {
-        // should be converted to snake_case
-        tx = formatter.toRawTransaction(tx)
+      if ('cell_deps' in tx) {
+        // should be converted to camelCase
+        tx = toCamelcase(tx)
       }
       const nodes = getEnvChainNodes();
       const nodeService = new NodeService(nodes[0]!);

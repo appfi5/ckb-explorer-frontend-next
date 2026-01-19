@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { EChartsOption } from 'echarts'
 import type { CallbackDataParams } from 'echarts/types/dist/shared'
-import { DATA_ZOOM_CONFIG, handleAxis } from '@/utils/chart'
+import { getCustomDataZoomConfig, handleAxis } from '@/utils/chart'
 import { SmartChartPage } from '../../components/common'
 import { type ChartItem } from '@/server/dataTypes'
 import { type ChartColorConfig } from '@/constants/common'
@@ -33,7 +33,7 @@ const useOption = (
     left: '3%',
     right: '3%',
     top: '8%',
-    bottom: '5%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
   const h24TxCountSortedList: number[] = statisticContractResourceDistributed
@@ -43,7 +43,7 @@ const useOption = (
   return {
     color: chartThemeColor.colors,
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail}),
     tooltip: !isThumbnail
       ? {
         confine: true,

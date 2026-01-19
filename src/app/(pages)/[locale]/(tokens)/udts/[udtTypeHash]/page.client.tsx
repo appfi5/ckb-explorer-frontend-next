@@ -23,6 +23,7 @@ import TokenTag from "@/components/TokenTag";
 import ScriptTag from "@/components/ScriptTag";
 import { ccc } from "@ckb-ccc/core";
 import type { UDTDetail } from "./utils";
+import CKBAddress from "@/components/CKBAddress";
 
 
 
@@ -141,7 +142,7 @@ function UDTOverview({ udtInfo }: { udtInfo: UDTDetail }) {
       // content: issuer ? <IssuerContent address={issuerOnBtc ?? issuer} /> : '-',
       content: udtInfo.info?.manager ? (
         <OutLink className="font-hash underline" href={`/address/${udtInfo.info?.manager}`}>
-          <TextEllipsis text={udtInfo.info?.manager} ellipsis="address" />
+          <CKBAddress address={udtInfo.info?.manager} ellipsis="address" />
         </OutLink>
       ) : "-",
     },

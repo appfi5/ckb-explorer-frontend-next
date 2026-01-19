@@ -4,9 +4,7 @@ import SinceLockIcon from "@/assets/icons/lock.svg?component"
 import ArrowRightIcon from "@/assets/icons/arrow-right.svg?component"
 import NervosBlackImg from "@/assets/icons/nervos.black.svg";
 import Image from "next/image";
-import TextEllipsis from "@/components/TextEllipsis";
 import type { ReactNode } from "react";
-import TwoSizeAmount from "@/components/TwoSizeAmount";
 import { parseSince, shannonToCkb } from "@/utils/util";
 import { useTranslation } from "react-i18next";
 import { CellStatusBadge } from "@/components/Cell/CellStatus";
@@ -24,6 +22,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ccc, ClientPublicMainnet, ClientPublicTestnet } from "@ckb-ccc/core";
 import { env } from "@/env";
 import TxCellRichDisplay from "./TxCellRichDisplay";
+import CKBAddress from "@/components/CKBAddress";
 
 function ScriptTagFromAddress({ address }: { address: string }) {
   const { data: script } = useQuery({
@@ -62,7 +61,10 @@ export default function TxCellCard({ since, cell, isInput = true, seq, isPending
             data-clickable
             onClick={(e) => { e.stopPropagation() }}
           >
-            <TextEllipsis text={cell.addressHash} ellipsis="address" />
+            <CKBAddress
+              address={cell.addressHash}
+              ellipsis="address"
+            />
           </Link>
           <ScriptTagFromAddress address={cell.addressHash} />
         </div>

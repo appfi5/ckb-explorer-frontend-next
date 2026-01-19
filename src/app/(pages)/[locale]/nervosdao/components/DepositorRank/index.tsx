@@ -8,19 +8,16 @@ import styles from './index.module.scss'
 import { useIsMobile } from '@/hooks'
 import { type NervosDaoDepositor } from '@/server/dataTypes'
 import { type CardCellFactory, CardListWithCellsList } from '@/components/CardList'
+import Link from 'next/link'
+import CKBAddress from '@/components/CKBAddress'
 
 type RankedDepositor = NervosDaoDepositor & { rank: number }
 
 const AddressTextCol = ({ address }: { address: string }) => {
   return (
-    <AddressText
-      linkProps={{
-        className: styles.addressTextCol,
-        href: `/address/${address}`,
-      }}
-    >
-      {address}
-    </AddressText>
+    <Link href={`/address/${address}`} className='max-w-full'>
+      <CKBAddress address={address} ellipsis={{ tail: -8 }} />
+    </Link>
   )
 }
 

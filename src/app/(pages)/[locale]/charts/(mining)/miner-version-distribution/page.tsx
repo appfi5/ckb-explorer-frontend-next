@@ -72,7 +72,7 @@ const useOption = (
     tooltip,
     grid: isThumbnail ? gridThumbnail : grid,
     legend: {
-      show: !isThumbnail,
+      show: !isThumbnail && !isMobile,
       right: 40,
       bottom: 40,
       orient: 'vertical',
