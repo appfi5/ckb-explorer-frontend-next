@@ -12,6 +12,7 @@ import DescItem from "@/components/Card/DescItem";
 import TextEllipsis from "@/components/TextEllipsis";
 import Link from "next/link";
 import useTokenImage from "@/hooks/useTokenImage";
+import CKBAddress from "@/components/CKBAddress";
 
 
 export default function NFTCollectionTokenList({ collectionInfo }: { collectionInfo: APIExplorer.CollectionsResp }) {
@@ -117,9 +118,10 @@ function TokenCard({ item, collectionInfo }: { item: APIExplorer.NftItemDetailRe
           textDirection="right"
         >
           <Link href={`/address/${item.owner}`}>
-            <TextEllipsis
+            <CKBAddress
               className="inline underline hover:text-primary"
-              text={item.owner}
+              address={item.owner}
+              didIconSize="size-5"
               ellipsis={{ head: 8, tail: -8 }}
             />
           </Link>

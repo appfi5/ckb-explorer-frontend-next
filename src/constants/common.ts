@@ -19,6 +19,7 @@ export const THEORETICAL_EPOCH_TIME = 1000 * 60 * 60 * 4; // 4 hours
 export const PAGE_SIZE = 10;
 export const MIN_DEPOSIT_AMOUNT = 102;
 export const MAX_DECIMAL_DIGITS = 8;
+export const MAX_CHART_COUNT = 15;
 
 export const IS_MAINNET = env.NEXT_PUBLIC_CHAIN_TYPE === "mainnet";
 

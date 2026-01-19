@@ -3,26 +3,26 @@ import { useTranslation } from 'react-i18next'
 import type { EChartsOption } from 'echarts'
 import { useCurrentLanguage } from '@/utils/i18n'
 import { tooltipColor, tooltipWidth, type SeriesItem, SmartChartPage } from '../../components/common'
-import { DATA_ZOOM_CONFIG, assertSerialsDataIsString, assertIsArray, assertSerialsItem } from '@/utils/chart'
+import { getCustomDataZoomConfig, assertSerialsDataIsString, assertIsArray, assertSerialsItem } from '@/utils/chart'
 import { type ChartItem } from '@/server/dataTypes'
 import { type ChartColorConfig } from '@/constants/common'
 import server from "@/server";
 import { useChartTheme } from "@/hooks/useChartTheme";
 
 const toChangeData = (data: any[]): { nominalApc: string[]; nominalInflationRate: string[]; realInflationRate: string[] }[] => {
-  const { nominalApc, nominalInflationRate, realInflationRate } = data.length > 0 ? data[0] : { nominalApc: [], nominalInflationRate: [], realInflationRate: [] };  
+  const { nominalApc, nominalInflationRate, realInflationRate } = data.length > 0 ? data[0] : { nominalApc: [], nominalInflationRate: [], realInflationRate: [] };
   const statisticInflationRates = [];
-      for (let i = 0; i < nominalApc.length; i++) {
-        if (i % 6 === 0 || i === nominalApc.length - 1) {
-          statisticInflationRates.push({
-            year: i % 6 === 0 ? Math.floor(i / 6) * 0.5 : 50,
-            nominalApc: nominalApc[i],
-            nominalInflationRate: nominalInflationRate[i],
-            realInflationRate: realInflationRate[i],
-          });
-        }
-      }
-      return statisticInflationRates;
+  for (let i = 0; i < nominalApc.length; i++) {
+    if (i % 6 === 0 || i === nominalApc.length - 1) {
+      statisticInflationRates.push({
+        year: i % 6 === 0 ? Math.floor(i / 6) * 0.5 : 50,
+        nominalApc: nominalApc[i],
+        nominalInflationRate: nominalInflationRate[i],
+        realInflationRate: realInflationRate[i],
+      });
+    }
+  }
+  return statisticInflationRates;
 }
 const useOption = (
   statisticInflationRates: ChartItem.InflationRate[],
@@ -43,9 +43,9 @@ const useOption = (
   }
   const grid = {
     left: '4%',
-    right:  isMobile ? '6%' : '3%',
+    right: isMobile ? '6%' : '3%',
     top: '8%',
-    bottom: '5%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
 
@@ -111,10 +111,10 @@ const useOption = (
         ],
     },
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail}),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('statistic.year'),
+        // name: isMobile || isThumbnail ? '' : t('statistic.year'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',

@@ -4,7 +4,9 @@ import clientDB from "@/database";
 import type { UDT } from "@/database/udts/tool";
 import { toast } from "sonner";
 import i18n from "i18next";
-import { addPrefixForHash } from "@/utils/string";
+import { addPrefixForHash, containSpecialChar } from "@/utils/string";
+import { getReverseAddresses } from "@/services/DidService";
+import { ethToCKb } from "@/utils/did";
 
 export enum SearchResultType {
   Block = "block",
@@ -13,7 +15,8 @@ export enum SearchResultType {
   // LockHash = "lock_hash",
   UDT = "udt",
   NFTCollection = "nft-collection",
-  NFTItem = "nft"
+  NFTItem = "nft",
+  DID = "did",
 }
 
 export type SearchResult<T extends SearchResultType, A> = {
@@ -26,6 +29,7 @@ export type AggregateSearchResult =
   | SearchResult<SearchResultType.Block, { number: number, blockHash: string }>
   | SearchResult<SearchResultType.Transaction, { blockNumber: string, transactionHash: string }>
   | SearchResult<SearchResultType.Address, { addressHash: string }>
+  | SearchResult<SearchResultType.DID, { did: string, address: string }>
   // | SearchResult<SearchResultType.LockHash, { addressHash: string }>
   | SearchResult<SearchResultType.UDT, UDT>
   | SearchResult<SearchResultType.NFTCollection, {
@@ -60,6 +64,8 @@ export const getURLByAggregateSearchResult = (
 
     case SearchResultType.Address:
       return `/address/${attributes.addressHash}`;
+    case SearchResultType.DID:
+      return `/address/${attributes.address}`;
     // case SearchResultType.LockHash:
     //   return `/address/${attributes.lockHash}`;
     case SearchResultType.UDT:
@@ -107,9 +113,9 @@ export const getDisplayNameByAggregateSearchResult = (
   if (type === SearchResultType.NFTItem) {
     return attributes.tokenId;
   }
-  // if (type === SearchResultType.DID) {
-  //   return attributes.did;
-  // }
+  if (type === SearchResultType.DID) {
+    return attributes.did;
+  }
   // if (type === SearchResultType.BtcAddress) {
   //   return attributes.addressHash;
   // }
@@ -130,7 +136,7 @@ export const ALLOW_SEARCH_TYPES = [
   SearchResultType.UDT,
   SearchResultType.NFTCollection,
   SearchResultType.NFTItem,
-  // SearchResultType.DID,
+  SearchResultType.DID,
   // SearchResultType.BtcAddress,
 ];
 
@@ -140,7 +146,7 @@ async function coreSearch(searchValue: string, filterBy: number | SearchRangeCod
   const res = await server.explorer("GET /suggest_queries", {
     q: searchValue,
     filterBy: +filterBy,
-  }) as AggregateSearchResult[] | null;
+  }) as Array<Record<string, any>> | null;
   if (!res) return [];
   const resList = Array.isArray(res) ? res : [res];
   // console.log("GET /suggest_queries", res, results_old);
@@ -151,7 +157,7 @@ async function coreSearch(searchValue: string, filterBy: number | SearchRangeCod
       attributes: item,
     };
   });
-  return results;
+  return results as AggregateSearchResult[];
 }
 export async function fetchAggregateSearchResult(
   searchValue: string,
@@ -211,28 +217,29 @@ export async function fetchAggregateSearchResult(
     // }
   }
 
-  // if (/\w*\.bit$/.test(searchValue)) {
-  //   // search .bit name
-  //   const list = await getReverseAddresses(searchValue);
-  //   const ETH_COIN_TYPE = "60";
-  //   const ethAddr = list?.find(
-  //     (item) => item.key_info.coin_type === ETH_COIN_TYPE,
-  //   );
-  //   if (ethAddr) {
-  //     const ckbAddr = DidEthToCkb(ethAddr.key_info.key);
-  //     results = [
-  //       ...results,
-  //       {
-  //         id: Math.random(),
-  //         type: SearchResultType.DID,
-  //         attributes: {
-  //           did: searchValue,
-  //           address: ckbAddr,
-  //         },
-  //       },
-  //     ];
-  //   }
-  // }
+  if (filterBy === SearchRangeCode.Base && /\w*\.bit$/.test(searchValue)) {
+    // search .bit name
+    const list = await getReverseAddresses(searchValue);
+    const ETH_COIN_TYPE = "60";
+    const ethAddr = list?.find(
+      (item) => item.key_info.coin_type === ETH_COIN_TYPE,
+    );
+    if (ethAddr) {
+      const ckbAddr = ethToCKb(ethAddr.key_info.key);
+      results.push({
+        id: Math.random(),
+        type: SearchResultType.DID,
+        attributes: {
+          did: searchValue,
+          address: ckbAddr,
+        },
+      })
+      // results = [
+      //   ...results,
+
+      // ];
+    }
+  }
 
   return results;
 }
@@ -262,7 +269,7 @@ export const getURLBySearchValue = async (searchValue: string) => {
     // return `/search/fail?q=${query}`;
   }
   // if (isChainTypeError(query)) {
-    
+
   //   toast.error(i18n.t("common.qrcode"));
   //   debugger;
   //   // return `/search/fail?type=${SearchFailType.CHAIN_ERROR}&q=${query}`;

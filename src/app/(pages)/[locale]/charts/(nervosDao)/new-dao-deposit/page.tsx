@@ -1,11 +1,12 @@
 "use client"
+import { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 import type { EChartsOption } from 'echarts'
 import { useCurrentLanguage } from '@/utils/i18n'
 import {
-  DATA_ZOOM_CONFIG,
+  getCustomDataZoomConfig,
   assertIsArray,
   assertSerialsDataIsStringArrayOf3,
   assertSerialsItem,
@@ -15,7 +16,7 @@ import { shannonToCkb, shannonToCkbDecimal } from '@/utils/util'
 import { isMainnet } from '@/utils/chain'
 import { tooltipWidth, tooltipColor, type SeriesItem, SmartChartPage } from '../../components/common'
 import { type ChartItem } from '@/server/dataTypes'
-import { type ChartColorConfig } from '@/constants/common'
+import { type ChartColorConfig, MAX_CHART_COUNT } from '@/constants/common'
 import server from "@/server";
 import { useChartTheme } from "@/hooks/useChartTheme";
 
@@ -62,7 +63,7 @@ const useOption = (
     left: '4%',
     right: '3%',
     top: isMobile ? '15%' : '10%',
-    bottom: '5%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
   const parseTooltip = useTooltip()
@@ -105,10 +106,10 @@ const useOption = (
           },
         ],
     },
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail}),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('statistic.date'),
+        // name: isMobile || isThumbnail ? '' : t('statistic.date'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -226,15 +227,19 @@ const toCSV = (statisticNewDaoDeposits: ChartItem.NewDaoDeposit[]) =>
 
 export const NewDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const [t] = useTranslation()
+  const [selectedRange, setSelectedRange] = useState<number>(MAX_CHART_COUNT)
   return (
     <SmartChartPage
       title={t('statistic.new_dao_deposit_depositor')}
       note={isMainnet() ? `${t('common.note')}1MB = 1,000,000 CKBytes` : undefined}
       isThumbnail={isThumbnail}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "daily_dao_deposit-daily_dao_depositors_count" })}
+      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "daily_dao_deposit-daily_dao_depositors_count", limit: selectedRange })}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticNewDaoDeposit"
+      showTimeRange={true}
+      onSelectedRangeChange={setSelectedRange}
+      selectedRange={selectedRange}
     />
   )
 }

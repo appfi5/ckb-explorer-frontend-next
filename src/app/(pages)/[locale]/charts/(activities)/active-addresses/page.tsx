@@ -1,19 +1,61 @@
 "use client"
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { EChartsOption } from 'echarts'
-import type { ChartColorConfig } from '@/constants/common'
+import { type ChartColorConfig, MAX_CHART_COUNT } from '@/constants/common'
 import { SmartChartPage } from '../../components/common'
-import { DATA_ZOOM_CONFIG, handleAxis, variantColors } from '@/utils/chart'
+import { handleAxis, getCustomDataZoomConfig } from '@/utils/chart'
 import server from "@/server";
 import { useChartTheme } from "@/hooks/useChartTheme";
 
-function getWeekNumber(timestamp: string | number) {
-  const date = new Date(+timestamp * 1000)
-  const firstDayOfYear = new Date(date.getFullYear(), 0, 1)
-  const days = Math.floor((date.getTime() - firstDayOfYear.getTime()) / (24 * 60 * 60 * 1000))
-  const weekNumber = Math.ceil((days + firstDayOfYear.getDay() + 1) / 7)
-  return `${date.getFullYear()}-W${weekNumber}`
-}
+const allPossibleTypes = [
+  "SECP256K1/blake160",
+  "SECP256k1/Multisig(@5c5069eb)",
+  "SECP256k1/Multisig(@36c971b8)",
+  "iCKB Logic",
+  "AnyoneCanPay",
+  "CHEQUE",
+  "JoyId",
+  "OMNI Lock V2",
+  "OMNI Lock V1",
+  "PW Lock",
+  "Nostr",
+  "RgbppLock",
+  "BtcTimeLock",
+  "AlwaysSuccess",
+  "InputTypeProxyLock",
+  "OutputTypeProxyLock",
+  "LockProxyLock",
+  "Single Use Lock",
+  "TypeBurnLock",
+  "TimeLock"
+];
+
+const fixedColorMap: Record<string, string> = {
+  "SECP256K1/blake160": "#5700FF",
+  "SECP256k1/Multisig(@5c5069eb)": "#00CC9B",
+  "SECP256k1/Multisig(@36c971b8)": "#484E4E",
+  "iCKB Logic": "#FF5656",
+  "AnyoneCanPay": "#24C0F0",
+  "CHEQUE": "#BCCC00",
+  "JoyId": "#4661A6",
+  "OMNI Lock V2": "#EDAF36",
+  "OMNI Lock V1": "#E63ECB",
+  "PW Lock": "#69E63E",
+  "Nostr": "#FF5733",
+  "RgbppLock": "#FFC300",
+  "BtcTimeLock": "#DAF7A6",
+  "AlwaysSuccess": "#33FF57",
+  "InputTypeProxyLock": "#33C1FF",
+  "OutputTypeProxyLock": "#8A33FF",
+  "LockProxyLock": "#FF33A8",
+  "Single Use Lock": "#FF33F6",
+  "TypeBurnLock": "#FF8C33",
+  "TimeLock": "#FFE733",
+  "others": "#9672FA"
+};
+
+const fixedTypeOrder = [...allPossibleTypes, "others"];
 
 const useOption = (
   activeAddresses: Array<APIExplorer.DailyStatisticResponse>,
@@ -22,7 +64,7 @@ const useOption = (
   isThumbnail = false,
 ): EChartsOption => {
   const { t } = useTranslation()
-  const { axisLabelColor, axisLineColor, baseColors } = useChartTheme()
+  const { axisLabelColor, axisLineColor, baseColors, systemColor } = useChartTheme()
   const processedData = activeAddresses.map((item) => ({
     createdAtUnixtimestamp: item.createdAtUnixtimestamp,
     distribution: item.activityAddressContractDistribution || {},
@@ -39,38 +81,48 @@ const useOption = (
     left: '4%',
     right: '8%',
     top: isMobile ? '8%' : '20%',
-    bottom: '5%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
 
-  const aggregatedByWeek = processedData.reduce((acc: any, item) => {
-    const week = getWeekNumber(item.createdAtUnixtimestamp)
-    if (!acc[week]) {
-      acc[week] = {
-        createdAtWeek: week,
-        distribution: {},
+  const dataset = processedData.slice(0, processedData.length)
+
+  const formatDate = (timestamp: string | number) => {
+    const date = new Date(+timestamp * 1000)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
+
+  const xAxisData = dataset.map(item => formatDate(item.createdAtUnixtimestamp))
+
+  const processedDistribution = dataset.map(item => {
+    const distribution: any = { ...item.distribution };
+    const otherValue = Object.entries(distribution)
+      .filter(([key]) => !allPossibleTypes.includes(key))
+      .reduce((sum, [_, value]) => sum + Number(value), 0);
+
+    Object.keys(distribution).forEach(key => {
+      if (!allPossibleTypes.includes(key)) {
+        delete distribution[key];
       }
+    });
+
+    if (otherValue > 0) {
+      distribution.others = otherValue;
     }
 
-    if (item.distribution && typeof item.distribution === 'object') {
-      Object.entries(item.distribution).forEach(([key, value]) => {
-        const currentValue = Number(acc[week].distribution[key] || 0);
-        const addValue = Number(value);
-        acc[week].distribution[key] = currentValue + addValue;
-      });
-    }
+    return { ...item, distribution };
+  });
 
-    return acc
-  }, {} as Record<string, { createdAtWeek: string; distribution: Record<string, number> }>)
+  const allKeys = fixedTypeOrder;
 
-  const aggregatedDdata = Object.values(aggregatedByWeek)
-  const dataset = aggregatedDdata.slice(0, aggregatedDdata.length - 1) // Remove the last week data because it's not complete
-  const xAxisData = dataset.map(item => item.createdAtWeek)
-  const allKeys = Array.from(new Set(dataset.flatMap(item => Object.keys(item.distribution)))).sort((a, b) => {
-    if (a === 'others') return 1
-    if (b === 'others') return -1
-    return a.localeCompare(b)
-  })
+  const colors = allKeys.map((key, index) => {
+    const color = fixedColorMap[key];
+    return color || baseColors?.[index % baseColors.length] || fixedColorMap.others || systemColor;
+  });
+
   const series: EChartsOption['series'] = allKeys.map(key => ({
     name: key, // t(`statistic.address_label.${key}`),
     type: 'line',
@@ -83,9 +135,8 @@ const useOption = (
     emphasis: {
       focus: 'series',
     },
-    data: dataset.map(item => item.distribution[key] || 0),
+    data: processedDistribution.map(item => item.distribution[key] || 0),
   }))
-  const colors = variantColors(allKeys.length, baseColors)
 
   return {
     color: colors,
@@ -102,7 +153,7 @@ const useOption = (
           // Construct the tooltip content
           if (filteredParams.length === 0) return '' // No fields to display
 
-          const header = `${(filteredParams[0] as any).axisValue}<br/>` // Show week
+          const header = `${(filteredParams[0] as any).axisValue}<br/>` // 现在显示的是日期
 
           const sum = `<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:white;"></span>
 ${t('statistic.active_address_count')}: ${filteredParams.reduce(
@@ -123,10 +174,12 @@ ${t('statistic.active_address_count')}: ${filteredParams.reduce(
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail}),
     legend: {
       show: isMobile || isThumbnail ? false : true,
-      data: isThumbnail ? [] : allKeys, // allKeys.map(key => t(`statistic.address_label.${key}`) as string),
+      data: isThumbnail ? [] : allKeys.filter(key =>
+        processedDistribution.some(item => item.distribution[key] || 0 > 0)
+      ),
       textStyle: {
         color: axisLabelColor
       },
@@ -139,9 +192,9 @@ ${t('statistic.active_address_count')}: ${filteredParams.reduce(
       data: xAxisData,
       axisLabel: {
         color: axisLabelColor,
-        formatter: (value: string) => value, // Display week labels
+        formatter: (value: string) => value,
       },
-      name: isMobile || isThumbnail ? '' : t('statistic.week'),
+      // name: isMobile || isThumbnail ? '' : t('statistic.date'), 
       nameTextStyle: {
         color: axisLabelColor
       },
@@ -193,22 +246,26 @@ const toCSV = (data: Array<APIExplorer.DailyStatisticResponse>) => {
     return []
   }
   return data.flatMap(item => {
-    return Object.entries(item.distribution ?? {}).map(([key, value]) => [item.createdAtUnixtimestamp, key, value.toString()])
+    return Object.entries(item.activityAddressContractDistribution ?? {}).map(([key, value]) => [item.createdAtUnixtimestamp, key, value.toString()])
   })
 }
 
 export const ActiveAddressesChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const [t] = useTranslation()
+  const [selectedRange, setSelectedRange] = useState<number>(MAX_CHART_COUNT)
   return (
     <SmartChartPage
       title={t('statistic.active_addresses')}
       description={t('statistic.active_addresses_description')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticActiveAddresses}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "activity_address_contract_distribution" })}
+      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "activity_address_contract_distribution", limit: selectedRange })}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticActiveAddresses"
+      showTimeRange={true}
+      onSelectedRangeChange={setSelectedRange}
+      selectedRange={selectedRange}
     />
   )
 }

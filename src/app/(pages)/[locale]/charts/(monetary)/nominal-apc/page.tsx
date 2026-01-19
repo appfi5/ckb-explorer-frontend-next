@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import type { EChartsOption } from 'echarts'
 import { useCurrentLanguage } from '@/utils/i18n'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../../components/common'
-import { DATA_ZOOM_CONFIG, assertIsArray } from '@/utils/chart'
+import { getCustomDataZoomConfig, assertIsArray } from '@/utils/chart'
 import { type ChartItem } from '@/server/dataTypes'
 import { type ChartColorConfig } from '@/constants/common'
 import server from "@/server";
@@ -45,7 +45,7 @@ const useOption = (
     left: '2%',
     right:  isMobile ? '8%' : '3%',
     top: '5%',
-    bottom: '5%',
+    bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
   return {
@@ -66,10 +66,10 @@ const useOption = (
       }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    dataZoom: getCustomDataZoomConfig({isMobile, isThumbnail}),
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : t('statistic.year'),
+        // name: isMobile || isThumbnail ? '' : t('statistic.year'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',

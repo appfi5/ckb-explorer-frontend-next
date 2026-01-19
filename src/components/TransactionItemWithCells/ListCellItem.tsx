@@ -3,7 +3,6 @@ import Tooltip from "../Tooltip";
 import Link from "next/link";
 import LeftArrow from '@/assets/icons/leftArrow.svg?component';
 import { useTranslation, Trans } from "react-i18next";
-import TextEllipsis from "../TextEllipsis";
 import OutLink from "../OutLink";
 import { localeNumberString } from "@/utils/number";
 import HelpIcon from "@/assets/icons/help.svg?component";
@@ -19,6 +18,7 @@ import Tips from "../Tips";
 import ScriptTag from "../ScriptTag";
 import { addressToScript } from "@nervosnetwork/ckb-sdk-utils";
 import { cn } from "@/lib/utils";
+import CKBAddress from "../CKBAddress";
 
 type ListCellItemProps = {
   currentAddress?: string;
@@ -64,17 +64,19 @@ export default function ListCellItem(props: ListCellItemProps) {
                 className="flex grow-0 shrink min-w-0"
                 href={`/address/${cell.addressHash}`}
               >
-                <TextEllipsis
+                <CKBAddress
+                  address={addressText}
+                  didIconSize="size-5"
                   className="max-w-80 @2xl:max-w-50 min-w-0 text-sm underline"
-                  text={addressText}
                   ellipsis={{ tail: -8 }}
                 />
               </OutLink>
             ) : (
               <div className="flex grow-0 shrink min-w-0">
-                <TextEllipsis
+                <CKBAddress
                   className="max-w-80 @2xl:max-w-50 min-w-0 text-sm"
-                  text={addressText}
+                  address={addressText}
+                  didIconSize="size-5"
                   ellipsis={{ tail: -8 }}
                 />
               </div>
