@@ -1196,6 +1196,8 @@ declare namespace APIExplorer {
 
     bitcoinAddressHash: string;
 
+    timestamp: number;  
+
   }
 
 

@@ -35,6 +35,7 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
   const { t } = useTranslation();
   const { currentPage, pageSize, setPage, setPageSize } = usePaginationParamsInListPage()
   const [selectedMonth, setSelectedMonth] = useState<Date | undefined>(new Date());
+  const disabledDate = addressInfo.timestamp;
 
   const queryParamsRef = useRef({
     page: currentPage,
@@ -115,7 +116,7 @@ export default function AddressTransactions(props: AddressTransactionsProps) {
             </Tips>
             <span>:</span>
           </div>
-          <MonthPickerComponent selectedMonth={selectedMonth} onSelect={setSelectedMonth} />
+          <MonthPickerComponent selectedMonth={selectedMonth} onSelect={setSelectedMonth} disabledDate={disabledDate} />
         </div>
       </div>
       <QueryResult query={txsQuery}>
