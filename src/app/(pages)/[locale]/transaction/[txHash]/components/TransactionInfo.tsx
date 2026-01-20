@@ -49,12 +49,12 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
       contentClassName: "flex sm:text-left sm:justify-start",
       // showContent: txLoaded,
       content: (
-        <OutLink
+        blockNumber ? <OutLink
           className="font-hash underline"
           href={`/block/${blockNumber}`}
         >
           {localeNumberString(blockNumber)}
-        </OutLink>
+        </OutLink> : '-'
       )
     }, {
       key: "tx-free",
@@ -62,7 +62,7 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
       textDirection: "right",
       contentClassName: "flex sm:text-left sm:justify-start",
       content: (
-        <>
+        transactionFee ? <>
           <TwoSizeAmount
             className="inline-flex items-baseline"
             amount={shannonToCkb(transactionFee)}
@@ -70,7 +70,7 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
             decimalClassName="text-[12px]"
             unit={<span className="ml-[4px]">CKB</span>}
           />
-        </>
+        </> : '-'
       )
     },
     {
