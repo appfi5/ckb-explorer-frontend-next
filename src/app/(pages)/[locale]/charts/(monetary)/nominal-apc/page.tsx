@@ -44,7 +44,7 @@ const useOption = (
   const grid = {
     left: '2%',
     right:  isMobile ? '8%' : '3%',
-    top: '5%',
+    top:  isMobile ? '15%' :'10%',
     bottom: isMobile ? '20%' : '12%',
     containLabel: true,
   }
@@ -96,8 +96,8 @@ const useOption = (
         name: t('statistic.nominal_apc'),
         type: 'value',
         nameTextStyle: {
-          align: 'left',
-        },
+          align: 'left'
+        },  
         axisLine: {
           lineStyle: {
             color: chartThemeColor.colors[0],
