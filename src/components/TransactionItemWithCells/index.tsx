@@ -287,7 +287,7 @@ function CkbChangeDisplay({ change }: CkbChangeDisplayProps) {
         colorClass,
       )}
     >
-      <span className="font-hash text-xl leading-5 mr-0.5">{sign}</span>
+      <span className="font-hash text-lg leading-5 mr-0.5">{sign}</span>
       <TwoSizeAmount
         className="leading-5"
         integerClassName="text-sm"
