@@ -273,9 +273,9 @@ function CkbChangeDisplay({ change }: CkbChangeDisplayProps) {
   const isNegative = change.isLessThan(0);
 
   const colorClass = isPositive
-    ? "text-primary"
+    ? "text-[#00CC9B]"
     : isNegative
-      ? "text-red-600 dark:text-red-400"
+      ? "text-[#FF4545]"
       : "text-gray-500";
 
   const sign = isPositive ? "+" : "-";
@@ -283,18 +283,18 @@ function CkbChangeDisplay({ change }: CkbChangeDisplayProps) {
   return (
     <div
       className={classNames(
-        "flex items-center justify-center md:justify-end gap-1 rounded-sm px-2 md:px-5 pb-2 text-sm",
+        "flex items-center justify-end rounded-sm px-2 md:px-5 pb-3 text-sm md:-mt-2",
         colorClass,
       )}
     >
-      <span>{sign}</span>
+      <span className="font-hash text-xl leading-5 mr-0.5">{sign}</span>
       <TwoSizeAmount
         className="leading-5"
         integerClassName="text-sm"
         decimalClassName="text-xs"
         amount={shannonToCkb(change.abs())}
         format={[8]}
-        unit={<span className="ml-1! text-sm">CKB</span>}
+        unit={<span className="ml-1! text-[#999] text-sm">CKB</span>}
       />
     </div>
   );
