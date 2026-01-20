@@ -88,7 +88,6 @@ const useOption = (
             assertSerialsItem(data)
             assertSerialsDataIsStringArrayOf4(data)
             result += parseTooltip(data)
-            console.log(result)
           })
           return result
         },
