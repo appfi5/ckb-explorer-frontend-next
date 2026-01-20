@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import dayjs from "dayjs";
 import styles from "./index.module.scss";
 import PixelBorderBlock from "@/components/PixelBorderBlock";
@@ -9,29 +9,67 @@ import LeftArrowIcon from "./left.svg?component";
 import RightArrowIcon from "./right.svg?component";
 import Tooltip from "@/components/Tooltip";
 
+export interface MonthPickerProps {
+    selectedMonth: Date | undefined;
+    onSelect: (month: Date) => void;
+    disabledDate?: Date | string;
+}
 const MonthPickerComponent = ({
     selectedMonth,
-    onSelect
-}: {
-    selectedMonth: Date | undefined;
-    onSelect: (month: Date) => void
-}) => {
+    onSelect,
+    disabledDate
+}: MonthPickerProps) => {
+    const startYear = 2019;
     const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
-    const currentFullYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth();
-    const startYear = 2019;
-    const [currentYear, setCurrentYear] = useState(selectedMonth?.getFullYear() || currentFullYear);
     const pickerRef = useRef<HTMLDivElement>(null);
+    const monthNames = useMemo(() => t('date_info.months', { returnObjects: true }), [t]);
+    const currentDateInfo = useMemo(() => {
+        const now = new Date();
+        return {
+            fullYear: now.getFullYear(),
+            month: now.getMonth(),
+        };
+    }, []);
+    const { fullYear: currentFullYear, month: currentMonth } = currentDateInfo;
+    const [currentYear, setCurrentYear] = useState(selectedMonth?.getFullYear() || currentFullYear);
+    const years = useMemo(() =>
+        Array.from({ length: currentFullYear - startYear + 1 }, (_, i) => startYear + i),
+        [currentFullYear, startYear]
+    );
 
-    const monthNames = t('date_info.months', { returnObjects: true });
+    const formattedMonth = useMemo(() => {
+        if (!selectedMonth) return t("date_info.months_placeholder");
+        const validDate = dayjs(selectedMonth).isValid() ? selectedMonth : new Date();
+        return dayjs(validDate).format("YYYY-MM");
+    }, [selectedMonth, t]);
 
-    // 年份范围（2019年到当前年份）
-    const years = Array.from({ length: currentFullYear - startYear + 1 }, (_, i) => startYear + i);
+    const disabledDateObj = useMemo(() => {
+        if (!disabledDate) return null;
+        const dateObj = new Date(disabledDate);
 
-    const formattedMonth = selectedMonth
-        ? dayjs(selectedMonth).format("YYYY-MM")
-        : t("date_info.months_placeholder");
+        return isNaN(dateObj.getTime()) ? null : dateObj;
+    }, [disabledDate]);
+
+    const isDateDisabled = useCallback((year: number, month: number) => {
+        if (year > currentFullYear || (year === currentFullYear && month > currentMonth)) {
+            return true;
+        }
+        if (!disabledDateObj) return false;
+        const disabledYear = disabledDateObj.getFullYear();
+        const disabledMonth = disabledDateObj.getMonth();
+        return year < disabledYear || (year === disabledYear && month < disabledMonth);
+    }, [currentFullYear, currentMonth, disabledDateObj]);
+
+    const isLeftArrowDisabled = useMemo(() => {
+        if (!disabledDateObj) return currentYear <= startYear;
+        const disabledYear = disabledDateObj.getFullYear();
+        return currentYear <= Math.max(startYear, disabledYear);
+    }, [currentYear, startYear, disabledDateObj]);
+
+    const isRightArrowDisabled = useMemo(() => {
+        return currentYear >= currentFullYear;
+    }, [currentYear, currentFullYear]);
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
@@ -66,16 +104,22 @@ const MonthPickerComponent = ({
                 <div className="absolute right-0 mt-2 rounded-lg backdrop-blur-[50px] shadow-[0_0_12px_2px_rgba(0,0,0,0.08)] dark:shadow-[0_0_12px_2px_#00000040] bg-white dark:bg-[#303030] p-2 z-10 select-none" onDoubleClick={(e) => e.preventDefault()}>
                     <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#D9D9D9] dark:border-[#4C4C4C]">
                         <Tooltip
-                            trigger={<LeftArrowIcon
-                                className={styles.arrowicons}
-                                data-disabled={currentYear <= startYear}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setCurrentYear(prev => Math.max(prev - 1, startYear))
-                                }}
-                            />}
+                            trigger={
+                                <LeftArrowIcon
+                                    className={styles.arrowicons}
+                                    data-disabled={isLeftArrowDisabled}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        if (isLeftArrowDisabled) return;
+                                        const minYear = disabledDateObj
+                                            ? Math.max(startYear, disabledDateObj.getFullYear())
+                                            : startYear;
+                                        setCurrentYear(prev => Math.max(prev - 1, minYear));
+                                    }}
+                                />
+                            }
                             placement="top"
-                            disabled={currentYear > startYear}
+                            disabled={!isLeftArrowDisabled}
                         >
                             {t("date_info.arrow_left_desc")}
                         </Tooltip>
@@ -83,19 +127,23 @@ const MonthPickerComponent = ({
                         <span className="mx-2 font-medium select-none">{currentYear}</span>
 
                         <Tooltip
-                            trigger={<RightArrowIcon
-                                className={styles.arrowicons}
-                                data-disabled={currentYear >= currentFullYear}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setCurrentYear(prev => Math.min(prev + 1, currentFullYear))
-                                }}
-                            />}
+                            trigger={
+                                <RightArrowIcon
+                                    className={styles.arrowicons}
+                                    data-disabled={currentYear >= currentFullYear}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        if (isRightArrowDisabled) return;
+                                        setCurrentYear(prev => Math.min(prev + 1, currentFullYear));
+                                    }}
+                                />
+                            }
                             placement="top"
-                            disabled={currentYear < currentFullYear}
+                            disabled={!isRightArrowDisabled}
                         >
                             {t("date_info.arrow_right_desc")}
                         </Tooltip>
+
                     </div>
 
                     <div className="w-[270px] grid grid-cols-3 gap-2">
@@ -104,8 +152,7 @@ const MonthPickerComponent = ({
                                 && selectedMonth.getFullYear() === currentYear
                                 && selectedMonth.getMonth() === index;
 
-                             // 计算当前月份是否应该被禁用
-                            const isDisabled = currentYear === currentFullYear && index > currentMonth;
+                            const isDisabled = isDateDisabled(currentYear, index);
 
                             return (
                                 <button
@@ -118,7 +165,8 @@ const MonthPickerComponent = ({
                                         }`}
                                     onClick={() => {
                                         if (!isDisabled) {
-                                            onSelect(new Date(currentYear, index));
+                                            const selectedDate = new Date(Date.UTC(currentYear, index, 1));
+                                            onSelect(selectedDate);
                                             setIsOpen(false);
                                         }
                                     }}
