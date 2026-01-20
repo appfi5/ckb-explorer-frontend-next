@@ -104,6 +104,10 @@
     color: #232323;
     font-size: 14px;
     font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
 
     @variant dark {
       color:#fff;
