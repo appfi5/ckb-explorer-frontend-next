@@ -36,7 +36,7 @@ export const getReverseAddresses = async (
 export async function getDasAccount(ckbAddress: string) {
   const ckbAddr = await ccc.Address.fromString(ckbAddress, new (ckbAddress.startsWith("ckt") ? ClientPublicTestnet : ClientPublicMainnet));
   const args = ckbAddr.script.args;
-  if (!args.startsWith("0x05")) return;
+  if (ckbAddr.script.codeHash !== "0x9376c3b5811942960a846691e16e477cf43d7c7fa654067c9948dfcd09a32137" || !args.startsWith("0x05")) return;
   const didIndexerUrls = getEnvDidIndexerUrls();
   const didIndexerUrl = didIndexerUrls[0]
   if (!didIndexerUrl) return;
