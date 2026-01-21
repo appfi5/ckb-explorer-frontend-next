@@ -9,7 +9,7 @@ import { useSearchParams } from 'next/navigation'
 import server from '@/server';
 import HashCardHeader from "@/components/Card/HashCardHeader"
 import BlockOverview from './components/BlockOverviewCard'
-import { BlockList } from './components/BlockList'
+import { BlockTransactionList } from './components/BlockTransactionList'
 import { isTxHash } from '@/utils/validator'
 import { addPrefixForHash } from '@/utils/string'
 
@@ -47,7 +47,7 @@ export default function BlockDetail({ blockIndex: blockHeightOrHash }: { blockIn
         //   size: pageSizeParam,
         //   filter,
         // })
-        const res: any = await server.explorer("GET /block_transactions/{id}", {
+        const res = await server.explorer("GET /block_transactions/{id}", {
           id: blockHash,
           page: 1,
           pageSize: pageSizeParam,
@@ -62,7 +62,7 @@ export default function BlockDetail({ blockIndex: blockHeightOrHash }: { blockIn
       } catch (e) {
         console.error(e)
         return {
-          transactions: [],
+          transactions: [] as APIExplorer.BlockTransactionPageResponse[],
           total: 0,
         }
       }
@@ -82,7 +82,7 @@ export default function BlockDetail({ blockIndex: blockHeightOrHash }: { blockIn
               <BlockOverview block={block} />
               <QueryResult query={queryBlockTransactions} delayLoading>
                 {data => (
-                  <BlockList
+                  <BlockTransactionList
                     onPageChange={setPage}
                     currentPage={currentPage}
                     pageSize={pageSize}

@@ -14,7 +14,7 @@ import TransactionItemWithCells from '@/components/TransactionItemWithCells'
 
 const CELL_BASE_ANCHOR = 'cellbase'
 
-export const BlockList = ({
+export const BlockTransactionList = ({
   onPageChange,
   currentPage,
   pageSize,
@@ -26,7 +26,7 @@ export const BlockList = ({
   onPageChange: (page: number) => void
   currentPage: number
   pageSize: number
-  transactions: (Transaction & { btcTx: RawBtcRPC.BtcTx | null })[]
+  transactions: APIExplorer.BlockTransactionPageResponse[]
   total: number
   blockId: string
   setPageSize: (size: number) => void
