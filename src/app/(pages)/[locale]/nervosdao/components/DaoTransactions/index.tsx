@@ -16,7 +16,7 @@ const DaoTransactions = ({
 }: {
   currentPage: number
   pageSize: number
-  transactions: (Transaction & { btcTx: RawBtcRPC.BtcTx | null })[]
+  transactions: APIExplorer.ContractTransactionPageResponse[]
   total: number
   filterNoResult?: boolean
   setPage: (page: number) => void
