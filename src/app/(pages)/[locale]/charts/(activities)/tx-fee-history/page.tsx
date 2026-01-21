@@ -34,8 +34,8 @@ const getOption =
         containLabel: true,
       }
       const grid = {
-        left: '6%',
-        right: isMobile ? '8%' : '3%',
+        left: isMobile ? '6%': '8%',
+        right: isMobile ? '8%' : '6%',
         top: isMobile ? '4%' : '8%',
         bottom: isMobile ? '20%' : '12%',
         containLabel: true,
