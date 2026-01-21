@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import dayjs from "dayjs";
 import styles from "./index.module.scss";
 import PixelBorderBlock from "@/components/PixelBorderBlock";
@@ -183,4 +183,4 @@ const MonthPickerComponent = ({
     );
 };
 
-export default MonthPickerComponent;
+export default React.memo(MonthPickerComponent); 

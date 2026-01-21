@@ -33,8 +33,8 @@ const getOption =
         containLabel: true,
       }
       const grid = {
-        left: '3%',
-        right: '3%',
+        left: '5%',
+        right: '5%',
         top: isMobile ? '3%' : '8%',
         bottom: isMobile ? '20%' : '12%',
         containLabel: true,
@@ -93,7 +93,7 @@ const getOption =
                 ? ''
                 : `${t('statistic.transaction_count')} ${t(type === 'log' ? 'statistic.log' : '')}`,
             nameTextStyle: {
-              color: axisLabelColor
+              color: axisLabelColor,
             },
             type: type === 'log' ? 'log' : 'value',
             axisLine: {
