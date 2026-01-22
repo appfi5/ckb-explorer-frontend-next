@@ -14,6 +14,7 @@ import FooterLogoIcon from "../icons/footerLogoIcon";
 import FooterUpIcon from "./icons/footer-up.svg?component";
 import { usePathname } from 'next/navigation';
 import styles from "./styles.module.scss"
+import { withNetwork } from "@/utils/withNetwork";
 
 interface FooterLinkItem {
   label: string;
@@ -65,6 +66,17 @@ const DataList: { name: string; items: FooterLinkItem[] }[] = [
       {
         label: "tools",
         url: "/tools",
+      },
+      {
+        label: "scripts",
+        url: "/scripts",
+      },
+      {
+        label: "data_lab",
+        url: withNetwork({
+          testnet: "https://redash.cellstudio.work/public/dashboards/0sWz0JbQx6FEWw4SzMbcsnz3dSEdW3TbYlf3fZ37?org_slug=default",
+          mainnet: "https://redash.cellstudio.work/public/dashboards/0sWz0JbQx6FEWw4SzMbcsnz3dSEdW3TbYlf3fZ37?org_slug=default",
+        }, ""),
       },
       // {
       //   label: "service_configuration",

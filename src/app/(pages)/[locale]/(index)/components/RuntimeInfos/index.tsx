@@ -12,8 +12,10 @@ import AverageBlockTimeChart from "../charts/AverageBlockTimeChart";
 import HashRateChart from "../charts/HashRateChart";
 import { useBlockChainInfo } from "@/store/useBlockChainInfo";
 import styles from "./index.module.scss";
-import classNames from "classnames";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/Button";
+import OutlinkIcon from "@/assets/icons/outlink.svg?component";
+import Link from "next/link";
 
 const parseTime: (millisecond: number, showSecond?: boolean) => Array<[number | string, string]> = (
   millisecond: number,
@@ -41,7 +43,7 @@ const parseTime: (millisecond: number, showSecond?: boolean) => Array<[number | 
   // return `${second.toFixed(2)} s`;
   return output;
 };
-const parseHashRate = (hashRate: string | undefined) => (hashRate ? handleHashRate(Number(hashRate) * 1000) : '- -')
+// const parseHashRate = (hashRate: string | undefined) => (hashRate ? handleHashRate(Number(hashRate) * 1000) : '- -')
 export default function RuntimeInfos() {
   const { t } = useTranslation();
   const { statistics } = useBlockChainInfo();
@@ -74,7 +76,7 @@ export default function RuntimeInfos() {
           return (
             <Fragment key={unit}>
               {val}
-              <span className="font-hash font-normal mx-[8px] text-[14px]">{unit}</span>
+              <span className="font-hash font-normal mx-2 text-[14px]">{unit}</span>
             </Fragment>
           )
         })
@@ -91,7 +93,7 @@ export default function RuntimeInfos() {
         return (
           <>
             {val}
-            <span className="font-hash font-normal mx-[4px] text-[14px]">{unit}</span>
+            <span className="font-hash font-normal mx-1 text-[14px]">{unit}</span>
           </>
         )
       })(),
@@ -106,7 +108,7 @@ export default function RuntimeInfos() {
         return (
           <>
             {val}
-            <span className="font-hash font-normal mx-[4px] text-[14px]">{unit}</span>
+            <span className="font-hash font-normal mx-1 text-[14px]">{unit}</span>
           </>
         )
       })(),
@@ -118,7 +120,7 @@ export default function RuntimeInfos() {
       <Card className={cn("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-[16px] px-[16px] py-[16px] lg:py-[70px] md:py-[40px]", styles.card)}>
         {
           config.map((item, index) => (
-            <Fragment key={item.key}> 
+            <Fragment key={item.key}>
               {index !== 0 && (<div className=" sm:hidden h-[1px] w-full bg-[#eee] dark:bg-[#4c4c4c]" />)}
               <Info
                 key={item.key}
@@ -183,7 +185,20 @@ export default function RuntimeInfos() {
 
           }}
         >
-          <HashRateChart />
+          <div className="relative w-full h-full">
+            <HashRateChart />
+            <Link
+              className="absolute -top-1 md:-top-3 right-0 z-1"
+              href="/charts/miner-daily-statistics"
+            >
+              <Button className="hover:text-white! hover:bg-primary! hover:border-primary! gap-0! pr-1! shadow-[0_2px_8px_0_rgba(0,0,0,0.1)]!" variant="outline" size="sm">
+                <span>{t("blockchain.miner_statistic")}</span>
+                <span className="text-xl">
+                  <OutlinkIcon />
+                </span>
+              </Button>
+            </Link>
+          </div>
         </ChartCardLayout>
       </div>
     </>
