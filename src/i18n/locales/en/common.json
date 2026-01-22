@@ -267,7 +267,8 @@
     "tags": "Tags",
     "nervos_dao": "Nervos DAO",
     "mainnet": "Lina Mainnet",
-    "testnet": "Testnet"
+    "testnet": "Testnet",
+    "miner_statistic": "Miner Statistic"
   },
   "statistic": {
     "btc_transaction_count": "BTC Transaction Count",
@@ -445,6 +446,8 @@
     "ckb_world": "CKB World",
     "eco_fund": "Eco Fund",
     "service_configuration": "Service Configuration",
+    "scripts": "Scripts",
+    "data_lab": "Data Lab",
     "submit_token_info": "Submit Token Info"
   },
   "search": {

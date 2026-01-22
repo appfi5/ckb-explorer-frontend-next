@@ -279,7 +279,8 @@
     "tags": "Tags",
     "nervos_dao": "Nervos DAO",
     "mainnet": "Lina Mainnet",
-    "testnet": "Testnet"
+    "testnet": "Testnet",
+    "miner_statistic": "矿工统计"
   },
   "statistic": {
     "btc_transaction_count": "BTC 交易数量",
@@ -457,6 +458,8 @@
     "ckb_world": "CKB World",
     "eco_fund": "Eco Fund",
     "service_configuration": "服务配置",
+    "scripts": "脚本列表",
+    "data_lab": "Data Lab",
     "submit_token_info": "提交代币信息"
   },
   "search": {
