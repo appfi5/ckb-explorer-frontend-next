@@ -45,21 +45,24 @@ export default function TransactionItemWithCells(
   } = props;
   const ref = useRef<HTMLDivElement>(null);
 
-  // 提前计算 CKB 变化，并检查列表完整性
   const ckbChange = useMemo(() => {
-    const inputCount = (txInfo as APIExplorer.AddressTransactionPageResponse)
-      .displayInputsCount;
-    const outputCount = (txInfo as APIExplorer.AddressTransactionPageResponse)
-      .displayOutputsCount;
+    if (!currentAddress) return null;
+    const inputCount = txInfo.displayInputsCount;
+    const outputCount = txInfo.displayOutputsCount;
+    // 检查列表是否完整（length 是否等于 count）
+    if (inputCount !== undefined && txInfo.displayInputs.length !== inputCount) {
+      return null;
+    }
 
-    return calculateCkbChange(
-      txInfo.displayInputs,
-      txInfo.displayOutputs,
-      inputCount, // 传入输入数量
-      outputCount, // 传入输出数量
-      currentAddress,
-    );
-  }, [txInfo, currentAddress]);
+    if (outputCount !== undefined && txInfo.displayOutputs.length !== outputCount) {
+      return null;
+    }
+
+    const income = txInfo.income;
+    return income !== null && income !== undefined
+      ? { change: new BigNumber(income) }
+      : null;
+  }, [txInfo]);
 
   useEffect(() => {
     const el = ref.current;
@@ -99,7 +102,7 @@ export default function TransactionItemWithCells(
           </div>
         )}
       </div>
-      <div className=" bg-white dark:bg-[#232323E5]">
+      <div className="bg-white dark:bg-[#232323E5]">
         <div className="flex flex-col gap-1 p-2 sm:gap-3 md:rounded-2xl md:p-5 lg:flex-row">
           <CellList
             currentAddress={currentAddress}
@@ -121,20 +124,13 @@ export default function TransactionItemWithCells(
           />
         </div>
         {/* CKB 变化展示（只在列表完整且有变化时显示） */}
-        {ckbChange && (
-          <CkbChangeDisplay change={ckbChange.change} />
-        )}
+        {ckbChange && <CkbChangeDisplay change={ckbChange.change} />}
       </div>
-
     </CardPanel>
   );
 }
 
-function BlockTime({
-  tx,
-}: {
-  tx: APIExplorer.AddressTransactionPageResponse;
-}) {
+function BlockTime({ tx }: { tx: APIExplorer.AddressTransactionPageResponse }) {
   const { t } = useTranslation();
   let timestamp = 0;
   if (tx) {
@@ -218,51 +214,6 @@ function CellList(props: CellListProps) {
   );
 }
 
-// CKB 变化计算函数
-function calculateCkbChange(
-  inputs: Array<APIExplorer.CellInputResponse> | Array<Cell>,
-  outputs: Array<APIExplorer.CellOutputResponse> | Array<Cell>,
-  inputCount?: number,
-  outputCount?: number,
-  currentAddress?: string,
-): { change: BigNumber } | null {
-  // 检查当前地址是否存在
-  if (!currentAddress) return null;
-
-  // 检查列表是否完整（length 是否等于 count）
-  if (inputCount !== undefined && inputs.length !== inputCount) {
-    return null;
-  }
-
-  if (outputCount !== undefined && outputs.length !== outputCount) {
-    return null;
-  }
-
-  // 计算输入中属于当前地址的 capacity（花费）
-  const inputCapacity = inputs.reduce((sum, cell) => {
-    return cell.addressHash === currentAddress
-      ? sum.plus(new BigNumber(cell.capacity))
-      : sum;
-  }, new BigNumber(0));
-
-  // 计算输出中属于当前地址的 capacity（接收）
-  const outputCapacity = outputs.reduce((sum, cell) => {
-    return cell.addressHash === currentAddress
-      ? sum.plus(new BigNumber(cell.capacity))
-      : sum;
-  }, new BigNumber(0));
-
-  // 如果输入和输出都没有与当前地址相关的 cells，返回 null
-  if (inputCapacity.isZero() && outputCapacity.isZero()) {
-    return null;
-  }
-
-  // 计算变化：输出 - 输入
-  const change = outputCapacity.minus(inputCapacity);
-
-  return { change };
-}
-
 // CKB 变化展示组件
 type CkbChangeDisplayProps = {
   change: BigNumber;
@@ -283,18 +234,18 @@ function CkbChangeDisplay({ change }: CkbChangeDisplayProps) {
   return (
     <div
       className={classNames(
-        "flex items-center justify-end rounded-sm px-2 md:px-5 pb-3 text-sm md:-mt-2",
+        "flex items-center justify-end rounded-sm px-2 pb-3 text-sm md:-mt-2 md:px-5",
         colorClass,
       )}
     >
-      <span className="font-hash text-sm leading-5 mr-0.5">{sign}</span>
+      <span className="font-hash mr-0.5 text-sm leading-5">{sign}</span>
       <TwoSizeAmount
         className="leading-5"
         integerClassName="text-sm"
         decimalClassName="text-xs"
         amount={shannonToCkb(change.abs())}
         format={[8]}
-        unit={<span className="ml-1! text-[#999] text-sm">CKB</span>}
+        unit={<span className="ml-1! text-sm text-[#999]">CKB</span>}
       />
     </div>
   );

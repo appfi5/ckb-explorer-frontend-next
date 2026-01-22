@@ -1196,7 +1196,7 @@ declare namespace APIExplorer {
 
     bitcoinAddressHash: string;
 
-    timestamp: number;  
+    timestamp: number;
 
   }
 
@@ -1821,6 +1821,8 @@ declare namespace APIExplorer {
     displayInputs: Array<CellInputResponse>;
 
     displayOutputs: Array<CellOutputResponse>;
+
+    income: number;
 
   }
 
