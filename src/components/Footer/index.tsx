@@ -74,8 +74,8 @@ const DataList: { name: string; items: FooterLinkItem[] }[] = [
       {
         label: "data_lab",
         url: withNetwork({
-          testnet: "https://redash.cellstudio.work/public/dashboards/0sWz0JbQx6FEWw4SzMbcsnz3dSEdW3TbYlf3fZ37?org_slug=default",
-          mainnet: "https://redash.cellstudio.work/public/dashboards/0sWz0JbQx6FEWw4SzMbcsnz3dSEdW3TbYlf3fZ37?org_slug=default",
+          testnet: "https://redash.cellstudio.work/public/dashboards/pVCxGBt8m6dE2bXpgnrOIqeAqB51Xbauzf5hjPSI",
+          mainnet: "https://redash.cellstudio.work/public/dashboards/vPr1MFaZYmPJN1TfT0oAm9syhwp2TBGhAN8Y8edZ",
         }, ""),
       },
       // {
