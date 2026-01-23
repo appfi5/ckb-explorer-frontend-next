@@ -1,6 +1,7 @@
 
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcn/select";
+import { isMainnet } from "@/utils/chain";
 import type { SelectPortalProps } from "@radix-ui/react-select";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
@@ -42,7 +43,7 @@ export enum SearchRangeCode {
 export const useSearchOptions = () => {
   const { t } = useTranslation("search")
   return [
-    { value: SearchRangeCode.Base, name: t("option.base"), placeholder: t("placeholder.base") },
+    { value: SearchRangeCode.Base, name: t("option.base"), placeholder: isMainnet() ? t("placeholder.base") : t("placeholder.base_testnet") },
     // { value: SearchRangeCode.BlockHash, name: "Block Hash" },
     // { value: SearchRangeCode.AddressLockHash, name: "Address Lock Hash" },
     // { value: SearchRangeCode.TypeHash, name: "Type Hash" },
