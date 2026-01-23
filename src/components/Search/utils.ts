@@ -7,6 +7,7 @@ import i18n from "i18next";
 import { addPrefixForHash, containSpecialChar } from "@/utils/string";
 import { getReverseAddresses } from "@/services/DidService";
 import { ethToCKb } from "@/utils/did";
+import { isMainnet } from "@/utils/chain";
 
 export enum SearchResultType {
   Block = "block",
@@ -217,7 +218,7 @@ export async function fetchAggregateSearchResult(
     // }
   }
 
-  if (filterBy === SearchRangeCode.Base && /\w*\.bit$/.test(searchValue)) {
+  if (isMainnet() && filterBy === SearchRangeCode.Base && /\w*\.bit$/.test(searchValue)) {
     // search .bit name
     const list = await getReverseAddresses(searchValue);
     const ETH_COIN_TYPE = "60";
