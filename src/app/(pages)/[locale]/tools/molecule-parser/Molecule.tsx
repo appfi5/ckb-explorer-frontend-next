@@ -25,7 +25,7 @@ export const Molecule: React.FC<Props> = ({ updateCodecMap }) => {
   const handleConfirm = useCallback(() => {
     try {
       // get user input schema, and append with primitive schema
-      const userCodecMap = parseSchema(`${blockchainSchema}/n${inputMol}`);
+      const userCodecMap = parseSchema(`${blockchainSchema}\n${inputMol}`);
 
       const codecMap = mergeBuiltinCodecs(userCodecMap)
 
