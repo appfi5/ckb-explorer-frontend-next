@@ -15,9 +15,36 @@ export function generateUDTInfos() {
 
 function genereateSingleNetworkUDTInfos(network, famousOnly = false) {  // testnet | mainnet
   const srcPath = path.resolve(__dirname, "../..", "ckb-labels", "information", "udt", network);
+  const legacyInscriptionPath = path.resolve(__dirname, "../..", "ckb-labels", "information", "legacy_omiga_inscription", network);
   const dstFilePath = path.resolve(__dirname, "../..", "src", "database", "udts", `udts.${network}.ts`);
   const assetFolderPath = path.resolve(__dirname, "../..", "public", "assets", "udt", network);
   const udtList = [];
+  // legacy omiga inscription
+  const legacyInscriptions = fs.readdirSync(legacyInscriptionPath);
+  legacyInscriptions.forEach(fileName => {
+    // if is file pass
+    if (fs.statSync(path.resolve(legacyInscriptionPath, fileName)).isFile())
+      return
+    const folderName = fileName
+    const json = fs.readFileSync(path.resolve(legacyInscriptionPath, folderName, "index.json"))
+    const jsonObj = JSON.parse(json)
+    
+    if (famousOnly && !jsonObj.famous) return;
+    if (jsonObj.icon) {
+      const iconVal = jsonObj.icon;
+      if (!(iconVal.startsWith("http") || iconVal.startsWith("data:"))) {
+        const iconFilePath = path.resolve(legacyInscriptionPath, folderName, iconVal);
+        const targetIconFolderPath = path.resolve(assetFolderPath, folderName);
+        fs.mkdirSync(targetIconFolderPath, { recursive: true });
+        fs.copyFileSync(iconFilePath, path.resolve(targetIconFolderPath, iconVal));
+        jsonObj.icon = `/assets/udt/${network}/${folderName}/${iconVal}`;
+      }
+    } else {
+      console.log(`Legacy Omiga Inscription ${network} ${jsonObj.name} ${jsonObj.typeHash} no icon`)
+      jsonObj.icon = `/assets/udt/default.png`;
+    }
+    udtList.push(jsonObj);
+  })
   // read
   const files = fs.readdirSync(srcPath);
   files.forEach(fileName => {
