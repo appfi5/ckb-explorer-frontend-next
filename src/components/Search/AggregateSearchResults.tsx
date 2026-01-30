@@ -293,7 +293,7 @@ export const SearchResultItem: FC<{
               t("udt.unknown_token")
             ) : (
               <div className="flex flex-row">
-                <span>TokenId:</span>
+                <span className="mr-1">TokenId:</span>
                 <HighlightText
                   text={displayName}
                   keyword={keyword}
@@ -309,11 +309,12 @@ export const SearchResultItem: FC<{
                 "font-hash",
               )}
             >
-              <span style={{ marginRight: 4, flexShrink: 0 }}>collection name: </span>
+              <span style={{ marginRight: 4, flexShrink: 0 }}>collection Name: </span>
               <HighlightText
                 style={{ width: "100%" }}
-                text={item.attributes.typeScriptHash}
+                text={item.attributes.collectionName}
                 keyword={keyword}
+                style={{ maxWidth: "100%" }}
               />
             </div>
 
