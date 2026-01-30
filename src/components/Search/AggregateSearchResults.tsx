@@ -311,10 +311,9 @@ export const SearchResultItem: FC<{
             >
               <span style={{ marginRight: 4, flexShrink: 0 }}>collection Name: </span>
               <HighlightText
-                style={{ width: "100%" }}
                 text={item.attributes.collectionName}
                 keyword={keyword}
-                style={{ maxWidth: "100%" }}
+                style={{ width: "100%", maxWidth: "100%" }}
               />
             </div>
 
