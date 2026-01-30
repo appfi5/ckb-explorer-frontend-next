@@ -9,7 +9,7 @@ export default function useDASAccount(address: string) {
     queryFn: async () => {
       if(!isMainnet()) return null
       const dasAccount = await getDasAccount(address)
-      return dasAccount
+      return dasAccount || null
     },
   })
   return dasAccount
