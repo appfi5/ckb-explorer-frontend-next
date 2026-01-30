@@ -23,6 +23,8 @@ import { ccc, ClientPublicMainnet, ClientPublicTestnet } from "@ckb-ccc/core";
 import { env } from "@/env";
 import TxCellRichDisplay from "./TxCellRichDisplay";
 import CKBAddress from "@/components/CKBAddress";
+import { littleEndianToBigEndian } from "@/components/Cell/dataDecoder/tool";
+import clientDB from "@/database";
 
 function ScriptTagFromAddress({ address }: { address: string }) {
   const { data: script } = useQuery({
@@ -48,6 +50,9 @@ export default function TxCellCard({ since, cell, isInput = true, seq, isPending
   const { t } = useTranslation();
   const isShowModal = !isPendingData
 
+
+
+
   const cellCardContent = (
     <div className={styles.txCellCard}>
       <div className="flex items-start justify-between mb-3.5 md:mb-5">
@@ -68,11 +73,15 @@ export default function TxCellCard({ since, cell, isInput = true, seq, isPending
           </Link>
           <ScriptTagFromAddress address={cell.addressHash} />
         </div>
-        {
-          since
-            ? <SinceDesc since={since} />
-            : <span className="text-[#909399]">{!isNil(seq) ? `#${seq}` : ""}</span>
-        }
+        <div className="flex flex-row gap-1">
+          {!!since && <SinceDesc key={since} since={since} />}
+          <TimeLockDesc cell={cell} />
+          {
+            !isInput
+              ? <span className="text-[#909399]">{!isNil(seq) ? `#${seq}` : ""}</span>
+              : null
+          }
+        </div>
 
       </div>
 
@@ -173,6 +182,67 @@ function SinceDesc({ since: sinceRaw }: { since: string }) {
   )
 }
 
+const containTimeLockScriptCodeHashes = clientDB.knownScript.byName("SECP256k1/Multisig").map(scriptInfo => scriptInfo.deployments.map(deployment => deployment.codeHash)).flat()
+
+function TimeLockDesc({ cell }: { cell: APIExplorer.CellInputResponse | APIExplorer.CellOutputResponse }) {
+  const { t } = useTranslation();
+  const { data: since } = useQuery({
+    queryKey: ['cell_timelock_since', cell.addressHash],
+    queryFn: async () => {
+      // if is multi-sig lock, may have another since at lock args
+      const network = env.NEXT_PUBLIC_CHAIN_TYPE;
+      const addressObj = await ccc.Address.fromString(cell.addressHash, network === "testnet" ? new ClientPublicTestnet() : new ClientPublicMainnet());
+      const script = addressObj.script;
+      if (
+        containTimeLockScriptCodeHashes.find(codeHash => codeHash === script.codeHash)
+        && script.args.length > 42
+      ) {
+        return withSinceDisplay(littleEndianToBigEndian(script.args.slice(42)));
+      }
+      return null;
+    }
+  })
+  if (!since) return null;
+  return (
+    <div
+      onClick={e => e.stopPropagation()}
+      data-clickable
+    >
+      <Tips
+        contentClassName={classNames(styles.sinceTooltip, "max-w-[240px]! p-4 rounded-lg ")}
+        trigger={
+          <div
+            className="flex size-5 items-center justify-center bg-[#ffb041] rounded-sm text-white"
+          >
+            <SinceLockIcon />
+          </div>
+        }
+      >
+        <div className="text-black" onClick={(e) => e.stopPropagation()}>
+          <div className="flex flex-row items-center text-sm gap-2 mb-2.5">
+            <SinceLockIcon />
+            <span>TimeLock</span>
+          </div>
+          <div className="text-[#999] text-xs leading-5 break-normal">
+            {t("transaction.tags.timelock.eta", {
+              time: t(`transaction.since.${since.relative}.${since.metric}`, { since: since.value }),
+            })}
+          </div>
+          {/* <Button
+            variant="outline"
+            className="rounded-sm py-1.5 px-2 text-xs w-16 h-auto border-[#ccc] hover:bg-primary hover:text-white hover:border-primary mt-2.5"
+            onClick={() => {
+              window.open("https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0017-tx-valid-since/0017-tx-valid-since.md", "_blank", "noreferrer")
+            }}
+          >
+            {t("scripts.detail")}
+            <ArrowRightIcon style={{ width: 4, height: 8 }} />
+          </Button> */}
+        </div>
+      </Tips>
+    </div>
+  )
+}
 
 function Info({ label, children, when = true }: { label: ReactNode, children?: ReactNode, when?: boolean }) {
   if (!when) return null;

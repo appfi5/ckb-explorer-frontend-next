@@ -32,3 +32,7 @@ export function get(codeHash?: string) {
 export function byCellType(cellType: NonNullable<KnownScriptInfo['cellTypeTag']>) {
   return knownScriptInfoList.filter((scriptInfo) => scriptInfo.cellTypeTag === cellType);
 }
+
+export function byName(name: string) {
+  return knownScriptInfoList.filter((scriptInfo) => scriptInfo.name === name);
+}
