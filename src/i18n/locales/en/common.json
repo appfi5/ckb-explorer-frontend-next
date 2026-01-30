@@ -477,6 +477,7 @@
     "bitcoin_transaction": "BTC TX",
     "bitcoin_address": "BTC Address",
     "nft-collection": "NFT Collection",
+    "nft": "NFT",
     "token_item": "Token Item",
     "did": "DID",
     "fiber_graph_node": "Fiber Graph Node"
