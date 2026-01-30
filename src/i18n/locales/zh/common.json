@@ -489,6 +489,7 @@
     "bitcoin_transaction": "BTC 交易",
     "bitcoin_address": "BTC 地址",
     "nft-collection": "NFT 藏品",
+    "nft": "NFT",
     "token_item": "藏品",
     "did": "分布式数字身份（DID）",
     "fiber_graph_node": "Fiber Graph Node"
