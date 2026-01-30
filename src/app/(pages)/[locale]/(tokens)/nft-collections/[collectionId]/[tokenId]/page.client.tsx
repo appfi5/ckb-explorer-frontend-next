@@ -206,7 +206,7 @@ function TraitItem({ trait, tokenId }: { trait: ParsedTrait, tokenId: string }) 
       key={trait.name}
       className="bg-[#F5F9FB] dark:bg-[#363839] flex-none p-3 rounded-lg max-w-[200px] flex flex-row items-center gap-2"
     >
-      <div>
+      <div className="max-w-full">
         <div className="text-xs text-[#909399] dark:text-[#999]">{trait.name}</div>
         <div className="text-xs truncate">{trait.value as string}</div>
       </div>
