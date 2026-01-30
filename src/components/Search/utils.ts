@@ -74,7 +74,8 @@ export const getURLByAggregateSearchResult = (
 
     case SearchResultType.NFTCollection:
       return `/nft-collections/${attributes.typeScriptHash}`;
-
+    case SearchResultType.NFTItem:
+      return `/nft-collections/${attributes.typeScriptHash}/${attributes.tokenId}`;
     default:
       break;
   }
