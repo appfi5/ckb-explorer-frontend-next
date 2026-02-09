@@ -20,6 +20,7 @@ import Link from "next/link";
 import InteImage from "../InteImage";
 import Loading from "../Loading";
 import TextEllipsis from "../TextEllipsis";
+import { isNil } from "lodash";
 
 type Props = {
   keyword?: string;
@@ -432,8 +433,9 @@ export const SearchResultItem: FC<{
             )}
           >
             <span style={{ marginRight: 4, flexShrink: 0 }}>
-              {t("search.block")} #{" "}
-              {localeNumberString(item.attributes.blockNumber)}
+              {isNil(item.attributes.blockNumber)
+                ? "Pending"
+                : `${t("search.block")} #${localeNumberString(item.attributes.blockNumber)}`}
             </span>
           </div>
         </div>
