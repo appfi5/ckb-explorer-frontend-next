@@ -229,7 +229,7 @@ function CkbChangeDisplay({ change }: CkbChangeDisplayProps) {
       ? "text-[#FF4545]"
       : "text-gray-500";
 
-  const sign = isPositive ? "+" : "-";
+  const sign = isPositive ? "+" : isNegative ? "-" : "";
 
   return (
     <div

@@ -21,6 +21,7 @@ import { HelpTip } from "@/components/HelpTip";
 import OutLink from "@/components/OutLink";
 import ScriptTag from "@/components/ScriptTag";
 import DateTime from "@/components/DateTime";
+import { isNil } from "lodash";
 
 export default function TransactionInfo({ transaction: tx }: { transaction: APIExplorer.TransactionResponse }) {
   const { t } = useTranslation();
@@ -40,7 +41,7 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
     maxCyclesInEpoch,
     maxCycles,
   } = tx;
-  const confirmation = topBlockNumber && blockNumber ? Number(topBlockNumber) - Number(blockNumber) : 0;
+  const confirmation = topBlockNumber && !isNil(blockNumber) ? Number(topBlockNumber) - Number(blockNumber) : 0;
   const items: Field[] = [
     {
       key: 'block height',
@@ -49,7 +50,7 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
       contentClassName: "flex sm:text-left sm:justify-start",
       // showContent: txLoaded,
       content: (
-        blockNumber ? <OutLink
+        !isNil(blockNumber) ? <OutLink
           className="font-hash underline"
           href={`/block/${blockNumber}`}
         >
@@ -62,7 +63,7 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
       textDirection: "right",
       contentClassName: "flex sm:text-left sm:justify-start",
       content: (
-        transactionFee ? <>
+        !isNil(transactionFee) ? <>
           <TwoSizeAmount
             className="inline-flex items-baseline"
             amount={shannonToCkb(transactionFee)}
@@ -79,7 +80,7 @@ export default function TransactionInfo({ transaction: tx }: { transaction: APIE
       textDirection: "right",
       contentClassName: "flex sm:text-left sm:justify-start",
       content: (
-        transactionFee && bytes ? <span className="font-hash whitespace-pre">{
+        !isNil(transactionFee) && bytes ? <span className="font-hash whitespace-pre">{
           new BigNumber(transactionFee).multipliedBy(1000).dividedToIntegerBy(bytes).toFormat({
             groupSeparator: ',',
             groupSize: 3,
