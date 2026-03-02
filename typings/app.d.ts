@@ -20,8 +20,9 @@ declare namespace App {
 
   declare type Language = "en" | "zh"; // "zh" |
 
+  // Next.js 15 expects params to be Promise, with string values
   type Params = Promise<{
-    locale: Language;
+    locale: string; // Changed from Language to string to match Next.js types
   }>;
 
   type Entry<P = {}> = React.FC<

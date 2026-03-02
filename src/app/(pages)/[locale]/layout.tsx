@@ -45,7 +45,8 @@ const appStyle = {
 
 const RootLayout: App.LayoutWithParallel<LayoutParallels> = async (props) => {
   const { header, footer } = props;
-  const { locale } = await props.params;
+  const params = await props.params;
+  const locale = params.locale as App.Language; // Type assertion for type safety
   const theme = await getThemeFromCookie();
   return (
     <html lang={locale} className={fontClasses} data-theme={theme} data-chain-type={env.NEXT_PUBLIC_CHAIN_TYPE} translate="no">

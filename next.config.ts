@@ -83,15 +83,15 @@ const config: NextConfig = {
 
     // 自动驼峰, .aa-bb => .aa-bb/.aaBb
     config.module.rules
-      .find(({ oneOf }) => !!oneOf)
-      .oneOf.filter(({ use }) => JSON.stringify(use)?.includes("css-loader"))
-      .reduce((allLoaders, { use }) => allLoaders.concat(use), [])
-      .forEach((loader) => {
+      .find((rule: any) => rule.oneOf)
+      .oneOf.filter((ruleSet: any) => JSON.stringify(ruleSet.use)?.includes("css-loader"))
+      .reduce((allLoaders: any[], ruleSet: any) => allLoaders.concat(ruleSet.use), [])
+      .forEach((loader: any) => {
         if (loader.options && loader.options.modules) {
           loader.options.modules.exportLocalsConvention = "camelCase";
         }
       });
-    const fileLoaderRule = config.module.rules.find((rule) =>
+    const fileLoaderRule = config.module.rules.find((rule: any) =>
       rule.test?.test?.(".svg"),
     );
     config.module.rules.push(
