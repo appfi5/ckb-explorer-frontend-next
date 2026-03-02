@@ -196,10 +196,16 @@ export const handleRedirectFromAggron = () => {
     `^/(${PREV_TESTNAME}|${CURRENT_TESTNET})`,
   );
   if (testnetNameRegexp.test(window.location.pathname)) {
-    const redirect = `${window.location.protocol}//${CURRENT_TESTNET}.${window.location.host
-      }${window.location.pathname.replace(testnetNameRegexp, "")}`;
-    window.location.href = redirect;
-    return true;
+    // Domain whitelist to prevent open redirect attacks
+    const allowedHosts = ["explorer.nervos.org", "testnet.nervos.org"];
+    const newHost = `${CURRENT_TESTNET}.${window.location.host}`;
+    
+    // Validate the host against whitelist or ensure it matches expected pattern
+    if (allowedHosts.includes(window.location.host) || window.location.host.endsWith(".nervos.org")) {
+      const redirect = `${window.location.protocol}//${newHost}${window.location.pathname.replace(testnetNameRegexp, "")}`;
+      window.location.href = redirect;
+      return true;
+    }
   }
   return false;
 };

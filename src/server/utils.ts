@@ -96,7 +96,7 @@ function parameterDividerHOC(url: string, httpMethod: HTTPMethod, divider: APIHe
       const value = parameters[key];
 
       if (storeKey === 'path') {
-        queryUrl = queryUrl.replace(`{${key}}`, value as string);
+        queryUrl = queryUrl.replace(`{${key}}`, encodeURIComponent(value as string));
         continue;
       }
       if (!sortedStore[storeKey]) {

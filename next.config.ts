@@ -6,15 +6,24 @@ import type { NextConfig } from "next";
 import "./src/env";
 import I18nResourcePlugin from "./plugins/i18n-resource";
 
-const dataUrl = "https://ckb-utilities.random-walk.co.jp https://dob-decoder.rgbpp.io,https://dob0-decoder-dev.omiga.io,https://api.omiga.io,https://test-api.omiga.io,https://ckbfs.nvap.app,https://test.bescard.com"
-const explorerUrl = `${process.env.NEXT_PUBLIC_EXPLORER_SERVICE_URL} ${process.env.NEXT_PUBLIC_CHAIN_NODE} ${process.env.NEXT_PUBLIC_PROB_NODE} ${dataUrl}`;
-const combinedUrl = explorerUrl.replaceAll(',', ' ').trim();
+const dataUrlEndpoints = [
+  process.env.NEXT_PUBLIC_UTILITY_ENDPOINT || "https://ckb-utilities.random-walk.co.jp",
+  process.env.NEXT_PUBLIC_DOB_DECODER_MAINNET_URL || "https://dob-decoder.rgbpp.io",
+  process.env.NEXT_PUBLIC_DOB_DECODER_TESTNET_URL || "https://dob0-decoder-dev.omiga.io",
+  process.env.NEXT_PUBLIC_API_OMIGA_URL || "https://api.omiga.io",
+  process.env.NEXT_PUBLIC_TEST_API_OMIGA_URL || "https://test-api.omiga.io",
+  process.env.NEXT_PUBLIC_CKBFS_URL || "https://ckbfs.nvap.app",
+  process.env.NEXT_PUBLIC_TEST_BESCARD_URL || "https://bescard.com,https://test.bescard.com",
+];
+const explorerUrl = `${process.env.NEXT_PUBLIC_EXPLORER_SERVICE_URL} ${process.env.NEXT_PUBLIC_CHAIN_NODE} ${process.env.NEXT_PUBLIC_PROB_NODE} ${dataUrlEndpoints.join(" ")}`.replaceAll(",", ' ');
+
 
 /** @type {import("next").NextConfig} */
 const config: NextConfig = {
   output: "standalone",
   typescript: {
-    ignoreBuildErrors: true,
+    // TODO: Fix all TypeScript errors before uncommenting ignoreBuildErrors
+    // ignoreBuildErrors: true,
   },
   sassOptions: {
     additionalData: `@use "~@/styles/theme.scss";`,
@@ -27,12 +36,11 @@ const config: NextConfig = {
           {
             key: "Content-Security-Policy",
             value: [
-              "default-src *",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live",
+              "default-src 'self'",
+              `script-src 'self' 'unsafe-inline' ${process.env.NODE_ENV === "development" ? "'unsafe-eval'" : ""} https://vercel.live`,
               "style-src 'self' 'unsafe-inline'",
               `img-src ${process.env.NODE_ENV === "development" ? "*" : "https:"} data:`,
-              // `connect-src 'self' ${combinedUrl}`,
-              "connect-src *",
+              `connect-src 'self' ${explorerUrl}`,
               "font-src 'self'",
               "frame-src https://vercel.live",
               "object-src 'none'",

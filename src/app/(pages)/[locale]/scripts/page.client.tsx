@@ -20,7 +20,14 @@ import type { KnownScriptInfo } from "@/database/known-scripts/tool";
 const borderClass = "border-[#d9d9d9] dark:border-[#4c4c4c]"
 const getHash = () =>
   typeof window !== "undefined"
-    ? decodeURIComponent(window.location.hash).slice(1)
+    ? (() => {
+        try {
+          return decodeURIComponent(window.location.hash).slice(1);
+        } catch {
+          // Fallback to raw hash if decoding fails
+          return window.location.hash.slice(1);
+        }
+      })()
     : "";
 function useUrlAnchor() {
 

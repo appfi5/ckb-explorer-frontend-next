@@ -60,31 +60,43 @@ export async function requestAPI<T = unknown, O = ConfigWithWholeResponse>(url: 
 export async function requestAPI<T = unknown, O = ConfigWithWholeBizData>(url: string, config: O): Promise<API.Response<T>>
 export async function requestAPI<T = unknown, O = RequestConfig>(url: string, config: O): Promise<T>
 export async function requestAPI(url: string, config: RequestConfig) {
-  let response = null
+  let response: any = null
   try {
     response = await axios(`${ url }`, {
       ...config,
       headers: {
-        "Acccept-Language": document.documentElement.getAttribute("lang") === "zh" ? "zh_CN" : "en_US"
+        "Accept-Language": typeof document !== 'undefined' && document.documentElement.getAttribute("lang") === "zh" ? "zh_CN" : "en_US"
       },
     });
   } catch (e: any) {
+    // Safely handle error with fallback values
+    const status = e?.response?.status ?? e?.status ?? 500;
+    const message = e?.response?.data?.message ?? e?.message ?? "Unknown error";
     response = {
       data: {
-        code: e.status,
-        message: e.message,
+        code: status,
+        message: message,
         data: null,
       }
     }
   }
 
-  // if (response?.data?.code === 401) {
-  //   throttleLogout();
-  // }
+  // Validate response structure before accessing
+  if (!response || !response.data) {
+    response = {
+      data: {
+        code: 500,
+        message: "Invalid response structure",
+        data: null,
+      }
+    }
+  }
 
   const bizDataOnly = config.getWholeBizData !== true
-  if (bizDataOnly)
-    response.data = response.data.data
+  if (bizDataOnly) {
+    // Safely access nested data property
+    response.data = response.data?.data ?? null
+  }
   const getResponse = config.getWholeResponse === true
   return getResponse ? response : response.data
 }

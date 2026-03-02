@@ -1,3 +1,4 @@
+import { env } from "@/env";
 import { toBigEndian } from "@nervosnetwork/ckb-sdk-utils";
 import {
   config,
@@ -19,21 +20,20 @@ export const setupDobConfig = () => {
   if (isConfiguredDobDecoder) return;
   config.setDobDecodeServerURL(
     isMainnet()
-      ? "https://dob-decoder.rgbpp.io"
-      : "https://dob0-decoder-dev.omiga.io",
+      ? (env.NEXT_PUBLIC_DOB_DECODER_MAINNET_URL || "https://dob-decoder.rgbpp.io")
+      : (env.NEXT_PUBLIC_DOB_DECODER_TESTNET_URL || "https://dob0-decoder-dev.omiga.io"),
   );
 
   config.setQueryBtcFsFn(async (uri: string) => {
     const url = isMainnet()
-      ? `https://api.omiga.io/api/v1/nfts/dob_imgs?uri=${uri}`
-      : `https://test-api.omiga.io/api/v1/nfts/dob_imgs?uri=${uri}`;
+      ? `${env.NEXT_PUBLIC_API_OMIGA_URL || "https://api.omiga.io"}/api/v1/nfts/dob_imgs?uri=${uri}`
+      : `${env.NEXT_PUBLIC_TEST_API_OMIGA_URL || "https://test-api.omiga.io"}/api/v1/nfts/dob_imgs?uri=${uri}`;
     const response = await fetch(url);
     return response.json();
   });
 
   isConfiguredDobDecoder = true;
 };
-
 setupDobConfig();
 
 export const SPORE_PlACEHOLDER_IMG = "/images/spore_placeholder.svg";
@@ -135,7 +135,9 @@ export const getSporeImg = async ({
 
   const { contentType, content } = parseSporeCellData(hexData);
 
-  if (contentType.startsWith("image")) {
+  // Whitelist of allowed image MIME types
+  const allowedImageTypes = ["image/png", "image/jpeg", "image/jpg", "image/gif", "image/svg+xml", "image/webp", "image/bmp"];
+  if (contentType.startsWith("image") && allowedImageTypes.includes(contentType)) {
     const base64Data = hexToBase64(content);
     return `data:${contentType};base64,${base64Data}`;
   }

@@ -1,6 +1,6 @@
 import { env } from "@/env";
 
-const UTILITY_ENDPOINT = "https://ckb-utilities.random-walk.co.jp";
+const UTILITY_ENDPOINT = env.NEXT_PUBLIC_UTILITY_ENDPOINT || "https://ckb-utilities.random-walk.co.jp";
 
 export const fetchPrices = async (): Promise<{
   price: Record<string, Record<"pair" | "price", string>>;

@@ -65,7 +65,7 @@ export const useChangeLanguage = () => {
     const days = 30;
     const date = new Date();
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    document.cookie = `NEXT_LOCALE=${newLocale};expires=${date.toUTCString()};path=/`;
+    document.cookie = `NEXT_LOCALE=${newLocale};expires=${date.toUTCString()};path=/;Secure;SameSite=Lax`;
 
     // redirect to the new locale path
     if (

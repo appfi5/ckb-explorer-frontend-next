@@ -55,7 +55,7 @@ const RawTransactionView: FC<{ hash: string }> = ({ hash }) => {
       onSelect={(select) => {
         switch (select.name) {
           case "txHash": {
-            window.open(`/transaction/${select.value}`, "_blank");
+            window.open(`/transaction/${select.value}`, "_blank", "noopener,noreferrer");
             break;
           }
           // case "codeHash": {
