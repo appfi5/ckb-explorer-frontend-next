@@ -62,11 +62,11 @@ const useOption = () => {
             assertIsArray(dataList)
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 60 : 35)
             let result = `<div style="white-space:normal">${tooltipColor('#333333')}${widthSpan(t('statistic.address'))} ${getAdaptAddressText(
-              getAddressWithRanking(statisticAddressBalanceRanks, dataList[0].name),
+              getAddressWithRanking(statisticAddressBalanceRanks, dataList[0]!.name),
             )}</div>`
-            result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('statistic.balance'))} \
-            ${localeNumberString(dataList[0].data as number)} ${t('common.ckb_unit')}</div>`
-            result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('statistic.rank'))} ${dataList[0].name
+            result += `<div>${tooltipColor(chartThemeColor.colors[0]!)}${widthSpan(t('statistic.balance'))} \
+            ${localeNumberString(dataList[0]!.data as number)} ${t('common.ckb_unit')}</div>`
+            result += `<div>${tooltipColor(chartThemeColor.colors[0]!)}${widthSpan(t('statistic.rank'))} ${dataList[0]!.name
               }</div>`
             return result
           },
@@ -109,7 +109,6 @@ const useOption = () => {
           },
           type: 'log',
           logBase: 10,
-          scale: true,
           axisLine: {
             lineStyle: {
               color: axisLineColor
@@ -187,7 +186,7 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
         isThumbnail={isThumbnail}
         chartProps={{ onClick: !isThumbnail ? handleClick : undefined }}
         // fetchData={explorerService.api.fetchStatisticAddressBalanceRank}
-        fetchData={() => server.explorer("GET /statistics/{fieldName}", { fieldName: "address_balance_ranking" })}
+        fetchData={() => server.explorer("GET /statistics/{fieldName}", { fieldName: "address_balance_ranking" }) as Promise<any>}
         onFetched={setStatisticAddressBalanceRanks}
         getEChartOption={getEChartOption}
         toCSV={toCSV}
@@ -205,7 +204,7 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
         isThumbnail={isThumbnail}
         chartProps={{ onClick: !isThumbnail ? handleClick : undefined }}
         // fetchData={explorerService.api.fetchStatisticAddressBalanceRank}
-        fetchData={() => server.explorer("GET /statistics/{fieldName}", { fieldName: "address_balance_ranking" })}
+        fetchData={() => server.explorer("GET /statistics/{fieldName}", { fieldName: "address_balance_ranking" }) as Promise<any>}
         onFetched={setStatisticAddressBalanceRanks}
         getEChartOption={getEChartOption}
         toCSV={toCSV}

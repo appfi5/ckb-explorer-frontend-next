@@ -110,6 +110,6 @@ const mapCountryShortNameToFull = {
 }
 
 export default function mapCountryShortNameToCountryName(shortName: string) {
-  const fullName = mapCountryShortNameToFull[shortName];
+  const fullName = (mapCountryShortNameToFull as any)[shortName];
   return fullName
 }

@@ -57,9 +57,9 @@ const useOption = (
         formatter: dataList => {
           assertIsArray(dataList)
           const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 220 : 80)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.year'))} ${(dataList[0].data as string[])[0]
+          let result = `<div>${tooltipColor('#333333' as string)}${widthSpan(t('statistic.year') as string)} ${(dataList[0]!.data as any)[0]
             }</div>`
-          result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('statistic.nominal_apc'))} ${(dataList[0].data as string[])[1]
+          result += `<div>${tooltipColor(chartThemeColor.colors[0] as string)}${widthSpan(t('statistic.nominal_apc') as string)} ${(dataList[0]!.data as any)[1]
             }%</div>`
           return result
         },
@@ -148,7 +148,7 @@ export const AnnualPercentageCompensationChart = ({ isThumbnail = false }: { isT
       title={t('statistic.nominal_apc')}
       description={t('statistic.nominal_rpc_description')}
       isThumbnail={isThumbnail}
-      fetchData={() => server.explorer("GET /monetary_data/{indicator}", { indicator: "nominal_apc" })}
+      fetchData={(() => server.explorer("GET /monetary_data/{indicator}", { indicator: "nominal_apc" })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticAnnualPercentageCompensation"

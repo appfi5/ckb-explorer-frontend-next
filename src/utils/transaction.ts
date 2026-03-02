@@ -60,5 +60,5 @@ export function checkIsCellBase(tx: Transaction): boolean {
     return false
   }
 
-  return tx.inputs[0].previousOutput.txHash === CELLBASE_TX_HASH
+  return tx.inputs[0]!.previousOutput?.txHash === CELLBASE_TX_HASH
 }

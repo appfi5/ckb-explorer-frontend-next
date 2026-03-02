@@ -246,7 +246,7 @@ const toCSV = (data: Array<APIExplorer.DailyStatisticResponse>) => {
     return []
   }
   return data.flatMap(item => {
-    return Object.entries(item.activityAddressContractDistribution ?? {}).map(([key, value]) => [item.createdAtUnixtimestamp, key, value.toString()])
+    return Object.entries(item.activityAddressContractDistribution ?? {}).map(([key, value]) => [item.createdAtUnixtimestamp, key, (value as any).toString()])
   })
 }
 

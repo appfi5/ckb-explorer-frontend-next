@@ -44,7 +44,7 @@ export const ScriptToHash: React.FC = () => {
     }
   }, [script])
 
-  const saveScript = debounceInput(setScript)
+  const saveScript = debounceInput((value: any) => setScript(value))
 
   return (
     <div>

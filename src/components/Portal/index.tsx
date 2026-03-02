@@ -1,5 +1,6 @@
-import type { TransactionLeapDirection } from "../RGBPP/types";
 import styles from "./styles.module.scss";
+
+type TransactionLeapDirection = "left" | "right";
 
 const Portal = ({ type }: { type: TransactionLeapDirection }) => (
   <div className={styles.container} data-type={type}>

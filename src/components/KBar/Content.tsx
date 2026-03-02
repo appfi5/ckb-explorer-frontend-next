@@ -148,7 +148,7 @@ const KBarContent: FC<{ setOpenCount: Dispatch<SetStateAction<number>> }> = ({
               popContainer={selectDropDownRef.current}
               onChange={(rangeCode, placeholder) => {
                 setPlaceholder(placeholder);
-                setSearchRange(rangeCode);
+                setSearchRange(rangeCode as any);
 
                 query.setSearch("");
                 setInpKey(prev => prev + 1)

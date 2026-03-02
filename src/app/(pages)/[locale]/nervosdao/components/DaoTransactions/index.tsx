@@ -40,7 +40,7 @@ const DaoTransactions = ({
           transaction && (
             <TransactionItemWithCells
               key={index}
-              transaction={transaction}
+              transaction={transaction as any}
               showBlockInfo={true}
             />
           ),

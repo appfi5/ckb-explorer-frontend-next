@@ -45,10 +45,10 @@ const useOption = (
         formatter: dataList => {
           assertIsArray(dataList)
           const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 155 : 110)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0].data as string[])[0]
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0]!.data as string[])[0]
             }</div>`
-          result += `<div>${tooltipColor(chartThemeColor.colors[0])}\
-          ${widthSpan(t('statistic.address_count'))} ${handleAxis((dataList[0].data as string[])[1], 2)}</div>`
+          result += `<div>${tooltipColor(chartThemeColor.colors[0]!)}\
+          ${widthSpan(t('statistic.address_count'))} ${handleAxis((dataList[0]!.data as string[])[1]!, 2)}</div>`
           return result
         },
       }
@@ -146,7 +146,7 @@ export const AddressCountChart = ({ isThumbnail = false }: { isThumbnail?: boole
       description={t('statistic.address_count_description')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticAddressCount}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "addresses_count", limit: selectedRange })}
+      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "addresses_count", limit: selectedRange }) as Promise<any>}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticAddressCount"

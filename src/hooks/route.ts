@@ -61,7 +61,7 @@ export function useSortParam<T extends string>(
   let sortBy: SortType;
   let orderBy: OrderByType = "asc";
   if (sortParam) {
-    const sortEntry = sortParam.split(",")[0];
+    const sortEntry = sortParam.split(",")[0]!;
     const indexOfPoint = sortEntry.indexOf(".");
     if (indexOfPoint < 0) {
       if (isSortByType(sortEntry)) {
@@ -128,7 +128,7 @@ export function useUpdateSearchParams<T extends string>(): (
       // const oldParams: Partial<Record<T, string>> = getSearchParams(search)
       const oldParams: Partial<Record<T, string>> = {};
       searchParams.forEach((value, key) => {
-        oldParams[key] = value;
+        (oldParams as any)[key] = value;
       });
 
       const newParams = omitNil(updater(oldParams));

@@ -162,7 +162,7 @@ const useOption = (
             return ''
           }
 
-          const firstData = dataList[0].data as string[]
+          const firstData = dataList[0]!.data as string[]
           if (!firstData || !firstData[0]) {
             return ''
           }
@@ -405,7 +405,7 @@ export const CkbHodlWaveChart = ({ isThumbnail = false }: { isThumbnail?: boolea
       title={t('statistic.ckb_hodl_wave')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticCkbHodlWave}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "ckb_hodl_wave-holder_count", limit: selectedRange })}
+      fetchData={(() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "ckb_hodl_wave-holder_count", limit: selectedRange })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticCkbHodlWave"

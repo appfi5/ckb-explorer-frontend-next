@@ -9,7 +9,7 @@ import { type ChartColorConfig } from '@/constants/common'
 import server from "@/server";
 import { useChartTheme } from "@/hooks/useChartTheme";
 
-const toChangeData = (data: any[]): { nominalApc: string[]; nominalInflationRate: string[]; realInflationRate: string[] }[] => {
+const toChangeData = (data: any[]): { year: number; nominalApc: string; nominalInflationRate: string; realInflationRate: string }[] => {
   const { nominalApc, nominalInflationRate, realInflationRate } = data.length > 0 ? data[0] : { nominalApc: [], nominalInflationRate: [], realInflationRate: [] };
   const statisticInflationRates = [];
   for (let i = 0; i < nominalApc.length; i++) {
@@ -74,7 +74,7 @@ const useOption = (
         trigger: 'axis',
         formatter: dataList => {
           assertIsArray(dataList)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.year'))} ${dataList[0].name}</div>`
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.year'))} ${dataList[0]!.name}</div>`
           dataList.forEach(data => {
             assertSerialsItem(data)
             assertSerialsDataIsString(data)
@@ -219,7 +219,7 @@ export const InflationRateChart = ({ isThumbnail = false }: { isThumbnail?: bool
       title={t('statistic.inflation_rate')}
       description={t('statistic.inflation_rate_description')}
       isThumbnail={isThumbnail}
-      fetchData={() => server.explorer("GET /monetary_data/{indicator}", { indicator: "nominal_apc50-nominal_inflation_rate-real_inflation_rate" })}
+      fetchData={(() => server.explorer("GET /monetary_data/{indicator}", { indicator: "nominal_apc50-nominal_inflation_rate-real_inflation_rate" })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticInflationRate"

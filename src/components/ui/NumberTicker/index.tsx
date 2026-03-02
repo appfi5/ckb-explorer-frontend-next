@@ -13,7 +13,7 @@ export function NumberTicker({
 }: NumberTickerProps) {
   const [displayValue, setDisplayValue] = useState(value);
   const prevValueRef = useRef(value ?? 0); // Store the previous value
-  const animationFrame = useRef<number>();
+  const animationFrame = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     if (typeof value !== "number") {

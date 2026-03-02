@@ -49,17 +49,17 @@ const DepositorCardGroup: FC<{ depositors: RankedDepositor[] }> = ({ depositors 
       dataSource={depositors}
       getDataKey={data => data.addressHash}
       cells={items}
-      cardProps={{ rounded: false }}
+      cardProps={{ rounded: false } as any}
     />
   )
 }
 
 const DepositorRank: FC<{ depositors: NervosDaoDepositor[]; filter?: string }> = ({ depositors, filter }) => {
   const { t } = useTranslation()
-  const rankedDepositors: RankedDepositor[] = depositors.length > 0 && depositors.map((depositor, index) => ({
+  const rankedDepositors: RankedDepositor[] = depositors.length > 0 ? depositors.map((depositor, index) => ({
     ...depositor,
     rank: index + 1,
-  }))
+  })) : []
 
   const filteredDepositors = rankedDepositors.length > 0 && filter ? rankedDepositors.filter(d => d.addressHash === filter) : rankedDepositors
 

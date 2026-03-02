@@ -98,7 +98,7 @@ function UDTCard({ udt, address }: { udt: APIExplorer.AccountUdtBalanceResponse 
       <div className={classNames(styles.card, "rounded-md cursor-pointer")}>
         <div className="flex items-center justify-between bg-[#232323] dark:bg-primary rounded-t-sm p-2">
           <div className="flex flex-row font-medium items-center gap-1 text-base text-[#fff]">
-            {UDTTypeText[udt.udtType] || ""}
+            {UDTTypeText[udt.udtType as keyof typeof UDTTypeText] || ""}
           </div>
           <div className={classNames(styles.cells, "bg-white text-[#232323] size-[20px] leading-0 rounded-[4px]")} onClick={(e) => e.preventDefault()}>
             <CellListModal

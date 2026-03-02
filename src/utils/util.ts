@@ -435,11 +435,11 @@ export const isDeepEqual = (
       if (length !== Object.keys(b).length) return false;
 
       for (i = length; i-- !== 0;) {
-        if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
+        if (!Object.prototype.hasOwnProperty.call(b, keys[i]!)) return false;
       }
 
       for (i = length; i-- !== 0;) {
-        const key = keys[i];
+        const key = keys[i]!;
 
         if (key === "_owner" && a.$$typeof) {
           // React

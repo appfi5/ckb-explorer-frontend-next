@@ -67,7 +67,7 @@ export default function TransactionItemWithCells(
   useEffect(() => {
     const el = ref.current;
     if (el && scrollIntoViewOnMount) {
-      const style = getComputedStyle(ref.current);
+      const style = getComputedStyle(el);
       const navbarHeight = parseInt(
         style.getPropertyValue("--navbar-height"),
         10,

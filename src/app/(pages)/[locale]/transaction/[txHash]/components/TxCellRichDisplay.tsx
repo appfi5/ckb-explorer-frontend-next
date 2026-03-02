@@ -108,7 +108,7 @@ function TxCellSpore({ cell }: Pick<TxCellRichDisplayProps, "cell">) {
     queryFn: async () => {
       let cellData: string | undefined = cell.data;
       if (cellData && cellData === "0x") {
-        const cellDataRes = await server.explorer("GET /cell_output_data/{id}", { id: cell.id });
+        const cellDataRes = await server.explorer("GET /cell_output_data/{id}", { id: String(cell.id) });
         cellData = cellDataRes?.data;
       }
       return cellData;
@@ -130,7 +130,7 @@ function TxCellSpore({ cell }: Pick<TxCellRichDisplayProps, "cell">) {
       if (!clusterId) {
         return { clusterName: UNIQUE_ITEM_CLUSTER_NAME, clusterTypeHash: UNIQUE_ITEM_CLUSTER_TYPEHASH };
       }
-      const queryRes = await server.explorer("GET /suggest_queries", { q: clusterId, filterBy: +SearchRangeCode.NFT_Collections_ClusterId })
+      const queryRes = await server.explorer("GET /suggest_queries", { q: clusterId, filterBy: +SearchRangeCode.NFT_Collections_ClusterId }) as any
       // const nft = await server.explorer("GET /nfts/{tokenId}", { tokenId })
       if (!queryRes?.[0]) {
         throw new Error('NFT Collection not found')
@@ -348,7 +348,7 @@ function TxCellTypeID({ cell }: Pick<TxCellRichDisplayProps, "cell">) {
   const { data: dataHash } = useQuery({
     queryKey: ["cell_data_hash", cell.id],
     queryFn: async () => {
-      const wholeCellData = await server.explorer("GET /cell_output_data/{id}", { id: cell.id });
+      const wholeCellData = await server.explorer("GET /cell_output_data/{id}", { id: String(cell.id) });
       if (wholeCellData) {
         const hasher = new HasherCkb();
         hasher.update(wholeCellData.data)
@@ -449,7 +449,7 @@ function TxCellUDT({ cell }: Pick<TxCellRichDisplayProps, "cell">) {
       </div>
       <TwoSizeAmount
         // format={[udtInfo?.decimalPlaces || 0]}
-        amount={new BigNumber(decodedData.amount).dividedBy(10 ** (udtInfo?.decimalPlaces ?? 0).toString())}
+        amount={new BigNumber(decodedData.amount).dividedBy(10 ** (udtInfo?.decimalPlaces ?? 0)).toString()}
       />
     </div>
 
@@ -460,7 +460,7 @@ function TxCellDAO({ cell, ckbValue, isInput }: CommonCellProps) {
   const decodeContent = parseData({ typeScript: cell.typeScript }, cell.data);
   const decodedData = decodeContent?.content as ParsedData<typeof daoDataParseUnit>;
   const [isExpanded, setIsExpanded] = useState(false);
-  const nervosDaoInfo = cell?.nervosDaoInfo;
+  const nervosDaoInfo = (cell as any)?.nervosDaoInfo;
   const toggleExpand = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsExpanded(!isExpanded);

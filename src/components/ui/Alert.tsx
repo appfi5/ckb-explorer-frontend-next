@@ -12,8 +12,8 @@ const Alert = React.forwardRef<
     ref={ref}
     role="alert"
     className={classnames(styles.alert, className, {
-      [styles.default]: variant === "default",
-      [styles.destructive]: variant === "destructive",
+      [styles.default as string]: variant === "default",
+      [styles.destructive as string]: variant === "destructive",
     })}
     {...props}
   />

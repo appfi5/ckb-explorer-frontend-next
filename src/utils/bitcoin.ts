@@ -133,6 +133,7 @@ export const parseBTCAddress = (
       const FUTURE_SEGWIT_MAX_VERSION = 16;
       const FUTURE_SEGWIT_MIN_VERSION = 2;
       if (
+        decodeBech32.version !== undefined &&
         decodeBech32.version >= FUTURE_SEGWIT_MIN_VERSION &&
         decodeBech32.version <= FUTURE_SEGWIT_MAX_VERSION &&
         decodeBech32.data.length >= FUTURE_SEGWIT_MIN_SIZE &&

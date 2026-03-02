@@ -259,7 +259,7 @@ function Parameters({ transaction }: { transaction: APIExplorer.TransactionRespo
                   depType,
                   // script: { codeHash, hashType, name, isLockScript },
                   script
-                } = cellDep;
+                } = cellDep as any;
                 return (
                   <div className="flex flex-col gap-2" key={`${txHash}-${index}`}>
                     <Field

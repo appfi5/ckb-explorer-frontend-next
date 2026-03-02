@@ -28,13 +28,13 @@ export default function LayoutSwitch(props: ComponentProps<"div">) {
       <div className={classNames(styles.borderLine, styles.left)} />
       <div className={classNames(styles.borderLine, styles.right)} />
       <div
-        className={classNames("font-medium text-base w-[134px] h-[28px] ", styles.tab, { [styles.active]: layout === Professional })}
+        className={classNames("font-medium text-base w-[134px] h-[28px] ", styles.tab, { [styles.active as string]: layout === Professional })}
         onClick={() => onChangeLayout(Professional)}
       >
         {t('transaction.professional')}
       </div>
       <div
-        className={classNames("font-medium text-base w-[134px] h-[28px] ", styles.tab, { [styles.active]: layout === Lite })}
+        className={classNames("font-medium text-base w-[134px] h-[28px] ", styles.tab, { [styles.active as string]: layout === Lite })}
         onClick={() => onChangeLayout(Lite)}
       >
         {t('transaction.lite')}

@@ -100,7 +100,7 @@ const useOption = (
         trigger: 'axis',
         formatter: dataList => {
           assertIsArray(dataList)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${(dataList[0].data as string[])[0]
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${(dataList[0]!.data as any)[0]
             }</div>`
           dataList.forEach(data => {
             assertSerialsItem(data)
@@ -259,7 +259,7 @@ export const SecondaryIssuanceChart = ({ isThumbnail = false }: { isThumbnail?: 
       description={t('statistic.secondary_issuance_description')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticSecondaryIssuance}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "treasury_amount-mining_reward-deposit_compensation", limit: selectedRange })}
+      fetchData={(() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "treasury_amount-mining_reward-deposit_compensation", limit: selectedRange })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticSecondaryIssuance"

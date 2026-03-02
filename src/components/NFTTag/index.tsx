@@ -21,7 +21,7 @@ const NFTTag = ({ tagName, to }: { tagName: string; to?: string }) => {
 
   let tag = tagName;
 
-  let content = t(`xudt.tags.${tag}`);
+  let content = t(`xudt.tags.${tag}` as any);
   if (["rgb++", "rgbpp-compatible"].includes(tag)) {
     content = "RGB++";
   }

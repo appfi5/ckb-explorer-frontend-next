@@ -35,7 +35,7 @@ echarts.use([
   EffectScatterChart,
 ])
 
-echarts.registerMap("world", { geoJSON })
+echarts.registerMap("world", { geoJSON } as any)
 
 // const LAUNCH_TIME_OF_MAINNET = 0x16e70e6985c
 

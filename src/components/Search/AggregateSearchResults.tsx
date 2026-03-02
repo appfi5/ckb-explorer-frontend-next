@@ -62,7 +62,7 @@ export const AggregateSearchResults: FC<Props> = ({
           )
           .map(([type, items]) => (
             <div key={type} className={styles.category}>
-              <div className={styles.categoryTitle}>{t(`search.${type}`)}</div>
+              <div className={styles.categoryTitle}>{t(`search.${type}` as any)}</div>
               <div className={styles.categoryList}>
                 {items.map((item) => (
                   <SearchResultItem
@@ -89,7 +89,7 @@ export const AggregateSearchResults: FC<Props> = ({
             <div
               key={category}
               className={classNames(styles.searchCategoryTag, {
-                [styles.active]: activatedCategory === category,
+                [styles.active as string]: activatedCategory === category,
               })}
               onClick={() =>
                 setActivatedCategory((pre) =>
@@ -97,7 +97,7 @@ export const AggregateSearchResults: FC<Props> = ({
                 )
               }
             >
-              {t(`search.${category}`)} {`(${categories[category].length})`}
+              {t(`search.${category}` as any)} {`(${categories[category].length})`}
             </div>
           ))}
         </div>
@@ -127,7 +127,7 @@ export const SearchResultItem: FC<{
     return (
       <Link
         className={classNames(styles.searchResult, {
-          [styles.highlightedWhenHover]: highlightedWhenHover,
+          [styles.highlightedWhenHover as string]: highlightedWhenHover,
         })}
         href={to}
       >
@@ -181,7 +181,7 @@ export const SearchResultItem: FC<{
     return (
       <Link
         className={classNames(styles.searchResult, {
-          [styles.highlightedWhenHover]: highlightedWhenHover,
+          [styles.highlightedWhenHover as string]: highlightedWhenHover,
         })}
         href={to}
       >
@@ -260,7 +260,7 @@ export const SearchResultItem: FC<{
     return (
       <Link
         className={classNames(styles.searchResult, {
-          [styles.highlightedWhenHover]: highlightedWhenHover,
+          [styles.highlightedWhenHover as string]: highlightedWhenHover,
         })}
         href={to}
       >
@@ -347,7 +347,7 @@ export const SearchResultItem: FC<{
     return (
       <Link
         className={classNames(styles.searchResult, {
-          [styles.highlightedWhenHover]: highlightedWhenHover,
+          [styles.highlightedWhenHover as string]: highlightedWhenHover,
         })}
         href={to}
       >
@@ -414,7 +414,7 @@ export const SearchResultItem: FC<{
     return (
       <Link
         className={classNames(styles.searchResult, {
-          [styles.highlightedWhenHover]: highlightedWhenHover,
+          [styles.highlightedWhenHover as string]: highlightedWhenHover,
         })}
         href={to}
       >
@@ -478,7 +478,7 @@ export const SearchResultItem: FC<{
   return (
     <Link
       className={classNames(styles.searchResult, {
-        [styles.highlightedWhenHover]: highlightedWhenHover,
+        [styles.highlightedWhenHover as string]: highlightedWhenHover,
       })}
       href={to}
     >

@@ -57,12 +57,12 @@ const useOption = (
           assertIsArray(dataList)
           const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 80 : 80)
           let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.time_hour'))} ${parseHourFromMinute(
-            dataList[0].name ?? '0',
+            dataList[0]!.name ?? '0',
           )}</div>`
           result += `\
-            <div>${tooltipColor(chartThemeColor.colors[0])}\
-            ${widthSpan(t('statistic.epochs'))} \
-            ${localeNumberString((dataList[0].data as string[])[0])}</div>`
+            <div>${tooltipColor(chartThemeColor.colors[0] as string)}\
+            ${widthSpan(t('statistic.epochs') as string)} \
+            ${localeNumberString((dataList[0]!.data as any)[0])}</div>`
           return result
         },
       }
@@ -150,7 +150,7 @@ export const EpochTimeDistributionChart = ({ isThumbnail = false }: { isThumbnai
       description={t('statistic.epoch_time_distribution_description')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticEpochTimeDistribution}
-      fetchData={() => server.explorer("GET /distribution_data/{indicator}", { indicator: "epoch_time_distribution" })}
+      fetchData={(() => server.explorer("GET /distribution_data/{indicator}", { indicator: "epoch_time_distribution" })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticEpochTimeDistribution"

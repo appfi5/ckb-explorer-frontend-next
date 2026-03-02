@@ -83,7 +83,7 @@ const useOption = (
         trigger: 'axis',
         formatter: dataList => {
           assertIsArray(dataList)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${(dataList[0].data as string[])[0]
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${(dataList[0]!.data as any)[0]
             }</div>`
           dataList.forEach(data => {
             assertSerialsItem(data)
@@ -247,7 +247,7 @@ export const TotalSupplyChart = ({ isThumbnail = false }: { isThumbnail?: boolea
       title={t('statistic.total_supply')}
       description={t('statistic.total_supply_description')}
       isThumbnail={isThumbnail}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "circulating_supply-burnt-locked_capacity", limit: selectedRange })}
+      fetchData={(() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "circulating_supply-burnt-locked_capacity", limit: selectedRange })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticTotalSupply"

@@ -63,7 +63,7 @@ const useOption = (
         formatter: dataList => {
           assertIsArray(dataList)
           let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${parseSimpleDateNoSecond(
-            new Date((dataList[0].data as string[])[0]),
+            new Date((dataList[0]!.data as any)[0]),
             '/',
             false,
           )}</div>`
@@ -221,7 +221,7 @@ export const AverageBlockTimeChart = ({ isThumbnail = false }: { isThumbnail?: b
       description={t('statistic.average_block_time_description')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticAverageBlockTimes}
-      fetchData={() => server.explorer("GET /distribution_data/{indicator}", { indicator: "average_block_time", limit: selectedRange })}
+      fetchData={(() => server.explorer("GET /distribution_data/{indicator}", { indicator: "average_block_time", limit: selectedRange })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="averageBlockTime"

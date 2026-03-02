@@ -82,8 +82,8 @@ function CellsPanel({ dir, txHash, className, isPendingData }: { className?: str
           total = 0;
         }
         list.forEach(cell => {
-          cell.status = 'dead';
-          cell.consumedTxHash = txHash;
+          (cell as any).status = 'dead';
+          (cell as any).consumedTxHash = txHash;
         })
       }
       return {
@@ -111,7 +111,7 @@ function CellsPanel({ dir, txHash, className, isPendingData }: { className?: str
           {
             cells.map((cell, index) => (
               <TxCellCard
-                since={cell.since?.raw}
+                since={(cell as any).since?.raw}
                 key={cell.id}
                 cell={cell}
                 isInput={isInput}

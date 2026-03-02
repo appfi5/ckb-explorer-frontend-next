@@ -8,7 +8,7 @@ export default ({
   children: ReactNode;
   style?: CSSProperties;
 }) => (
-  <div className={styles.pagePanel,'dark:bg-[#111111]'} style={style}>
+  <div className={`${styles.pagePanel} dark:bg-[#111111]`} style={style}>
     {children}
   </div>
 );

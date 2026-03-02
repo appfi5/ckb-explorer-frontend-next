@@ -19,7 +19,7 @@ export function useElementIntersecting(
     if (!el) return;
 
     const observer = new IntersectionObserver(([entry]) => {
-      setIntersecting(entry.isIntersecting);
+      setIntersecting(entry?.isIntersecting ?? false);
     }, opts);
     observer.observe(el);
 
@@ -101,7 +101,7 @@ export function useMediaQuery(query: string): boolean {
 }
 
 export const mobileBreakPoint = Number(
-  variables.mobileBreakPoint.replace("px", ""),
+  (variables.mobileBreakPoint!).replace("px", ""),
 );
 // export const useIsXXLBreakPoint = () =>
 //   useMediaQuery(`(max-width: ${variables.xxlBreakPoint})`);

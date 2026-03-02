@@ -75,7 +75,7 @@ const useOption = (
         trigger: 'axis',
         formatter: dataList => {
           assertIsArray(dataList)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${(dataList[0].data as string[])[0]
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${(dataList[0]!.data as any)[0]
             }</div>`
           dataList.forEach(data => {
             assertSerialsItem(data)
@@ -233,7 +233,7 @@ export const NewDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: bool
       title={t('statistic.new_dao_deposit_depositor')}
       note={isMainnet() ? `${t('common.note')}1MB = 1,000,000 CKBytes` : undefined}
       isThumbnail={isThumbnail}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "daily_dao_deposit-daily_dao_depositors_count", limit: selectedRange })}
+      fetchData={(() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "daily_dao_deposit-daily_dao_depositors_count", limit: selectedRange })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticNewDaoDeposit"

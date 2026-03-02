@@ -82,7 +82,7 @@ export default function SearchRangeSelect(props: SearchRangeSelectProps) {
   return (
     <Select
       value={value}
-      onValueChange={(value) => setValue(value)}
+      onValueChange={(value) => setValue(value as any)}
     >
       <SelectTrigger className={classNames("font-medium border-0 px-3 py-0! shadow-none!", triggerClassName)}>
         <SelectValue />

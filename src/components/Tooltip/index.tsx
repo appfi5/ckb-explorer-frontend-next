@@ -52,13 +52,13 @@ export function OldTooltip(props: TooltipProps) {
             side={placement}
             style={contentStyle}
             className={classNames(styles.content, contentClassName, {
-              [styles.popover]: isPopover,
+              [styles.popover as string]: isPopover,
             })}
           >
             {showArrow && (
               <Arrow
                 className={classNames(styles.arrow, {
-                  [styles.popoverArrow]: isPopover,
+                  [styles.popoverArrow as string]: isPopover,
                 })}
               />
             )}

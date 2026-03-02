@@ -100,7 +100,7 @@ const Transaction = () => {
     }
   }
 
-  const handleCopy = (e: React.MouseEvent<SVGSVGElement>) => {
+  const handleCopy = (e: React.MouseEvent<HTMLElement | SVGSVGElement>) => {
     e.stopPropagation()
     e.preventDefault()
     const elm = e.currentTarget

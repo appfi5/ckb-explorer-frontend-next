@@ -9,7 +9,7 @@ const knownScriptInfoList = originKnownScriptInfoList.filter(item => {
 
 export function get(): Promise<KnownScriptInfo[]>
 export function get(codeHash: string): Promise<KnownScriptInfoWithSpecifyDeployment | undefined>
-export function get(codeHash?: string) {
+export function get(codeHash?: string): Promise<KnownScriptInfo[] | KnownScriptInfoWithSpecifyDeployment | undefined> {
   if (!codeHash) {
     return Promise.resolve(knownScriptInfoList);
   }

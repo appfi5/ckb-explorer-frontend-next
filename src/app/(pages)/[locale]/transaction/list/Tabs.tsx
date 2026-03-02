@@ -34,14 +34,14 @@ const Tab: FC<{
   }, [active])
 
   return to ? (
-    <Link ref={refLink} className={classNames(styles.tab, { [styles.active]: active })} href={to}>
+    <Link ref={refLink} className={classNames(styles.tab, { [styles.active as string]: active })} href={to}>
       {item.label}
     </Link>
   ) : (
-     
+
     <div
       ref={refDiv}
-      className={classNames(styles.tab, { [styles.active]: active })}
+      className={classNames(styles.tab, { [styles.active as string]: active })}
       onClick={() => onActive(item.key)}
     >
       {item.label}
@@ -77,7 +77,7 @@ export const Tabs: FC<{
         ))}
       </div>
 
-      {activeItem.children}
+      {activeItem?.children}
     </div>
   )
 }

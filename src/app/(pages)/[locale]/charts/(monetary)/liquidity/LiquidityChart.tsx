@@ -87,7 +87,7 @@ const useOption = (
         trigger: 'axis',
         formatter: dataList => {
           assertIsArray(dataList)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${(dataList[0].data as string[])[0]
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${(dataList[0]!.data as any)[0]
             }</div>`
           dataList.forEach(data => {
             assertSerialsItem(data)
@@ -245,7 +245,7 @@ export const LiquidityChart = ({ isThumbnail = false }: { isThumbnail?: boolean 
     <SmartChartPage
       title={t('statistic.liquidity')}
       isThumbnail={isThumbnail}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "circulating_supply-liquidity", limit: selectedRange })}
+      fetchData={(() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "circulating_supply-liquidity", limit: selectedRange })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticLiquidity"

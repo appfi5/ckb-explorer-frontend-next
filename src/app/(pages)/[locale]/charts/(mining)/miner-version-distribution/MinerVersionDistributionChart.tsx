@@ -54,11 +54,11 @@ const useOption = (
     ? {
       confine: true,
       formatter: data => {
-        const item = Array.isArray(data) ? data[0] : data
+        const item = Array.isArray(data) ? data[0]! : data
         const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 80 : 60)
-        let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.version'))} ${(item.data as Record<string, string>).title
+        let result = `<div>${tooltipColor('#333333' as string)}${widthSpan(t('statistic.version') as string)} ${(item.data as Record<string, string>).title
           }</div>`
-        result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('statistic.percent'))} ${(item.data as Record<string, string>).value
+        result += `<div>${tooltipColor(chartThemeColor.colors[0] as string)}${widthSpan(t('statistic.percent') as string)} ${(item.data as Record<string, string>).value
           }%</div>`
         return result
       },
@@ -68,7 +68,7 @@ const useOption = (
     }
 
   return {
-    color: [chartThemeColor.colors[0], ...Colors],
+    color: [chartThemeColor.colors[0] as string, ...Colors],
     tooltip,
     grid: isThumbnail ? gridThumbnail : grid,
     legend: {
@@ -105,9 +105,9 @@ const useOption = (
 }
 
 const fetchData = async () => {
-  const result: any[] = await server.explorer("GET /blocks/ckb_node_versions")
-  const totalBlocks = result?.length > 0 && result.reduce((acc, cur) => acc + cur.count, 0)
-  return result?.length > 0 && result.map(v => ({
+  const result = await server.explorer("GET /blocks/ckb_node_versions") as any
+  const totalBlocks = result?.length > 0 && result.reduce((acc: any, cur: any) => acc + cur.count, 0)
+  return result?.length > 0 && result.map((v: any) => ({
     version: v.version,
     percent: +((100 * v.count) / totalBlocks).toFixed(2),
   }))

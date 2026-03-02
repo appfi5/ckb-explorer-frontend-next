@@ -367,7 +367,7 @@ export const variantColors = (
   let variantIndex = 0;
 
   for (let i = 0; i < count; i++) {
-    const baseColor = baseColors[i % baseColors.length];
+    const baseColor = baseColors[i % baseColors.length]!;
     let adjustmentFactor = 0;
     if (variantIndex % 3 === 1) {
       adjustmentFactor = 30;

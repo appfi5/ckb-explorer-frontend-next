@@ -46,10 +46,10 @@ const useOption = (
         formatter: dataList => {
           assertIsArray(dataList)
           const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 70 : 35)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0].data as string[])[0]
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0]!.data as any)[0]
             }</div>`
-          result += `<div>${tooltipColor(chartThemeColor.colors[0])}\
-          ${widthSpan(t('block.difficulty'))} ${handleDifficulty((dataList[0].data as string[])[1])}</div>`
+          result += `<div>${tooltipColor(chartThemeColor.colors[0] as string)}\
+          ${widthSpan(t('block.difficulty') as string)} ${handleDifficulty((dataList[0]!.data as any)[1])}</div>`
           return result
         },
       }
@@ -144,7 +144,7 @@ export const DifficultyChart = ({ isThumbnail = false }: { isThumbnail?: boolean
       title={t('block.difficulty')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticDifficulty}      
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "avg_difficulty", limit: selectedRange })}
+      fetchData={(() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "avg_difficulty", limit: selectedRange })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticDifficulty"

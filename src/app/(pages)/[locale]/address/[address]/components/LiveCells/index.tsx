@@ -40,7 +40,7 @@ export default function LiveCells(props: LiveCellsProps) {
   const { t } = useTranslation();
   // const [sort, setSort] = useState<"block_timestamp.asc" | "block_timestamp.desc" | "capacity.desc" | "capacity.asc">("block_timestamp.desc");
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ["address live cells", address, cellRange?.typeHash || cellRange],
+    queryKey: ["address live cells", address, (cellRange as { typeHash: string })?.typeHash || cellRange],
     // queryFn: async ({ pageParam }) => {
     //   const page = pageParam;
     //   const boundStatus = address.startsWith('ckb') || address.startsWith('ckt') ? undefined : 'bound'
@@ -184,7 +184,7 @@ function CellCard({ cell }: { cell: APIExplorer.LiveCellsResponse }) {
             <TwoSizeAmount
               integerClassName="font-hash"
               decimalClassName="font-hash text-xs"
-              amount={new BigNumber(udtData?.amount ?? 0).dividedBy(10 ** (udtInfo?.decimalPlaces ?? 0)).toString()}
+              amount={new BigNumber((udtData as any)?.amount ?? 0).dividedBy(10 ** (udtInfo?.decimalPlaces ?? 0)).toString()}
               unit={<span className="ml-1">{udtInfo?.symbol}</span>}
             />
           )

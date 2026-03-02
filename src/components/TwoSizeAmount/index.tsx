@@ -20,7 +20,7 @@ export default function TwoSizeAmount(props: TwoSizeAmountProps) {
   const [int, dec] = useMemo(() => {
     const c = new BigNumber(amount);
     const [int, dec] = c
-      .toFormat(...(format || [])) // display === "full" ? 8 : undefined)
+      .toFormat(...((format || []) as any)) // display === "full" ? 8 : undefined)
       .split(".");
     return [int, dec];
   }, [amount])

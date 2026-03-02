@@ -54,7 +54,7 @@ const useOption = () => {
     }
 
     return {
-      color: [chartThemeColor.colors[0], ...Colors],
+      color: [chartThemeColor.colors[0] as string, ...Colors],
       tooltip: !isThumbnail
         ? {
           confine: true,
@@ -62,9 +62,9 @@ const useOption = () => {
             assertNotArray(data)
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 60 : 65)
             let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.address'))} ${getAdaptAddressText(
-              (data.data as Record<string, string>).title,
+              (data.data as Record<string, string>).title ?? '',
             )}</div>`
-            result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('statistic.miner_ratio'))} ${(
+            result += `<div>${tooltipColor(chartThemeColor.colors[0] as string)}${widthSpan(t('statistic.miner_ratio'))} ${(
               Number((data.data as Record<string, string>).value) * 100
             ).toFixed(1)}%</div>`
             return result
@@ -131,7 +131,7 @@ export const MinerAddressDistributionChart = ({ isThumbnail = false }: { isThumb
       title={t('statistic.miner_addresses_rank')}
       isThumbnail={isThumbnail}
       chartProps={{ onClick: !isThumbnail ? onClick : undefined }}
-      // fetchData={explorerService.api.fetchStatisticMinerAddressDistribution}
+      fetchData={(server.explorer as any)("GET /statistics/miner_address_distribution")}
       getEChartOption={getEChartOption}
       toCSV={toCSV}
       queryKey="fetchStatisticMinerAddressDistribution"

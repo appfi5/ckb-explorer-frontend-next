@@ -71,7 +71,7 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
                 type: 'pie',
                 radius: ['40%', '75%'],
                 center: ['50%', isMobile ? '50%' : '60%'],
-                data: chartData,
+                data: chartData as any,
                 label: {
                     position: 'outside',
                     align: 'center',
@@ -95,7 +95,7 @@ const useOption = (overviewData: ChartItem.DailyStatistics, colors: string[], is
                     },
                 },
             },
-        ],
+        ] as any,
     };
 };
 

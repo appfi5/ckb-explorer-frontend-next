@@ -29,13 +29,13 @@ export default function CellInfo({ cellId, suffix }: { cellId: APIExplorer.CellO
   const cellInfoQuery = useQuery({
     queryKey: ['cell_info', cellId],
     queryFn: async () => {
-      const cellInfoRes = await server.explorer("GET /cell_output/{id}", { id: cellId });
+      const cellInfoRes = await server.explorer("GET /cell_output/{id}", { id: String(cellId) });
       if (!cellInfoRes) {
         throw new Error("Cell not found");
       }
       const cellType = parseType(cellInfoRes)
       if (!!cellType && (cellInfoRes.data.length < 3)) {
-        const wholeCellData = await server.explorer("GET /cell_output_data/{id}", { id: cellId });
+        const wholeCellData = await server.explorer("GET /cell_output_data/{id}", { id: String(cellId) });
         if (wholeCellData) {
           cellInfoRes.data = wholeCellData.data;
         }
@@ -199,7 +199,7 @@ export default function CellInfo({ cellId, suffix }: { cellId: APIExplorer.CellO
                   onDownload={cellInfo.dataSize < 1024 ? undefined : async () => {
                     let cellWholeData = cellInfo.data.length < 3 ? undefined : cellInfo.data;
                     if (!cellWholeData) {
-                      const cellDataRes = await server.explorer("GET /cell_output_data/{id}", { id: cellId })
+                      const cellDataRes = await server.explorer("GET /cell_output_data/{id}", { id: String(cellId) })
                       cellWholeData = cellDataRes?.data
                     }
 

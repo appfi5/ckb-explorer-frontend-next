@@ -89,7 +89,7 @@ const useOption = (
         trigger: 'axis',
         formatter: dataList => {
           assertIsArray(dataList)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('block.epoch'), currentLanguage)} ${dataList[0].name
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('block.epoch'), currentLanguage)} ${dataList[0]!.name
             }</div>`
           dataList.forEach(data => {
             assertSerialsItem(data)
@@ -242,7 +242,7 @@ export const DifficultyUncleRateEpochChart: FC<{ isThumbnail?: boolean }> = ({ i
       title={`${t('block.epoch_time')} & ${t('block.epoch_length')}`}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticDifficultyUncleRateEpoch}
-      fetchData={() => server.explorer("GET /epoch_statistics/{indicator}", { indicator: "epoch_time-epoch_length" })}
+      fetchData={(() => server.explorer("GET /epoch_statistics/{indicator}", { indicator: "epoch_time-epoch_length" })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticDifficultyUncleRateEpoch"

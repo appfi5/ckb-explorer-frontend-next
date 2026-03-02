@@ -32,7 +32,7 @@ export function QueryResult<TData, TError>(props: QueryResultProps<TData, TError
 
   switch (query.status) {
     case "error":
-      return errorRender ? errorRender(query.error) : <Empty iconScale={2} message={query.error?.message ?? ""} {...emptyProps} className={classNames("flex-1 h-full min-h-[40vh] gap-3", emptyProps?.className)} />
+      return errorRender ? errorRender(query.error) : <Empty iconScale={2} message={(query.error as any)?.message ?? ""} {...emptyProps} className={classNames("flex-1 h-full min-h-[40vh] gap-3", emptyProps?.className)} />
     case "success":
       return children(query.data);
     // case "loading":

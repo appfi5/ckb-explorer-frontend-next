@@ -9,7 +9,7 @@ export type KnownScriptInfo = {
   sourceUrl: string | undefined;
   verified: boolean;
   /** for cell parser */
-  cellTypeTag?: "udt" | "spore" | "spore-cluster" | "dao" | "ckbfs"
+  cellTypeTag?: "udt" | "spore" | "spore-cluster" | "dao" | "ckbfs" | "web5-did"
   /** place the latest deployment to the top */
   deployments: KnownScriptDepolyment[]
 }

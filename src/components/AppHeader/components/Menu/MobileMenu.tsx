@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { useState } from "react";
 import Link from "next/link";
 
+import server from "@/server";
 import {
   Drawer,
   DrawerContent,

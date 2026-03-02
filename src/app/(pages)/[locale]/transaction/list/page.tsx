@@ -148,7 +148,7 @@ const TransactionTable: FC<{
 
   const colHash: Column<Transaction> = {
     key: 'hash',
-    title: t('transaction.transaction_hash'),
+    title: <>{t('transaction.transaction_hash')}</>,
     className: styles.colHash,
     width: '30%',
     textDirection: 'left',
@@ -173,7 +173,7 @@ const TransactionTable: FC<{
     },
     {
       key: 'time',
-      title: t('transaction.time'),
+      title: <>{t('transaction.time')}</>,
       width: '25%',
       textDirection: 'left',
       render: transaction => parseSimpleDate(transaction.blockTimestamp),
@@ -197,7 +197,7 @@ const TransactionTable: FC<{
   const pendingColumns: Column<Transaction>[] = [
     {
       key: 'hash',
-      title: t('transaction.transaction_hash'),
+      title: <>{t('transaction.transaction_hash')}</>,
       className: styles.colHash,
       width: '50%',
       textDirection: 'left',
@@ -237,10 +237,8 @@ const TransactionTable: FC<{
   const columns = type === 'confirmed' ? confirmedColumns : pendingColumns
   return (
     <Table
-      className={styles.transactionTable}
       columns={columns}
       dataSource={transactions}
-      getRowKey={transaction => transaction.transactionHash}
       isTransactionFree={type === 'confirmed'}
     />
   )

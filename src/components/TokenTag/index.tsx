@@ -49,12 +49,12 @@ export default function TokenTag(props: UDTTagProps) {
             className={classNames(styles.tag)}
             data-type={tagName}
           >
-            {t(`xudt.tags.${tagName}`)}
+            {t(`xudt.tags.${tagName}` as any)}
           </div>
         }
       >
         <div className="whitespace-normal max-w-[320px]">
-          {t(`xudt.tags_description.${tagName}`)}
+          {t(`xudt.tags_description.${tagName}` as any)}
         </div>
       </Tips>
     )
@@ -65,7 +65,7 @@ export default function TokenTag(props: UDTTagProps) {
       className={classNames(styles.tag)}
       data-type={tagName}
     >
-      {t(`xudt.tags.${tagName}`)}
+      {t(`xudt.tags.${tagName}` as any)}
     </div>
   )
 }

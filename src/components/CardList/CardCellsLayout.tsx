@@ -119,7 +119,7 @@ const CardCellsLayout$LeftRightOrLeftSingleRight: FC<
       {type === "left-right" ? (
         <div className={`${styles.left} ${dataCss}`}>{leftCells.map(renderCell)}</div>
       ) : (
-        <div className={`${styles.leftSingle} ${dataCss}`}>{renderCell(leftCells[0])}</div>
+        <div className={`${styles.leftSingle} ${dataCss}`}>{renderCell(leftCells[0]!)}</div>
       )}
 
       <div className={`${styles.right} ${dataCss}`}>{rightCells.map(renderCell)}</div>

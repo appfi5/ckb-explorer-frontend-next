@@ -1,4 +1,5 @@
 "use client"
+import { type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import Content from '@/components/Content'
@@ -26,7 +27,7 @@ const NervosDao = () => {
   const isMobile = useIsMobile()
   const params = useSearchParams('filter')
   const initialTab = useSearchParams('tab').tab
-  const [activeTab, setActiveTab] = useState<'transactions' | 'depositors'>(initialTab || 'transactions')
+  const [activeTab, setActiveTab] = useState<'transactions' | 'depositors'>((initialTab || 'transactions') as 'transactions' | 'depositors')
   const { currentPage, pageSize, setPage, setPageSize } = usePaginationParamsInListPage()
 
   const queryNervosDao = useQuery({
@@ -43,8 +44,8 @@ const NervosDao = () => {
       const res = await server.explorer("GET /contract_transactions/nervos_dao", {
         page: currentPage,
         pageSize: pageSize,
-        txHash: params.filter?.startsWith("0x") ? params.filter : null,
-        addressHash: params.filter?.startsWith("0x") ? null : params.filter,
+        txHash: (params.filter?.startsWith("0x") ? params.filter! : undefined) as string,
+        addressHash: (params.filter?.startsWith("0x") ? undefined : params.filter!) as string,
       })
       return {
         transactions: res?.records ?? [],
@@ -107,7 +108,6 @@ const NervosDao = () => {
               </PixelBorderBlock> */}
               <Filter
                 defaultValue={params.filter}
-                showReset={!!params.filter}
                 placeholder={activeTab === 'depositors' ? t('search.addr') : `${t('search.tx')} / ${t('search.addr')}`}
                 onFilter={filter => {
                   router.push(`/nervosdao?${new URLSearchParams({ filter, activeTab })}`)
@@ -134,7 +134,7 @@ const NervosDao = () => {
             </QueryResult>
           ) : (
             <QueryResult query={queryNervosDaoDepositors} delayLoading>
-              {data => <DepositorRank depositors={data ?? []} filter={params.filter} />}
+              {data => <DepositorRank depositors={data ?? [] as any} filter={params.filter} />}
             </QueryResult>
           )}
         </div>

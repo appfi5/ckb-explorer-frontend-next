@@ -13,7 +13,7 @@ const defaultReqInterceptor: RequestInterceptor = (params, options) => [params, 
 const identity = <T>(t: T) => t;
 
 export default function defineAPIHOC(urlPrefix: string, interceptors?: Interceptors<any>) {
-  return function defineAPI<Params, Response>(url: string, method: HTTPMethod, helper?: APIHelper) {
+  return function defineAPI<Params extends Record<string, any> | Array<any> | null | undefined, Response>(url: string, method: HTTPMethod, helper?: APIHelper) {
     const divider = parameterDividerHOC(url, method, helper?.divider);
     const { requestInterceptor = defaultReqInterceptor, responseInterceptor = identity } = interceptors?.get(`${method} ${url}`) ?? {};
     // the return type is a trick, this can make callAPI get a correct type
@@ -79,7 +79,7 @@ function parameterDividerHOC(url: string, httpMethod: HTTPMethod, divider: APIHe
 
   const defaultParameterStoreKey = httpMethod === 'GET' ? 'query' : 'body';
 
-  return function divider(parameters?: Record<string, any> | Array<any>) {
+  return function divider(parameters?: Record<string, any> | Array<any> | null) {
     if (!parameters) {
       return { url };
     }

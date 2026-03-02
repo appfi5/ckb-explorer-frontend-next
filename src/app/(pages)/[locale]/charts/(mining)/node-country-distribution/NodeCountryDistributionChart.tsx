@@ -41,11 +41,11 @@ const useOption = (
     ? {
       confine: true,
       formatter: data => {
-        const item = Array.isArray(data) ? data[0] : data
+        const item = Array.isArray(data) ? data[0]! : data
         const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 100 : 120)
-        let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.country'))} ${(item.data as Record<string, string>).title
+        let result = `<div>${tooltipColor('#333333' as string)}${widthSpan(t('statistic.country') as string)} ${(item.data as Record<string, string>).title
           }</div>`
-        result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('statistic.percent'))} ${(item.data as Record<string, string>).value
+        result += `<div>${tooltipColor(chartThemeColor.colors[0] as string)}${widthSpan(t('statistic.percent') as string)} ${(item.data as Record<string, string>).value
           }%</div>`
         return result
       },

@@ -30,7 +30,7 @@ export default function ListCellItem(props: ListCellItemProps) {
   const { t } = useTranslation();
 
   if ((cell as APIExplorer.CellInputResponse).fromCellbase) {
-    return <Cellbase cell={cell} />;
+    return <Cellbase cell={cell as APIExplorer.CellInputResponse} />;
   }
   let addressText = t("address.unable_decode_address");
   let highLight = false;
@@ -85,16 +85,16 @@ export default function ListCellItem(props: ListCellItemProps) {
           {
             ioType === IOType.Output && (
               <>
-                {cell.status === CellStatus.LIVE && (
+                {(cell as APIExplorer.CellOutputResponse).status === CellStatus.LIVE && (
                   <div className="flex-none flex items-center justify-center gap-2 size-5">
                     <Tooltip trigger={<RelateTxCellConsumedIcon width="100%" height="100%" />} placement="top">{`${t("transaction.unspent_output")}`}</Tooltip>
                   </div>
                 )}
-                {cell.status === CellStatus.COMSUMED && (
+                {(cell as APIExplorer.CellOutputResponse).status === CellStatus.COMSUMED && (
                   <div className="flex-none flex items-center justify-center gap-2">
                     <Tooltip
                       trigger={
-                        <Link className="flex size-5" href={`/transaction/${cell.consumedTxHash}`}>
+                        <Link className="flex size-5" href={`/transaction/${(cell as APIExplorer.CellOutputResponse).consumedTxHash}`}>
                           <RelateTxOutputIcon width="100%" height="100%" />
                         </Link>
                       }

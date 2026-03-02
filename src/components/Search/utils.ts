@@ -280,7 +280,7 @@ export const getURLBySearchValue = async (searchValue: string) => {
 
   try {
     const data = await fetchAggregateSearchResult(addPrefixForHash(query));
-    return getURLByAggregateSearchResult(data[0]);
+    return getURLByAggregateSearchResult(data[0]!);
   } catch (error) {
     toast.error(i18n.t("search.no_search_result"));
     return;

@@ -8,8 +8,8 @@ export const getTimelock = (
   try {
     if (since) {
       s = parseSince(since.raw);
-      if (s && s.type === "timestamp") {
-        if (s.base === "relative") {
+      if (s && s.metric === "timestamp") {
+        if (s.relative === "relative") {
           s.value = `${+s.value / 3600} Hrs`;
         } else {
           s.value = parseSimpleDate(+s.value * 1000);

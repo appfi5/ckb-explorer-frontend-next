@@ -77,7 +77,7 @@ class MoleculeSchemaParser {
 
     while (pos < schema.length) {
       // Skip whitespace
-      while (pos < schema.length && /\s/.test(schema[pos])) {
+      while (pos < schema.length && /\s/.test(schema[pos]!)) {
         pos++
       }
 
@@ -95,7 +95,7 @@ class MoleculeSchemaParser {
         if (braceEnd !== -1) {
           const fieldsStr = schema.substring(braceStart + 1, braceEnd)
           const fields = this.parseFields(fieldsStr)
-          this.definitions.set(typeName, { type: 'struct', fields })
+          this.definitions.set(typeName!, { type: 'struct', fields })
           pos = braceEnd + 1
           continue
         }
@@ -110,7 +110,7 @@ class MoleculeSchemaParser {
         if (braceEnd !== -1) {
           const fieldsStr = schema.substring(braceStart + 1, braceEnd)
           const fields = this.parseFields(fieldsStr)
-          this.definitions.set(typeName, { type: 'table', fields })
+          this.definitions.set(typeName!, { type: 'table', fields })
           pos = braceEnd + 1
           continue
         }
@@ -120,7 +120,7 @@ class MoleculeSchemaParser {
       const vectorMatch = remaining.match(/^vector\s+(\w+)\s*<(\w+)>/)
       if (vectorMatch) {
         const [fullMatch, typeName, itemType] = vectorMatch
-        this.definitions.set(typeName, { type: 'vector', itemType })
+        this.definitions.set(typeName!, { type: 'vector', itemType })
         pos += fullMatch.length
         continue
       }
@@ -129,7 +129,7 @@ class MoleculeSchemaParser {
       const optionMatch = remaining.match(/^option\s+(\w+)\s*\((\w+)\)/)
       if (optionMatch) {
         const [fullMatch, typeName, itemType] = optionMatch
-        this.definitions.set(typeName, { type: 'option', itemType })
+        this.definitions.set(typeName!, { type: 'option', itemType })
         pos += fullMatch.length
         continue
       }
@@ -138,7 +138,7 @@ class MoleculeSchemaParser {
       const arrayMatch = remaining.match(/^array\s+(\w+)\s*\[(\w+);\s*(\d+)\]/)
       if (arrayMatch) {
         const [fullMatch, typeName, itemType, countStr] = arrayMatch
-        this.definitions.set(typeName, { type: 'array', itemType, itemCount: parseInt(countStr, 10) })
+        this.definitions.set(typeName!, { type: 'array', itemType, itemCount: parseInt(countStr!, 10) })
         pos += fullMatch.length
         continue
       }
@@ -227,10 +227,10 @@ class MoleculeSchemaParser {
     switch (definition.type) {
       case 'struct':
         this.appendCodecsTask(
-          Object.entries(definition.fields).map(field => field[1]),
+          Object.entries(definition.fields!).map(field => field[1]),
           () => {
             const codecLayout: any = {}
-            for (const [fieldName, fieldType] of Object.entries(definition.fields)) {
+            for (const [fieldName, fieldType] of Object.entries(definition.fields!)) {
               const codec = this.getCodec(fieldType)
               codecLayout[fieldName] = codec
             }
@@ -241,7 +241,7 @@ class MoleculeSchemaParser {
 
       case 'table':
         this.appendCodecsTask(
-          Object.entries(definition.fields).map(field => field[1]),
+          Object.entries(definition.fields!).map(field => field[1]),
           () => {
             const codecLayout: any = {}
             for (const [fieldName, fieldType] of Object.entries(definition.fields!)) {

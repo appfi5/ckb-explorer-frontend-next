@@ -38,7 +38,7 @@ export const Hash160: React.FC = () => {
     }
   }, [value])
 
-  const saveValue = debounceInput(setValue)
+  const saveValue = debounceInput((value: any) => setValue(value))
 
   console.log({ hash, error })
 

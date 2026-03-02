@@ -28,7 +28,7 @@ export default function PixelBorderBlock(props: PixelBorderBlockProps) {
       style={{
         "--pixel-size": pixelSize,
         ...rest.style,
-      }}
+      } as any}
     >
       <div data-slot="bg" className={styles.bg} />
       <i data-slot="border" className={classNames(styles.border, styles.top)} />

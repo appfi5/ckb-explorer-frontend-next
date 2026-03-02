@@ -46,9 +46,9 @@ const useOption = (
         formatter: dataList => {
           assertIsArray(dataList)
           const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 75 : 50)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0].data as string[])[0]
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0]!.data as any)[0]
             }</div>`
-          result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('block.uncle_rate'))} ${(dataList[0].data as string[])[1]
+          result += `<div>${tooltipColor(chartThemeColor.colors[0] as string)}${widthSpan(t('block.uncle_rate') as string)} ${(dataList[0]!.data as any)[1]
             }%</div>`
           return result
         },
@@ -155,7 +155,7 @@ export const UncleRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean 
       description={t('statistic.uncle_rate_description')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticUncleRate}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "uncle_rate", limit: selectedRange })}
+      fetchData={(() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "uncle_rate", limit: selectedRange })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticUncleRate"

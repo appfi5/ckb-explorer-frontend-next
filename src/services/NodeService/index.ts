@@ -74,8 +74,8 @@ export class NodeService {
     const { transaction } = res
 
     return ccc.Cell.from({
-      cellOutput: transaction.outputs[parseInt(outPoint.index.toString(), 10)],
-      outputData: transaction.outputsData[parseInt(outPoint.index.toString(), 10)],
+      cellOutput: transaction.outputs[parseInt(outPoint.index.toString(), 10)]!,
+      outputData: transaction.outputsData[parseInt(outPoint.index.toString(), 10)]!,
       outPoint,
     })
   }

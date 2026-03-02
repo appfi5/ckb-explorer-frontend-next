@@ -58,11 +58,11 @@ const useOption = (
         formatter: dataList => {
           assertIsArray(dataList)
           const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 80 : 80)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${dayjs(+dataList[0].name * 1000).format('YYYY/MM/DD')}</div>`
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${dayjs(+dataList[0]!.name * 1000).format('YYYY/MM/DD')}</div>`
           result += `\
-            <div>${tooltipColor(chartThemeColor.colors[0])}\
-            ${widthSpan(t('statistic.miner_daily_avgRor'))} \
-            ${dataList[0].data} CKB</div>`
+            <div>${tooltipColor(chartThemeColor.colors[0] as string)}\
+            ${widthSpan(t('statistic.miner_daily_avgRor') as string)} \
+            ${dataList[0]!.data as string} CKB</div>`
           return result
         },
       }
@@ -175,7 +175,7 @@ const MinerCardGroup = ({ miners }: { miners: ChartItem.MinerRewardInfo[] }) => 
     miners && miners.length > 0 && <CardListWithCellsList
       className={styles.minerCardGroupSty}
       dataSource={miners}
-      getDataKey={(miners: ChartItem.MinerRewardInfo) => miners.id}
+      getDataKey={(miners: ChartItem.MinerRewardInfo) => (miners as any).id}
       cells={items}
     />
   )
@@ -196,7 +196,7 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
   })
 
   const timeRange = useMemo(() => {
-    if (!timeRangeQuery.data) return { startTime: '', endTime: '' }
+    if (!timeRangeQuery.data) return { startTime: new Date(), endTime: new Date() }
     return {
       startTime: new Date(timeRangeQuery.data.startTime),
       endTime: new Date(timeRangeQuery.data.endTime),
@@ -213,19 +213,19 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
     enabled: !!selectedDate,
   })
 
-  const overviewData = useMemo<ChartItem.DailyStatistics>(() => {
+  const overviewData = useMemo(() => {
     if (!minerDailyStatisticsQuery.data) {
       return {
-        id: '',
+        id: 0,
         type: '',
-        createdAtUnixtimestamp: '',
+        createdAtUnixtimestamp: 0,
         maxBlockNumber: 0,
         minBlockNumber: 0,
         totalReward: 0,
         totalHashRate: 0,
         avgRor: 0,
         miners: [],
-      };
+      } as any;
     }
     return minerDailyStatisticsQuery.data;
   }, [minerDailyStatisticsQuery.data]);
@@ -315,7 +315,7 @@ export const MinerDailyStatisticsChart = ({ isThumbnail = false }: { isThumbnail
                 </tr>
               </thead>
               <tbody>
-                {overviewData?.miners?.map((data, index) => {
+                {overviewData?.miners?.map((data: any, index: number) => {
                   return (
                     <tr key={index} className='h-[63px] border-b border-[#EEEEEE] dark:border-[#4C4C4C] text-[16px]'>
                       <td className={styles.address}>

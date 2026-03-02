@@ -37,8 +37,8 @@ function SelectTrigger({
       className={classnames(
         styles.trigger,
         {
-          [styles.triggerSm]: size === "sm",
-          [styles.triggerDefault]: size === "default",
+          [styles.triggerSm as string]: size === "sm",
+          [styles.triggerDefault as string]: size === "default",
         },
         className,
       )}
@@ -64,7 +64,7 @@ function SelectContent({
         data-slot="select-content"
         className={classnames(
           styles.content,
-          { [styles.contentPopper]: position === "popper" },
+          { [styles.contentPopper as string]: position === "popper" },
           className,
         )}
         position={position}
@@ -73,7 +73,7 @@ function SelectContent({
         <SelectScrollUpButton />
         <SelectPrimitive.Viewport
           className={classnames(styles.viewport, {
-            [styles.viewportPopper]: position === "popper",
+            [styles.viewportPopper as string]: position === "popper",
           })}
         >
           {children}

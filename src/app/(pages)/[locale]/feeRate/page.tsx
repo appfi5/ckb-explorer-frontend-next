@@ -78,7 +78,7 @@ const FeeRateTrackerPage = () => {
             </div>
             <div className={styles.chart}>
               {transactionFeesStatistic && transactionFeesStatistic?.transactionFeeRates ? (
-                <ConfirmationTimeFeeRateChart transactionFeeRates={transactionFeesStatistic.transactionFeeRates} />
+                <ConfirmationTimeFeeRateChart transactionFeeRates={transactionFeesStatistic.transactionFeeRates as any} />
               ) : (
                 <LoadingComponent />
               )}

@@ -198,7 +198,7 @@ function IconTemplate({ icon, url, description }: { icon: React.ReactNode; url?:
             url ? "cursor-pointer" : "cursor-default"
           ),
           children: icon,
-          onClick: e => {
+          onClick: (e: any) => {
             e?.stopPropagation();
           }
         })

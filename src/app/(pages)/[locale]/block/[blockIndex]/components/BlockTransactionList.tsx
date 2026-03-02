@@ -44,7 +44,6 @@ export const BlockTransactionList = ({
       <div className='flex justify-between items-center mb-[20px]'>
         <div className='text-[18px] font-medium leading-[26px]'>{t('transaction.transactions')} ({localeNumberString(total)})</div>
         {!isMobile && <Filter
-          showReset={!!filter}
           defaultValue={filter ?? ''}
           placeholder={t('search.search') + " " + t('block.address_or_hash')}
           onFilter={filter => {
@@ -78,7 +77,7 @@ export const BlockTransactionList = ({
               /> */}
               <TransactionItemWithCells
                 scrollIntoViewOnMount={transaction.isCellbase && hash === `#${CELL_BASE_ANCHOR}`}
-                transaction={transaction}
+                transaction={transaction as any}
               />
             </>
           ),

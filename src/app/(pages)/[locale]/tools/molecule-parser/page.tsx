@@ -19,7 +19,7 @@ export default function MoleculeParser() {
   const handleCodecMap = useCallback(
     (codecMap: CodecMap) => {
       setCodecMap(codecMap)
-      setSelectedCodecName(Object.keys(codecMap)[0])
+      setSelectedCodecName(Object.keys(codecMap)[0] || '')
     },
     [setCodecMap, setSelectedCodecName],
   )

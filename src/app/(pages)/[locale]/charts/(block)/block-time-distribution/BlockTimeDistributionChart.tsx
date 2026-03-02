@@ -54,10 +54,13 @@ const useOption = (
         formatter: dataList => {
           assertIsArray(dataList)
           const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 80 : 80)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.time'))} ${dataList[0].name}</div>`
-          result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('statistic.block_count'))} ${dataList[0].data
-            }%</div>`
-          return result
+          const nameVal = dataList[0]!.name
+          const nameValue = typeof nameVal === 'string' ? nameVal : ''
+          const dataVal = dataList[0]!.data
+          const dataValue: string = dataVal as any
+          const timeHtml = `<div>${tooltipColor('#333333' as string)}${widthSpan(t('statistic.time') as string)} ${nameValue as string}</div>`
+          const countHtml = `<div>${tooltipColor(chartThemeColor.colors[0] as string)}${widthSpan(t('statistic.block_count') as string)} ${dataValue as string}%</div>`
+          return timeHtml + countHtml
         },
       }
       : undefined,
@@ -145,7 +148,7 @@ export const BlockTimeDistributionChart = ({ isThumbnail = false }: { isThumbnai
       description={t('statistic.block_time_distribution_description')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticBlockTimeDistribution}
-      fetchData={() => server.explorer("GET /distribution_data/{indicator}", { indicator: "block_time_distribution" })}
+      fetchData={(() => server.explorer("GET /distribution_data/{indicator}", { indicator: "block_time_distribution" })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticBlockTimeDistribution"

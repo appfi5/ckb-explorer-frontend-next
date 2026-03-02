@@ -136,7 +136,7 @@ const useOption = (
         symbolSize: (data: number[]) => {
           const ratio = isThumbnail ? 500 : 50
           const min = isThumbnail ? 1 : 10
-          const size = Math.sqrt(data[2]) / ratio
+          const size = Math.sqrt(data[2]!) / ratio
           return size < min ? min : size
         },
       },
@@ -193,7 +193,7 @@ export const ContractResourceDistributedChart = ({ isThumbnail = false }: { isTh
       isThumbnail={isThumbnail}
       chartProps={{ onClick: !isThumbnail ? handleClick : undefined }}
       // fetchData={explorerService.api.fetchContractResourceDistributed}
-      fetchData={() => server.explorer("GET /statistics/{fieldName}", { fieldName: "contract_resource_distributed" })}
+      fetchData={(() => server.explorer("GET /statistics/{fieldName}", { fieldName: "contract_resource_distributed" })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchContractResourceDistributed"

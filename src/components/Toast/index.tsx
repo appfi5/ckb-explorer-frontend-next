@@ -41,7 +41,7 @@ const ToastItem = ({
   useTimeoutWithUnmount(
     () => {
       const requestAnimationFrame =
-        window.requestAnimationFrame || window.webkitRequestAnimationFrame;
+        window.requestAnimationFrame || (window as any).webkitRequestAnimationFrame;
       let count: number = 0;
       const updateOpacity = () => {
         count++;
@@ -57,7 +57,7 @@ const ToastItem = ({
     () => {
       if (animationId) {
         const cancelAnimationFrame =
-          window.cancelAnimationFrame || window.webkitCancelAnimationFrame;
+          window.cancelAnimationFrame || (window as any).webkitCancelAnimationFrame;
         cancelAnimationFrame(animationId);
       }
     },

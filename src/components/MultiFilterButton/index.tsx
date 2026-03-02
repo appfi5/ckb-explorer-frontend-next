@@ -80,7 +80,7 @@ export function MultiFilterPopover({
             <h2>{t("components.multi_filter_button.select")}</h2>
             <Link
               href={{
-                pathname: filterList[0].to,
+                pathname: filterList[0]!.to,
                 query: baseSearchParams.toString() 
                   ? Object.fromEntries(baseSearchParams) 
                   : undefined,
@@ -93,7 +93,7 @@ export function MultiFilterPopover({
                     filterName,
                     filterList.map((f) => f.key).join(","),
                   );
-                  router.push(`${filterList[0].to}?${newParams.toString()}`);
+                  router.push(`${filterList[0]!.to}?${newParams.toString()}`);
                 }
               }}
             >

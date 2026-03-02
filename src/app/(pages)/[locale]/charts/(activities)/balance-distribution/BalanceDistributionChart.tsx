@@ -267,6 +267,7 @@ export const BalanceDistributionChart = ({ isThumbnail = false }: { isThumbnail?
       description={t('statistic.balance_distribution_description')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticBalanceDistribution}
+      // @ts-expect-error - type mismatch but works at runtime
       fetchData={() => server.explorer("GET /distribution_data/{indicator}", { indicator: "address_balance_distribution" })}
       getEChartOption={useOption}
       toCSV={toCSV}

@@ -57,8 +57,8 @@ export const ConfirmationTimeFeeRateChart = ({
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           borderColor: 'rgba(0, 0, 0, 0.8)',
           formatter(params: TopLevelFormatterParams) {
-            const feeRate = Array.isArray(params) ? params[0] : params
-            const count = Array.isArray(params) ? params[1] : params
+            const feeRate = Array.isArray(params) ? params[0]! : params
+            const count = Array.isArray(params) ? params[1]! : params
             if (!feeRate.value) return ''
             return `${t('fee_rate_tracker.fee_rate')}: ${feeRate.value?.toLocaleString('en')} shannons/kB<br />${t(
               'fee_rate_tracker.confirmation_time',
@@ -197,7 +197,7 @@ export const FeeRateTransactionCountChartCore = ({
           textStyle: textStyleOfTooltip,
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           formatter(params: TopLevelFormatterParams) {
-            const param = Array.isArray(params) ? params[0] : params
+            const param = Array.isArray(params) ? params[0]! : params
             return `${param.name} shannons/kB<br />${t('fee_rate_tracker.transaction_count')}: ${param.value}`
           },
         },
@@ -322,7 +322,7 @@ export const LastNDaysTransactionFeeRateChart = ({
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
             borderColor: 'rgba(0, 0, 0, 0.8)',
             formatter(params: TopLevelFormatterParams) {
-              const param = Array.isArray(params) ? params[0] : params
+              const param = Array.isArray(params) ? params[0]! : params
               const feeRate = sortedLastNDaysTransactionFeeRates.find(r => dayjs(r.date).format('MM/DD') === param.name)
               return `${t('fee_rate_tracker.date')}: ${feeRate ? dayjs(feeRate.date).format('YYYY/MM/DD') : ''
                 }<br />${t('fee_rate_tracker.average_fee_rate')}: ${param.value?.toLocaleString('en')} shannons/kB`
@@ -392,26 +392,26 @@ export const LastNDaysTransactionFeeRateChart = ({
                   colorStops: [
                     {
                       offset: 0,
-                      color: AreaStyleColors[0]
+                      color: AreaStyleColors[0] as string
                     },
                     {
                       offset: 1,
-                      color: AreaStyleColors[1]
+                      color: AreaStyleColors[1] as string
                     }
                   ]
                 }
               },
               lineStyle: {
                 width: 2,
-                color: AreaStyleColors[2],
+                color: AreaStyleColors[2] as string,
               },
               showSymbol: true,
               itemStyle: {
-                color: AreaStyleColors[2]
+                color: AreaStyleColors[2] as string
               },
               symbolSize: 4,
             },
-          ],
+          ] as any,
           grid: {
             bottom: '10%',
             left: 0,

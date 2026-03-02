@@ -45,9 +45,10 @@ export const useTransactions = ({
       // };
       return {}
     },
+    initialPageParam: undefined,
     enabled:false,
-    getNextPageParam: (options) => {
-      if (options.txs.length < pageSize) return undefined;
+    getNextPageParam: (options: any) => {
+      if (options.txs?.length < pageSize) return undefined;
       return options.lastCursor;
     },
   });

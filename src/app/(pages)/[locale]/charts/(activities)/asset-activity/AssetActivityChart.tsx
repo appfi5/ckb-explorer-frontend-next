@@ -65,7 +65,7 @@ const useOption = (
         formatter: dataList => {
           assertIsArray(dataList)
           let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${parseSimpleDateNoSecond(
-            new Date((dataList[0].data as string[])[0]),
+            new Date((dataList[0]!.data as string[])[0]!),
             '/',
             false,
           )}</div>`
@@ -227,7 +227,7 @@ export const AssetActivityChart = ({ isThumbnail = false }: { isThumbnail?: bool
       description={t('statistic.asset_activity_description')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticAssetActivity}
-      fetchData={() => server.explorer("GET /udt_hourly_statistics", { limit: selectedRange })}
+      fetchData={() => server.explorer("GET /udt_hourly_statistics", { limit: selectedRange }) as Promise<any>}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchAssetActivity"

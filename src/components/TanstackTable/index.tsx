@@ -49,7 +49,7 @@ export default function TanstackTable<T>(props: CommonTableProps<T>) {
                 <TableHead
                   key={header.id}
                   style={{ ...getCommonPinningStyles(header.column) }}
-                  className={header.column.className}
+                  className={(header.column as any).className}
                 >
                   {header.isPlaceholder
                     ? null

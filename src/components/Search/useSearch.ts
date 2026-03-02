@@ -46,7 +46,7 @@ export function useSearch({
   );
   const handleSearch = () => {
     if (aggregateSearchResults && aggregateSearchResults.length > 0) {
-      const url = getURLByAggregateSearchResult(aggregateSearchResults[0]);
+      const url = getURLByAggregateSearchResult(aggregateSearchResults[0]!);
       if(url) {
         router.push(url); //  ?? `/search/fail?q=${searchValue}`
       }

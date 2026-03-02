@@ -82,7 +82,7 @@ const Pagination: React.FC<PaginationProps> = ({
         );
       }
       // 插入省略号（避免连续省略）
-      else if (items[items.length - 1]?.type !== "span") {
+      else if ((items[items.length - 1] as any)?.type !== "span") {
         items.push(
           <span key={`ellipsis-${i}`} className="h-8 w-8 text-center text-[#00000040] dark:text-[#999999]">...</span>
         );
@@ -138,7 +138,7 @@ const Pagination: React.FC<PaginationProps> = ({
       </button>
 
       {/* 切换分页 */}
-      <Select value={String(selectedValue)} onValueChange={(value) => handleSelectClick(value)}>
+      <Select value={String(selectedValue)} onValueChange={(value) => handleSelectClick(Number(value))}>
         <SelectTrigger className="h-[32px]! border border-[#D9D9D9]! rounded-[2px]! dark:border-[#4C4C4C]! shadow-none!">
           <SelectValue />
         </SelectTrigger>

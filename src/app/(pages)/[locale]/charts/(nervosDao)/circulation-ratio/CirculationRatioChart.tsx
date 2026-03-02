@@ -43,10 +43,10 @@ const useOption = (
         formatter: dataList => {
           assertIsArray(dataList)
           const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 185 : 165)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0].data as string[])[0]
+          let result = `<div>${tooltipColor('#333333' as string)}${widthSpan(t('statistic.date') as string)} ${(dataList[0]!.data as any)[0]
             }</div>`
-          if (dataList[0].data) {
-            result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('statistic.circulation_ratio'))} ${(dataList[0].data as string[])[1]
+          if (dataList[0]!.data) {
+            result += `<div>${tooltipColor(chartThemeColor.colors[0] as string)}${widthSpan(t('statistic.circulation_ratio') as string)} ${(dataList[0]!.data as any)[1]
               }%</div>`
           }
           return result
@@ -138,7 +138,7 @@ export const CirculationRatioChart = ({ isThumbnail = false }: { isThumbnail?: b
       title={t('statistic.circulation_ratio')}
       description={t('statistic.deposit_to_circulation_ratio_description')}
       isThumbnail={isThumbnail}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "circulation_ratio", limit: selectedRange })}
+      fetchData={(() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "circulation_ratio", limit: selectedRange })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticCirculationRatio"

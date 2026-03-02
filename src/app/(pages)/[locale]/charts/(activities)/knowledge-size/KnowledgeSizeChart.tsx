@@ -48,10 +48,10 @@ const useOption = (
         formatter: dataList => {
           assertIsArray(dataList)
           const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 155 : 110)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0].data as string[])[0]
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0]!.data as any)[0]!
             }</div>`
-          result += `<div>${tooltipColor(chartThemeColor.colors[0])}\
-          ${widthSpan(t('statistic.knowledge_size'))} ${handleAxis((dataList[0].data as string[])[1], 2)}</div>`
+          result += `<div>${tooltipColor(chartThemeColor.colors[0]!)}\
+          ${widthSpan(t('statistic.knowledge_size'))} ${handleAxis((dataList[0]!.data as any)[1]!, 2)}</div>`
           return result
         },
       }
@@ -145,7 +145,7 @@ export const KnowledgeSizeChart = ({ isThumbnail = false }: { isThumbnail?: bool
       title={t('statistic.knowledge_size')}
       description={t('statistic.knowledge_size_description')}
       isThumbnail={isThumbnail}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "knowledge_size", limit: selectedRange })}
+      fetchData={(() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "knowledge_size", limit: selectedRange })) as any}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticKnowledgeSize"

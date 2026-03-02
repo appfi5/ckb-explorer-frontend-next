@@ -48,11 +48,11 @@ const getOption =
             formatter: dataList => {
               assertIsArray(dataList)
               const widthSpan = (value: string) => tooltipWidth(value, language === 'en' ? 120 : 65)
-              let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0].data as string[])[0]
+              let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0]!.data as any)[0]!
                 }</div>`
-              result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(
+              result += `<div>${tooltipColor(chartThemeColor.colors[0]!)}${widthSpan(
                 t('statistic.transaction_count'),
-              )} ${handleAxis((dataList[0].data as string[])[1], 2)}</div>`
+              )} ${handleAxis((dataList[0]!.data as any)[1]!, 2)}</div>`
               return result
             },
           }
@@ -88,10 +88,7 @@ const getOption =
           {
             ...(type === 'log' ? { logBase: 10 } : { scale: true }),
             position: 'left',
-            name:
-              isMobile || isThumbnail
-                ? ''
-                : `${t('statistic.transaction_count')} ${t(type === 'log' ? 'statistic.log' : '')}`,
+            name: (isMobile || isThumbnail ? '' : `${t('statistic.transaction_count')} ${type === 'log' ? t('statistic.log') : ''}`) as any,
             nameTextStyle: {
               color: axisLabelColor,
             },
@@ -156,7 +153,7 @@ export const TransactionCountChart = ({ isThumbnail = false }: { isThumbnail?: b
       title={t('statistic.transaction_count')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticTransactionCount}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "transactions_count" })}
+      fetchData={(() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "transactions_count" })) as any}
       getEChartOption={getOption({ type: scaleType, t, language: i18n.language })}
       toCSV={toCSV}
       queryKey="fetchStatisticTransactionCount"
@@ -198,7 +195,7 @@ export const TransactionCountChart = ({ isThumbnail = false }: { isThumbnail?: b
         title={t('statistic.transaction_count')}
         isThumbnail={isThumbnail}
         // fetchData={explorerService.api.fetchStatisticTransactionCount}
-        fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "transactions_count", limit: selectedRange })}
+        fetchData={(() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "transactions_count", limit: selectedRange })) as any}
         getEChartOption={getOption({ type: scaleType, t, language: i18n.language })}
         toCSV={toCSV}
         queryKey="fetchStatisticTransactionCount"

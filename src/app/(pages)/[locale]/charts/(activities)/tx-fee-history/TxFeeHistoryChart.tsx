@@ -49,12 +49,18 @@ const getOption =
             formatter: dataList => {
               assertIsArray(dataList)
               const widthSpan = (value: string) => tooltipWidth(value, language === 'en' ? 145 : 90)
-              let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${(dataList[0].data as string[])[0]
-                }</div>`
-              result += `<div>${tooltipColor(chartThemeColor.colors[0])}${widthSpan(t('statistic.tx_fee'))} ${handleAxis(
-                (dataList[0].data as string[])[1],
-              )}</div>`
-              return result
+              const data0 = (dataList[0]!.data as any)[0] ?? ''
+              const dataVal = (dataList[0]!.data as any)[1]
+              let feeValue: string
+              if (typeof dataVal === 'string') {
+                feeValue = dataVal
+              } else {
+                feeValue = ''
+              }
+              const dateHtml = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date') as string)} ${data0}</div>`
+              const formattedFee: string = handleAxis(feeValue as any)
+              const feeHtml = `<div>${tooltipColor(chartThemeColor.colors[0] as string)}${widthSpan(t('statistic.tx_fee') as string)} ${formattedFee as string}</div>`
+              return dateHtml + feeHtml
             },
           }
           : undefined,
@@ -89,7 +95,7 @@ const getOption =
           {
             ...(type === 'log' ? { logBase: 10 } : { scale: true }),
             position: 'left',
-            name: isMobile || isThumbnail ? '' : `${t('statistic.tx_fee')} ${t(type === 'log' ? 'statistic.log' : '')}`,
+            name: isMobile || isThumbnail ? '' : (type === 'log' ? `${t('statistic.tx_fee')} ${t('statistic.log')}` : t('statistic.tx_fee')),
             nameTextStyle: {
               color: axisLabelColor
             },
@@ -155,7 +161,7 @@ export const TxFeeHistoryChart = ({ isThumbnail = false }: { isThumbnail?: boole
       description={t('statistic.tx_fee_description')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticTxFeeHistory}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "total_tx_fee" })}
+      fetchData={(() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "total_tx_fee" })) as any}
       getEChartOption={getOption({ type: scaleType, t, language: i18n.language })}
       toCSV={toCSV}
       queryKey="fetchStatisticTxFeeHistory"
@@ -199,7 +205,7 @@ export const TxFeeHistoryChart = ({ isThumbnail = false }: { isThumbnail?: boole
         description={t('statistic.tx_fee_description')}
         isThumbnail={isThumbnail}
         // fetchData={explorerService.api.fetchStatisticTxFeeHistory}
-        fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "total_tx_fee", limit: selectedRange })}
+        fetchData={(() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "total_tx_fee", limit: selectedRange })) as any}
         getEChartOption={getOption({ type: scaleType, t, language: i18n.language })}
         toCSV={toCSV}
         queryKey="fetchStatisticTxFeeHistory"

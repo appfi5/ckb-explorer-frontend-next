@@ -6,6 +6,9 @@ const clientRun = <T extends (...args: any[]) => any>(f: T) => {
 };
 
 const storage = {
+  get length() {
+    return typeof window !== "undefined" ? window.localStorage.length : 0;
+  },
   key: clientRun((index: number) => {
     return window.localStorage.key(index);
   }),
