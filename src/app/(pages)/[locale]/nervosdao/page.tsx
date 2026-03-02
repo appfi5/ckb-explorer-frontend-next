@@ -20,7 +20,7 @@ import server from '@/server'
 import { useIsMobile } from '@/hooks'
 import classNames from 'classnames'
 
-export const NervosDao = () => {
+const NervosDao = () => {
   const router = useRouter();
   const [t] = useTranslation()
   const isMobile = useIsMobile()

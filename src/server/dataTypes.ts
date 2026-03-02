@@ -1,4 +1,3 @@
-import { NervosDao } from './../app/(pages)/[locale]/nervosdao/page';
 import type { ReactNode } from "react";
 import type { Cell } from "@/models/Cell";
 import type { HashType } from "@/constants/common";
