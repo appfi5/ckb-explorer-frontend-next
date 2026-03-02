@@ -58,10 +58,7 @@ const ForceBridge = () => {
                 delay: 0.3,
                 duration: 0.5,
                 ease: [0.4, 0, 0.3, 1],
-                times: {
-                  x: [0, 1],
-                  y: [0, 0.5, 1],
-                },
+                times: [0, 0.5, 1],
               }}
               href="https://sunset.forcebridge.com/force-bridge"
               target="_blank"

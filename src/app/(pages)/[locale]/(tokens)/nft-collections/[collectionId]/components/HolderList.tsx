@@ -41,7 +41,7 @@ export default function NFTCollectionHolderList({ collectionId }: { collectionId
         page,
         pageSize,
         addressHash: isSearchingAddress ? filter : "",
-        sort
+        sort: sort!
       })
       return {
         data: pageRes?.records ?? [],

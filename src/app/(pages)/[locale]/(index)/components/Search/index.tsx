@@ -1,6 +1,6 @@
 import { useShowSearchBarInHeader } from "@/components/AppHeader/util";
 import { useElementIntersecting, useIsMobile, useMediaQuery } from "@/hooks";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { useResizeDetector } from "react-resize-detector";
 import styles from './index.module.scss';
@@ -13,7 +13,7 @@ import SimpleButton from "@/components/SimpleButton";
 import { AggregateSearchResults } from "@/components/Search/AggregateSearchResults";
 import Card from "@/components/Card";
 import CloseIcon from "@/assets/icons/close.svg?component";
-import SearchRangeSelect from "@/components/Search/SearchRangeSelect";
+import SearchRangeSelect, { SearchRangeCode } from "@/components/Search/SearchRangeSelect";
 import dynamic from "next/dynamic"
 const MediaQuery = dynamic(() => import("react-responsive"), {
   ssr: false
@@ -32,7 +32,7 @@ export default function HomeSearch() {
   const intersectingCheckOffset = height + headerHeight;
 
   const isFullDisplayInScreen = useElementIntersecting(
-    ref,
+    ref as RefObject<HTMLElement>,
     useMemo(
       () => ({
         threshold: 0,
@@ -89,7 +89,7 @@ function HomeSearchInner() {
                   onChange={(rangeCode, placeholder) => {
                     setKeyword("");
                     setPlaceholder(placeholder);
-                    setSearchRange(rangeCode);
+                    setSearchRange(rangeCode as SearchRangeCode);
                   }}
                 />
                 <div className="flex-none h-full py-1 w-0.5">

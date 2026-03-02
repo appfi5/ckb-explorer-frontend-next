@@ -92,7 +92,7 @@ export default function UDTTransactions(props: AddressTransactionsProps) {
                   // />
                   <TransactionItemWithCells
                     key={transaction.transactionHash}
-                    transaction={transaction}
+                    transaction={transaction as APIExplorer.AddressTransactionPageResponse}
                     showBlockInfo
                   />
                 ))}

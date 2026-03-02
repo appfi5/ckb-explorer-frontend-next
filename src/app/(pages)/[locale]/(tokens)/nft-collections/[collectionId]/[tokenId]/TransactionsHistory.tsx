@@ -151,7 +151,7 @@ function HisTable({ loading, list }: { loading: boolean, list: DataType[] }) {
                 <TableHead
                   key={header.id}
                   style={{ ...getCommonPinningStyles(header.column) }}
-                  className={header.column.className}
+                  // className={header.column.className}
                 >
                   {header.isPlaceholder
                     ? null

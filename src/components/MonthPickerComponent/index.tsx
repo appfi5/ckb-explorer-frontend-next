@@ -12,7 +12,7 @@ import Tooltip from "@/components/Tooltip";
 export interface MonthPickerProps {
     selectedMonth: Date | undefined;
     onSelect: (month: Date) => void;
-    disabledDate?: Date | string;
+    disabledDate?: Date | string | number;
 }
 const MonthPickerComponent = ({
     selectedMonth,

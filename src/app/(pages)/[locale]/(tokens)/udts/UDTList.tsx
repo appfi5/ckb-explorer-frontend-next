@@ -400,7 +400,7 @@ const UDTList = ({ isXudts, isPagination }: XudtsProps) => {
       total: number;
       pageSize: number;
     }> => {
-      const result: any = await server.explorer("GET /udts", { page: currentPage, pageSize: _pageSize, sort: sort ? sort : '', tags })
+      const result: any = await server.explorer("GET /udts", { page: currentPage, pageSize: _pageSize, sort: sort ? sort : '' }) // , tags
       const udtRegisterInfos = await clientDB.udt.get();
 
       if (result.length === 0) {

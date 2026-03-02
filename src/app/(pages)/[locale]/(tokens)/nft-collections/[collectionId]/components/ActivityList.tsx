@@ -70,7 +70,8 @@ export default function NFTCollectionActivtyList({ collectionInfo }: { collectio
         pageSize,
         addressHash: isSearchingAddress ? filter : "",
         txHash: isSearchingTxHash ? addPrefixForHash(filter) : "",
-        action: actions,
+        action: actions || "",
+        tokenId: ""
       })
       return {
         data: pageRes?.records ?? [],

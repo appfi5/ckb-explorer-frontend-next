@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { Trans, useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import { ArrowDownWideNarrow, ArrowUpNarrowWide } from 'lucide-react'
-import type { NFTCollection } from '@/server/dataTypes'
+// import type { NFTCollection } from '@/server/dataTypes'
 import SortButton from '@/components/SortButton'
 import SelectedCheckIcon from '@/assets/selected_check_icon.svg'
 import { useSearchParams, useMediaQuery, useSortParam } from '@/hooks'
@@ -161,7 +161,7 @@ const HolderMinterSort = () => {
     <div className={styles.holderMinted}>
       <div
         className={classNames({
-          [styles.sortActive]: sortBy === 'holders_count',
+          [styles.sortActive as string]: sortBy === 'holders_count',
         })}
         onClick={() => handleSortClick('holders_count')}
         role="button"
@@ -173,7 +173,7 @@ const HolderMinterSort = () => {
       <span className={styles.divider}>/</span>
       <div
         className={classNames({
-          [styles.sortActive]: sortBy === 'items_count',
+          [styles.sortActive as string]: sortBy === 'items_count',
         })}
         onClick={() => handleSortClick('items_count')}
         role="button"
@@ -186,36 +186,36 @@ const HolderMinterSort = () => {
   )
 }
 
-const TypeInfo: React.FC<{ nft: NFTCollection }> = ({ nft: item }) => {
-  const { t } = useTranslation()
-  return t(`glossary.${item.standard}`) ? (
-    <Tooltip
-      trigger={<span>{t(`nft.${item.standard === 'spore' ? 'dobs' : item.standard}`)}</span>}
-      placement="top"
-      contentClassName={styles.nftTooltip}
-    >
-      <Trans
-        i18nKey={`glossary.${item.standard}`}
-        components={{
-          cota_link: (
+// const TypeInfo: React.FC<{ nft: NFTCollection }> = ({ nft: item }) => {
+//   const { t } = useTranslation()
+//   return t(`glossary.${item.standard}` as `glossary.spore`) ? (
+//     <Tooltip
+//       trigger={<span>{t(`nft.${item.standard === 'spore' ? 'dobs' : item.standard}` as `nft.spore`)}</span>}
+//       placement="top"
+//       contentClassName={styles.nftTooltip}
+//     >
+//       <Trans
+//         i18nKey={`glossary.${item.standard}` as any}
+//         components={{
+//           cota_link: (
 
-            <a
-              href="https://talk.nervos.org/t/rfc-cota-a-compact-token-aggregator-standard-for-extremely-low-cost-nfts-and-fts/6338"
-              target="_blank"
-              rel="noreferrer"
-            />
-          ),
-          m_nft_link: (
+//             <a
+//               href="https://talk.nervos.org/t/rfc-cota-a-compact-token-aggregator-standard-for-extremely-low-cost-nfts-and-fts/6338"
+//               target="_blank"
+//               rel="noreferrer"
+//             />
+//           ),
+//           m_nft_link: (
 
-            <a href="https://github.com/nervina-labs/ckb-nft-scripts" target="_blank" rel="noreferrer" />
-          ),
-        }}
-      />
-    </Tooltip>
-  ) : (
-    t(`nft.${item.standard}`)
-  )
-}
+//             <a href="https://github.com/nervina-labs/ckb-nft-scripts" target="_blank" rel="noreferrer" />
+//           ),
+//         }}
+//       />
+//     </Tooltip>
+//   ) : (
+//     t(`nft.${item.standard}` as any)
+//   )
+// }
 
 type BlockListSortByType = 'h24_ckb_transactions_count' | 'holders_count' | 'items_count' | 'block_timestamp'
 
@@ -235,103 +235,103 @@ const displayTagList = [
   // "suspicious",
   // "utility",
 ]
-const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: boolean, t: TFunction<"common", undefined>) => {
-  // let typeHash: string | null = null
-  // try {
-  //   if (nftItem.type_script) {
-  //     typeHash = scriptToHash({
-  //       codeHash: nftItem.type_script.code_hash,
-  //       hashType: nftItem.type_script.hash_type,
-  //       args: nftItem.type_script.args,
-  //     })
-  //   }
-  // } catch {
-  //   typeHash = nftItem.sn
-  // }
-  // const annotation = DEPRECATED_DOB_COLLECTION.find(i => i.id === typeHash)
+// const getTableContentDataList = (nftItem: NFTCollection, index: number, isMaxW: boolean, t: TFunction<"common", undefined>) => {
+//   // let typeHash: string | null = null
+//   // try {
+//   //   if (nftItem.type_script) {
+//   //     typeHash = scriptToHash({
+//   //       codeHash: nftItem.type_script.code_hash,
+//   //       hashType: nftItem.type_script.hash_type,
+//   //       args: nftItem.type_script.args,
+//   //     })
+//   //   }
+//   // } catch {
+//   //   typeHash = nftItem.sn
+//   // }
+//   // const annotation = DEPRECATED_DOB_COLLECTION.find(i => i.id === typeHash)
 
-  const displayTagSet = new Set(displayTagList);
+//   const displayTagSet = new Set(displayTagList);
 
-  return [
-    {
-      width: '17%',
-      textDirection: 'left',
-      isTextActive: true,
-      bold: true,
-      content: <div className='flex items-center gap-2 pr-4'>
-        <div className="w-12 h-12 flex-none overflow-hidden rounded-sm bg-[#eeeeee] dark:bg-[#303030]">
-          <img
-            src={nftItem.iconUrl || '/images/spore_placeholder.svg'}
-            className="w-12 h-12 rounded-sm object-scale-down"
-          />
-        </div>
-        <div className='truncate min-w-0'>
-          {/* {
-            nftItem.standard === 'spore' && nftItem.creator === '' ? 'Unique items' : nftItem.name.length > 12 ? <Tooltip
-              trigger={<span className='font-hash'>{`${nftItem.name.slice(0, 12)}...`}</span>}
-              placement="top"
-            >{nftItem.name}</Tooltip> : nftItem.name
-          } */}
-          <Tooltip
-            asChild={true}
-            trigger={<span className='font-hash min-w-0'>{nftItem.name}</span>}
-            placement="top"
-          >{nftItem.name}</Tooltip>
-        </div>
-      </div>
-    },
-    {
-      width: '15%',
-      content: nftItem.tags ? <div className={styles.tags}>
-        {nftItem.tags?.map(tag => (
-          displayTagSet.has(tag) ? (
-            <TokenTag key={tag} tagName={tag} />
-          ) : (
-            <span key={tag}>-</span>
-          )
-        ))}
-      </div> : '-',
-      textDirection: 'left',
-    },
-    {
-      width: '7%',
-      textDirection: 'left',
-      content: nftItem.standard ? <div>
-        {nftItem.standard === 'spore' ? 'dobs' : nftItem.standard}
-      </div> : '-'
-    },
-    {
-      width: '12%',
-      content: `${nftItem.h24CkbTransactionsCount}`,
-      textDirection: 'left',
-    },
-    {
-      width: '13%',
-      content: `${(nftItem.holdersCount ?? 0).toLocaleString('en')}/${(nftItem.itemsCount ?? 0).toLocaleString(
-        'en',
-      )}`,
-      textDirection: 'left',
-    },
-    {
-      width: '19%',
-      content: nftItem.blockTimestamp
-        ? (
-          <div className="inline-block max-w-full w-[100%] break-all whitespace-normal pr-[10px]">
-            <DateTime date={nftItem.blockTimestamp} showRelative />
-          </div>
-        )
-        : '-'
-      ,
-      textDirection: 'left',
-    },
-    {
-      width: '17%',
-      content: nftItem.creator ? nftItem.creator : '-',
-      textDirection: 'left',
-      textWidth: isMaxW ? '140px' : '200px',
-    }
-  ]
-}
+//   return [
+//     {
+//       width: '17%',
+//       textDirection: 'left',
+//       isTextActive: true,
+//       bold: true,
+//       content: <div className='flex items-center gap-2 pr-4'>
+//         <div className="w-12 h-12 flex-none overflow-hidden rounded-sm bg-[#eeeeee] dark:bg-[#303030]">
+//           <img
+//             src={nftItem.iconUrl || '/images/spore_placeholder.svg'}
+//             className="w-12 h-12 rounded-sm object-scale-down"
+//           />
+//         </div>
+//         <div className='truncate min-w-0'>
+//           {/* {
+//             nftItem.standard === 'spore' && nftItem.creator === '' ? 'Unique items' : nftItem.name.length > 12 ? <Tooltip
+//               trigger={<span className='font-hash'>{`${nftItem.name.slice(0, 12)}...`}</span>}
+//               placement="top"
+//             >{nftItem.name}</Tooltip> : nftItem.name
+//           } */}
+//           <Tooltip
+//             asChild={true}
+//             trigger={<span className='font-hash min-w-0'>{nftItem.name}</span>}
+//             placement="top"
+//           >{nftItem.name}</Tooltip>
+//         </div>
+//       </div>
+//     },
+//     {
+//       width: '15%',
+//       content: nftItem.tags ? <div className={styles.tags}>
+//         {nftItem.tags?.map(tag => (
+//           displayTagSet.has(tag) ? (
+//             <TokenTag key={tag} tagName={tag} />
+//           ) : (
+//             <span key={tag}>-</span>
+//           )
+//         ))}
+//       </div> : '-',
+//       textDirection: 'left',
+//     },
+//     {
+//       width: '7%',
+//       textDirection: 'left',
+//       content: nftItem.standard ? <div>
+//         {nftItem.standard === 'spore' ? 'dobs' : nftItem.standard}
+//       </div> : '-'
+//     },
+//     {
+//       width: '12%',
+//       content: `${nftItem.h24CkbTransactionsCount}`,
+//       textDirection: 'left',
+//     },
+//     {
+//       width: '13%',
+//       content: `${(nftItem.holdersCount ?? 0).toLocaleString('en')}/${(nftItem.itemsCount ?? 0).toLocaleString(
+//         'en',
+//       )}`,
+//       textDirection: 'left',
+//     },
+//     {
+//       width: '19%',
+//       content: nftItem.blockTimestamp
+//         ? (
+//           <div className="inline-block max-w-full w-[100%] break-all whitespace-normal pr-[10px]">
+//             <DateTime date={nftItem.blockTimestamp} showRelative />
+//           </div>
+//         )
+//         : '-'
+//       ,
+//       textDirection: 'left',
+//     },
+//     {
+//       width: '17%',
+//       content: nftItem.creator ? nftItem.creator : '-',
+//       textDirection: 'left',
+//       textWidth: isMaxW ? '140px' : '200px',
+//     }
+//   ]
+// }
 
 
 const LoadingComponent = () => (
@@ -339,7 +339,7 @@ const LoadingComponent = () => (
 )
 
 const TableRow: React.FC<{ 
-  item: NFTCollection; 
+  item: APIExplorer.CollectionsResp; 
   index: number;
   isMaxW: boolean;
   t: TFunction<"common", undefined>;
@@ -455,7 +455,7 @@ const TableRow: React.FC<{
   );
 };
 
-export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[] }> = ({ list, isLoading }) => {
+export const ListOnDesktop: React.FC<{ isLoading: boolean; list: APIExplorer.CollectionsResp[] }> = ({ list, isLoading }) => {
   const { t } = useTranslation()
   const router = useRouter();
   const isMaxW = useMediaQuery(`(max-width: 1200px)`)
@@ -558,14 +558,14 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
   )
 }
 
-export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] }> = ({ list, isLoading }) => {
+export const ListOnMobile: React.FC<{ isLoading: boolean; list: APIExplorer.CollectionsResp[] }> = ({ list, isLoading }) => {
   const { t } = useTranslation()
   const router = useRouter();
   const { sortBy, orderBy, handleSortClick, updateOrderBy } = useNFTCollectionsSortParam()
 
   return (
     <>
-      <Card className="p-3!" shadow={false}>
+      <Card className="p-3!">
         <div className="flex flex-wrap gap-2 items-center">
           <div className="flex flex-nowrap items-center max-w-full mr-auto">
             {t('xudt.title.tags')}

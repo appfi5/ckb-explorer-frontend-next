@@ -35,7 +35,7 @@ const useOption = () => {
   const [theme] = useTheme();
   const isDarkTheme = theme === "dark";
   return (
-    statisticAverageBlockTimes: ChartItem.AverageBlockTime[],
+    statisticAverageBlockTimes: APIExplorer.RollingAvgBlockTime[],
     useMiniStyle: boolean,
   ): EChartsOption => {
     const rootStyle = window.getComputedStyle(document.documentElement);
