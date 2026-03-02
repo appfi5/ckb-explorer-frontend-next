@@ -259,7 +259,10 @@ export const ActiveAddressesChart = ({ isThumbnail = false }: { isThumbnail?: bo
       description={t('statistic.active_addresses_description')}
       isThumbnail={isThumbnail}
       // fetchData={explorerService.api.fetchStatisticActiveAddresses}
-      fetchData={() => server.explorer("GET /daily_statistics/{indicator}", { indicator: "activity_address_contract_distribution", limit: selectedRange })}
+      fetchData={async () => {
+        const result = await server.explorer("GET /daily_statistics/{indicator}", { indicator: "activity_address_contract_distribution", limit: selectedRange });
+        return result!
+      }}
       getEChartOption={useOption}
       toCSV={toCSV}
       queryKey="fetchStatisticActiveAddresses"
